@@ -31,6 +31,7 @@ public class PlayerSnake extends Snake {
 	
 	@Override
 	public void incrementaVitaSerpente(int qta) {
+		GestoreSuoni.playTakeSound();
 		super.incrementaVitaSerpente(qta);
 	}
 	
