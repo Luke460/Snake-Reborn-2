@@ -44,8 +44,6 @@ public class Visualizzatore extends JPanel {
 			finestra.setSize((int)(6+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (32+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
 		}
 		
-		//finestra.setVisible(true);
-		//jframe.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		finestra.setLocationRelativeTo(null);
 
 	}
@@ -75,11 +73,7 @@ public class Visualizzatore extends JPanel {
 			if(!CasellaManager.isVuota(c)) {
 				disegnaCasella(g, c);
 			}
-			//else {
-			//	svuotaCasella(g,c);
-			//}
 		}
-		//disegnaStanza(g);
 		riportaStatisticheSullaFinestra(partita.getPunteggioPlayer1());
 	}
 
@@ -91,13 +85,6 @@ public class Visualizzatore extends JPanel {
 				"        Punteggio: " + punteggio +
 				"        Tempo: " + (int)(this.partita.getSerpentePlayer1().getTempoSopravvissuto()/1000));
 	}
-/*
-	private void disegnaStanza(Graphics g) {
-		for (Casella c : this.partita.getSerpentePlayer1().getCasellaDiTesta().getStanza().getCaselle().values()) {
-			disegnaCasella(g, c);
-		}
-	}
-*/
 
 	private void disegnaCasella(Graphics g, Casella casella) {
 		final int posX = casella.getPosizione().getX();
@@ -113,15 +100,7 @@ public class Visualizzatore extends JPanel {
 			disegnaCasellaNormale(g, dimensioneCasella, gx, gy);
 		}
 	}
-/*	
-	private void svuotaCasella(Graphics g, Casella casella) {
-		final int posX = casella.getPosizione().getX();
-		final int posY = casella.getPosizione().getY();
-		int gx = posX*dimensioneCasella, gy = posY*dimensioneCasella;
-		g.setColor(Color.black);
-		g.fillRect(gx, gy, dimensioneCasella, dimensioneCasella);
-	}
-*/
+
 	private void disegnaCasellaNormale(Graphics g, int dimC, int gx, int gy) {
 
 		g.fill3DRect(   gx,  gy,   dimC-1, dimC-1, true);
