@@ -16,6 +16,7 @@ import game.Partita;
 import supporto.OSdetector;
 import supporto.Utility;
 import terrenoDiGioco.Casella;
+import terrenoDiGioco.CasellaManager;
 import terrenoDiGioco.Stanza;
 
 public class Visualizzatore extends JPanel {
@@ -71,7 +72,7 @@ public class Visualizzatore extends JPanel {
 			this.cacheStanza = stanzaCorrente;
 		}
 		for (Casella c : this.cacheStanza.getCaselle().values()) {
-			if(!c.isVuota()) {
+			if(!CasellaManager.isVuota(c)) {
 				disegnaCasella(g, c);
 			}
 			//else {
