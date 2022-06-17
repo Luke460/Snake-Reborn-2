@@ -3,6 +3,7 @@ package terrenoDiGioco;
 import static supporto.Costanti.*;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import supporto.FileHandler;
@@ -10,11 +11,16 @@ import supporto.Posizione;
 import supporto.Utility;
 
 public class CaricatoreStanza {
-	public static void CaricaFile(String nomeFile, Stanza stanza) throws IOException {
-		stanza.setNome(nomeFile);
+	
+	public static Stanza caricaFile(String nomeFile) throws IOException {
 		String testoMappa = FileHandler.readFile(nomeFile);
 		ArrayList<Character> listaCaratteri = new ArrayList<>();
 		listaCaratteri.addAll(Utility.stringaToArray(testoMappa));
+		
+		String fileWithExt = Paths.get(nomeFile).getFileName().toString();
+		String nomeStanza = fileWithExt.split("\\.")[0];
+		
+		Stanza stanza = new Stanza(nomeStanza);
 
 		boolean rigaValida=false;
 		int riga = 0;
@@ -39,6 +45,9 @@ public class CaricatoreStanza {
 				}
 			}
 		}
+		
+		return stanza;
+		
 	}
-
+	
 }

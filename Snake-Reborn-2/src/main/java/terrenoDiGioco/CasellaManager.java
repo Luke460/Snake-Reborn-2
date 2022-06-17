@@ -100,5 +100,10 @@ public class CasellaManager {
 	public static boolean isOccupataDaSerpente(Casella casella) {
 		return casella.getSerpente()!=null;
 	}
+	
+	public static void setCasellaOccupataDalVerme(Casella casella, Snake serpente, char coloreSerpente) {
+		casella.setStato(coloreSerpente);
+		casella.setVita(serpente.getHP());
+	}
 
 }

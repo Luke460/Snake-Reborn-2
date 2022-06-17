@@ -2,6 +2,10 @@ package supporto;
 
 public interface Costanti {
 
+	final static String MAP_FILE_NAME = "mappa-1.txt";
+	final static String PATH_MAPPE = "mappe";
+	final static String PATH_STANZE = "stanze";
+	
 	static final public boolean TEST_MODE = true;
 
 	static final public int TEMPO_BASE = 83; // 12 fps

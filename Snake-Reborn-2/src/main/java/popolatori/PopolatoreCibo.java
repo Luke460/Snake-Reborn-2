@@ -18,7 +18,7 @@ import terrenoDiGioco.Stanza;
 public class PopolatoreCibo {
 	
 	public static void aggiungiCiboRandom(Mappa m) {
-		for(Stanza s:m.getStanze().values()){
+		for(Stanza s:m.getStanze()){
 			aggiungiCiboInPosizioneCasuale(s);
 		}
 	}
