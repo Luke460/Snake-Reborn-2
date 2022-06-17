@@ -58,7 +58,9 @@ public class Partita {
 		Stanza stanzaCasuale = MappaManager.getStanzaCasualeLibera_controlloSuTutteLeStanze(this.mappa);
 		this.nomePlayer1 = NOME_PLAYER_1;
 		Snake serpentePlayer1 = new PlayerSnake(this.nomePlayer1, stanzaCasuale, VITA_SERPENTE_DEFAULT,this);
-		//Snake serpentePlayer1 = new InsaneBotSnake(this.nomePlayer1, stanzaCasuale, VITA_SERPENTE_DEFAULT,this);
+		//Just for test
+		//Skill skill = new Skill(0,0,0,0,0);
+		//Snake serpentePlayer1 = new CustomBotSnake(this.nomePlayer1, stanzaCasuale, VITA_SERPENTE_DEFAULT,this, skill);
 		this.serpentiVivi.put(this.nomePlayer1, serpentePlayer1);
 		
 

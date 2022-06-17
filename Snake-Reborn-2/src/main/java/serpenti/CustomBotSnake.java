@@ -25,9 +25,9 @@ public class CustomBotSnake extends Snake {
 		this.skill = skill;
 		ultimaSterzata = "NONE";
 		for(Casella c:this.getCaselle()){
-			c.setStato(CARATTERE_CASELLA_BOT_HARD);		
+			c.setStato(CARATTERE_CASELLA_PLAYER2);		
 		}
-		super.setStatoCaselleDefault(CARATTERE_CASELLA_BOT_HARD);
+		super.setStatoCaselleDefault(CARATTERE_CASELLA_PLAYER2);
 	}
 	
 	public int getSnakeAbilityScore() {
@@ -53,15 +53,13 @@ public class CustomBotSnake extends Snake {
 		direzioni.put(RIGHT, super.getDirezione().getRotatedRightDirection());
 		direzioni.put(LEFT, super.getDirezione().getRotatedLeftDirection());
 		
-		if(Utility.veroAl(this.skill.getEvadeWallSkill())) {
-			direzioni = rimuoviCelleMuro(direzioni);
-		}
+		direzioni = rimuoviCelleMuro(direzioni);
 		
-		if(Utility.veroAl(this.skill.getEvadeSnakeSkill())) {
+		if(Utility.veroAl(this.skill.getEvadeSkill())) {
 			direzioni = rimuoviCelleSerpenti(direzioni);
 		}
 		
-		if(Utility.veroAl(this.skill.getEvadeWallSkill())) {
+		if(Utility.veroAl(this.skill.getEvadeSkill())) {
 			direzioni = rimuoviCelleCappi(direzioni);
 		}
 		
@@ -97,24 +95,28 @@ public class CustomBotSnake extends Snake {
 	private HashMap<String, Direction> evitaSituazionePericolosa(HashMap<String, Direction> direzioni) {
 		if(direzioni.size()>1) {		
 			Direction direzione = this.getDirezione();
-			Casella casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-			if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
-				if(direzioni.containsKey(FORWARD)) {
-					direzioni.remove(FORWARD);
+			Casella casellaInTesta = CasellaManager.getCasellaAdiacente(this.getCasellaDiTesta(), direzione);
+			// per non rendere il bot immune alle collisioni
+			if(!CasellaManager.isMortale(casellaInTesta)) {
+				Casella casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
+				if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
+					if(direzioni.containsKey(FORWARD)) {
+						direzioni.remove(FORWARD);
+					}
 				}
-			}
-			direzione = this.getDirezione().getRotatedRightDirection();
-			casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-			if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
-				if(direzioni.containsKey(RIGHT)) {
-					direzioni.remove(RIGHT);
+				direzione = this.getDirezione().getRotatedRightDirection();
+				casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
+				if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
+					if(direzioni.containsKey(RIGHT)) {
+						direzioni.remove(RIGHT);
+					}
 				}
-			}
-			direzione = this.getDirezione().getRotatedLeftDirection();
-			casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-			if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
-				if(direzioni.containsKey(LEFT)) {
-					direzioni.remove(LEFT);
+				direzione = this.getDirezione().getRotatedLeftDirection();
+				casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
+				if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
+					if(direzioni.containsKey(LEFT)) {
+						direzioni.remove(LEFT);
+					}
 				}
 			}
 		}

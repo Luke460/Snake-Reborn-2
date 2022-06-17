@@ -2,35 +2,25 @@ package serpenti;
 
 public class Skill {
 	
-	private int evadeWallSkill;
-	private int evadeSnakeSkill;
+	private int evadeSkill;
 	private int farmSkill;
 	private int exploreSkill;
 	private int courageSkill;
 	
-	public Skill(int evadeWallSkill, int evadeSnakeSkill, int farmSkill, int exploreSkill, int courageSkill) {
+	public Skill(int evadeSkill, int farmSkill, int exploreSkill, int courageSkill) {
 		super();
-		this.evadeWallSkill = evadeWallSkill;
-		this.evadeSnakeSkill = evadeSnakeSkill;
+		this.evadeSkill = evadeSkill;
 		this.farmSkill = farmSkill;
 		this.exploreSkill = exploreSkill;
 		this.courageSkill = courageSkill;
 	}
 
-	public int getEvadeWallSkill() {
-		return evadeWallSkill;
+	public int getEvadeSkill() {
+		return evadeSkill;
 	}
 
-	public void setEvadeWallSkill(int evadeWallSkill) {
-		this.evadeWallSkill = evadeWallSkill;
-	}
-
-	public int getEvadeSnakeSkill() {
-		return evadeSnakeSkill;
-	}
-
-	public void setEvadeSnakeSkill(int evadeSnakeSkill) {
-		this.evadeSnakeSkill = evadeSnakeSkill;
+	public void setEvadeSkill(int evadeSkill) {
+		this.evadeSkill = evadeSkill;
 	}
 
 	public int getFarmSkill() {
@@ -58,7 +48,7 @@ public class Skill {
 	}
 	
 	public int getSkillScore() {
-		return (int) (this.evadeWallSkill * 0.50 + this.evadeSnakeSkill * 0.30 + this.farmSkill * 0.10 + this.exploreSkill * 0.05 + this.courageSkill * 0.05);
+		return (int) (this.evadeSkill * 0.60 + this.farmSkill * 0.20 + this.exploreSkill * 0.10 + this.courageSkill * 0.10);
 	}
 
 }

@@ -39,7 +39,7 @@ public class CasellaManager {
 		if(distanza == 0) {
 			return getCasellaAdiacente(casella, direzione);
 		} else {
-			return getCasellaInDirezione(casella, direzione, distanza-1);
+			return getCasellaInDirezione(getCasellaAdiacente(casella, direzione), direzione, distanza-1);
 		}
 	}
 	
