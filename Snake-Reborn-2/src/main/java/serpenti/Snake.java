@@ -13,6 +13,7 @@ import popolatori.PopolatoreCibo;
 import supporto.Direction;
 import supporto.Posizione;
 import terrenoDiGioco.Casella;
+import terrenoDiGioco.CasellaManager;
 import terrenoDiGioco.Stanza;
 
 import java.util.Objects;
@@ -84,40 +85,32 @@ public abstract class Snake {
 	public void sposta(Direction d){
 		this.setDirezione(d);
 		Casella vecchiaCasella = this.getCasellaDiTesta();
-		Casella nuovaCasella = this.getCasellaDiTesta().getStanza().getCasellaAdiacente(d, this.getCasellaDiTesta());
+		Casella nuovaCasella = CasellaManager.getCasellaAdiacente(vecchiaCasella, d);
 
-		if(!nuovaCasella.isMortale()){
-			if(nuovaCasella.isCibo()){
+		if(!CasellaManager.isMortale(nuovaCasella)){
+			if(CasellaManager.isCibo(nuovaCasella)){
 				if(nuovaCasella.isTestaDiSerpente()){
 					this.incrementaVitaSerpente(QTA_CIBO_TESTA_SERPENTE);
 				} else {
 					this.incrementaVitaSerpente(QTA_CIBO_BASE);
 				}
-				nuovaCasella.setCasellaOccupataDalSerpente(this,this.getHP()+1,this.getCasellaDiTesta().getStato());
+				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP()+1,this.getCasellaDiTesta().getStato());
 			} else {
-				nuovaCasella.setCasellaOccupataDalSerpente(this,this.getHP(),this.getCasellaDiTesta().getStato());
+				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP(),this.getCasellaDiTesta().getStato());
 			}
 			int vitaSerpente = this.getHP();
 
-
 			nuovaCasella.setVita(vitaSerpente);
+			nuovaCasella.setTestaDiSerpente(true);
+			vecchiaCasella.setTestaDiSerpente(false);
 			this.setCasellaDiTesta(nuovaCasella);
 
-			Iterator<Casella> iteratore = this.getCaselle().iterator();
-			while(iteratore.hasNext()){
-				Casella temp = iteratore.next();
-				temp.decrementaVita(); // la testa non si tocca
-				if(temp.isMorta()){
-					temp.libera();
-					iteratore.remove();
-				}
-			}
-			vecchiaCasella.setTestaDiSerpente(false);
-			nuovaCasella.setTestaDiSerpente(true);
 			// spostamento
+			decrementaVitaSerpente();
 			this.caselle.add(nuovaCasella);
+			
 		} else { // casella mortale
-			if(nuovaCasella.isOccupataDaSerpente()){
+			if(CasellaManager.isOccupataDaSerpente(nuovaCasella)){
 				Snake altroSerpente = nuovaCasella.getSerpente();
 				if(altroSerpente.getCasellaDiTesta().getPosizione().equals(nuovaCasella.getPosizione())){
 					altroSerpente.muori();
@@ -127,25 +120,25 @@ public abstract class Snake {
 		}
 	}
 
-	public void incrementaVitaSerpente(int qta) {
-		this.ciboPreso+=qta;
-		for(Casella c : this.getCaselle()){
-			if(c.getVita()+qta<=VITA_SERPENTE_MASSIMA){
-				c.incrementaVita(qta);
-			} else {
-				c.setVita(VITA_SERPENTE_MASSIMA);
+	private void decrementaVitaSerpente() {
+		Iterator<Casella> iteratore = this.getCaselle().iterator();
+		while(iteratore.hasNext()){
+			Casella c = iteratore.next();
+			c.setVita(c.getVita()-1);
+			if(c.getVita()<=0) {
+				CasellaManager.libera(c);
+				iteratore.remove();
 			}
 		}
 	}
 	
-	public void decrementaVitaSerpente(int qta) {
-		Iterator<Casella> iteratore = this.getCaselle().iterator();
-		while(iteratore.hasNext()){
-			Casella c = iteratore.next();
-			c.decrementaVita();
-			if(c.getVita()<=0) {
-				c.libera();
-				iteratore.remove();
+	public void incrementaVitaSerpente(int qta) {
+		this.ciboPreso+=qta;
+		for(Casella c : this.getCaselle()){
+			if(c.getVita()+qta<=VITA_SERPENTE_MASSIMA){
+				c.setVita(c.getVita()+qta);
+			} else {
+				c.setVita(VITA_SERPENTE_MASSIMA);
 			}
 		}
 	}
@@ -172,10 +165,10 @@ public abstract class Snake {
 		TreeMap<String,Snake> uccisori = new TreeMap<>();
 		for(Casella c : this.getCaselle()) {
 			HashSet<Casella> caselleAdiacenti = new HashSet<>();
-			caselleAdiacenti.add(c.getCasellaAdiacente(new Direction(Direction.Dir.UP)));
-			caselleAdiacenti.add(c.getCasellaAdiacente(new Direction(Direction.Dir.RIGHT)));
-			caselleAdiacenti.add(c.getCasellaAdiacente(new Direction(Direction.Dir.LEFT)));
-			caselleAdiacenti.add(c.getCasellaAdiacente(new Direction(Direction.Dir.DOWN)));
+			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.UP)));
+			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.RIGHT)));
+			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.LEFT)));
+			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.DOWN)));
 			for(Casella ca : caselleAdiacenti) {
 				if(ca.getSerpente()!=null) {
 					Snake uccisore = ca.getSerpente();
@@ -304,8 +297,8 @@ public abstract class Snake {
 
 		Casella casellaPrecedente = primaCasella;
 		for(int i=0; i<vitaResurrezione-1; i++){
-			Casella casella = stanza.getCasellaAdiacente(direzioneCreazioneCaselle, casellaPrecedente);
-			if(casella!=null&&!casella.isMortale()) {
+			Casella casella = CasellaManager.getCasellaAdiacente(casellaPrecedente, direzioneCreazioneCaselle);
+			if(casella!=null&&!CasellaManager.isMortale(casella)) {
 				casella.setStato(statoCaselleDefault);
 				casella.setSerpente(this);
 				vitaCasella--;

@@ -11,13 +11,14 @@ import java.util.List;
 import supporto.Posizione;
 import supporto.Utility;
 import terrenoDiGioco.Casella;
+import terrenoDiGioco.CasellaManager;
 import terrenoDiGioco.Mappa;
 import terrenoDiGioco.Stanza;
 
 public class PopolatoreCibo {
 	
 	public static void aggiungiCiboRandom(Mappa m) {
-		for(Stanza s:m.getStanze().values()){
+		for(Stanza s:m.getStanze()){
 			aggiungiCiboInPosizioneCasuale(s);
 		}
 	}
@@ -28,12 +29,12 @@ public class PopolatoreCibo {
 		Posizione pos = new Posizione(posX, posY);
 		Casella c = s.getCaselle().get(pos);
 		// posiziono il cibo solo in caselle libere e con posizione pari
-		if (c.isVuota()){
+		if (CasellaManager.isVuota(c)){
 			if(posizioneValidaPerCibo(pos)){
-				c.libera();
+				CasellaManager.libera(c);
 				c.setStato(CARATTERE_CASELLA_CIBO);
 			} else {
-				c.libera();
+				CasellaManager.libera(c);
 				c.setStato(CARATTERE_CASELLA_VUOTA);
 			}
 		}
@@ -48,7 +49,7 @@ public class PopolatoreCibo {
 		for(Casella c:caselle){
 			if(posizioneValidaPerCibo(c.getPosizione())){
 				c.setVita(0);
-				c.libera();
+				CasellaManager.libera(c);
 				c.setStato(CARATTERE_CASELLA_CIBO);
 				if(inserisciTestaDiSerpente) {
 					c.setTestaDiSerpente(true);
@@ -56,7 +57,7 @@ public class PopolatoreCibo {
 				}
 			} else {
 				c.setVita(0);
-				c.libera();
+				CasellaManager.libera(c);
 				c.setStato(CARATTERE_CASELLA_VUOTA);
 			}
 		}

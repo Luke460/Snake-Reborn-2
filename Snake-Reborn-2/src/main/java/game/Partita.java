@@ -16,8 +16,11 @@ import serpenti.MediumBotSnake;
 import serpenti.PlayerSnake;
 import serpenti.Snake;
 import server.client.Client;
+import supporto.OSdetector;
 import supporto.Utility;
+import terrenoDiGioco.CaricatoreMappa;
 import terrenoDiGioco.Mappa;
+import terrenoDiGioco.MappaManager;
 import terrenoDiGioco.Stanza;
 
 public class Partita {
@@ -44,7 +47,7 @@ public class Partita {
 		this.ilGiocatoreHaFattoLaMossa = false;
 		this.serpentiVivi = new HashMap<String, Snake>();
 		this.serpentiMorti = new HashMap<String, Snake>();
-		this.mappa = new Mappa("mappa-1");
+		this.mappa = CaricatoreMappa.caricaFile(PATH_MAPPE + OSdetector.getPathSeparator() + MAP_FILE_NAME, PATH_STANZE);
 		this.numerettoPerSerpentiBot = 0;
 		this.inGame = true;
 	}
@@ -52,7 +55,7 @@ public class Partita {
 	public void ImpostaPartita() {
 		// un solo giocatore
 		if(!ospite)this.vecchioRecord = GestorePunteggi.getRecord();
-		Stanza stanzaCasuale = this.mappa.getStanzaCasualeLibera_controlloSuTutteLeStanze();
+		Stanza stanzaCasuale = MappaManager.getStanzaCasualeLibera_controlloSuTutteLeStanze(this.mappa);
 		this.nomePlayer1 = NOME_PLAYER_1;
 		Snake serpentePlayer1 = new PlayerSnake(this.nomePlayer1, stanzaCasuale, VITA_SERPENTE_DEFAULT,this);
 		//Snake serpentePlayer1 = new InsaneBotSnake(this.nomePlayer1, stanzaCasuale, VITA_SERPENTE_DEFAULT,this);
@@ -62,42 +65,21 @@ public class Partita {
 	}
 	
 	public void resuscitaSerpente(Snake s) {
-		//if(!s.isVivo()){
-			if(s.getNome().equals(this.nomePlayer1)) GestoreSuoni.playSpawnSound();
-			int vecchiaVita = s.getHpPreMorte();
-			int vitaResurrezione = Utility.massimoTra(VITA_SERPENTE_DEFAULT,(int)(vecchiaVita/2.0));
-			Stanza stanza = s.getStanza();
-			Stanza stanzaAlternativa = this.mappa.getStanzaCasualeLibera_controlloSuTutteLeStanze();
-			if(stanzaAlternativa!=null){
-				stanza = stanzaAlternativa;
-			}
-			this.serpentiVivi.remove(s.getNome());
-			s.resettaSerpente(stanza, vitaResurrezione);
-			this.serpentiVivi.put(s.getNome(),s);
-		//}
+		if(s.getNome().equals(this.nomePlayer1)) GestoreSuoni.playSpawnSound();
+		int vecchiaVita = s.getHpPreMorte();
+		int vitaResurrezione = Utility.massimoTra(VITA_SERPENTE_DEFAULT,(int)(vecchiaVita/2.0));
+		Stanza stanza = s.getStanza();
+		Stanza stanzaAlternativa = MappaManager.getStanzaCasualeLibera_controlloSuTutteLeStanze(this.mappa);
+		if(stanzaAlternativa!=null){
+			stanza = stanzaAlternativa;
+		}
+		this.serpentiVivi.remove(s.getNome());
+		s.resettaSerpente(stanza, vitaResurrezione);
+		this.serpentiVivi.put(s.getNome(),s);
 	}
 
 	public void inserisciBotAccurato(String classe){
-		Stanza stanza = this.mappa.getStanzaCasualeLibera_controlloSuTutteLeStanze();
-		if(stanza!=null){
-			Snake bot = null;
-			if(classe.equals(EasyBotSnake.class.getSimpleName())){
-				bot = new EasyBotSnake("bot"+numerettoPerSerpentiBot, stanza,VITA_SERPENTE_DEFAULT,this);
-			} else if(classe.equals(MediumBotSnake.class.getSimpleName())){
-				bot = new MediumBotSnake("bot"+numerettoPerSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
-			} else if(classe.equals(HardBotSnake.class.getSimpleName())){
-				bot = new HardBotSnake("bot"+numerettoPerSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
-			} else if(classe.equals(InsaneBotSnake.class.getSimpleName())){
-				bot = new InsaneBotSnake("bot"+numerettoPerSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
-			}
-			this.serpentiVivi.put("bot"+numerettoPerSerpentiBot, bot);
-			numerettoPerSerpentiBot++;
-		}
-	}
-
-	// metodi try: solo se si trova una stanza casuale che � anche libera
-	public void inserisciBotVeloce(String classe){
-		Stanza stanza = this.mappa.getStanzaCasualeLibera_controlloSuStanzaSingolaCasuale();
+		Stanza stanza = MappaManager.getStanzaCasualeLibera_controlloSuTutteLeStanze(this.mappa);
 		if(stanza!=null){
 			Snake bot = null;
 			if(classe.equals(EasyBotSnake.class.getSimpleName())){
