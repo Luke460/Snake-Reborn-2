@@ -1,4 +1,6 @@
 package gestorePunteggi;
+import static supporto.Costanti.LIMITE_MINIMO_SERPENTI_BASSO;
+
 import javax.swing.JOptionPane;
 
 import game.Partita;
@@ -45,10 +47,21 @@ public class GestorePunteggi {
 	}	
 
 	public static double getMoltiplicatorePunteggio() {
-		if(partita.getLivello()==1) return 0.2;
-		if(partita.getLivello()==2) return 0.5;
-		if(partita.getLivello()==3) return 1;
-		return 0;
+		double aiMultiplier = 0;
+		if(partita.getLivello()==1) {
+			aiMultiplier = 0.2;
+		} else if(partita.getLivello()==2) {
+			aiMultiplier = 0.5;
+		} else if(partita.getLivello()==3) {
+			aiMultiplier = 1;
+		}
+		double populationMultiplier = 0;
+		if(partita.getFattorePopolazione()==1) {
+			populationMultiplier = 0.5;
+		} else if(partita.getFattorePopolazione()==2) {
+			populationMultiplier = 1;
+		}
+		return aiMultiplier*populationMultiplier;
 	}
 
 	public static void inviaPunteggio() {
