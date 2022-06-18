@@ -17,7 +17,7 @@ import terrenoDiGioco.Stanza;
 
 public class PopolatoreCibo {
 	
-	public static void aggiungiCiboRandom(Mappa m) {
+	public static void aggiungiCiboNellaMappa(Mappa m) {
 		for(Stanza s:m.getStanze()){
 			aggiungiCiboInPosizioneCasuale(s);
 		}
@@ -33,13 +33,10 @@ public class PopolatoreCibo {
 			if(posizioneValidaPerCibo(pos)){
 				CasellaManager.libera(c);
 				c.setStato(CARATTERE_CASELLA_CIBO);
-			} else {
-				CasellaManager.libera(c);
-				c.setStato(CARATTERE_CASELLA_VUOTA);
 			}
 		}
 	}
-	public static void rilasciaCiboNelleCaselle(List<Casella> caselle){
+	public static void rilasciaCiboNelleCaselleDelSerpente(List<Casella> caselle){
 		boolean inserisciTestaDiSerpente = false;
 		if(caselle.size() > LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE) {
 			inserisciTestaDiSerpente = true;

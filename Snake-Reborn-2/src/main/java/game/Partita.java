@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import audio.GestoreSuoni;
 import gestoreComandi.GestoreComandi;
 import gestorePunteggi.GestorePunteggi;
 import serpenti.EasyBotSnake;
@@ -17,7 +16,6 @@ import serpenti.PlayerSnake;
 import serpenti.Snake;
 import server.client.Client;
 import supporto.OSdetector;
-import supporto.Utility;
 import terrenoDiGioco.CaricatoreMappa;
 import terrenoDiGioco.Mappa;
 import terrenoDiGioco.MappaManager;
@@ -63,8 +61,6 @@ public class Partita {
 		//Skill skill = new Skill(100,100,100,100);
 		//this.serpentePlayer1 = new CustomBotSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this, skill);
 		this.serpentiVivi.put(this.nomePlayer1, this.serpentePlayer1);
-		
-
 	}
 
 	public boolean inserisciBot(String classe){

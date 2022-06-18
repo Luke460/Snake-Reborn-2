@@ -64,7 +64,7 @@ public class Main {
 
 	private static void cominciaIlGioco(Partita partita) throws AWTException, InterruptedException {
 		PopolatoreSerpenti.creaPopoloIniziale(partita);
-		PopolatoreCibo.aggiungiCiboRandom(partita.getMappa());
+		PopolatoreCibo.aggiungiCiboNellaMappa(partita.getMappa());
 		visualizzatore.repaint();
 		Thread.sleep(1000);
 		GestoreSuoni.playSpawnSound();
@@ -85,7 +85,7 @@ public class Main {
 			contaCicli++;
 
 			if((contaCicli%TEMPO_RIPOPOLAMENTO_CIBO)==0){
-				PopolatoreCibo.aggiungiCiboRandom(partita.getMappa());
+				PopolatoreCibo.aggiungiCiboNellaMappa(partita.getMappa());
 			}
 
 			if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT)==0)){

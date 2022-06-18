@@ -183,7 +183,7 @@ public abstract class Snake {
 	}
 
 	protected void rilasciaCiboEliberaCaselle() {
-		PopolatoreCibo.rilasciaCiboNelleCaselle(this.caselle);
+		PopolatoreCibo.rilasciaCiboNelleCaselleDelSerpente(this.caselle);
 		rimuoviLinkSerpente(this.caselle);
 		this.caselle.clear();
 	}

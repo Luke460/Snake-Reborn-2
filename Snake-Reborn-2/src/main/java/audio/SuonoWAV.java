@@ -14,7 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SuonoWAV{
 	private Clip clip;
 	/**
-Carica le melodie in memoria.
+	Carica le melodie in memoria.
 	 */
 	public SuonoWAV(String filePath) {
 		try {
@@ -45,10 +45,6 @@ Carica le melodie in memoria.
 		}
 	}
 
-
-	//A questo punto, bisogna avere un metodo per eseguire il suono ogni volta che lo si desidera.
-
-
 	/**
 	 * Esegui il suono
 	 */
@@ -78,7 +74,7 @@ Carica le melodie in memoria.
 	public void fermaClip() {
 		try {
 			this.clip.stop();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			//pazienza
 		}
 	}
