@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import game.Partita;
+import serpenti.Snake;
 import supporto.OSdetector;
 import supporto.Utility;
 import terrenoDiGioco.Casella;
@@ -26,7 +27,6 @@ public class Visualizzatore extends JPanel {
 	static final public int VK_HEARTBEAT = VK_SHIFT; // meglio un tasto "innocuo"
 
 	private Partita partita;
-	private Stanza cacheStanza;
 	int dimensioneCasella;
 	final private JFrame finestra;
 
@@ -65,13 +65,16 @@ public class Visualizzatore extends JPanel {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, DIMENSIONE_STANZA_DEFAULT*dimensioneCasella, DIMENSIONE_STANZA_DEFAULT*dimensioneCasella);
 		//g.drawString
-		Stanza stanzaCorrente = this.partita.getSerpentePlayer1().getUltimaStanza();
-		if(stanzaCorrente!=null) {
-			this.cacheStanza = stanzaCorrente;
+		Stanza stanzaCorrente;
+		Snake snakePlayer1 = this.partita.getSerpentePlayer1();
+		if(snakePlayer1.isVivo()){
+			stanzaCorrente = snakePlayer1.getCasellaDiTesta().getStanza(); 
+		} else if(snakePlayer1.getUltimaStanza() != null){
+			stanzaCorrente = snakePlayer1.getUltimaStanza();
 		} else {
-			this.cacheStanza = this.partita.getStanzaDiSpawn();
+			stanzaCorrente = this.partita.getStanzaDiSpawn();
 		}
-		for (Casella c : this.cacheStanza.getCaselle().values()) {
+		for (Casella c : stanzaCorrente.getCaselle().values()) {
 			if(!CasellaManager.isVuota(c)) {
 				disegnaCasella(g, c);
 			}
