@@ -118,10 +118,10 @@ public class Partita {
 		this.mappa = mappa;
 	}
 	
-	public int getPunteggioPlayer1() {
-		int punteggio = 0;
-		punteggio += (int) this.serpentePlayer1.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
-		return punteggio;
+	public int getSnakeScore(Snake s) {
+		double punteggioCibo = s.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
+		double punteggioUccisioni = s.getNumeroUccisioni()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*GestorePunteggi.getMoltiplicatorePunteggio();
+		return (int) (punteggioCibo+punteggioUccisioni);
 	}
 	
 	public int getNumeroAvversari(){

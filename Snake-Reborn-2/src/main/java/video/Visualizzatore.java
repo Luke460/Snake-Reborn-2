@@ -77,16 +77,15 @@ public class Visualizzatore extends JPanel {
 				disegnaCasella(g, c);
 			}
 		}
-		riportaStatisticheSullaFinestra(partita.getPunteggioPlayer1());
+		riportaStatisticheSullaFinestra(partita.getSnakeScore(partita.getSerpentePlayer1()));
 	}
-
 
 	private void riportaStatisticheSullaFinestra(long punteggio) {
 		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroAvversari())+ 
 				"        Uccisioni: " + this.partita.getSerpentePlayer1().getNumeroUccisioni() +
 				"        Record: " + this.partita.getVecchioRecord() + 
 				"        Punteggio: " + punteggio +
-				"        Tempo: " + (int)(this.partita.getSerpentePlayer1().getTempoSopravvissuto()/1000));
+				"        Tempo: " + (int)(this.partita.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000));
 	}
 
 	private void disegnaCasella(Graphics g, Casella casella) {

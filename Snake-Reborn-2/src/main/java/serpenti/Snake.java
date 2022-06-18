@@ -136,6 +136,7 @@ public abstract class Snake {
 	}
 	
 	public void incrementaVitaSerpente(int qta) {
+		this.setCiboPreso(this.getCiboPreso()+qta);
 		for(Casella c : this.getCaselle()){
 			if(c.getVita()+qta<=VITA_SERPENTE_MASSIMA){
 				c.setVita(c.getVita()+qta);
@@ -245,7 +246,7 @@ public abstract class Snake {
 		this.numeroUccisioni = numeroUccisioni;
 	}
 
-	public double getTempoSopravvissuto() {
+	public double getTempoSopravvissutoMillis() {
 		if(this.isVivo()){
 			this.tempoSopravvivenza = System.currentTimeMillis()-this.istanteDiNascita;
 			return tempoSopravvivenza;

@@ -45,16 +45,15 @@ public class GestorePunteggi {
 	}	
 
 	public static double getMoltiplicatorePunteggio() {
-		if(partita.getLivello()==1) return 1;
-		if(partita.getLivello()==2) return 2;
-		if(partita.getLivello()==3) return 5;
+		if(partita.getLivello()==1) return 0.2;
+		if(partita.getLivello()==2) return 0.5;
+		if(partita.getLivello()==3) return 1;
 		return 0;
 	}
 
-
 	public static void inviaPunteggio() {
 		if(!punteggioValido()||partita.isOspite()) return;
-		int nuovoRecord = partita.getPunteggioPlayer1();
+		int nuovoRecord = partita.getSnakeScore(partita.getSerpentePlayer1());
 		InviaPunteggio inviatore = new InviaPunteggio(partita);
 		inviatore.start();
 		partita.setVecchioRecord(nuovoRecord);

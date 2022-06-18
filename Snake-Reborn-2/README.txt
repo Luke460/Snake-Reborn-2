@@ -27,5 +27,5 @@ Requisiti minimi:
  - Sistema Operativo a 32 o 64 bit
  - Java 8 o successive
  - CPU: Processore a 1Ghz o superiore
- - RAM: almeno 200 mb liberi
- - HD: circa 30 mb liberi
+ - RAM: almeno 200 MB liberi
+ - HD: circa 30 MB liberi

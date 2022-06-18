@@ -47,6 +47,7 @@ public interface Costanti {
 	static final public int QTA_CIBO_TESTA_SERPENTE = 5; // 5 unita' cibo
 	static final public int QTA_CIBO_BASE = 1; // 1 unita' cibo
 	static final public int MOLTIPLICATORE_PUNTEGGIO_CIBO = 10;
+	static final public int MOLTIPLICATORE_PUNTEGGIO_UCCISIONE = 100;
 	static final public int TEMPO_RIPOPOLAMENTO_CIBO = (int) FPS * 5; // 5 sec
 	
 	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = (int) FPS * 3; // max 3 sec
