@@ -99,7 +99,7 @@ public abstract class Snake {
 				} else {
 					this.incrementaVitaSerpente(QTA_CIBO_BASE);
 				}
-				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP()+1,this.getCasellaDiTesta().getStato());
+				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP(),this.getCasellaDiTesta().getStato());
 			} else {
 				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP(),this.getCasellaDiTesta().getStato());
 			}
@@ -136,7 +136,6 @@ public abstract class Snake {
 	}
 	
 	public void incrementaVitaSerpente(int qta) {
-		this.ciboPreso+=qta;
 		for(Casella c : this.getCaselle()){
 			if(c.getVita()+qta<=VITA_SERPENTE_MASSIMA){
 				c.setVita(c.getVita()+qta);
