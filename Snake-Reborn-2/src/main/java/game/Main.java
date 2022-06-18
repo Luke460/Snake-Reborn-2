@@ -88,15 +88,10 @@ public class Main {
 				PopolatoreCibo.aggiungiCiboRandom(partita.getMappa());
 			}
 
-			if(partita.getFattorePopolazione()==1){
-				if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BASSO)==0) && partita.getNumeroAvversari()<=LIMITE_SERPENTI_BASSO){
-					PopolatoreSerpenti.provaAdInserireUnSerpente(partita);
-				}
-			} else if(partita.getFattorePopolazione()==2){
-				if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_ALTO)==0) && partita.getNumeroAvversari()<=LIMITE_SERPENTI_ALTO){
-					PopolatoreSerpenti.provaAdInserireUnSerpente(partita);
-				}
+			if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT)==0)){
+				PopolatoreSerpenti.provaAdInserireUnSerpente(partita);
 			}
+
 			partita.eseguiTurni();
 			visualizzatore.repaint();
 

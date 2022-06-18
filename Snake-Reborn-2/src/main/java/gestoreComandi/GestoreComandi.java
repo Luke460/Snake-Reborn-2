@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import game.Partita;
+import popolatori.PopolatoreSerpenti;
 import serpenti.Snake;
 import supporto.Direction;
 import video.Visualizzatore;
@@ -70,8 +71,7 @@ public class GestoreComandi {
 
 	public  void resuscitaPlayer1( ) {
 		if(!partita.getSerpentePlayer1().isVivo()) {
-			partita.resuscitaSerpente(partita.getSerpentePlayer1());
-
+			PopolatoreSerpenti.resuscitaSerpente(partita, partita.getSerpentePlayer1());
 		}
 	}
 

@@ -48,14 +48,6 @@ public abstract class Snake {
 		}
 	}
 
-	public Snake(LinkedList<Casella> caselle) {
-		ComparatoreCasellePerVita comparator = new ComparatoreCasellePerVita();
-		Collections.sort(caselle,comparator);
-		this.caselle = caselle;
-		this.setUltimaStanza(caselle.get(caselle.size()-1).getStanza());
-		this.setCasellaDiTesta(caselle.get(0));
-	}
-
 	public Snake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
 		this.partita = partita;
 		this.nome=nome;
@@ -96,10 +88,9 @@ public abstract class Snake {
 		return null;
 	}
 	
-	public void sposta(Direction d){
-		this.setDirezione(d);
+	public void sposta(){
 		Casella vecchiaCasella = this.getCasellaDiTesta();
-		Casella nuovaCasella = CasellaManager.getCasellaAdiacente(vecchiaCasella, d);
+		Casella nuovaCasella = CasellaManager.getCasellaAdiacente(vecchiaCasella, this.getDirezione());
 
 		if(!CasellaManager.isMortale(nuovaCasella)){
 			if(CasellaManager.isCibo(nuovaCasella)){
@@ -203,7 +194,7 @@ public abstract class Snake {
 		}
 	}
 
-	abstract public void FaiMossa();
+	abstract public void scegliNuovaDirezione();
 
 	public String getNome() {
 		return nome;
@@ -288,7 +279,7 @@ public abstract class Snake {
 	public void setCasellaDiTesta(Casella casellaDiTesta) {
 		this.casellaDiTesta = casellaDiTesta;
 	}
-
+	
 	public void resettaSerpente(Stanza stanza, int vitaResurrezione) {
 		this.hpPreMorte = 0;
 		this.ciboPreso=0;
@@ -303,10 +294,11 @@ public abstract class Snake {
 		Direction direzioneCreazioneCaselle = direzioneSerpente.getInversa();
 		// creo la testa del serpente
 		this.setCaselle(new LinkedList<Casella>());
+		this.setUltimaStanza(stanza);
 		Casella primaCasella = stanza.getCaselle().get(posizionePrimaCasella);
 		this.casellaDiTesta = primaCasella;
 		//lo stato verrà sovrascritto dai creatori specializzati
-		primaCasella.setStato(statoCaselleDefault);
+		primaCasella.setStato(this.statoCaselleDefault);
 		primaCasella.setSerpente(this);
 		primaCasella.setTestaDiSerpente(true);
 		int vitaCasella = vitaResurrezione;
@@ -318,7 +310,7 @@ public abstract class Snake {
 		Casella casellaPrecedente = primaCasella;
 		for(int i=0; i<vitaResurrezione-1; i++){
 			Casella casella = CasellaManager.getCasellaAdiacente(casellaPrecedente, direzioneCreazioneCaselle);
-			if(casella!=null&&!CasellaManager.isMortale(casella)) {
+			if(!CasellaManager.isMortale(casella)) {
 				casella.setStato(statoCaselleDefault);
 				casella.setSerpente(this);
 				vitaCasella--;
@@ -326,7 +318,7 @@ public abstract class Snake {
 				this.getCaselle().add(casella);
 				casellaPrecedente = casella;
 			} else {
-				i=vitaResurrezione;
+				break;
 			}
 		}
 		

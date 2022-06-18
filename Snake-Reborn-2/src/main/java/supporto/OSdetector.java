@@ -3,9 +3,6 @@ package supporto;
 public class OSdetector {
 
 	public static char getPathSeparator() {
-		if(Costanti.TEST_MODE){
-			return '/';
-		}
 		//Windows path separator: \
 		if(System.getProperty("os.name").contains("Windows")) {
 			return '\\';

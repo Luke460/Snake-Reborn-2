@@ -44,30 +44,31 @@ public class CasellaManager {
 	}
 	
 	public static Casella getCasellaAdiacente(Casella casella, Direction direzione) {
-		Posizione posizioneNuovaCasella = new Posizione(casella.getPosizione().getX(),casella.getPosizione().getY()).traslata(direzione);
-		Stanza stanza = casella.getStanza();
+		Posizione posizioneCasella = casella.getPosizione();
+		Posizione posizioneNuovaCasella = posizioneCasella.getPosizioneInDirezione(direzione);
+		Stanza stanzaCorrente = casella.getStanza();
 		//controllo out of stanza
-		if(posizioneNuovaCasella.getX()>=DIMENSIONE_STANZA_DEFAULT){
+		if(posizioneNuovaCasella.getX()>DIMENSIONE_STANZA_DEFAULT-1){
 			posizioneNuovaCasella = new Posizione(0,posizioneNuovaCasella.getY()); 
-			return stanza.getCollegamenti().get(EST).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(EST).getCaselle().get(posizioneNuovaCasella);
 		}
 
 		if(posizioneNuovaCasella.getX()<0){
 			posizioneNuovaCasella = new Posizione(DIMENSIONE_STANZA_DEFAULT-1,posizioneNuovaCasella.getY()); 
-			return stanza.getCollegamenti().get(OVEST).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(OVEST).getCaselle().get(posizioneNuovaCasella);
 		}
 
-		if(posizioneNuovaCasella.getY()>=DIMENSIONE_STANZA_DEFAULT){
+		if(posizioneNuovaCasella.getY()>DIMENSIONE_STANZA_DEFAULT-1){
 			posizioneNuovaCasella = new Posizione(posizioneNuovaCasella.getX(),0); 
-			return stanza.getCollegamenti().get(SUD).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(SUD).getCaselle().get(posizioneNuovaCasella);
 		}
 		if(posizioneNuovaCasella.getY()<0){
 			posizioneNuovaCasella = new Posizione(posizioneNuovaCasella.getX(),DIMENSIONE_STANZA_DEFAULT-1); 
-			return stanza.getCollegamenti().get(NORD).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(NORD).getCaselle().get(posizioneNuovaCasella);
 		}
 
 		// stiamo nei confini della stanza
-		return  stanza.getCaselle().get(posizioneNuovaCasella);
+		return  stanzaCorrente.getCaselle().get(posizioneNuovaCasella);
 	}
 	
 	public static boolean isMortale(Casella casella) {

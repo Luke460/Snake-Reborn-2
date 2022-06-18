@@ -14,6 +14,7 @@ import terrenoDiGioco.Stanza;
 public class CustomBotSnake extends Snake {
 
 	private String ultimaSterzata;
+	private Direction lastDirection;
 	private Skill skill;
 	
 	private final static String FORWARD = "FORWARD";
@@ -35,17 +36,17 @@ public class CustomBotSnake extends Snake {
 	}
 
 	@Override
-	public void sposta(Direction d) {
-		if(d.equals(this.getDirezione().getRotatedRightDirection())){
+	public void sposta() {
+		if(this.getDirezione().equals(this.getLastDirection().getRotatedRightDirection())){
 			this.ultimaSterzata = RIGHT;
-		} else if (d.equals(this.getDirezione().getRotatedLeftDirection())) {
+		} else if (this.getDirezione().equals(this.getLastDirection().getRotatedLeftDirection())) {
 			this.ultimaSterzata = LEFT;
 		}
-		super.sposta(d);
+		super.sposta();
 	}
 	
 	@Override
-	public void FaiMossa() {
+	public void scegliNuovaDirezione() {
 		
 		HashMap<String, Direction> direzioni = new HashMap<>();
 		
@@ -87,9 +88,9 @@ public class CustomBotSnake extends Snake {
 			direzioniPortali = getDirezioniPortali(direzioni);
 		}
 
-		Direction newDirection = getNewDirection(direzioni, direzioniConCiboImmediate, direzioniConCiboVicine, direzioniConCiboLontane, direzioniPortali);
-		
-		sposta(newDirection);
+		this.setLastDirection(this.getDirezione());
+		Direction nuovaDirezione = getNewDirection(direzioni, direzioniConCiboImmediate, direzioniConCiboVicine, direzioniConCiboLontane, direzioniPortali);
+		this.setDirezione(nuovaDirezione);
 		
 	}
 	
@@ -224,7 +225,8 @@ public class CustomBotSnake extends Snake {
 	private HashMap<String, Direction> getDirezioniPortali(HashMap<String, Direction> direzioni) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
 		for(Entry<String, Direction> entry: direzioni.entrySet()) {
-			if(controllaPortale(this.getCasellaDiTesta(), entry.getValue())) {
+			Stanza stanzaPortale = getStanzaDelPortaleInDirezione(this.getCasellaDiTesta(), entry.getValue(), DIMENSIONE_STANZA_DEFAULT);
+			if(stanzaPortale != null) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
@@ -244,11 +246,11 @@ public class CustomBotSnake extends Snake {
 		}
 	}
 	
-	private boolean controllaPortale(Casella casella, Direction dir) {
+	private Stanza getStanzaDelPortaleInDirezione(Casella casella, Direction dir, int range) {
 		Casella casellaSuccessiva = CasellaManager.getCasellaAdiacente(casella, dir);
-		if(!casella.getStanza().equals(casellaSuccessiva.getStanza())) return true;
-		if(CasellaManager.isMortale(casellaSuccessiva)) return false;
-        return controllaPortale(casellaSuccessiva, dir);
+		if(!casella.getStanza().equals(casellaSuccessiva.getStanza())) return casellaSuccessiva.getStanza();
+		if(range <=0 || CasellaManager.isMortale(casellaSuccessiva)) return null;
+        return getStanzaDelPortaleInDirezione(casellaSuccessiva, dir, range-1);
 	}
 	
 	private Direction getRandomDirection(HashMap<String, Direction> direzioni) {
@@ -281,6 +283,14 @@ public class CustomBotSnake extends Snake {
 
 	public void setSkill(Skill skill) {
 		this.skill = skill;
+	}
+
+	public Direction getLastDirection() {
+		return lastDirection;
+	}
+
+	public void setLastDirection(Direction lastDirection) {
+		this.lastDirection = lastDirection;
 	}
 
 }

@@ -5,10 +5,10 @@ package supporto;
  * ascissa (x) ed ordinata (y), all'interno del {@link Pozzo}.
  * 
  */
+
 public class Posizione {
 	
 	private int x;
-	
 	private int y;
 	
 	public Posizione(int x, int y) {
@@ -24,11 +24,8 @@ public class Posizione {
 		return this.y;
 	}
 	
-	public Posizione traslata(int dx, int dy) {
-		return new Posizione(getX()+dx, getY()+dy);
-	}
-	
-	public Posizione traslata(Direction d) {
+	public Posizione getPosizioneInDirezione(Direction d) {
+		// X=0 Y=0 : UPPER LEFT CORNER
 		int x = getX();
 		int y = getY();
 		switch(d.getDir()) {

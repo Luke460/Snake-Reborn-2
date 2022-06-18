@@ -15,11 +15,7 @@ public class PlayerSnake extends Snake {
 	}
 
 	@Override
-	public void FaiMossa() {
-		if(super.isVivo()){
-			super.sposta(this.getDirezione());
-		}
-	}
+	public void scegliNuovaDirezione() {}
 	
 	public String getNomeGiocatore() {
 		return super.getNome();

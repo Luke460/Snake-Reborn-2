@@ -5,14 +5,11 @@ public interface Costanti {
 	final static String MAP_FILE_NAME = "mappa-1.txt";
 	final static String PATH_MAPPE = "mappe";
 	final static String PATH_STANZE = "stanze";
-	
-	static final public boolean TEST_MODE = true;
 
 	static final public int TEMPO_BASE = 83; // 12 fps
 	static final public int FPS = (int)(1000/TEMPO_BASE);
 
 	public static final int DIMENSIONE_STANZA_DEFAULT = 40;
-	//public static final int NUMERO_STANZE_DEFAULT = 8;
 	public static final double RAPPORTO_DIMENSIONE_SCHERMO = 0.9; // 90% del lato minimo
 	
 	public static final String EST = "est";
@@ -52,12 +49,9 @@ public interface Costanti {
 	static final public int MOLTIPLICATORE_PUNTEGGIO_CIBO = 10;
 	static final public int TEMPO_RIPOPOLAMENTO_CIBO = 50; // 5 sec
 	
-	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_ALTO = 30; // 3 sec
-	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BASSO = 60; // 6 sec
-	static final public int NUMERO_MINIMO_SERPENTI_INIZIALI_ALTO = 8;
-	static final public int NUMERO_MINIMO_SERPENTI_INIZIALI_BASSO = 4;
-	static final public int LIMITE_SERPENTI_BASSO = 6;
-	static final public int LIMITE_SERPENTI_ALTO = 12;
+	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = (int) FPS * 3; // max 3 sec
+	static final public int LIMITE_MINIMO_SERPENTI_ALTO = 8;
+	static final public int LIMITE_MINIMO_SERPENTI_BASSO = 4;
 	
 	static final public int CD_FLASH = 12*60; //fps x time
 	
