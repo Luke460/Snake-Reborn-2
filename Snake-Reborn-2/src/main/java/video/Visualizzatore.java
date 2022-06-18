@@ -42,10 +42,8 @@ public class Visualizzatore extends JPanel {
 			finestra.setSize((int)(15+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (37+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
 		} else {
 			finestra.setSize((int)(6+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (32+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
-		}
-		
+		}		
 		finestra.setLocationRelativeTo(null);
-
 	}
 	
 	public void setPartita(Partita partita) {
@@ -107,28 +105,24 @@ public class Visualizzatore extends JPanel {
 	}
 
 	private void disegnaCasellaNormale(Graphics g, int dimC, int gx, int gy) {
-
-		g.fill3DRect(   gx,  gy,   dimC-1, dimC-1, true);
-		g.fillRoundRect(gx+2,gy+2, dimC-4, dimC-4, 2, 2 );
-
+		paintSquare(g, dimC, gx, gy);
 	}
 
 	private void disegnaCasellaInRilievo(Graphics g, int dimC, int gx, int gy) {
-
-		g.fill3DRect(   gx,  gy,   dimC-1, dimC-1, true);
-		g.fillRoundRect(gx+2,gy+2, dimC-4, dimC-4, 2, 2 );
+		paintSquare(g, dimC, gx, gy);
 		g.fill3DRect(   gx+3,gy+3, dimC-7, dimC-7, true );
-
 	}
 
 	private void disegnaCasellaTesta(Graphics g, int dimC, int gx, int gy) {
-
-		g.fill3DRect(   gx,  gy,   dimC-1, dimC-1, true);
-		g.fillRoundRect(gx+2,gy+2, dimC-4, dimC-4, 2, 2 );
+		paintSquare(g, dimC, gx, gy);
 		Color nuovoColore = g.getColor().darker();
 		g.setColor(nuovoColore);
 		g.fill3DRect(   gx+2,gy+2, dimC-6, dimC-6, true );
-
+	}
+	
+	private void paintSquare(Graphics g, int dimC, int gx, int gy) {
+		g.fill3DRect(   gx,  gy,   dimC-1, dimC-1, true);
+		g.fillRoundRect(gx+2,gy+2, dimC-4, dimC-4, 2, 2 );
 	}
 
 	public Partita getPartita() {
