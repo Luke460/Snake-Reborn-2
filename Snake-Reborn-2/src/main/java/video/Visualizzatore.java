@@ -65,9 +65,11 @@ public class Visualizzatore extends JPanel {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, DIMENSIONE_STANZA_DEFAULT*dimensioneCasella, DIMENSIONE_STANZA_DEFAULT*dimensioneCasella);
 		//g.drawString
-		Stanza stanzaCorrente = this.partita.getStanzaCorrenteGiocatore();
+		Stanza stanzaCorrente = this.partita.getSerpentePlayer1().getUltimaStanza();
 		if(stanzaCorrente!=null) {
 			this.cacheStanza = stanzaCorrente;
+		} else {
+			this.cacheStanza = this.partita.getStanzaDiSpawn();
 		}
 		for (Casella c : this.cacheStanza.getCaselle().values()) {
 			if(!CasellaManager.isVuota(c)) {
@@ -79,7 +81,7 @@ public class Visualizzatore extends JPanel {
 
 
 	private void riportaStatisticheSullaFinestra(long punteggio) {
-		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroDiSerpenti()-1)+ 
+		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroAvversari())+ 
 				"        Uccisioni: " + this.partita.getSerpentePlayer1().getNumeroUccisioni() +
 				"        Record: " + this.partita.getVecchioRecord() + 
 				"        Punteggio: " + punteggio +

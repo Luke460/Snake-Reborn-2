@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import supporto.FileHandler;
 import supporto.OSdetector;
@@ -109,7 +110,7 @@ public class CaricatoreMappa {
 				}
 			}
 		}
-		mappa.setStanze(new ArrayList<Stanza>(stanze.values()));
+		mappa.setStanze(new HashSet<Stanza>(stanze.values()));
 		return mappa;
 		
 	}

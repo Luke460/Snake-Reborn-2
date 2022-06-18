@@ -76,10 +76,11 @@ public class CustomBotSnake extends Snake {
 		
 		direzioniConCiboImmediate = getDirezioniConCibo(direzioni, 0);
 		
-		direzioniConCiboVicine = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT/10);
-				
-		if(Utility.veroAl(this.skill.getFarmSkill())) {
-			direzioniConCiboLontane = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT);
+		if(direzioniConCiboImmediate.size()==0) {
+			direzioniConCiboVicine = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT/10);
+			if(direzioniConCiboVicine.size()==0 && Utility.veroAl(this.skill.getFarmSkill())) {
+				direzioniConCiboLontane = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT);
+			}
 		}
 		
 		if(Utility.veroAl((int)(this.skill.getExploreSkill()*0.50))) {

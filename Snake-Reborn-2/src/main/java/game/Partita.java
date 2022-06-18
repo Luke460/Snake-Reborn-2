@@ -27,9 +27,10 @@ public class Partita {
 
 	private HashMap<String, Snake> serpentiVivi;
 	private HashMap<String, Snake> serpentiMorti;
+	private Snake serpentePlayer1;
 	private String nomePlayer1;
 	private Mappa mappa;
-	private int numerettoPerSerpentiBot;
+	private int sequenzialeSerpentiBot;
 	private boolean ilGiocatoreHaFattoLaMossa;
 	private int livello;
 	private int fattorePopolazione;
@@ -40,7 +41,7 @@ public class Partita {
 	private GestoreComandi gestoreComandi;
 	private boolean inGame;
 	private boolean modPcVecchio;
-	private Stanza ultimaStanza;
+	private Stanza stanzaDiSpawn;
 
 	public Partita() throws IOException {
 		GestorePunteggi.inizializza(this);
@@ -48,20 +49,20 @@ public class Partita {
 		this.serpentiVivi = new HashMap<String, Snake>();
 		this.serpentiMorti = new HashMap<String, Snake>();
 		this.mappa = CaricatoreMappa.caricaFile(PATH_MAPPE + OSdetector.getPathSeparator() + MAP_FILE_NAME, PATH_STANZE);
-		this.numerettoPerSerpentiBot = 0;
+		this.sequenzialeSerpentiBot = 0;
 		this.inGame = true;
+		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpentiVivi, null);
 	}
 
 	public void ImpostaPartita() {
 		// un solo giocatore
 		if(!ospite)this.vecchioRecord = GestorePunteggi.getRecord();
-		Stanza stanzaCasuale = MappaManager.getStanzaCasualeLibera_controlloSuTutteLeStanze(this.mappa);
 		this.nomePlayer1 = NOME_PLAYER_1;
-		Snake serpentePlayer1 = new PlayerSnake(this.nomePlayer1, stanzaCasuale, VITA_SERPENTE_DEFAULT,this);
+		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
 		//Just for test
 		//Skill skill = new Skill(0,0,0,0,0);
 		//Snake serpentePlayer1 = new CustomBotSnake(this.nomePlayer1, stanzaCasuale, VITA_SERPENTE_DEFAULT,this, skill);
-		this.serpentiVivi.put(this.nomePlayer1, serpentePlayer1);
+		this.serpentiVivi.put(this.nomePlayer1, this.serpentePlayer1);
 		
 
 	}
@@ -70,8 +71,8 @@ public class Partita {
 		if(s.getNome().equals(this.nomePlayer1)) GestoreSuoni.playSpawnSound();
 		int vecchiaVita = s.getHpPreMorte();
 		int vitaResurrezione = Utility.massimoTra(VITA_SERPENTE_DEFAULT,(int)(vecchiaVita/2.0));
-		Stanza stanza = s.getStanza();
-		Stanza stanzaAlternativa = MappaManager.getStanzaCasualeLibera_controlloSuTutteLeStanze(this.mappa);
+		Stanza stanza = s.getUltimaStanza();
+		Stanza stanzaAlternativa = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpentiVivi, null);
 		if(stanzaAlternativa!=null){
 			stanza = stanzaAlternativa;
 		}
@@ -80,21 +81,21 @@ public class Partita {
 		this.serpentiVivi.put(s.getNome(),s);
 	}
 
-	public void inserisciBotAccurato(String classe){
-		Stanza stanza = MappaManager.getStanzaCasualeLibera_controlloSuTutteLeStanze(this.mappa);
+	public void inserisciBot(String classe){
+		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpentiVivi, null);
 		if(stanza!=null){
 			Snake bot = null;
 			if(classe.equals(EasyBotSnake.class.getSimpleName())){
-				bot = new EasyBotSnake("bot"+numerettoPerSerpentiBot, stanza,VITA_SERPENTE_DEFAULT,this);
+				bot = new EasyBotSnake("bot"+sequenzialeSerpentiBot, stanza,VITA_SERPENTE_DEFAULT,this);
 			} else if(classe.equals(MediumBotSnake.class.getSimpleName())){
-				bot = new MediumBotSnake("bot"+numerettoPerSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
+				bot = new MediumBotSnake("bot"+sequenzialeSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
 			} else if(classe.equals(HardBotSnake.class.getSimpleName())){
-				bot = new HardBotSnake("bot"+numerettoPerSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
+				bot = new HardBotSnake("bot"+sequenzialeSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
 			} else if(classe.equals(InsaneBotSnake.class.getSimpleName())){
-				bot = new InsaneBotSnake("bot"+numerettoPerSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
+				bot = new InsaneBotSnake("bot"+sequenzialeSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
 			}
-			this.serpentiVivi.put("bot"+numerettoPerSerpentiBot, bot);
-			numerettoPerSerpentiBot++;
+			this.serpentiVivi.put("bot"+sequenzialeSerpentiBot, bot);
+			sequenzialeSerpentiBot++;
 		}
 	}
 
@@ -109,14 +110,6 @@ public class Partita {
 				this.getSerpentiMorti().put(s.getNome(),s);
 				iteratore.remove();
 			}
-		}
-	}
-	
-	public Snake getSerpentePlayer1(){
-		if(this.serpentiVivi.containsKey(nomePlayer1)){
-			return this.serpentiVivi.get(nomePlayer1);
-		} else {
-			return this.serpentiMorti.get(nomePlayer1);
 		}
 	}
 
@@ -142,13 +135,16 @@ public class Partita {
 	
 	public int getPunteggioPlayer1() {
 		int punteggio = 0;
-		Snake p1 = this.getSerpentePlayer1();
-		punteggio += (int) p1.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
+		punteggio += (int) this.serpentePlayer1.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
 		return punteggio;
 	}
 	
-	public int getNumeroDiSerpenti(){
-		return this.serpentiVivi.size();
+	public int getNumeroAvversari(){
+		if(this.serpentePlayer1.isVivo()) {
+			return this.serpentiVivi.size() -1;
+		} else {
+			return this.serpentiVivi.size();
+		}
 	}
 
 	public int getLivello() {
@@ -226,14 +222,6 @@ public class Partita {
 	public boolean isModPcLento() {
 		return this.modPcVecchio;
 	}
-
-	public Stanza getStanzaCorrenteGiocatore() {
-		if(this.getSerpentePlayer1()!=null && this.getSerpentePlayer1().isVivo()) {
-			this.ultimaStanza = this.getSerpentePlayer1().getStanza();
-			return this.ultimaStanza;
-		}
-		return this.ultimaStanza;
-	}
 	
 	public HashMap<String, Snake> getSerpentiMorti() {
 		return serpentiMorti;
@@ -250,5 +238,13 @@ public class Partita {
 	public void setNomePlayer1(String nomePlayer1) {
 		this.nomePlayer1 = nomePlayer1;
 	}
-	
+
+	public Snake getSerpentePlayer1() {
+		return serpentePlayer1;
+	}
+
+	public Stanza getStanzaDiSpawn() {
+		return stanzaDiSpawn;
+	}
+
 }

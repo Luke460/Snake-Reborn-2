@@ -21,39 +21,39 @@ public class PopolatoreSerpenti {
 		if(partita.getFattorePopolazione()==2) numeroMinimoSerpentiIniziali = NUMERO_MINIMO_SERPENTI_INIZIALI_ALTO;
 
 		if(partita.getLivello()==3) {
-			while (partita.getNumeroDiSerpenti() < numeroMinimoSerpentiIniziali){
+			while (partita.getNumeroAvversari() < numeroMinimoSerpentiIniziali){
 				
-				partita.inserisciBotAccurato(EasyBotSnake.class.getSimpleName());
+				partita.inserisciBot(EasyBotSnake.class.getSimpleName());
 				
-				partita.inserisciBotAccurato(MediumBotSnake.class.getSimpleName());
+				partita.inserisciBot(MediumBotSnake.class.getSimpleName());
 				
-				partita.inserisciBotAccurato(HardBotSnake.class.getSimpleName());
+				partita.inserisciBot(HardBotSnake.class.getSimpleName());
 				
-				partita.inserisciBotAccurato(InsaneBotSnake.class.getSimpleName());
+				partita.inserisciBot(InsaneBotSnake.class.getSimpleName());
 				
 			}
 		} else if(partita.getLivello()==2) {
-			while (partita.getNumeroDiSerpenti() < numeroMinimoSerpentiIniziali){
+			while (partita.getNumeroAvversari() < numeroMinimoSerpentiIniziali){
 				
-				partita.inserisciBotAccurato(EasyBotSnake.class.getSimpleName());
+				partita.inserisciBot(EasyBotSnake.class.getSimpleName());
 				
-				partita.inserisciBotAccurato(MediumBotSnake.class.getSimpleName());
+				partita.inserisciBot(MediumBotSnake.class.getSimpleName());
 				
-				partita.inserisciBotAccurato(MediumBotSnake.class.getSimpleName());
+				partita.inserisciBot(MediumBotSnake.class.getSimpleName());
 				
-				partita.inserisciBotAccurato(HardBotSnake.class.getSimpleName());
+				partita.inserisciBot(HardBotSnake.class.getSimpleName());
 				
 			}
 		} else if(partita.getLivello()==1) {
-				while (partita.getNumeroDiSerpenti() < numeroMinimoSerpentiIniziali){
+				while (partita.getNumeroAvversari() < numeroMinimoSerpentiIniziali){
 					
-					partita.inserisciBotAccurato(EasyBotSnake.class.getSimpleName());
+					partita.inserisciBot(EasyBotSnake.class.getSimpleName());
 					
-					partita.inserisciBotAccurato(EasyBotSnake.class.getSimpleName());
+					partita.inserisciBot(EasyBotSnake.class.getSimpleName());
 					
-					partita.inserisciBotAccurato(MediumBotSnake.class.getSimpleName());
+					partita.inserisciBot(MediumBotSnake.class.getSimpleName());
 					
-					partita.inserisciBotAccurato(MediumBotSnake.class.getSimpleName());
+					partita.inserisciBot(MediumBotSnake.class.getSimpleName());
 					
 				}
 			}

@@ -1,17 +1,17 @@
 package terrenoDiGioco;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Mappa {
 
 	private String nomeUnivoco;
-	private ArrayList<Stanza> stanze;
+	private HashSet<Stanza> stanze;
 
 	public Mappa(String nomeUnivoco) throws IOException {
 		this.nomeUnivoco = nomeUnivoco;
-		this.stanze = new ArrayList<Stanza>();
+		this.stanze = new HashSet<Stanza>();
 	}
 
 	public String getNomeUnivoco() {
@@ -22,11 +22,11 @@ public class Mappa {
 		this.nomeUnivoco = nomeUnivoco;
 	}
 
-	public ArrayList<Stanza> getStanze() {
+	public HashSet<Stanza> getStanze() {
 		return stanze;
 	}
 
-	public void setStanze(ArrayList<Stanza> stanze) {
+	public void setStanze(HashSet<Stanza> stanze) {
 		this.stanze = stanze;
 	}
 

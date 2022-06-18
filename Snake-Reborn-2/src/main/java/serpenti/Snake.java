@@ -2,6 +2,8 @@ package serpenti;
 
 import static supporto.Costanti.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,6 +11,7 @@ import java.util.Map.Entry;
 
 import audio.GestoreSuoni;
 import game.Partita;
+import popolatori.ComparatoreCasellePerVita;
 import popolatori.PopolatoreCibo;
 import supporto.Direction;
 import supporto.Posizione;
@@ -24,7 +27,6 @@ public abstract class Snake {
 	private LinkedList<Casella> caselle;
 	private String nome;
 	private Direction direzione;
-	private Casella casellaDiTesta;
 	private int ciboPreso;
 	private int numeroUccisioni;
 	private long istanteDiNascita;
@@ -32,6 +34,8 @@ public abstract class Snake {
 	private int hpPreMorte;
 	private Partita partita;
 	private char statoCaselleDefault;
+	private Stanza ultimaStanza;
+	private Casella casellaDiTesta;
 	
 	public char getStatoCaselleDefault() {
 		return statoCaselleDefault;
@@ -45,7 +49,11 @@ public abstract class Snake {
 	}
 
 	public Snake(LinkedList<Casella> caselle) {
+		ComparatoreCasellePerVita comparator = new ComparatoreCasellePerVita();
+		Collections.sort(caselle,comparator);
 		this.caselle = caselle;
+		this.setUltimaStanza(caselle.get(caselle.size()-1).getStanza());
+		this.setCasellaDiTesta(caselle.get(0));
 	}
 
 	public Snake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
@@ -55,7 +63,7 @@ public abstract class Snake {
 	}
 
 	public Stanza getStanzaCorrente() {
-		return this.caselle.getFirst().getStanza();
+		return getCasellaDiTesta().getStanza();
 	}
 
 	public Casella getCasellaDiTesta(){
@@ -63,11 +71,14 @@ public abstract class Snake {
 	}
 
 	public Casella getCasellaDiCoda(){
-		return this.caselle.getLast();
+		ArrayList<Casella> caselleOrdinatePerVita = new ArrayList<>(this.caselle);
+		ComparatoreCasellePerVita comparator = new ComparatoreCasellePerVita();
+		Collections.sort(caselleOrdinatePerVita, comparator);
+		return caselleOrdinatePerVita.get(caselleOrdinatePerVita.size()-1);
 	}
 
 	public int getHP(){
-		return this.casellaDiTesta.getVita();
+		return this.getCasellaDiTesta().getVita();
 	}
 
 	public LinkedList<Casella> getCaselle() {
@@ -79,9 +90,12 @@ public abstract class Snake {
 	}
 
 	public Stanza getStanza() {
-		return this.getCasellaDiTesta().getStanza();
+		if(this.getCasellaDiTesta()!=null) {
+			return this.getCasellaDiTesta().getStanza();
+		}
+		return null;
 	}
-
+	
 	public void sposta(Direction d){
 		this.setDirezione(d);
 		Casella vecchiaCasella = this.getCasellaDiTesta();
@@ -98,17 +112,15 @@ public abstract class Snake {
 			} else {
 				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP(),this.getCasellaDiTesta().getStato());
 			}
-			int vitaSerpente = this.getHP();
 
-			nuovaCasella.setVita(vitaSerpente);
 			nuovaCasella.setTestaDiSerpente(true);
 			vecchiaCasella.setTestaDiSerpente(false);
-			this.setCasellaDiTesta(nuovaCasella);
 
 			// spostamento
 			decrementaVitaSerpente();
 			this.caselle.add(nuovaCasella);
-			
+			this.setCasellaDiTesta(nuovaCasella);
+			this.setUltimaStanza(getCasellaDiCoda().getStanza());
 		} else { // casella mortale
 			if(CasellaManager.isOccupataDaSerpente(nuovaCasella)){
 				Snake altroSerpente = nuovaCasella.getSerpente();
@@ -150,15 +162,11 @@ public abstract class Snake {
 	public void setHpPreMorte(int hpPreMorte) {
 		this.hpPreMorte = hpPreMorte;
 	}
-
-	public void setCasellaDiTesta(Casella nuovaCasella) {
-		this.casellaDiTesta = nuovaCasella;
-	}
-
+	
 	public void muori(){
+		hpPreMorte = this.getCasellaDiTesta().getVita();
 		controllaUccisione();
 		rilasciaCiboEliberaCaselle();
-		hpPreMorte = this.getCasellaDiTesta().getVita();
 	}
 	
 	private void controllaUccisione() {		
@@ -269,6 +277,18 @@ public abstract class Snake {
 		this.partita = partita;
 	}
 
+	public void setUltimaStanza(Stanza ultimaStanza) {
+		this.ultimaStanza = ultimaStanza;
+	}
+	
+	public Stanza getUltimaStanza() {
+		return ultimaStanza;
+	}
+
+	public void setCasellaDiTesta(Casella casellaDiTesta) {
+		this.casellaDiTesta = casellaDiTesta;
+	}
+
 	public void resettaSerpente(Stanza stanza, int vitaResurrezione) {
 		this.hpPreMorte = 0;
 		this.ciboPreso=0;
@@ -284,7 +304,7 @@ public abstract class Snake {
 		// creo la testa del serpente
 		this.setCaselle(new LinkedList<Casella>());
 		Casella primaCasella = stanza.getCaselle().get(posizionePrimaCasella);
-		this.setCasellaDiTesta(primaCasella);
+		this.casellaDiTesta = primaCasella;
 		//lo stato verrà sovrascritto dai creatori specializzati
 		primaCasella.setStato(statoCaselleDefault);
 		primaCasella.setSerpente(this);

@@ -22,28 +22,29 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		try {
-		System.out.println(System.getProperty("file.separator"));
-		System.out.println(new ConfigurationManager().toStringImpostazioni());
-		VisualizzatoreClient client = new VisualizzatoreClient();
-		visualizzatore = new Visualizzatore();
-		while(true) {
-			partita = new Partita();
-			client.rileggi(partita);
-			visualizzatore.setPartita(partita);
-			while(!client.isPremuto()){ // viene "sbloccato dal Listener" (busy waiting)
-				Thread.sleep(250);
+			System.out.println(System.getProperty("file.separator"));
+			System.out.println(new ConfigurationManager().toStringImpostazioni());
+			VisualizzatoreClient client = new VisualizzatoreClient();
+			visualizzatore = new Visualizzatore();
+			while(true) {
+				partita = new Partita();
+				client.rileggi(partita);
+				visualizzatore.setPartita(partita);
+				while(!client.isPremuto()){ // viene "sbloccato dal Listener" (busy waiting)
+					Thread.sleep(250);
+				}
+				try {
+					client.leggiImpostazioni();
+					visualizzatore.getFinestra().setVisible(true);
+					avviaIlGioco();
+				} catch (AWTException e) {
+					e.printStackTrace();
+				}
+				visualizzatore.getFinestra().setVisible(false);
 			}
-			try {
-				client.leggiImpostazioni();
-				visualizzatore.getFinestra().setVisible(true);
-				avviaIlGioco();
-			} catch (AWTException e) {
-				e.printStackTrace();
-			}
-			visualizzatore.getFinestra().setVisible(false);
-		}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Impossibile avviare Snake Reborn 2:\nError details: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -88,11 +89,11 @@ public class Main {
 			}
 
 			if(partita.getFattorePopolazione()==1){
-				if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BASSO)==0) && partita.getNumeroDiSerpenti()<=LIMITE_SERPENTI_BASSO){
+				if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BASSO)==0) && partita.getNumeroAvversari()<=LIMITE_SERPENTI_BASSO){
 					PopolatoreSerpenti.provaAdInserireUnSerpente(partita);
 				}
 			} else if(partita.getFattorePopolazione()==2){
-				if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_ALTO)==0) && partita.getNumeroDiSerpenti()<=LIMITE_SERPENTI_ALTO){
+				if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_ALTO)==0) && partita.getNumeroAvversari()<=LIMITE_SERPENTI_ALTO){
 					PopolatoreSerpenti.provaAdInserireUnSerpente(partita);
 				}
 			}

@@ -43,7 +43,7 @@ public class PopolatoreCibo {
 		boolean inserisciTestaDiSerpente = false;
 		if(caselle.size() > LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE) {
 			inserisciTestaDiSerpente = true;
-			ComparatoreCasellePerCibo comparator = new ComparatoreCasellePerCibo();
+			ComparatoreCasellePerVita comparator = new ComparatoreCasellePerVita();
 			Collections.sort(caselle, comparator);
 		}
 		for(Casella c:caselle){
