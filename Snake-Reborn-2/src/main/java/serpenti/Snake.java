@@ -111,7 +111,7 @@ public abstract class Snake {
 			decrementaVitaSerpente();
 			this.caselle.add(nuovaCasella);
 			this.setCasellaDiTesta(nuovaCasella);
-			this.setUltimaStanza(getCasellaDiCoda().getStanza());
+			this.setUltimaStanza(nuovaCasella.getStanza());
 		} else { // casella mortale
 			if(CasellaManager.isOccupataDaSerpente(nuovaCasella)){
 				Snake altroSerpente = nuovaCasella.getSerpente();
