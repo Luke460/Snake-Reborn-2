@@ -11,7 +11,6 @@ import audio.GestoreSuoni;
 import gestoreComandi.GestoreComandi;
 import popolatori.PopolatoreCibo;
 import popolatori.PopolatoreSerpenti;
-import supporto.ConfigurationManager;
 import video.Visualizzatore;
 import visualizzatoreClient.VisualizzatoreClient;
 
@@ -22,7 +21,6 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		try {
-			System.out.println(new ConfigurationManager().toStringImpostazioni());
 			VisualizzatoreClient client = new VisualizzatoreClient();
 			visualizzatore = new Visualizzatore();
 			while(true) {

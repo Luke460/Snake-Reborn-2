@@ -40,9 +40,7 @@ public class ConfigurationManager {
 	
 	public void readFile() throws IOException {
 		settings = new HashMap<String,String>();
-		System.out.println(NOME_FILE);
 		String text = FileHandler.readFile(NOME_FILE);
-		System.out.println("XXXXXXXXXXXX  " + text);
 		String line = new String();
 		String chiave = new String();
 		String valore = new String();

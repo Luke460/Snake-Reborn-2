@@ -49,23 +49,17 @@ public class Client {
 	}
 
 	public User logUser(Credentials credentials) throws ClientProtocolException, IOException {
-		
-		//System.out.println("1");
 
 		String credentialsJson = jsonService.credentials2Json(credentials);
-		
-		//System.out.println("2");
 
 		String playerJson = this.sendHttp("/client/logUser", credentialsJson);
-		
-		//System.out.println("3");
 
 		return jsonService.json2Player(playerJson);
 	}
 
 	public boolean logUser(String username, String password, Partita partita) throws ClientProtocolException, IOException {
 		Credentials credentials = new Credentials(username, password);
-		System.out.println(credentials.getUsername() + ":" +  credentials.getPassword());
+		//System.out.println(credentials.getUsername() + ":" +  credentials.getPassword());
 		this.userLogged = this.logUser(credentials);
 		if(this.userLogged!=null && this.userLogged.getUsername().equals(partita.getUtente().getUsername())) {
 			return true;

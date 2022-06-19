@@ -48,16 +48,11 @@ public class SuonoWAV{
 
 	public void playClip() {
 		if (this.clip==null) {
-			//System.out.println("clip is null");
 			return;
 		}
-		//if (this.clip.isRunning()) {
-			this.clip.stop();   // Ferma il suono se e' ancora in esecuzione.
-			//System.out.println("clip was stopped");
-		//}
+		this.clip.stop();   // Ferma il suono se e' ancora in esecuzione.
 		this.clip.setFramePosition(0); // Riavvolgi il suono.
 		this.clip.start();     // Esegui il suono.
-		//System.out.println("clip restarted");
 	}
 	
 	@SuppressWarnings("static-access")
