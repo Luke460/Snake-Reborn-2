@@ -27,9 +27,7 @@ public class CaricatoreMappa {
 	
 	final static String IGNORE = "IGNORE";
 	final static String PREFIX = "PREFIX";
-	final static String READING_FIRST_ELEMENT = "FIRST";
-	final static String READING_LINK = "LINK";
-	final static String READING_SECOND_ELEMENT = "SECOND";
+	final static String READING_ELEMENT = "ELEMENT";
 
 	public static Mappa caricaFile(String pathMappa, String pathStanze) throws IOException {
 		
@@ -53,18 +51,18 @@ public class CaricatoreMappa {
 		
 		String status = IGNORE;
 		String prefix = "";
-		String nomeStanza1 = "";
-		String nomeStanza2 = "";
-		String collegamento = "";
+		String actualLineContent = "";
 		for(char c:listaCaratteri){
 			if(c!=CARATTERE_FINE_FILE){
 				if(status == PREFIX && c==']') {
 					status = IGNORE;
 				} 
-				else if(status == READING_SECOND_ELEMENT && c=='>'){
+				else if(status == READING_ELEMENT && c=='>'){
 					//fine riga
-					nomeStanza1 = prefix + nomeStanza1;
-					nomeStanza2 = prefix + nomeStanza2;
+					String[] lineInfo = actualLineContent.split(":");
+					String nomeStanza1 = prefix + lineInfo[0];
+					String collegamento = lineInfo[1];
+					String nomeStanza2 = prefix + lineInfo[2];
 					Stanza stanza1 = stanze.get(nomeStanza1);
 					Stanza stanza2 = stanze.get(nomeStanza2);
 					collegamento = getCollegamento(collegamento);
@@ -73,22 +71,13 @@ public class CaricatoreMappa {
 					stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);
 					StanzaManager.coloraPorta(stanza2, getInversaCollegamento(collegamento));
 					status = IGNORE;
-					nomeStanza1 = "";
-					nomeStanza2 = "";
-					collegamento = "";
+					actualLineContent = "";
 				} 
-				else if(status!=IGNORE && c!= ':'){
+				else if(status!=IGNORE){
 					//lettura
-					if(status == READING_FIRST_ELEMENT){
-						nomeStanza1 += c;
-					}
-					if(status == READING_LINK){
-						collegamento += c;
-					}
-					if(status == READING_SECOND_ELEMENT){
-						nomeStanza2 += c;
-					}
-					if(status == PREFIX){
+					if(status == READING_ELEMENT){
+						actualLineContent += c;
+					} else if(status == PREFIX){
 						prefix += c;
 					}
 				} 
@@ -98,15 +87,7 @@ public class CaricatoreMappa {
 				}
 				else if(status == IGNORE && c=='<'){
 					//inizio riga
-					status = READING_FIRST_ELEMENT;
-				}
-				else if(status!=IGNORE && status != PREFIX && c==':') {
-					//cambio stato
-					if(status == READING_FIRST_ELEMENT) {
-						status = READING_LINK;
-					} else if (status == READING_LINK){
-						status = READING_SECOND_ELEMENT;
-					}
+					status = READING_ELEMENT;
 				}
 			}
 		}

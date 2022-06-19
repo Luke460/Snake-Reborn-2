@@ -1,5 +1,4 @@
 package gestorePunteggi;
-import static supporto.Costanti.LIMITE_MINIMO_SERPENTI_BASSO;
 
 import javax.swing.JOptionPane;
 
