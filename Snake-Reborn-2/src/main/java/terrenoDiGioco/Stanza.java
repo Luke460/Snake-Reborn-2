@@ -9,9 +9,11 @@ public class Stanza {
 	private HashMap<Posizione,Casella> caselle;
 	private HashMap<String,Stanza> collegamenti;
 	private String nomeUnivoco;
+	private boolean spawnEnabled;
 
 	public Stanza(String nomeUnivoco){
 		this.nomeUnivoco = nomeUnivoco;
+		this.spawnEnabled = false;
 		this.caselle = new HashMap<>();
 		this.collegamenti=new HashMap<>();
 		// collegamenti di default
@@ -43,6 +45,14 @@ public class Stanza {
 
 	public void setNome(String nomeUnivoco) {
 		this.nomeUnivoco = nomeUnivoco;
+	}
+	
+	public boolean isSpawnEnabled() {
+		return spawnEnabled;
+	}
+
+	public void setSpawnEnabled(boolean spawnEnabled) {
+		this.spawnEnabled = spawnEnabled;
 	}
 
 	@Override

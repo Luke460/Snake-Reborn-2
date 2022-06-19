@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import gestoreComandi.GestoreComandi;
 import gestorePunteggi.GestorePunteggi;
+import loaders.CaricatoreMappa;
 import serpenti.EasyBotSnake;
 import serpenti.HardBotSnake;
 import serpenti.InsaneBotSnake;
@@ -16,7 +17,6 @@ import serpenti.PlayerSnake;
 import serpenti.Snake;
 import server.client.Client;
 import supporto.OSdetector;
-import terrenoDiGioco.CaricatoreMappa;
 import terrenoDiGioco.Mappa;
 import terrenoDiGioco.MappaManager;
 import terrenoDiGioco.Stanza;

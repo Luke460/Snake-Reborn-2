@@ -25,13 +25,16 @@ public class MappaManager {
 			ArrayList<Stanza> listaStanzeDisponibili = new ArrayList<Stanza>(setStanzeDisponibili);
 			Collections.shuffle(listaStanzeDisponibili);
 			for(Stanza stanza:listaStanzeDisponibili) {
-				Posizione posizioneCasellaCentrale = new Posizione(DIMENSIONE_STANZA_DEFAULT/2, DIMENSIONE_STANZA_DEFAULT/2);
-				Casella casellaCentrale = stanza.getCaselle().get(posizioneCasellaCentrale);
-				if(!CasellaManager.isMortale(casellaCentrale)) {
-					return stanza;
+				if(!stanza.equals(stanzaDiDefault) && stanza.isSpawnEnabled()) {
+					Posizione posizioneCasellaCentrale = new Posizione(DIMENSIONE_STANZA_DEFAULT/2, DIMENSIONE_STANZA_DEFAULT/2);
+					Casella casellaCentrale = stanza.getCaselle().get(posizioneCasellaCentrale);
+					if(!CasellaManager.isMortale(casellaCentrale)) {
+						return stanza;
+					}
 				}
 			}
 		}
+		System.out.println("out of rooms!");
 		return stanzaDiDefault;
 	}
 

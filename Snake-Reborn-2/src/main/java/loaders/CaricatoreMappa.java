@@ -1,6 +1,5 @@
-package terrenoDiGioco;
+package loaders;
 
-import static supporto.Costanti.CARATTERE_FINE_FILE;
 import static supporto.Costanti.EST;
 import static supporto.Costanti.NORD;
 import static supporto.Costanti.OVEST;
@@ -17,22 +16,18 @@ import java.util.HashSet;
 
 import supporto.FileHandler;
 import supporto.OSdetector;
-import supporto.Utility;
+import terrenoDiGioco.Mappa;
+import terrenoDiGioco.Stanza;
+import terrenoDiGioco.StanzaManager;
 
 public class CaricatoreMappa {
 	
 	final static String PATH_STANZE = "stanze";
 	final static String PATH_MAPS = "mappe";
 	final static String STANZE_FILE_TYPE = ".txt";
-	
-	final static String IGNORE = "IGNORE";
-	final static String PREFIX = "PREFIX";
-	final static String READING_ELEMENT = "ELEMENT";
 
-	public static Mappa caricaFile(String pathMappa, String pathStanze) throws IOException {
-		
-		HashMap<String, Stanza> stanze = new HashMap<>();
-		
+	public static Mappa caricaFile(String pathMappa, String pathStanze) throws IOException {		
+		HashMap<String, Stanza> stanze = new HashMap<>();		
 		ArrayList<String> pathNames = getPathStanze(pathStanze);
 		
 		for(String pathStanza:pathNames) {
@@ -42,58 +37,27 @@ public class CaricatoreMappa {
 		
 		String fileWithExt = Paths.get(pathMappa).getFileName().toString();
 		String nomeMappa = fileWithExt.split("\\.")[0];
-		Mappa mappa = new Mappa(nomeMappa);
-		
+		Mappa mappa = new Mappa(nomeMappa);		
 		String strutturaMappa = FileHandler.readFile(pathMappa);
 		
-		ArrayList<Character> listaCaratteri = new ArrayList<Character>();
-		listaCaratteri.addAll(Utility.stringaToArray(strutturaMappa));
-		
-		String status = IGNORE;
-		String prefix = "";
-		String actualLineContent = "";
-		for(char c:listaCaratteri){
-			if(c!=CARATTERE_FINE_FILE){
-				if(status == PREFIX && c==']') {
-					status = IGNORE;
-				} 
-				else if(status == READING_ELEMENT && c=='>'){
-					//fine riga
-					String[] lineInfo = actualLineContent.split(":");
-					String nomeStanza1 = prefix + lineInfo[0];
-					String collegamento = lineInfo[1];
-					String nomeStanza2 = prefix + lineInfo[2];
-					Stanza stanza1 = stanze.get(nomeStanza1);
-					Stanza stanza2 = stanze.get(nomeStanza2);
-					collegamento = getCollegamento(collegamento);
-					stanza1.getCollegamenti().put(collegamento, stanza2);
-					StanzaManager.coloraPorta(stanza1, collegamento);
-					stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);
-					StanzaManager.coloraPorta(stanza2, getInversaCollegamento(collegamento));
-					status = IGNORE;
-					actualLineContent = "";
-				} 
-				else if(status!=IGNORE){
-					//lettura
-					if(status == READING_ELEMENT){
-						actualLineContent += c;
-					} else if(status == PREFIX){
-						prefix += c;
-					}
-				} 
-				else if(status == IGNORE && c == '[') {
-					//inizio prefisso
-					status = PREFIX;
-				}
-				else if(status == IGNORE && c=='<'){
-					//inizio riga
-					status = READING_ELEMENT;
-				}
-			}
+		InfoMapFileContent content = LoaderSupporter.getInfoMapFileContent(strutturaMappa);
+		String prefix = content.getPrefix();
+		for(String lineContent:content.getInfoLines()) {
+			String[] lineInfo = lineContent.split(":");
+			String nomeStanza1 = prefix + lineInfo[0];
+			String collegamento = lineInfo[1];
+			String nomeStanza2 = prefix + lineInfo[2];
+			Stanza stanza1 = stanze.get(nomeStanza1);
+			Stanza stanza2 = stanze.get(nomeStanza2);
+			collegamento = getCollegamento(collegamento);
+			stanza1.getCollegamenti().put(collegamento, stanza2);
+			StanzaManager.coloraPorta(stanza1, collegamento);
+			stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);
+			StanzaManager.coloraPorta(stanza2, getInversaCollegamento(collegamento));
+					
 		}
 		mappa.setStanze(new HashSet<Stanza>(stanze.values()));
-		return mappa;
-		
+		return mappa;	
 	}
 	
 	private static ArrayList<String> getPathStanze(String pathStanze) {

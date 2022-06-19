@@ -93,13 +93,13 @@ public class PopolatoreSerpenti {
 		if(s.getNome().equals(partita.getNomePlayer1())) GestoreSuoni.playSpawnSound();
 		int vecchiaVita = s.getHpPreMorte();
 		int vitaResurrezione = Utility.massimoTra(VITA_SERPENTE_DEFAULT,(int)(vecchiaVita/2.0));
-		Stanza stanza = s.getUltimaStanza();
-		Stanza stanzaAlternativa = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpentiVivi(), null);
+		Stanza ultimaStanza = s.getUltimaStanza();
+		Stanza stanzaAlternativa = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpentiVivi(), ultimaStanza);
 		if(stanzaAlternativa!=null){
-			stanza = stanzaAlternativa;
+			ultimaStanza = stanzaAlternativa;
 		}
 		partita.getSerpentiVivi().remove(s.getNome());
-		s.resettaSerpente(stanza, vitaResurrezione);
+		s.resettaSerpente(ultimaStanza, vitaResurrezione);
 		partita.getSerpentiVivi().put(s.getNome(),s);
 	}
 	

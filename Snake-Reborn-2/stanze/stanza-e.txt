@@ -1,3 +1,5 @@
+SPAWN_ENABLED=[false]
+
 <WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
 <W                                      W>
 <W                                      W>
