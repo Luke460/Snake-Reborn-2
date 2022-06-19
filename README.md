@@ -7,6 +7,8 @@
 
 * ## [Download game](https://github.com/Luke460/Snake-Reborn-2/releases)
 
+* ## [Go to the donation page <3](https://www.paypal.com/donate?hosted_button_id=WVSY5VX8TA4ZE)
+
 ---
 
 ![alt text](https://github.com/Luke460/Snake-Reborn-2/blob/master/demo.gif)
