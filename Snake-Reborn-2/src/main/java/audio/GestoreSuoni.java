@@ -13,13 +13,12 @@ public class GestoreSuoni {
 	private static SuonoWAV suonoTake;
 	private static SuonoWAV suonoMusic;
 
-	public static void inizzializzaSuoni(){
-		suonoSlain = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"slain.wav");
-		suonoSpawn = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"spawn.wav");
-		suonoExplode = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"explode.wav");
-		suonoTake = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"take.wav");
-		suonoMusic = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"music.wav");
-		// MUSIC.WAV va aggiunta!!!!!!!
+	public static void inizzializzaSuoni(int effectsVolume, int musicSound){
+		suonoSlain = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"slain.wav", effectsVolume);
+		suonoSpawn = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"spawn.wav", effectsVolume);
+		suonoExplode = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"explode.wav", effectsVolume);
+		suonoTake = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"take.wav", effectsVolume);
+		suonoMusic = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"music.wav", musicSound);
 	}
 
 	public static void playMusicaInLoop(){
@@ -59,8 +58,26 @@ public class GestoreSuoni {
 	}
 
 	public static void silenziaMusica() {
-		suonoMusic.fermaClip();
-		
+		suonoMusic.fermaClip();	
+	}
+	
+	public static void setVolumeMusica(int volume) {
+		suonoMusic.setVolume(volume);
+	}
+	
+	public static void getVolumeMusica(int volume) {
+		suonoMusic.getVolume();
+	}
+	
+	public static void setVolumeEffetti(int volume) {
+		suonoSlain.setVolume(volume);
+		suonoSpawn.setVolume(volume);
+		suonoExplode.setVolume(volume);
+		suonoTake.setVolume(volume);
+	}
+	
+	public static void getVolumeEffetti(int volume) {
+		suonoTake.getVolume();
 	}
 
 }

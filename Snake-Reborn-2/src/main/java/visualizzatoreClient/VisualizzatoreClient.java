@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 
 import audio.GestoreSuoni;
@@ -36,12 +36,14 @@ public class VisualizzatoreClient extends JFrame{
 	private boolean premuto;
 
 	JPanel PannelloMessaggioLogin;
+	JPanel PannelloMessaggioImpostazioni;
 	JPanel PannelloInserimentoNome;
 	JPanel PannelloInserimentoPassword;
 	JPanel PannelloInserimenti;
 	JPanel PannelloOpzioni;
 	JPanel PannelloTastiConferma;
 	JLabel messaggioLogin;
+	JLabel messaggioImpostazioni;
 	JLabel messaggioNome;
 	JTextField nomeInserito;
 	JLabel messaggioPassword;
@@ -49,7 +51,9 @@ public class VisualizzatoreClient extends JFrame{
 	JLabel messaggioPopolazione;
 	JTextField passwordInserita;	
 	JCheckBox opzMusica;
+	JSlider volumeMusica;
 	JCheckBox opzEffetti;
+	JSlider volumeEffetti;
 	JCheckBox opzPcVecchio;
 	JComboBox<String> selettoreLivello;
 	JComboBox<String> selettorePopolazione;
@@ -86,7 +90,7 @@ public class VisualizzatoreClient extends JFrame{
 	private void regolaFinestra() {
 		// autoregola dimensione finestra e posizionala al centro
 		this.pack();
-		Dimension d = new Dimension(380,260);
+		Dimension d = new Dimension(420,360);
 		this.setSize(d);
 		this.setMinimumSize(d);
 		this.setResizable(true);
@@ -100,8 +104,9 @@ public class VisualizzatoreClient extends JFrame{
 		accedi.addActionListener(listener);
 	}
 
-	public void leggiImpostazioni() throws IOException {
+	public void leggiImpostazioniDaUI() throws IOException {
 		aggiornaFileImpostazioni();
+		GestoreSuoni.inizzializzaSuoni(volumeEffetti.getValue(), volumeMusica.getValue());
 		GestoreSuoni.setEffettiAbilitati(opzEffetti.isSelected());
 		GestoreSuoni.setMusicaAbilitata(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
@@ -112,7 +117,9 @@ public class VisualizzatoreClient extends JFrame{
 	private void aggiornaFileImpostazioni() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
 		cr.salvaImpostazione(CostantiConfig.EFFETTI, Boolean.toString(opzEffetti.isSelected()));
+		cr.salvaImpostazione(CostantiConfig.VOLUME_EFFETTI, Integer.toString(volumeEffetti.getValue()));
 		cr.salvaImpostazione(CostantiConfig.MUSICA, Boolean.toString(opzMusica.isSelected()));
+		cr.salvaImpostazione(CostantiConfig.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
 		cr.salvaImpostazione(CostantiConfig.USERNAME, nomeInserito.getText());
 		cr.salvaImpostazione(CostantiConfig.OTTIMIZZAZIONE, Boolean.toString(opzPcVecchio.isSelected()));
 	
@@ -127,14 +134,18 @@ public class VisualizzatoreClient extends JFrame{
 	private void preimpostaPannelli() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
 		opzEffetti.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.EFFETTI)));
+		volumeEffetti.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_EFFETTI)));
 		opzMusica.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MUSICA)));
+		volumeMusica.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_MUSICA)));
 		nomeInserito.setText(cr.leggiImpostazione(CostantiConfig.USERNAME));
+			
 		if(OSdetector.isWindows()) {
 			opzPcVecchio.setSelected(true);
 			opzPcVecchio.setEnabled(false);
 		} else {
 			opzPcVecchio.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.OTTIMIZZAZIONE)));
 		}
+		
 		selettoreLivello.setSelectedIndex(2);
 		selettorePopolazione.setSelectedIndex(1);
 	}
@@ -147,23 +158,28 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni = new JPanel();
 		PannelloTastiConferma = new JPanel();
 		PannelloMessaggioLogin =  new JPanel();
+		PannelloMessaggioImpostazioni =  new JPanel();
 		messaggioLogin = new JLabel("Login:");
 		messaggioLogin.setFont(new Font(messaggioLogin.getFont().getFontName(), 2, 18));
+		messaggioImpostazioni = new JLabel("Impostazioni:");
+		messaggioImpostazioni.setFont(new Font(messaggioLogin.getFont().getFontName(), 2, 18));
 		messaggioNome = new JLabel("Username");
-		nomeInserito = new JTextField(16);
+		nomeInserito = new JTextField(20);
 		messaggioPassword = new JLabel("Password");	
-		passwordInserita = new JPasswordField(16);
+		passwordInserita = new JPasswordField(20);
 
 		messaggioLivello=new JLabel(" Livello avversari:");
 		messaggioPopolazione=new JLabel(" Popolazione serpenti:");
-		opzMusica = new JCheckBox("Musica di sottofondo");
 		opzEffetti = new JCheckBox("Effetti sonori");
+		volumeEffetti = new JSlider(0, 100, 50);
+		opzMusica = new JCheckBox("Musica di sottofondo");
+		volumeMusica = new JSlider(0, 100, 50);
 		opzPcVecchio = new JCheckBox("ottimizza CPU lenta");
 		String[] data1 = {"basso", "medio", "alto*"}; 
 		selettoreLivello = new JComboBox(data1);
 		String[] data2 = {"bassa", "alta*"};
 		selettorePopolazione = new JComboBox(data2);
-		messaggioInformativo = new JLabel("*punteggio valido");
+		messaggioInformativo = new JLabel("       *punteggio valido");
 
 		accedi=new JButton("Accedi e gioca");
 		ospite=new JButton("Gioca come ospite");
@@ -174,29 +190,41 @@ public class VisualizzatoreClient extends JFrame{
 	private void sistemaPannelli() {
 
 		PannelloMessaggioLogin.add(messaggioLogin);
+		PannelloMessaggioImpostazioni.add(messaggioImpostazioni);
 
 		PannelloInserimentoNome.add(messaggioNome);
 		PannelloInserimentoNome.add(nomeInserito);
 		PannelloInserimentoPassword.add(messaggioPassword);
 		PannelloInserimentoPassword.add(passwordInserita);
 
-		PannelloInserimenti.setLayout(new GridLayout(3,1));
+		PannelloInserimenti.setLayout(new GridLayout(4,1));
 
 		PannelloInserimenti.add(PannelloMessaggioLogin);
 		PannelloInserimenti.add(PannelloInserimentoNome);
 		PannelloInserimenti.add(PannelloInserimentoPassword);
+		PannelloInserimenti.add(PannelloMessaggioImpostazioni);
 
-		PannelloOpzioni.setLayout(new GridLayout(5,2));
+		PannelloOpzioni.setLayout(new GridLayout(6,2));
+		
 		PannelloOpzioni.add(messaggioLivello);
 		PannelloOpzioni.add(messaggioPopolazione);
+		
 		PannelloOpzioni.add(selettoreLivello);
 		PannelloOpzioni.add(selettorePopolazione);
-		PannelloOpzioni.add(opzEffetti);
+		
 		PannelloOpzioni.add(messaggioInformativo);
-		PannelloOpzioni.add(opzMusica);
 		PannelloOpzioni.add(new Component() {});
+		
+		PannelloOpzioni.add(opzEffetti);
+		PannelloOpzioni.add(volumeEffetti);
+		
+		PannelloOpzioni.add(opzMusica);
+		PannelloOpzioni.add(volumeMusica);
+		
 		PannelloOpzioni.add(opzPcVecchio);
+		
 		PannelloTastiConferma.setLayout(new GridLayout(1, 2));
+		PannelloTastiConferma.setPreferredSize(new Dimension(1,36));
 		PannelloTastiConferma.add(accedi);
 		PannelloTastiConferma.add(ospite);
 	}

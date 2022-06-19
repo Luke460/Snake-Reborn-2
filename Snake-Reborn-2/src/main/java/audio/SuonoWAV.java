@@ -13,10 +13,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SuonoWAV{
 	private Clip clip;
-	/**
-	Carica le melodie in memoria.
-	 */
-	public SuonoWAV(String filePath) {
+	FloatControl gainControl;
+
+	public SuonoWAV(String filePath, int volume) {
 		try {
 			// Usa URL (invece di File) per leggere dal disco.
 			File filePathRelativo = new File(filePath);
@@ -34,6 +33,8 @@ public class SuonoWAV{
 			//clip = AudioSystem.getClip();
 			// Apri l'audio del clip.
 			this.clip.open(audioInputStream);
+			this.gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			this.setVolume(volume);
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -45,9 +46,6 @@ public class SuonoWAV{
 		}
 	}
 
-	/**
-	 * Esegui il suono
-	 */
 	public void playClip() {
 		if (this.clip==null) {
 			//System.out.println("clip is null");
@@ -78,4 +76,17 @@ public class SuonoWAV{
 			//pazienza
 		}
 	}
+	
+	public void setVolume(int newVolumeLevel) {
+	    if (newVolumeLevel < 0 || newVolumeLevel > 100) {
+	        throw new IllegalArgumentException("Volume not valid: " + newVolumeLevel);
+		} else if (this.clip.isOpen()) {
+			gainControl.setValue(20f * (float) Math.log10(newVolumeLevel/100f));
+	    }
+	}
+	
+	public double getVolume() {
+		return (Math.pow(10f, gainControl.getValue() / 20f))*100f;
+	}
+	
 }

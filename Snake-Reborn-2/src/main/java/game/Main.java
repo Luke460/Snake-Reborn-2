@@ -22,7 +22,6 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		try {
-			System.out.println(System.getProperty("file.separator"));
 			System.out.println(new ConfigurationManager().toStringImpostazioni());
 			VisualizzatoreClient client = new VisualizzatoreClient();
 			visualizzatore = new Visualizzatore();
@@ -34,7 +33,7 @@ public class Main {
 					Thread.sleep(250);
 				}
 				try {
-					client.leggiImpostazioni();
+					client.leggiImpostazioniDaUI();
 					visualizzatore.getFinestra().setVisible(true);
 					avviaIlGioco();
 				} catch (AWTException e) {
@@ -54,9 +53,6 @@ public class Main {
 		// SuppressWarnings perchè il compilatore e' stupido
 		GestoreComandi gestoreComandi = new GestoreComandi(partita,visualizzatore);
 		partita.setGestoreComandi(gestoreComandi);
-		//LettoreComandi.initControlliDaTastiera(visualizzatore);
-		GestoreSuoni.inizzializzaSuoni();
-
 		GestoreSuoni.playMusicaInLoop();
 		cominciaIlGioco(partita);
 		GestoreSuoni.silenziaMusica();
