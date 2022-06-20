@@ -36,12 +36,11 @@ public class Visualizzatore extends JPanel {
 		finestra.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		finestra.setBackground(Color.BLACK);
 		this.dimensioneCasella = calcolaDimensioneCasellaMassima();
-		// AGGIUNTE LE DIMENSIONI DEI BORDI DELLE FINESRE
-
+		// AGGIUNGI LE DIMENSIONI DEI BORDI DELLE FINESRE
 		if(OSdetector.isWindows()) {
 			finestra.setSize((int)(15+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (37+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
 		} else {
-			finestra.setSize((int)(6+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (32+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
+			finestra.setSize((int)(0+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (24+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
 		}		
 		finestra.setLocationRelativeTo(null);
 	}
