@@ -13,6 +13,7 @@ import serpenti.InsaneBotSnake;
 import serpenti.MediumBotSnake;
 import serpenti.Snake;
 import supporto.Utility;
+import terrenoDiGioco.Mappa;
 import terrenoDiGioco.MappaManager;
 import terrenoDiGioco.Stanza;
 
@@ -20,10 +21,8 @@ public class PopolatoreSerpenti {
 	Partita partita;
 	
 	public static void creaPopoloIniziale(Partita partita) {
-		int limiteMinimoSerpenti = 0;
+		int limiteMinimoSerpenti = calcolaNumeroMinimoSerpenti(partita.getMappa());
 		int serpentiInseriti = 0;
-		if(partita.getFattorePopolazione()==1) limiteMinimoSerpenti = LIMITE_MINIMO_SERPENTI_BASSO;
-		if(partita.getFattorePopolazione()==2) limiteMinimoSerpenti = LIMITE_MINIMO_SERPENTI_ALTO;
 		
 		ArrayList<String> tipologiaBot = new ArrayList<String>();
 		
@@ -74,6 +73,10 @@ public class PopolatoreSerpenti {
 				}		
 			}
 		}
+	}
+
+	private static int calcolaNumeroMinimoSerpenti(Mappa mappa) {
+		return mappa.getStanze().size()/2;
 	}
 
 	public static void provaAdInserireUnSerpente(Partita partita) {

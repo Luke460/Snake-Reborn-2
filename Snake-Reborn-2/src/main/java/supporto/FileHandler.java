@@ -3,6 +3,8 @@ package supporto;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FileHandler {
 
@@ -26,4 +28,16 @@ public class FileHandler {
         fos.close();
     }
 
+    public static ArrayList<String> getFileList(String folderPath, String fileExtension) {
+    	File f = new File(folderPath);
+    	FilenameFilter filter = new FilenameFilter() {
+	        @Override
+	        public boolean accept(File f, String name) {
+	            return name.endsWith(fileExtension);
+	        }
+	    };
+		ArrayList<String> fileList = new ArrayList<String>(Arrays.asList(f.list(filter)));
+		return fileList;
+    }
+    
 }

@@ -5,12 +5,9 @@ import static supporto.Costanti.NORD;
 import static supporto.Costanti.OVEST;
 import static supporto.Costanti.SUD;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -22,23 +19,25 @@ import terrenoDiGioco.StanzaManager;
 
 public class CaricatoreMappa {
 	
-	final static String PATH_STANZE = "stanze";
+	final static String PATH_ROOMS = "stanze";
 	final static String PATH_MAPS = "mappe";
-	final static String STANZE_FILE_TYPE = ".txt";
+	final static String ROOMS_FILE_TYPE = ".txt";
 
-	public static Mappa caricaFile(String pathMappa, String pathStanze) throws IOException {		
-		HashMap<String, Stanza> stanze = new HashMap<>();		
-		ArrayList<String> pathNames = getPathStanze(pathStanze);
+	public static Mappa caricaFile(String mapFileName) throws IOException {		
+		HashMap<String, Stanza> stanze = new HashMap<>();	
+		String mapPath = PATH_MAPS + OSdetector.getPathSeparator() + mapFileName;
+		String roomFolder = PATH_ROOMS + OSdetector.getPathSeparator() + mapFileName.replaceFirst("[.][^.]+$", "");
+		ArrayList<String> pathNames = FileHandler.getFileList(roomFolder, ROOMS_FILE_TYPE);
 		
 		for(String pathStanza:pathNames) {
-			Stanza stanza = CaricatoreStanza.caricaFile(pathStanze + OSdetector.getPathSeparator() + pathStanza);
+			Stanza stanza = CaricatoreStanza.caricaFile(roomFolder + OSdetector.getPathSeparator() + pathStanza);
 			stanze.put(stanza.getNome(), stanza);
 		}
 		
-		String fileWithExt = Paths.get(pathMappa).getFileName().toString();
+		String fileWithExt = Paths.get(mapPath).getFileName().toString();
 		String nomeMappa = fileWithExt.split("\\.")[0];
 		Mappa mappa = new Mappa(nomeMappa);		
-		String strutturaMappa = FileHandler.readFile(pathMappa);
+		String strutturaMappa = FileHandler.readFile(mapPath);
 		
 		InfoMapFileContent content = LoaderSupporter.getInfoMapFileContent(strutturaMappa);
 		String prefix = content.getPrefix();
@@ -58,18 +57,6 @@ public class CaricatoreMappa {
 		}
 		mappa.setStanze(new HashSet<Stanza>(stanze.values()));
 		return mappa;	
-	}
-	
-	private static ArrayList<String> getPathStanze(String pathStanze) {
-		File f = new File(pathStanze);
-		FilenameFilter filter = new FilenameFilter() {
-		        @Override
-		        public boolean accept(File f, String name) {
-		            return name.endsWith(STANZE_FILE_TYPE);
-		        }
-		    };
-		ArrayList<String> pathNames = new ArrayList<String>(Arrays.asList(f.list(filter)));
-		return pathNames;
 	}
 	
 	private static String getCollegamento(String collegamento) {

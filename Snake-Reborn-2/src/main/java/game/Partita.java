@@ -16,7 +16,6 @@ import serpenti.MediumBotSnake;
 import serpenti.PlayerSnake;
 import serpenti.Snake;
 import server.client.Client;
-import supporto.OSdetector;
 import terrenoDiGioco.Mappa;
 import terrenoDiGioco.MappaManager;
 import terrenoDiGioco.Stanza;
@@ -31,7 +30,6 @@ public class Partita {
 	private int sequenzialeSerpentiBot;
 	private boolean ilGiocatoreHaFattoLaMossa;
 	private int livello;
-	private int fattorePopolazione;
 	private int vecchioRecord;
 	private UserLocal userLocal;
 	private boolean ospite;
@@ -40,20 +38,21 @@ public class Partita {
 	private boolean inGame;
 	private boolean modPcVecchio;
 	private Stanza stanzaDiSpawn;
+	private String mapFileName;
 
 	public Partita() throws IOException {
 		GestorePunteggi.inizializza(this);
 		this.ilGiocatoreHaFattoLaMossa = false;
 		this.serpentiVivi = new HashMap<String, Snake>();
 		this.serpentiMorti = new HashMap<String, Snake>();
-		this.mappa = CaricatoreMappa.caricaFile(PATH_MAPPE + OSdetector.getPathSeparator() + MAP_FILE_NAME, PATH_STANZE);
 		this.sequenzialeSerpentiBot = 0;
 		this.inGame = true;
-		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpentiVivi, null);
 	}
 
-	public void ImpostaPartita() {
+	public void ImpostaPartita() throws IOException {
 		// un solo giocatore
+		this.setMappa(CaricatoreMappa.caricaFile(mapFileName)); 
+		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpentiVivi, null);
 		if(!ospite)this.vecchioRecord = GestorePunteggi.getRecord();
 		this.nomePlayer1 = NOME_PLAYER_1;
 		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
@@ -140,14 +139,6 @@ public class Partita {
 		this.livello = livello;
 	}
 
-	public int getFattorePopolazione() {
-		return fattorePopolazione;
-	}
-
-	public void setFattorePopolazione(int i) {
-		this.fattorePopolazione = i;
-	}
-
 	public int getVecchioRecord() {
 		return vecchioRecord;
 	}
@@ -230,6 +221,14 @@ public class Partita {
 
 	public Stanza getStanzaDiSpawn() {
 		return stanzaDiSpawn;
+	}
+
+	public String getMapFileName() {
+		return mapFileName;
+	}
+
+	public void setMapFileName(String mapFileName) {
+		this.mapFileName = mapFileName;
 	}
 
 }

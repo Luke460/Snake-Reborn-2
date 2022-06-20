@@ -38,7 +38,7 @@ public class GestorePunteggi {
 	 */
 
 	private static boolean punteggioValido() {
-		if(partita.getLivello()==3 && partita.getFattorePopolazione()==2){
+		if(partita.getLivello()==3){
 			return true;
 		} else {
 			return false;
@@ -54,13 +54,7 @@ public class GestorePunteggi {
 		} else if(partita.getLivello()==3) {
 			aiMultiplier = 1;
 		}
-		double populationMultiplier = 0;
-		if(partita.getFattorePopolazione()==1) {
-			populationMultiplier = 0.5;
-		} else if(partita.getFattorePopolazione()==2) {
-			populationMultiplier = 1;
-		}
-		return aiMultiplier*populationMultiplier;
+		return aiMultiplier;
 	}
 
 	public static void inviaPunteggio() {

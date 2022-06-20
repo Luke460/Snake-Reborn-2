@@ -1,4 +1,4 @@
-[stanza-]
+ROOM_PREFIX=[king-]
 
 <1:E:5>
 <1:S:4>

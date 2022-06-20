@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -48,7 +49,7 @@ public class VisualizzatoreClient extends JFrame{
 	JTextField nomeInserito;
 	JLabel messaggioPassword;
 	JLabel messaggioLivello;
-	JLabel messaggioPopolazione;
+	JLabel messaggioMappa;
 	JTextField passwordInserita;	
 	JCheckBox opzMusica;
 	JSlider volumeMusica;
@@ -56,16 +57,18 @@ public class VisualizzatoreClient extends JFrame{
 	JSlider volumeEffetti;
 	JCheckBox opzPcVecchio;
 	JComboBox<String> selettoreLivello;
-	JComboBox<String> selettorePopolazione;
+	JComboBox<String> selettoreMappa;
 	JLabel messaggioInformativo;
 	JButton accedi;
 	JButton ospite;
 	Partita partita;
 	Client client;
+	ArrayList<String> listaFileMappe;
 
 	public VisualizzatoreClient() throws IOException {
 		super("Snake Reborn");
 		client = new Client();
+		listaFileMappe = supporto.FileHandler.getFileList(supporto.Costanti.PATH_MAPPE, supporto.Costanti.FORMATO_FILE_MAPPA);
 		creaPannelli();
 		sistemaPannelli();
 		preimpostaPannelli();
@@ -110,7 +113,7 @@ public class VisualizzatoreClient extends JFrame{
 		GestoreSuoni.setEffettiAbilitati(opzEffetti.isSelected());
 		GestoreSuoni.setMusicaAbilitata(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
-		partita.setFattorePopolazione(selettorePopolazione.getSelectedIndex()+1);
+		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
 		partita.setModPcLento(opzPcVecchio.isSelected());
 	}
 
@@ -147,7 +150,7 @@ public class VisualizzatoreClient extends JFrame{
 		}
 		
 		selettoreLivello.setSelectedIndex(2);
-		selettorePopolazione.setSelectedIndex(1);
+		selettoreMappa.setSelectedIndex(0);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -169,7 +172,7 @@ public class VisualizzatoreClient extends JFrame{
 		passwordInserita = new JPasswordField(20);
 
 		messaggioLivello=new JLabel(" Livello avversari:");
-		messaggioPopolazione=new JLabel(" Popolazione serpenti:");
+		messaggioMappa=new JLabel(" mappa:");
 		opzEffetti = new JCheckBox("Effetti sonori");
 		volumeEffetti = new JSlider(0, 100, 50);
 		opzMusica = new JCheckBox("Musica di sottofondo");
@@ -177,8 +180,8 @@ public class VisualizzatoreClient extends JFrame{
 		opzPcVecchio = new JCheckBox("ottimizza CPU lenta");
 		String[] data1 = {"basso", "medio", "alto*"}; 
 		selettoreLivello = new JComboBox(data1);
-		String[] data2 = {"bassa", "alta*"};
-		selettorePopolazione = new JComboBox(data2);
+
+		selettoreMappa = new JComboBox(listaFileMappe.toArray());
 		messaggioInformativo = new JLabel("       *punteggio valido");
 
 		accedi=new JButton("Accedi e gioca");
@@ -207,10 +210,10 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.setLayout(new GridLayout(6,2));
 		
 		PannelloOpzioni.add(messaggioLivello);
-		PannelloOpzioni.add(messaggioPopolazione);
+		PannelloOpzioni.add(messaggioMappa);
 		
 		PannelloOpzioni.add(selettoreLivello);
-		PannelloOpzioni.add(selettorePopolazione);
+		PannelloOpzioni.add(selettoreMappa);
 		
 		PannelloOpzioni.add(messaggioInformativo);
 		PannelloOpzioni.add(new Component() {});
@@ -291,6 +294,11 @@ public class VisualizzatoreClient extends JFrame{
 				setPremuto(true);
 			}
 		}
+	}
+
+	public String getSelectedMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

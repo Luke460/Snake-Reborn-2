@@ -2,7 +2,7 @@ package supporto;
 
 public interface Costanti {
 
-	final static String MAP_FILE_NAME = "mappa-1.txt";
+	final static String FORMATO_FILE_MAPPA = ".txt";
 	final static String PATH_MAPPE = "mappe";
 	final static String PATH_STANZE = "stanze";
 
@@ -51,8 +51,6 @@ public interface Costanti {
 	static final public int TEMPO_RIPOPOLAMENTO_CIBO = (int) FPS * 5; // 5 sec
 	
 	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = (int) FPS * 3; // max 3 sec
-	static final public int LIMITE_MINIMO_SERPENTI_ALTO = 8;
-	static final public int LIMITE_MINIMO_SERPENTI_BASSO = 4;
 	
 	static final public int CD_FLASH = 12*60; //fps x time
 	

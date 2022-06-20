@@ -32,6 +32,7 @@ public class Main {
 				}
 				try {
 					client.leggiImpostazioniDaUI();
+					partita.ImpostaPartita();
 					visualizzatore.getFinestra().setVisible(true);
 					avviaIlGioco();
 				} catch (AWTException e) {
@@ -45,8 +46,7 @@ public class Main {
 		}
 	}
 
-	public static void avviaIlGioco() throws AWTException, InterruptedException {
-		partita.ImpostaPartita();
+	public static void avviaIlGioco() throws AWTException, InterruptedException, IOException {
 		// lancia un thread che legge i comandi, 
 		// SuppressWarnings perchè il compilatore e' stupido
 		GestoreComandi gestoreComandi = new GestoreComandi(partita,visualizzatore);
