@@ -1,6 +1,7 @@
 package audio;
 
 import supporto.OSdetector;
+import static supporto.Costanti.SOUNDS_PATH;
 
 public class GestoreSuoni {
 
@@ -14,11 +15,11 @@ public class GestoreSuoni {
 	private static SuonoWAV suonoMusic;
 
 	public static void inizzializzaSuoni(int effectsVolume, int musicSound){
-		suonoSlain = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"slain.wav", effectsVolume);
-		suonoSpawn = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"spawn.wav", effectsVolume);
-		suonoExplode = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"explode.wav", effectsVolume);
-		suonoTake = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"take.wav", effectsVolume);
-		suonoMusic = new SuonoWAV("suoni"+OSdetector.getPathSeparator()+"music.wav", musicSound);
+		suonoSlain = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"slain.wav", effectsVolume);
+		suonoSpawn = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"spawn.wav", effectsVolume);
+		suonoExplode = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"explode.wav", effectsVolume);
+		suonoTake = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"take.wav", effectsVolume);
+		suonoMusic = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"music.wav", musicSound);
 	}
 
 	public static void playMusicaInLoop(){

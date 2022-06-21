@@ -6,6 +6,8 @@ public interface Costanti {
 	final static String MAPS_PATH = "maps";
 	final static String ROOMS_FILE_TYPE = ".txt";
 	
+	final static String SOUNDS_PATH = "sounds";
+	
 	static final public int TEMPO_BASE = 83; // 12 fps
 	static final public int FPS = (int)(1000/TEMPO_BASE);
 
