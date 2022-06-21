@@ -1,6 +1,6 @@
 SPAWN_ENABLED=[false]
 
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWP        PWWWWWWWWWWWWWWW>
 <WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
 <WW            WW                      WW>
 <WW            WW                      WW>
@@ -15,7 +15,7 @@ SPAWN_ENABLED=[false]
 <WW        WW  WW                      WW>
 <WW        WW  WW                      WW>
 <WW        WW  WWWWWWWWWWW             WW>
-<WW        WW  WWWWWWWWWWW             WW>
+<PW        WW  WWWWWWWWWWW             WP>
 <          WW           WW               >
 <          WW           WW               >
 <          WWWWWWW  WW  WW               >
@@ -24,7 +24,7 @@ SPAWN_ENABLED=[false]
 <               WW  WW  WWWWWWW          >
 <               WW           WW          >
 <               WW           WW          >
-<WW             WWWWWWWWWWW  WW        WW>
+<PW             WWWWWWWWWWW  WW        WP>
 <WW             WWWWWWWWWWW  WW        WW>
 <WW                      WW  WW        WW>
 <WW                      WW  WW        WW>
@@ -39,5 +39,5 @@ SPAWN_ENABLED=[false]
 <WW                      WW            WW>
 <WW                      WW            WW>
 <WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWP        PWWWWWWWWWWWWWWW>
 $

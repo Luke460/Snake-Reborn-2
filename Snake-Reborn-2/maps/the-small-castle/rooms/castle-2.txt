@@ -1,0 +1,43 @@
+SPAWN_ENABLED=[true]
+
+<---------------------------------------->
+<---------------------------------------->
+<---------------------------------------->
+<---------------------------------------->
+<---------------------------------------->
+<---------------------------------------->
+<---PPPP--------------------------PPPP--->
+<---PWWPWWPPWWPPWWPPWWPPWWPPWWPPWWPWWP--->
+<---PWWPWWPPWWPPWWPPWWPPWWPPWWPPWWPWWP--->
+<---PPPP                          PPPP--->
+<----WW                            WW---->
+<----WW                            WW---->
+<----PP                            PP---->
+<----PP                            PP---->
+<----WW                            WW---->
+<----WW                            WW---->
+<----PP                            PP---->
+<----PP                            PP---->
+<----WW                            WW---->
+<----WW                            WW---->
+<----PP                            PP---->
+<----PP                            PP---->
+<----WW                            WW---->
+<----WW                            WW---->
+<---PPPP                          PPPP--->
+<PWWPWWP                          PWWP--->
+<PWWPWWP                          PWWP--->
+<   PPPP                          PPPP--->
+<                                  WW---->
+<                                  WW---->
+<                                  PP---->
+<                                  PP---->
+<                                  WW---->
+<                                  WW---->
+<                                  PP---->
+<                                  PP---->
+<                                  WW---->
+<            PPPP        PPPP      WW---->
+<PPWWPPWWPPWWPWWP        PWWPWWPPWWPPWWPP>
+<PPWWPPWWPPWWPWWP        PWWPWWPPWWPPWWPP>
+$

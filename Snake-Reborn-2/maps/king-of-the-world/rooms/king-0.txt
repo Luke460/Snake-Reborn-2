@@ -1,6 +1,6 @@
 SPAWN_ENABLED=[true]
 
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWP        PWWWWWWWWWWWWWWW>
 <W                                      W>
 <W                                      W>
 <W  WWW         W        W         WWW  W>
@@ -15,7 +15,7 @@ SPAWN_ENABLED=[true]
 <W                                      W>
 <W                                      W>
 <W             WWW      WWW             W>
-<W  WWWWWWWWW  WWW      WWW  WWWWWWWWW  W>
+<P  WWWWWWWWW  WPW      WPW  WWWWWWWWW  P>
 <              WWW      WWW              >
 <                                        >
 <                                        >
@@ -24,7 +24,7 @@ SPAWN_ENABLED=[true]
 <                                        >
 <                                        >
 <              WWW      WWW              >
-<W  WWWWWWWWW  WWW      WWW  WWWWWWWWW  W>
+<P  WWWWWWWWW  WPW      WPW  WWWWWWWWW  P>
 <W             WWW      WWW             W>
 <W                                      W>
 <W                                      W>
@@ -39,5 +39,5 @@ SPAWN_ENABLED=[true]
 <W   WWW        W        W         WWW  W>
 <W                                      W>
 <W                                      W>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWP        PWWWWWWWWWWWWWWW>
 $

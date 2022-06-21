@@ -15,7 +15,7 @@ SPAWN_ENABLED=[true]
 <W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
 <W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
 <W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
-<W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
+<P W WWWWWWWWWWWW        WWWWWWWWWWWW W P>
 <                                        >
 <                                        >
 <                                        >
@@ -24,7 +24,7 @@ SPAWN_ENABLED=[true]
 <                                        >
 <                                        >
 <                                        >
-<W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
+<P W WWWWWWWWWWWW        WWWWWWWWWWWW W P>
 <W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
 <W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
 <W W WWWWWWWWWWWW        WWWWWWWWWWWW W W>
@@ -39,5 +39,5 @@ SPAWN_ENABLED=[true]
 <W W                                  W W>
 <W WWWWWWWWWWWWWW        WWWWWWWWWWWWWW W>
 <W                                      W>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWP        PWWWWWWWWWWWWWWW>
 $

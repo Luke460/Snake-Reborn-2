@@ -1,21 +1,21 @@
 SPAWN_ENABLED=[true]
 
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WW                                    WW>
-<WW                                    WW>
-<WW                                    WW>
-<WW                                    WW>
-<WW    WWWWWWWWWWWWWWWWWWWWWWWWWWWW    WW>
-<WW    WWWWWWWWWWWWWWWWWWWWWWWWWWWW    WW>
-<WW                                    WW>
-<WW                                    WW>
-<WW                                    WW>
+<WWWWWWWWWWWWWWWP        PWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
+<WW                                    WW>
+<WW      WWWWWWWW        WWWWWWWW      WW>
+<PW      WWWWWWWW        WWWWWWWW      WP>
 <                                        >
 <                                        >
 <                                        >
@@ -24,8 +24,8 @@ SPAWN_ENABLED=[true]
 <                                        >
 <                                        >
 <                                        >
-<WW                                    WW>
-<WW                                    WW>
+<PW      WWWWWWWW        WWWWWWWW      WP>
+<WW      WWWWWWWW        WWWWWWWW      WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
@@ -39,5 +39,5 @@ SPAWN_ENABLED=[true]
 <WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
 <WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
 <WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWP        PWWWWWWWWWWWWWWW>
 $

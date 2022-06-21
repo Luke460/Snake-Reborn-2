@@ -1,21 +1,21 @@
 SPAWN_ENABLED=[true]
 
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
+<WWWWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
+<WW          PPPP        PPPP          WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
-<WW      WWWWWWWW        WWWWWWWW      WW>
-<WW      WWWWWWWW        WWWWWWWW      WW>
+<WW                                    WW>
+<WW                                    WW>
+<WW                                    WW>
+<PPP                                  PPP>
+<WWP                                  PWW>
+<WWP                                  PWW>
+<PPP                                  PPP>
 <                                        >
 <                                        >
 <                                        >
@@ -24,20 +24,20 @@ SPAWN_ENABLED=[true]
 <                                        >
 <                                        >
 <                                        >
-<WW      WWWWWWWW        WWWWWWWW      WW>
-<WW      WWWWWWWW        WWWWWWWW      WW>
+<PPP                                  PPP>
+<WWP                                  PWW>
+<WWP                                  PWW>
+<PPP                                  PPP>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWW        WWWWWWWWWWWWWWWW>
+<WW                                    WW>
+<WW                                    WW>
+<WW                                    WW>
+<WW          PPPP        PPPP          WW>
+<WWWWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
+<WWWWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
 $

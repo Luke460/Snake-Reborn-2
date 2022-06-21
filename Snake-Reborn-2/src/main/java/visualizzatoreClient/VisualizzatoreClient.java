@@ -68,7 +68,7 @@ public class VisualizzatoreClient extends JFrame{
 	public VisualizzatoreClient() throws IOException {
 		super("Snake Reborn");
 		client = new Client();
-		listaFileMappe = supporto.FileHandler.getFileList(supporto.Costanti.PATH_MAPPE, supporto.Costanti.FORMATO_FILE_MAPPA);
+		listaFileMappe = supporto.FileHandler.getFolderList(supporto.Costanti.MAPS_PATH);
 		creaPannelli();
 		sistemaPannelli();
 		preimpostaPannelli();
@@ -119,6 +119,7 @@ public class VisualizzatoreClient extends JFrame{
 
 	private void aggiornaFileImpostazioni() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
+		cr.salvaImpostazione(CostantiConfig.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
 		cr.salvaImpostazione(CostantiConfig.EFFETTI, Boolean.toString(opzEffetti.isSelected()));
 		cr.salvaImpostazione(CostantiConfig.VOLUME_EFFETTI, Integer.toString(volumeEffetti.getValue()));
 		cr.salvaImpostazione(CostantiConfig.MUSICA, Boolean.toString(opzMusica.isSelected()));
@@ -136,6 +137,7 @@ public class VisualizzatoreClient extends JFrame{
 
 	private void preimpostaPannelli() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
+		selettoreMappa.setSelectedItem(cr.leggiImpostazione(CostantiConfig.NOME_MAPPA));
 		opzEffetti.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.EFFETTI)));
 		volumeEffetti.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_EFFETTI)));
 		opzMusica.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MUSICA)));
@@ -150,7 +152,6 @@ public class VisualizzatoreClient extends JFrame{
 		}
 		
 		selettoreLivello.setSelectedIndex(2);
-		selettoreMappa.setSelectedIndex(0);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

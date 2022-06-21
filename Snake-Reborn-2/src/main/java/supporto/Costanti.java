@@ -2,10 +2,10 @@ package supporto;
 
 public interface Costanti {
 
-	final static String FORMATO_FILE_MAPPA = ".txt";
-	final static String PATH_MAPPE = "mappe";
-	final static String PATH_STANZE = "stanze";
-
+	final static String ROOMS_FOLDER_NAME = "rooms";
+	final static String MAPS_PATH = "maps";
+	final static String ROOMS_FILE_TYPE = ".txt";
+	
 	static final public int TEMPO_BASE = 83; // 12 fps
 	static final public int FPS = (int)(1000/TEMPO_BASE);
 

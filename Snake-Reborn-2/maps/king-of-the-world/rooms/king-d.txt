@@ -15,7 +15,7 @@ SPAWN_ENABLED=[true]
 <WWWW                                WWWW>
 <WWWW                                WWWW>
 <WWWW                                WWWW>
-<WWWW                                WWWW>
+<PWWW                                WWWW>
 <                                    WWWW>
 <                                    WWWW>
 <                                    WWWW>
@@ -24,7 +24,7 @@ SPAWN_ENABLED=[true]
 <                                    WWWW>
 <                                    WWWW>
 <                                    WWWW>
-<WWWW                                WWWW>
+<PWWW                                WWWW>
 <WWWW                                WWWW>
 <WWWW                                WWWW>
 <WWWW                                WWWW>

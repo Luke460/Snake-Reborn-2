@@ -1,21 +1,21 @@
 SPAWN_ENABLED=[true]
 
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WW                                      >
-<WW                                      >
-<WW                                      >
-<WW                                    WW>
-<WW                                    WP>
-<WW                                    WW>
-<WW                                      >
-<WW                                      >
-<WW                                      >
-<WW                                      >
+<WWPWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
+<WWPWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
+<PPP         PPPP        PPPP            >
 <WW                                      >
 <WW                                      >
 <WW                                    WW>
 <WW                                    WP>
+<WW                                    WW>
+<WW                                      >
+<WW                                      >
+<WW                                      >
+<WW                                      >
+<PPP                                     >
+<WWP                                     >
+<WWP                                   WW>
+<PPP                                   WP>
 <                                      WW>
 <                                        >
 <                                        >
@@ -24,20 +24,20 @@ SPAWN_ENABLED=[true]
 <                                        >
 <                                        >
 <                                      WW>
+<PPP                                   WP>
+<WWP                                   WW>
+<WWP                                     >
+<PPP                                     >
+<WW                                      >
+<WW                                      >
+<WW                                      >
+<WW                                      >
+<WW                                    WW>
 <WW                                    WP>
 <WW                                    WW>
 <WW                                      >
 <WW                                      >
-<WW                                      >
-<WW                                      >
-<WW                                      >
-<WW                                      >
-<WW                                    WW>
-<WW                                    WP>
-<WW                                    WW>
-<WW                                      >
-<WW                                      >
-<WW                                      >
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<PPP                                     >
+<WWPWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<WWPWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
 $

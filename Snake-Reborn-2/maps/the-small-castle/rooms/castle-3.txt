@@ -1,7 +1,8 @@
-SPAWN_ENABLED=[false]
+SPAWN_ENABLED=[true]
 
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
+<WWWWWWWWWWWWPWWP        PWWPWWWWWWWWWWWW>
+<WW          PPPP        PPPP          WW>
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
@@ -14,29 +15,28 @@ SPAWN_ENABLED=[false]
 <WW                                    WW>
 <WW                                    WW>
 <WW                                    WW>
-<WWWWWWWWWWWWWWWWWWWWW                 WW>
-<WWWWWWWWWWWWWWWWWWWWW                 WW>
-<                   WW                   >
-<                   WW                   >
-<                   WW                   >
-<                   WW                   >
-<                   WW                   >
-<                   WW                   >
-<                   WW                   >
-<                   WW                   >
-<WW                 WWWWWWWWWWWWWWWWWWWWW>
-<WW                 WWWWWWWWWWWWWWWWWWWWW>
 <WW                                    WW>
 <WW                                    WW>
+<WWWWWWWWWWWWWWWWP      PWWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWWP      PWWWWWWWWWWWWWWWW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
+<WWWWWWWWWWP                  PWWWWWWWWWW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
+<WW        P                  P        WW>
 <WW                                    WW>
 <WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
 <WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>

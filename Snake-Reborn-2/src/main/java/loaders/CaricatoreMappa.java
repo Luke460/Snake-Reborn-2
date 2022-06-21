@@ -1,9 +1,6 @@
 package loaders;
 
-import static supporto.Costanti.EST;
-import static supporto.Costanti.NORD;
-import static supporto.Costanti.OVEST;
-import static supporto.Costanti.SUD;
+import static supporto.Costanti.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -15,18 +12,14 @@ import supporto.FileHandler;
 import supporto.OSdetector;
 import terrenoDiGioco.Mappa;
 import terrenoDiGioco.Stanza;
-import terrenoDiGioco.StanzaManager;
 
 public class CaricatoreMappa {
-	
-	final static String PATH_ROOMS = "stanze";
-	final static String PATH_MAPS = "mappe";
-	final static String ROOMS_FILE_TYPE = ".txt";
 
-	public static Mappa caricaFile(String mapFileName) throws IOException {		
+	public static Mappa caricaFile(String selectedMapFolder) throws IOException {		
 		HashMap<String, Stanza> stanze = new HashMap<>();	
-		String mapPath = PATH_MAPS + OSdetector.getPathSeparator() + mapFileName;
-		String roomFolder = PATH_ROOMS + OSdetector.getPathSeparator() + mapFileName.replaceFirst("[.][^.]+$", "");
+		String mapFileName = selectedMapFolder + ROOMS_FILE_TYPE;
+		String mapPath = MAPS_PATH + OSdetector.getPathSeparator() + selectedMapFolder + OSdetector.getPathSeparator() + mapFileName;
+		String roomFolder = MAPS_PATH + OSdetector.getPathSeparator() + selectedMapFolder + OSdetector.getPathSeparator() + ROOMS_FOLDER_NAME;
 		ArrayList<String> pathNames = FileHandler.getFileList(roomFolder, ROOMS_FILE_TYPE);
 		
 		for(String pathStanza:pathNames) {
@@ -50,10 +43,7 @@ public class CaricatoreMappa {
 			Stanza stanza2 = stanze.get(nomeStanza2);
 			collegamento = getCollegamento(collegamento);
 			stanza1.getCollegamenti().put(collegamento, stanza2);
-			StanzaManager.coloraPorta(stanza1, collegamento);
-			stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);
-			StanzaManager.coloraPorta(stanza2, getInversaCollegamento(collegamento));
-					
+			stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);		
 		}
 		mappa.setStanze(new HashSet<Stanza>(stanze.values()));
 		return mappa;	
