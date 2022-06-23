@@ -1,4 +1,11 @@
-SPAWN_ENABLED=[true]
+[SOLID_CELL:W,P,-]
+[FREE_CELL_FLOOR: ]
+[CELL_RENDER(W):F,50,50,50]
+[CELL_RENDER(P):R,100,100,100]
+[CELL_RENDER(-):F,0,0,0]
+[CELL_RENDER( ):F,0,0,0]
+
+[SPAWN_ENABLED:true]
 
 <---------------------------------------->
 <---------------------------------------->

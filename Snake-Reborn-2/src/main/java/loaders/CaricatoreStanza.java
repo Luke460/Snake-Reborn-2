@@ -9,16 +9,17 @@ import supporto.Posizione;
 import supporto.Utility;
 import terrenoDiGioco.Casella;
 import terrenoDiGioco.Stanza;
+import static supporto.CostantiConfig.SPAWN_ENABLED;
 
 public class CaricatoreStanza {
 	
 	public static Stanza caricaFile(String nomeFile) throws IOException {
-		String testoMappa = FileHandler.readFile(nomeFile);
+		String testoStanza = FileHandler.readFile(nomeFile);
 		String fileWithExt = Paths.get(nomeFile).getFileName().toString();
 		String nomeStanza = fileWithExt.split("\\.")[0];
 		Stanza stanza = new Stanza(nomeStanza);
-		InfoMapFileContent content = LoaderSupporter.getInfoMapFileContent(testoMappa);
-		String prefix = content.getPrefix();
+		InfoMapFileContent content = LoaderSupporter.getInfoMapFileContent(testoStanza, nomeFile);
+		String prefix = content.getPrefixMap().get(SPAWN_ENABLED).get(0);
 		if(prefix!=null) {
 			stanza.setSpawnEnabled(prefix.equalsIgnoreCase("true") || prefix.equalsIgnoreCase("1"));
 		}

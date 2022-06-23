@@ -1,6 +1,7 @@
 package loaders;
 
 import static supporto.Costanti.*;
+import static supporto.CostantiConfig.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -32,8 +33,8 @@ public class CaricatoreMappa {
 		Mappa mappa = new Mappa(nomeMappa);		
 		String strutturaMappa = FileHandler.readFile(mapPath);
 		
-		InfoMapFileContent content = LoaderSupporter.getInfoMapFileContent(strutturaMappa);
-		String prefix = content.getPrefix();
+		InfoMapFileContent content = LoaderSupporter.getInfoMapFileContent(strutturaMappa, mapPath);
+		String prefix = content.getPrefixMap().get(ROOM_PREFIX).get(0);
 		for(String lineContent:content.getInfoLines()) {
 			String[] lineInfo = lineContent.split(":");
 			String nomeStanza1 = prefix + lineInfo[0];
