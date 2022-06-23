@@ -57,7 +57,6 @@ public class Main {
 	}
 
 	private static void cominciaIlGioco(Partita partita) throws AWTException, InterruptedException {
-		PopolatoreSerpenti.creaPopoloIniziale(partita);
 		PopolatoreCibo.aggiungiCiboNellaMappa(partita.getMappa());
 		visualizzatore.repaint();
 		Thread.sleep(1000);
@@ -83,7 +82,7 @@ public class Main {
 			}
 
 			if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT)==0)){
-				PopolatoreSerpenti.provaAdInserireUnSerpente(partita);
+				PopolatoreSerpenti.provaAResuscitareUnSerpenteBot(partita);
 			}
 
 			partita.eseguiTurni();

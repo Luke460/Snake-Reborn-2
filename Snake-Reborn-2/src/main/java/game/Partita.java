@@ -9,10 +9,7 @@ import java.util.Iterator;
 import gestoreComandi.GestoreComandi;
 import gestorePunteggi.GestorePunteggi;
 import loaders.CaricatoreMappa;
-import serpenti.EasyBotSnake;
-import serpenti.HardBotSnake;
-import serpenti.InsaneBotSnake;
-import serpenti.MediumBotSnake;
+import popolatori.PopolatoreSerpenti;
 import serpenti.PlayerSnake;
 import serpenti.Snake;
 import server.client.Client;
@@ -22,12 +19,10 @@ import terrenoDiGioco.Stanza;
 
 public class Partita {
 
-	private HashMap<String, Snake> serpentiVivi;
-	private HashMap<String, Snake> serpentiMorti;
+	private HashMap<String, Snake> serpenti;
 	private Snake serpentePlayer1;
 	private String nomePlayer1;
 	private Mappa mappa;
-	private int sequenzialeSerpentiBot;
 	private boolean ilGiocatoreHaFattoLaMossa;
 	private int livello;
 	private int vecchioRecord;
@@ -43,66 +38,44 @@ public class Partita {
 	public Partita() throws IOException {
 		GestorePunteggi.inizializza(this);
 		this.ilGiocatoreHaFattoLaMossa = false;
-		this.serpentiVivi = new HashMap<String, Snake>();
-		this.serpentiMorti = new HashMap<String, Snake>();
-		this.sequenzialeSerpentiBot = 0;
+		this.serpenti = new HashMap<String, Snake>();
 		this.inGame = true;
 	}
 
 	public void ImpostaPartita() throws IOException {
-		// un solo giocatore
 		this.setMappa(CaricatoreMappa.caricaFile(mapFileName)); 
-		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpentiVivi, null);
+		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpenti, null);
 		if(!ospite)this.vecchioRecord = GestorePunteggi.getRecord();
 		this.nomePlayer1 = NOME_PLAYER_1;
 		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
 		//Just for test
 		//Skill skill = new Skill(100,100,100,100);
 		//this.serpentePlayer1 = new CustomBotSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this, skill);
-		this.serpentiVivi.put(this.nomePlayer1, this.serpentePlayer1);
-	}
-
-	public boolean inserisciBot(String classe){
-		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpentiVivi, null);
-		if(stanza!=null){
-			Snake bot = null;
-			if(classe.equals(EasyBotSnake.class.getSimpleName())){
-				bot = new EasyBotSnake("bot"+sequenzialeSerpentiBot, stanza,VITA_SERPENTE_DEFAULT,this);
-			} else if(classe.equals(MediumBotSnake.class.getSimpleName())){
-				bot = new MediumBotSnake("bot"+sequenzialeSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
-			} else if(classe.equals(HardBotSnake.class.getSimpleName())){
-				bot = new HardBotSnake("bot"+sequenzialeSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
-			} else if(classe.equals(InsaneBotSnake.class.getSimpleName())){
-				bot = new InsaneBotSnake("bot"+sequenzialeSerpentiBot, stanza, VITA_SERPENTE_DEFAULT,this);
-			}
-			this.serpentiVivi.put("bot"+sequenzialeSerpentiBot, bot);
-			sequenzialeSerpentiBot++;
-			return true;
+		this.serpenti.put(this.nomePlayer1, this.serpentePlayer1);
+		this.serpenti.putAll(PopolatoreSerpenti.creaSerpentiBot(this));
+		for(Snake snake:this.serpenti.values()) {
+			snake.setVivo(true);
 		}
-		return false;
 	}
 
 	public void eseguiTurni() {
 		this.gestoreComandi.eseguiComando();
-		Iterator<Snake> iteratore = this.getSerpentiVivi().values().iterator();
+		Iterator<Snake> iteratore = this.getSerpenti().values().iterator();
 		while(iteratore.hasNext()){
 			Snake s = iteratore.next();
 			if(s.isVivo()){
 				s.scegliNuovaDirezione();
 				s.sposta();
-			} else {
-				this.getSerpentiMorti().put(s.getNome(),s);
-				iteratore.remove();
 			}
 		}
 	}
 
-	public HashMap<String, Snake> getSerpentiVivi() {
-		return serpentiVivi;
+	public HashMap<String, Snake> getSerpenti() {
+		return serpenti;
 	}
 
 	public void setSerpenti(HashMap<String, Snake> serpenti) {
-		this.serpentiVivi = serpenti;
+		this.serpenti = serpenti;
 	}
 
 	public void gameOver() {
@@ -124,11 +97,13 @@ public class Partita {
 	}
 	
 	public int getNumeroAvversari(){
-		if(this.serpentePlayer1.isVivo()) {
-			return this.serpentiVivi.size() -1;
-		} else {
-			return this.serpentiVivi.size();
+		int count = 0;
+		for(Snake snake: this.serpenti.values()) {
+			if(snake.isVivo() && !snake.equals(this.getSerpentePlayer1())) {
+				count++;
+			}
 		}
+		return count;
 	}
 
 	public int getLivello() {
@@ -197,14 +172,6 @@ public class Partita {
 	
 	public boolean isModPcLento() {
 		return this.modPcVecchio;
-	}
-	
-	public HashMap<String, Snake> getSerpentiMorti() {
-		return serpentiMorti;
-	}
-	
-	public void setSerpentiMorti(HashMap<String, Snake> serpentiMorti) {
-		this.serpentiMorti = serpentiMorti;
 	}
 	
 	public String getNomePlayer1() {

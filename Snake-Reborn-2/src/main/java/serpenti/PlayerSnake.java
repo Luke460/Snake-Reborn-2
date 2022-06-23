@@ -35,9 +35,7 @@ public class PlayerSnake extends Snake {
 	public void muori(){
 		GestoreSuoni.playExplodeSound();
 		GestorePunteggi.inviaPunteggio();
-		super.setHpPreMorte(this.getCasellaDiTesta().getVita());
-		super.rilasciaCiboEliberaCaselle();
-		super.getCaselle().clear();
+		super.muori();
 	}
 
 }

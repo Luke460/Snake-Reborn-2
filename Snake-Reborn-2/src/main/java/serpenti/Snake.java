@@ -36,6 +36,7 @@ public abstract class Snake {
 	private char statoCaselleDefault;
 	private Stanza ultimaStanza;
 	private Casella casellaDiTesta;
+	private boolean vivo;
 	
 	public char getStatoCaselleDefault() {
 		return statoCaselleDefault;
@@ -49,6 +50,7 @@ public abstract class Snake {
 	}
 
 	public Snake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
+		this.vivo = false;
 		this.partita = partita;
 		this.nome=nome;
 		this.resettaSerpente(stanza, vitaIniziale);
@@ -155,6 +157,7 @@ public abstract class Snake {
 	}
 	
 	public void muori(){
+		this.setVivo(false);
 		hpPreMorte = this.getCasellaDiTesta().getVita();
 		controllaUccisione();
 		rilasciaCiboEliberaCaselle();
@@ -211,13 +214,7 @@ public abstract class Snake {
 	public void setDirezione(Direction direzione) {
 		this.direzione = direzione;
 	}
-
-	public boolean isVivo() {
-		Casella testa = this.getCasellaDiTesta();
-		if(testa==null || testa.getVita()<=0) return false;
-		return true;
-	}
-
+	
 	public int getCiboPreso() {
 		return this.ciboPreso;
 	}
@@ -281,6 +278,7 @@ public abstract class Snake {
 	}
 	
 	public void resettaSerpente(Stanza stanza, int vitaResurrezione) {
+		this.vivo = true;
 		this.hpPreMorte = 0;
 		this.ciboPreso=0;
 		this.numeroUccisioni=0;
@@ -322,6 +320,14 @@ public abstract class Snake {
 			}
 		}
 		
+	}
+	
+	public boolean isVivo() {
+		return vivo;
+	}
+
+	public void setVivo(boolean vivo) {
+		this.vivo = vivo;
 	}
 
 	@Override

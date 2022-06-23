@@ -1,18 +1,18 @@
-SPAWN_ENABLED=[true]
+SPAWN_ENABLED=[false]
 
-<WWWP---------------------------------PWW>
-<WWWP---------------------------------PWW>
-<WWWP---------------------------------PPP>
-<PPPP----------------------------------WW>
+<PPPPP--------------------------------PWW>
+<WWWWP--------------------------------PWW>
+<WWWWP--------------------------------PPP>
+<WWWWP---------------------------------WW>
+<WWWWP---------------------------------WW>
+<PPPPP---------------------------------WW>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
-<WWW-----------------------------------WW>
-<WWW-----------------------------------WW>
-<PPPP--------------------------------- WW>
-<WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPP>
+<PPPP---------------------------------PPP>
+<WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPWW>
 <WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPWW>
 <WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPWW>
 <PPPP                                 PPP>
@@ -27,17 +27,17 @@ SPAWN_ENABLED=[true]
 <PPPP                                 PPP>
 <WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPWW>
 <WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPWW>
-<WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPP>
-<PPPP----------------------------------WW>
+<WWWPWWWPPPWWWPPPWWWPPPWWWPPPWWWPPPWWWPWW>
+<PPPP---------------------------------PPP>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
 <WWW-----------------------------------WW>
-<WWW-----------------------------------WW>
-<WWW-----------------------------------WW>
-<PPPP----------------------------------WW>
-<WWWP---------------------------------PPP>
-<WWWP---------------------------------PWW>
-<WWWP---------------------------------PWW>
+<PPPPP---------------------------------WW>
+<WWWWP---------------------------------WW>
+<WWWWP---------------------------------WW>
+<WWWWP--------------------------------PPP>
+<WWWWP--------------------------------PWW>
+<PPPPP--------------------------------PWW>
 $

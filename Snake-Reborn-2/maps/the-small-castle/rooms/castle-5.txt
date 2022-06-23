@@ -1,43 +1,43 @@
 SPAWN_ENABLED=[true]
 
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWPPPPPPWWWWWWWWWWWWWWWWWWWWWWPPPPPPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPPPPPP                      PPPPPPWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                PPPP>
-<WWWW                                    >
-<WWWW                                    >
-<WWWW                                    >
-<WWWW                                    >
-<WWWW                                    >
-<WWWW                                    >
-<WWWW                                    >
-<WWWW                                    >
-<WWWW                                PPPP>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWW                                WWWW>
-<WWWPPPPPP                      PPPPPPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPWWWWP                      PWWWWPWWW>
-<WWWPPPPPPWWWWWWWWWWWWWWWWWWWWWWPPPPPPWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
-<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<-----------------------------------PPPPP>
+<-PPPP--PPPP----------PPPP----------PWWWW>
+<-PWWPPPPWWPWWWWWWWWWWPWWPWWWWWWWWWWPWWWW>
+<-PWWPWWPWWPWWWWWWWWWWPWWPWWWWWWWWWWPWWWW>
+<-PPPPWWPPPP          PPPP          PWWWW>
+<--PWWWWWWP                         PPPPP>
+<--PWWWWWWP                           WWW>
+<-PPPPWWPPPP                          WWW>
+<-PWWPWWPWWP                          WWW>
+<-PWWPPPPWWP                          WWW>
+<-PPPP  PPPP                          WWW>
+<--WW                                PPPP>
+<--WW                                PWWW>
+<--WW                                PWWW>
+<--WW                                PWWW>
+<--WW                                PPPP>
+<--WW                                    >
+<--WW                                    >
+<-PPPP                                   >
+<-PWWP                                   >
+<-PWWP                                   >
+<-PPPP                                   >
+<--WW                                    >
+<--WW                                    >
+<--WW                                PPPP>
+<--WW                                PWWW>
+<--WW                                PWWW>
+<--WW                                PWWW>
+<--WW                                PPPP>
+<-PPPP  PPPP                          WWW>
+<-PWWPPPPWWP                          WWW>
+<-PWWPWWPWWP                          WWW>
+<-PPPPWWPPPP                          WWW>
+<--PWWWWWWP                           WWW>
+<--PWWWWWWP                         PPPPP>
+<-PPPPWWPPPP          PPPP          PWWWW>
+<-PWWPWWPWWPWWWWWWWWWWPWWPWWWWWWWWWWPWWWW>
+<-PWWPPPPWWPWWWWWWWWWWPWWPWWWWWWWWWWPWWWW>
+<-PPPP--PPPP----------PPPP----------PWWWW>
+<-----------------------------------PPPPP>
 $
