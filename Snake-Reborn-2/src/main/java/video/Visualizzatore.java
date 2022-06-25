@@ -92,12 +92,12 @@ public class Visualizzatore extends JPanel {
 		CellRenderOption cellRenderOption = GraphicManager.getCellRenderOption(casella);
 		g.setColor(cellRenderOption.getColor());
 		int gx = posX*dimensioneCasella, gy = posY*dimensioneCasella;
-		if(cellRenderOption.isRelief()){
-			disegnaCasellaInRilievo(g, dimensioneCasella, gx, gy);
-		} else if(cellRenderOption.isHead()){
-			disegnaCasellaTesta(g, dimensioneCasella, gx, gy);
-		} else {
+		if(cellRenderOption.isFlat()) {
 			disegnaCasellaNormale(g, dimensioneCasella, gx, gy);
+		} else if (cellRenderOption.isRelief()){
+			disegnaCasellaInRilievo(g, dimensioneCasella, gx, gy);
+		} else if (cellRenderOption.isHead()) {
+			disegnaCasellaTesta(g, dimensioneCasella, gx, gy);
 		}
 	}
 
