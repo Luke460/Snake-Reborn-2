@@ -1,7 +1,7 @@
 package loaders;
 
-import static supporto.Costanti.*;
-import static supporto.CostantiConfig.*;
+import static support.Costanti.*;
+import static support.CostantiConfig.*;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import supporto.FileHandler;
-import supporto.OSdetector;
-import terrenoDiGioco.CellRenderOption;
-import terrenoDiGioco.Mappa;
-import terrenoDiGioco.Stanza;
+import gamefield.CellRenderOption;
+import gamefield.Mappa;
+import gamefield.Stanza;
+import support.FileHandler;
+import support.OSdetector;
 
 public class CaricatoreMappa {
 	

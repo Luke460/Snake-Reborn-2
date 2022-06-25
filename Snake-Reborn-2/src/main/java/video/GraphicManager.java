@@ -1,16 +1,15 @@
 package video;
 
-import terrenoDiGioco.Casella;
-import terrenoDiGioco.CellRenderOption;
-import terrenoDiGioco.Stanza;
-
-import static supporto.CostantiConfig.FLAT_CELL;
-import static supporto.CostantiConfig.HEAD_CELL;
-import static supporto.CostantiConfig.RELIEF_CELL;
+import static support.Costanti.QTY_SPECIAL_FOOD;
+import static support.CostantiConfig.FLAT_CELL;
+import static support.CostantiConfig.HEAD_CELL;
+import static support.CostantiConfig.RELIEF_CELL;
 
 import java.awt.Color;
 
-import static supporto.Costanti.QTY_SPECIAL_FOOD;
+import gamefield.Casella;
+import gamefield.CellRenderOption;
+import gamefield.Stanza;
 
 public class GraphicManager {
 	

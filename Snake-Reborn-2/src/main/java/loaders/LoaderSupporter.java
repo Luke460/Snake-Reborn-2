@@ -1,11 +1,12 @@
 package loaders;
 
-import static supporto.Costanti.CARATTERE_FINE_FILE;
+import static support.Costanti.CARATTERE_FINE_FILE;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import supporto.Utility;
+import support.Utility;
 
 public class LoaderSupporter {
 	

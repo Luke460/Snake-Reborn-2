@@ -1,7 +1,8 @@
 package audio;
 
-import supporto.OSdetector;
-import static supporto.Costanti.SOUNDS_PATH;
+import static support.Costanti.SOUNDS_PATH;
+
+import support.OSdetector;
 
 public class GestoreSuoni {
 

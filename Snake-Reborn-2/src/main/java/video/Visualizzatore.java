@@ -2,7 +2,7 @@ package video;
 
 import static java.awt.event.KeyEvent.VK_SHIFT;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import static supporto.Costanti.*;
+import static support.Costanti.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,12 +13,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import game.Partita;
-import serpenti.Snake;
-import supporto.OSdetector;
-import supporto.Utility;
-import terrenoDiGioco.Casella;
-import terrenoDiGioco.CellRenderOption;
-import terrenoDiGioco.Stanza;
+import gamefield.Casella;
+import gamefield.CellRenderOption;
+import gamefield.Stanza;
+import snake.Snake;
+import support.OSdetector;
+import support.Utility;
 
 public class Visualizzatore extends JPanel {
 

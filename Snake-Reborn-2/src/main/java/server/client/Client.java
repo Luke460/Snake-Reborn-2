@@ -1,8 +1,8 @@
 package server.client;
 
-import static supporto.Costanti.FILE_NOME_SERVER;
-import static supporto.Costanti.FILE_PORTA;
-import static supporto.Costanti.NOME_FILE_INDIRIZZO_SERVER;
+import static support.Costanti.FILE_NOME_SERVER;
+import static support.Costanti.FILE_PORTA;
+import static support.Costanti.NOME_FILE_INDIRIZZO_SERVER;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ import game.Partita;
 import server.model.Credentials;
 import server.model.Match;
 import server.model.User;
-import supporto.FileHandler;
+import support.FileHandler;
 
 public class Client {
 

@@ -1,6 +1,6 @@
 package game;
 
-import static supporto.Costanti.*;
+import static support.Costanti.*;
 
 import java.awt.AWTException;
 import java.io.IOException;
@@ -8,11 +8,11 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import audio.GestoreSuoni;
-import gestoreComandi.GestoreComandi;
-import popolatori.PopolatoreCibo;
-import popolatori.PopolatoreSerpenti;
+import client.VisualizzatoreClient;
+import commands.GestoreComandi;
+import spawn.PopolatoreCibo;
+import spawn.PopolatoreSerpenti;
 import video.Visualizzatore;
-import visualizzatoreClient.VisualizzatoreClient;
 
 public class Main {
 

@@ -1,21 +1,21 @@
 package game;
 
-import static supporto.Costanti.*;
+import static support.Costanti.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import gestoreComandi.GestoreComandi;
-import gestorePunteggi.GestorePunteggi;
+import commands.GestoreComandi;
+import gamefield.Mappa;
+import gamefield.MappaManager;
+import gamefield.Stanza;
 import loaders.CaricatoreMappa;
-import popolatori.PopolatoreSerpenti;
-import serpenti.PlayerSnake;
-import serpenti.Snake;
+import score.GestorePunteggi;
 import server.client.Client;
-import terrenoDiGioco.Mappa;
-import terrenoDiGioco.MappaManager;
-import terrenoDiGioco.Stanza;
+import snake.PlayerSnake;
+import snake.Snake;
+import spawn.PopolatoreSerpenti;
 
 public class Partita {
 

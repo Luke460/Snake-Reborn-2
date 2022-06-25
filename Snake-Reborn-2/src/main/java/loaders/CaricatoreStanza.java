@@ -1,16 +1,17 @@
 package loaders;
 
+import static support.CostantiConfig.*;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import supporto.FileHandler;
-import supporto.Posizione;
-import supporto.Utility;
-import terrenoDiGioco.Casella;
-import terrenoDiGioco.Mappa;
-import terrenoDiGioco.Stanza;
-import static supporto.CostantiConfig.*;
+import gamefield.Casella;
+import gamefield.Mappa;
+import gamefield.Position;
+import gamefield.Stanza;
+import support.FileHandler;
+import support.Utility;
 
 public class CaricatoreStanza {
 	
@@ -31,7 +32,7 @@ public class CaricatoreStanza {
 			lineCharList.addAll(Utility.stringaToArray(lineContent));
 			int characterIndex = 0;
 			for(char statusCharacter:lineCharList) {
-				Posizione position = new Posizione(characterIndex,rowIndex);
+				Position position = new Position(characterIndex,rowIndex);
 				boolean isSolid = mappa.getSolidCellStatusList().contains(statusCharacter);
 				Casella casella = new Casella(stanza, position, statusCharacter, isSolid);
 				stanza.getCaselle().put(position,casella);
