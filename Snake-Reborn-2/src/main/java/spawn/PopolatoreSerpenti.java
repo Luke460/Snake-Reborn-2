@@ -1,6 +1,6 @@
 package spawn;
 
-import static support.Costanti.*;
+import static support.Costanti.VITA_SERPENTE_DEFAULT;
 
 import java.util.HashMap;
 

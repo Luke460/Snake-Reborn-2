@@ -2,7 +2,8 @@ package video;
 
 import static java.awt.event.KeyEvent.VK_SHIFT;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import static support.Costanti.*;
+import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
+import static support.Costanti.RAPPORTO_DIMENSIONE_SCHERMO;
 
 import java.awt.Color;
 import java.awt.Dimension;

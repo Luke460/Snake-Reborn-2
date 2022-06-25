@@ -1,6 +1,10 @@
 package gamefield;
 
-import static support.Costanti.*;
+import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
+import static support.Costanti.NORD;
+import static support.Costanti.EST;
+import static support.Costanti.SUD;
+import static support.Costanti.OVEST;
 
 import snake.Snake;
 

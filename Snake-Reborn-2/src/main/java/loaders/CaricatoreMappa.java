@@ -1,7 +1,15 @@
 package loaders;
 
-import static support.Costanti.*;
-import static support.CostantiConfig.*;
+import static support.Costanti.MAPS_PATH;
+import static support.Costanti.FILE_TYPE;
+import static support.Costanti.ROOMS_FOLDER_NAME;
+import static support.CostantiConfig.ROOM_PREFIX;
+import static support.CostantiConfig.FREE_CELL_FLOOR;
+import static support.CostantiConfig.SOLID_CELL;
+import static support.Costanti.NORD;
+import static support.Costanti.EST;
+import static support.Costanti.SUD;
+import static support.Costanti.OVEST;
 
 import java.awt.Color;
 import java.io.IOException;

@@ -9,7 +9,6 @@ public interface CostantiConfig {
 	static final public String MUSICA = "musicaDiSottofondo";
 	static final public String VOLUME_EFFETTI = "volumeEffettiSonori";
 	static final public String VOLUME_MUSICA = "volumeMusicaDiSottofondo";
-	static final public String OTTIMIZZAZIONE = "ottimizzaCPUlenta";
 	
 	//map and room handling
 	static final public String ROOM_PREFIX = "ROOM_PREFIX";

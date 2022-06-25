@@ -1,6 +1,9 @@
 package game;
 
-import static support.Costanti.*;
+import static support.Costanti.NOME_PLAYER_1;
+import static support.Costanti.VITA_SERPENTE_DEFAULT;
+import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_CIBO;
+import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,7 +34,6 @@ public class Partita {
 	private Client client;
 	private GestoreComandi gestoreComandi;
 	private boolean inGame;
-	private boolean modPcVecchio;
 	private Stanza stanzaDiSpawn;
 	private String mapFileName;
 
@@ -166,14 +168,6 @@ public class Partita {
 
 	public void setInGame(boolean inGame) {
 		this.inGame = inGame;
-	}
-
-	public void setModPcLento(boolean selected) {
-		this.modPcVecchio = selected;		
-	}
-	
-	public boolean isModPcLento() {
-		return this.modPcVecchio;
 	}
 	
 	public String getNomePlayer1() {

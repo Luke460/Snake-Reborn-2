@@ -11,6 +11,7 @@ import server.model.Credentials;
 import server.model.Match;
 import server.model.User;
 
+@SuppressWarnings("deprecation")
 public class JsonService {
 
 	ObjectMapper objectMapper;

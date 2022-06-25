@@ -1,7 +1,15 @@
 package gamefield;
-import static support.Costanti.*;
 
-import java.util.*;
+import static support.Costanti.NORD;
+import static support.Costanti.EST;
+import static support.Costanti.SUD;
+import static support.Costanti.OVEST;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+
 
 public class Stanza {
 

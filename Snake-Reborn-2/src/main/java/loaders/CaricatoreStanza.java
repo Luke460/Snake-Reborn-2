@@ -1,6 +1,6 @@
 package loaders;
 
-import static support.CostantiConfig.*;
+import static support.CostantiConfig.SPAWN_ENABLED;
 import gamefield.StanzaManager;
 
 import java.io.IOException;

@@ -1,6 +1,9 @@
 package game;
 
-import static support.Costanti.*;
+import static support.Costanti.TEMPO_BASE;
+import static support.Costanti.FPS;
+import static support.Costanti.TEMPO_RIPOPOLAMENTO_CIBO;
+import static support.Costanti.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
 
 import java.awt.AWTException;
 import java.io.IOException;
@@ -70,42 +73,40 @@ public class Main {
 		long oraCorrente;
 
 		while(partita.isInGame()) {
-			// sistema anti-lag
-			// oraDiRipresa è relativa al ciclo precedente
 			oraInizioAlgoritmo = oraProgrammataDiRipresa;
 			oraProgrammataDiRipresa = oraInizioAlgoritmo + TEMPO_BASE;
-
 			contaCicli++;
 
 			partita.eseguiTurni();
+			
+			spawnJob(partita, contaCicli);
+			
 			visualizzatore.repaint();
 			
-			if((contaCicli%TEMPO_RIPOPOLAMENTO_CIBO)==0){
-				PopolatoreCibo.aggiungiCiboNellaMappa(partita.getMappa());
-			}
-
-			if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT)==0)){
-				PopolatoreSerpenti.provaAResuscitareUnSerpenteBot(partita);
+			if(contaCicli%FPS==0) {
+				long latency = System.currentTimeMillis()-oraInizioAlgoritmo;
+				System.out.println("latency: " + latency +" ms");
 			}
 
 			oraCorrente = System.currentTimeMillis();
 			aspettaPer = oraProgrammataDiRipresa - oraCorrente;
-			//tempoAlgoritmo = oraCorrente - oraInizioAlgoritmo;
-			//oraPreScheduler = oraCorrente;
 			if (aspettaPer>0) {
-				// doppio repaint per migliorare la fluidità 
-				// (altrimenti il kernel mi congela il processo tacci sua)
-				if(!partita.isModPcLento()) {
-					Thread.sleep(aspettaPer/2);
-					visualizzatore.repaint();
-					Thread.sleep(oraProgrammataDiRipresa - oraCorrente);
-				} else {
-					Thread.sleep(aspettaPer);
-				}
-
+				Thread.sleep(aspettaPer);
 			} else {
 				System.out.println("lag detected!");
 			}
+		}
+	}
+
+	private static void spawnJob(Partita partita, int contaCicli) {
+		if((contaCicli%TEMPO_RIPOPOLAMENTO_CIBO)==0){
+			System.out.println("adding food");
+			PopolatoreCibo.aggiungiCiboNellaMappa(partita.getMappa());
+		}
+
+		if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT)==0)){
+			System.out.println("ai snake respawn");
+			PopolatoreSerpenti.provaAResuscitareUnSerpenteBot(partita);
 		}
 	}
 

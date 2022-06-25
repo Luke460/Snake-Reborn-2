@@ -1,6 +1,10 @@
 package snake;
 
-import static support.Costanti.*;
+import static support.Costanti.QTY_SPECIAL_FOOD;
+import static support.Costanti.QTY_STANDARD_FOOD;
+import static support.Costanti.VITA_SERPENTE_MASSIMA;
+import static support.Costanti.NOME_PLAYER_1;
+import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
 import static support.CostantiConfig.FLAT_CELL;
 
 import java.awt.Color;

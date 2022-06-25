@@ -27,7 +27,6 @@ import game.UserLocal;
 import server.client.Client;
 import support.ConfigurationManager;
 import support.CostantiConfig;
-import support.OSdetector;
 
 public class VisualizzatoreClient extends JFrame{
 
@@ -55,7 +54,6 @@ public class VisualizzatoreClient extends JFrame{
 	JSlider volumeMusica;
 	JCheckBox opzEffetti;
 	JSlider volumeEffetti;
-	JCheckBox opzPcVecchio;
 	JComboBox<String> selettoreLivello;
 	JComboBox<String> selettoreMappa;
 	JLabel messaggioInformativo;
@@ -114,7 +112,6 @@ public class VisualizzatoreClient extends JFrame{
 		GestoreSuoni.setMusicaAbilitata(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
-		partita.setModPcLento(opzPcVecchio.isSelected());
 	}
 
 	private void aggiornaFileImpostazioni() throws IOException {
@@ -125,8 +122,6 @@ public class VisualizzatoreClient extends JFrame{
 		cr.salvaImpostazione(CostantiConfig.MUSICA, Boolean.toString(opzMusica.isSelected()));
 		cr.salvaImpostazione(CostantiConfig.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
 		cr.salvaImpostazione(CostantiConfig.USERNAME, nomeInserito.getText());
-		cr.salvaImpostazione(CostantiConfig.OTTIMIZZAZIONE, Boolean.toString(opzPcVecchio.isSelected()));
-	
 	}
 
 	private void aggiungiPannelliAlContainer() {
@@ -143,14 +138,6 @@ public class VisualizzatoreClient extends JFrame{
 		opzMusica.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MUSICA)));
 		volumeMusica.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_MUSICA)));
 		nomeInserito.setText(cr.leggiImpostazione(CostantiConfig.USERNAME));
-			
-		if(OSdetector.isWindows()) {
-			opzPcVecchio.setSelected(true);
-			opzPcVecchio.setEnabled(false);
-		} else {
-			opzPcVecchio.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.OTTIMIZZAZIONE)));
-		}
-		
 		selettoreLivello.setSelectedIndex(2);
 	}
 
@@ -178,7 +165,6 @@ public class VisualizzatoreClient extends JFrame{
 		volumeEffetti = new JSlider(0, 100, 50);
 		opzMusica = new JCheckBox("Musica di sottofondo");
 		volumeMusica = new JSlider(0, 100, 50);
-		opzPcVecchio = new JCheckBox("ottimizza CPU lenta");
 		String[] data1 = {"basso", "medio", "alto*"}; 
 		selettoreLivello = new JComboBox(data1);
 
@@ -224,8 +210,6 @@ public class VisualizzatoreClient extends JFrame{
 		
 		PannelloOpzioni.add(opzMusica);
 		PannelloOpzioni.add(volumeMusica);
-		
-		PannelloOpzioni.add(opzPcVecchio);
 		
 		PannelloTastiConferma.setLayout(new GridLayout(1, 2));
 		PannelloTastiConferma.setPreferredSize(new Dimension(1,36));
