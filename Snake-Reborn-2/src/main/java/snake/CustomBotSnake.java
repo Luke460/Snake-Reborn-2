@@ -68,15 +68,18 @@ public class CustomBotSnake extends Snake {
 		
 		HashMap<String, Direction> direzioniConCiboImmediate = new HashMap<>();
 		HashMap<String, Direction> direzioniConCiboVicine = new HashMap<>();
+		HashMap<String, Direction> direzioniConCiboMedie = new HashMap<>();
 		HashMap<String, Direction> direzioniConCiboLontane = new HashMap<>();
 		HashMap<String, Direction> direzioniPortali = new HashMap<>();
 		
 		direzioniConCiboImmediate = getDirezioniConCibo(direzioni, 0);
-		
 		if(direzioniConCiboImmediate.size()==0) {
-			direzioniConCiboVicine = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT/10);
-			if(direzioniConCiboVicine.size()==0 && Utility.veroAl(this.skill.getFarmSkill())) {
-				direzioniConCiboLontane = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT);
+			direzioniConCiboVicine = getDirezioniConCibo(direzioni, 1);
+			if(direzioniConCiboVicine.size()==0) {
+				direzioniConCiboMedie = getDirezioniConCibo(direzioni, 4);
+				if(direzioniConCiboMedie.size()==0 && Utility.veroAl(this.skill.getFarmSkill())) {
+					direzioniConCiboLontane = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT);
+				}
 			}
 		}
 		
@@ -85,7 +88,7 @@ public class CustomBotSnake extends Snake {
 		}
 
 		this.setLastDirection(this.getDirezione());
-		Direction nuovaDirezione = getNewDirection(direzioni, direzioniConCiboImmediate, direzioniConCiboVicine, direzioniConCiboLontane, direzioniPortali);
+		Direction nuovaDirezione = getNewDirection(direzioni, direzioniConCiboImmediate, direzioniConCiboVicine, direzioniConCiboMedie, direzioniConCiboLontane, direzioniPortali);
 		this.setDirezione(nuovaDirezione);
 		
 	}
@@ -182,6 +185,7 @@ public class CustomBotSnake extends Snake {
 	private Direction getNewDirection(HashMap<String, Direction> direzioniDisponibili,
 			HashMap<String, Direction> direzioniConCiboImmediate,
 			HashMap<String, Direction> direzioniConCiboVicine, 
+			HashMap<String, Direction> direzioniConCiboMedie, 
 			HashMap<String, Direction> direzioniConCiboLontane,
 			HashMap<String, Direction> direzioniPortali) {
 
@@ -189,6 +193,9 @@ public class CustomBotSnake extends Snake {
 		if(dir != null) return dir;
 		
 		dir = getRandomDirection(direzioniConCiboVicine);
+		if(dir != null) return dir;
+		
+		dir = getRandomDirection(direzioniConCiboMedie);
 		if(dir != null) return dir;
 		
 		dir = getRandomDirection(direzioniConCiboLontane);
@@ -207,11 +214,7 @@ public class CustomBotSnake extends Snake {
 	private HashMap<String, Direction> getDirezioniConCibo(HashMap<String, Direction> direzioni, int depth) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
 		for(Entry<String, Direction> entry: direzioni.entrySet()) {
-			int actualDepth = depth;
-			if(entry.getKey().equals(FORWARD)) {
-				actualDepth += 1;
-			}
-			if(controllaCibo(this.getCasellaDiTesta(), entry.getValue(), actualDepth)) {
+			if(controllaCibo(this.getCasellaDiTesta(), entry.getValue(), depth)) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
