@@ -20,7 +20,7 @@
 
 ---
 
-Il gioco si svolge all'interno di una grande mappa (16 stanze), dove il giocatore dovrà cercare di sopravvivere il più a lungo possibile guadagnando punti e uccidendo avversari.
+Il gioco si svolge all'interno di una mappa (l'utente potrà scegliere tra le mappe disponibili o crearne di nuove), dove il giocatore dovrà cercare di sopravvivere il più a lungo possibile guadagnando punti e uccidendo avversari.
 
 Ci sono 4 tipi di bot: verdi, arancioni, rossi e viola con difficoltà crescente.
 
