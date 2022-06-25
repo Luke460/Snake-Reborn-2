@@ -30,7 +30,7 @@ public class MappaManager {
 				if(!stanza.equals(stanzaPrecedente) && stanza.isSpawnEnabled()) {
 					Posizione posizioneCasellaCentrale = new Posizione(DIMENSIONE_STANZA_DEFAULT/2, DIMENSIONE_STANZA_DEFAULT/2);
 					Casella casellaCentrale = stanza.getCaselle().get(posizioneCasellaCentrale);
-					if(!CasellaManager.isMortale(casellaCentrale)) {
+					if(!casellaCentrale.isMortal()) {
 						return stanza;
 					}
 				}

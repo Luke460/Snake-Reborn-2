@@ -5,34 +5,45 @@ import supporto.Posizione;
 
 public class Casella {
 
-	private Posizione posizione;
-	private char stato;
 	private Stanza stanza;
-	private int vita;
-	private boolean isTestaDiSerpente;
-	private Snake serpente;
+	private Posizione position;
+	private char originalStatus;
+	private int hp;
+	private Snake snake;
+	private boolean isSolid;
+	private int foodAmount;
 
-	public Casella(Stanza stanza, Posizione posizione, char stato) {
-		this.posizione = posizione;
-		this.stato = stato;
-		this.vita = -1;
+	public Casella(Stanza stanza, Posizione posizione, char statoOriginario, boolean isSolid) {
 		this.stanza = stanza;
+		this.position = posizione;
+		this.originalStatus = statoOriginario;
+		this.hp = -1;
+		this.snake = null;
+		this.isSolid = isSolid;
+		this.foodAmount = 0;
+		
+	}
+	
+	public void freeCell() {
+		this.hp = -1;
+		this.snake = null;
+		this.foodAmount = 0;
 	}
 	
 	public Posizione getPosizione() {
-		return posizione;
+		return position;
 	}
 
 	public void setPosizione(Posizione posizione) {
-		this.posizione = posizione;
+		this.position = posizione;
 	}
 
-	public char getStato() {
-		return stato;
+	public char getStatoOriginario() {
+		return originalStatus;
 	}
-
-	public void setStato(char stato) {
-		this.stato = stato;
+	
+	public void setStatoOriginario(char statoOriginario) {
+		this.originalStatus = statoOriginario;
 	}
 
 	public Stanza getStanza() {
@@ -43,45 +54,60 @@ public class Casella {
 		this.stanza = stanza;
 	}
 
-	public boolean isTestaDiSerpente() {
-		return isTestaDiSerpente;
-	}
-
-	public void setTestaDiSerpente(boolean isTestaDiSerpente) {
-		this.isTestaDiSerpente = isTestaDiSerpente;
-	}
-
-	@Override
-	public int hashCode(){
-		return this.getPosizione().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object o){
-		Casella that = (Casella) o;
-		return (this.getPosizione().equals(that.getPosizione())
-				&& this.getStanza().equals(that.getStanza()));
-	}
-
-	public int getVita() {
-		return vita;
-	}
-
-	public void setVita(int vita) {
-		this.vita = vita;
+	public boolean isSnakeHead() {
+		return this.snake!=null && this.equals(this.snake.getCasellaDiTesta());
 	}
 	
-	public Snake getSerpente() {
-		return serpente;
+	public boolean isEmpty() {
+		return !this.isSolid && !this.isSnake() && !this.isFood() && !this.isPoison();
 	}
 
-	public void setSerpente(Snake serpente) {
-		this.serpente = serpente;
+	public int getHp() {
+		return hp;
 	}
 
-	@Override
-	public String toString(){
-		return "Stanza: " + this.getStanza().getNome() + "  Vita: " + this.getVita() + "  " + this.getPosizione().toString();
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	
+	public Snake getSnake() {
+		return snake;
 	}
 
+	public void setSnake(Snake snake) {
+		this.snake = snake;
+	}
+
+	public boolean isSolid() {
+		return isSolid;
+	}
+
+	public void setSolid(boolean isSolid) {
+		this.isSolid = isSolid;
+	}
+	
+	public boolean isSnake() {
+		return this.snake!=null;
+	}
+	
+	public boolean isMortal() {
+		return this.isSolid() || this.isSnake();
+	}
+
+	public boolean isFood() {
+		return this.foodAmount>0;
+	}
+	
+	public boolean isPoison() {
+		return this.foodAmount<0;
+	}
+	
+	public int getFoodAmount() {
+		return foodAmount;
+	}
+
+	public void setFoodAmount(int foodAmount) {
+		this.foodAmount = foodAmount;	
+	}
+	
 }

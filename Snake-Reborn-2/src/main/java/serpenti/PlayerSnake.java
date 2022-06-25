@@ -1,17 +1,22 @@
 package serpenti;
 
-import static supporto.Costanti.*;
+import static supporto.CostantiConfig.FLAT_CELL;
+
+import java.awt.Color;
 
 import audio.GestoreSuoni;
 import game.Partita;
 import gestorePunteggi.GestorePunteggi;
+import terrenoDiGioco.CellRenderOption;
 import terrenoDiGioco.Stanza;
 
 public class PlayerSnake extends Snake {
+	
+	public static final CellRenderOption CELL_RENDER_OPTION = new CellRenderOption(FLAT_CELL, Color.blue);
 
 	public PlayerSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
 		super(nome, stanza, vitaIniziale, partita);
-		super.setStatoCaselleDefault(CARATTERE_CASELLA_BLUESNAKE);
+		this.setCellRenderOption(CELL_RENDER_OPTION);
 	}
 
 	@Override

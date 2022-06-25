@@ -8,7 +8,7 @@ public class ComparatoreCasellePerVita implements Comparator<Casella> {
 
     @Override
     public int compare(Casella first, Casella second) {
-       return Integer.compare(second.getVita(), first.getVita());
+       return Integer.compare(second.getHp(), first.getHp());
     }
 	
 }

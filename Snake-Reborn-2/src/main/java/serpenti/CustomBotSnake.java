@@ -21,14 +21,10 @@ public class CustomBotSnake extends Snake {
 	private final static String RIGHT = "RIGHT";
 	private final static String LEFT = "LEFT";
 
-	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita, Skill skill) {
+	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
 		super(nome, stanza, vitaIniziale, partita);
-		this.skill = skill;
-		ultimaSterzata = "NONE";
-		for(Casella c:this.getCaselle()){
-			c.setStato(CARATTERE_CASELLA_PLAYER2);		
-		}
-		super.setStatoCaselleDefault(CARATTERE_CASELLA_PLAYER2);
+		this.skill = new Skill(0, 0, 0, 0);
+		this.ultimaSterzata = "NONE";
 	}
 	
 	public int getSnakeAbilityScore() {
@@ -99,23 +95,23 @@ public class CustomBotSnake extends Snake {
 			Direction direzione = this.getDirezione();
 			Casella casellaInTesta = CasellaManager.getCasellaAdiacente(this.getCasellaDiTesta(), direzione);
 			// per non rendere il bot immune alle collisioni
-			if(!CasellaManager.isMortale(casellaInTesta)) {
+			if(!casellaInTesta.isMortal()) {
 				Casella casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-				if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
+				if(casella.isSolid() || (casella.isSnake() && casella.getSnake().equals(this))) {
 					if(direzioni.containsKey(FORWARD)) {
 						direzioni.remove(FORWARD);
 					}
 				}
 				direzione = this.getDirezione().getRotatedRightDirection();
 				casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-				if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
+				if(casella.isSolid() || (casella.isSnake() && casella.getSnake().equals(this))) {
 					if(direzioni.containsKey(RIGHT)) {
 						direzioni.remove(RIGHT);
 					}
 				}
 				direzione = this.getDirezione().getRotatedLeftDirection();
 				casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-				if(CasellaManager.isMuro(casella) || (casella.getSerpente()!=null && casella.getSerpente().equals(this))) {
+				if(casella.isSolid() || (casella.getSnake()!=null && casella.getSnake().equals(this))) {
 					if(direzioni.containsKey(LEFT)) {
 						direzioni.remove(LEFT);
 					}
@@ -131,7 +127,7 @@ public class CustomBotSnake extends Snake {
 		for(Entry<String, Direction> entry: direzioni.entrySet()) {
 			Direction newDirection = entry.getValue();
 			Casella casellaBersaglio = CasellaManager.getCasellaAdiacente(casellaDiTesta, newDirection);
-			if(!CasellaManager.isMuro(casellaBersaglio) && !(casellaBersaglio.getSerpente() != null && casellaBersaglio.getSerpente().equals(this))) {
+			if(!casellaBersaglio.isSolid() && !(casellaBersaglio.isSnake() && casellaBersaglio.getSnake().equals(this))) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
@@ -144,7 +140,7 @@ public class CustomBotSnake extends Snake {
 		for(Entry<String, Direction> entry: direzioni.entrySet()) {
 			Direction newDirection = entry.getValue();
 			Casella casellaBersaglio = CasellaManager.getCasellaAdiacente(casellaDiTesta, newDirection);
-			if(!CasellaManager.isOccupataDaSerpente(casellaBersaglio)) {
+			if(!casellaBersaglio.isSnake()) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
@@ -159,10 +155,10 @@ public class CustomBotSnake extends Snake {
 			Casella casellaBersaglio = CasellaManager.getCasellaAdiacente(casellaDiTesta, newDirection);
 			// per i cappi
 			if(!(
-					CasellaManager.isMortale(CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.UP))) &&
-					CasellaManager.isMortale(CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.RIGHT))) &&
-					CasellaManager.isMortale(CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.DOWN))) &&
-					CasellaManager.isMortale(CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.LEFT)))
+					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.UP)).isMortal() &&
+					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.RIGHT)).isMortal() &&
+					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.DOWN)).isMortal() &&
+					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.LEFT)).isMortal()
 					)) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
@@ -175,7 +171,7 @@ public class CustomBotSnake extends Snake {
 		if(!direzioni.containsKey(FORWARD) && direzioni.size()>1) {
 			for(String key:direzioni.keySet()) {
 				Casella targetCasella = CasellaManager.getCasellaAdiacente(this.getCasellaDiTesta(),direzioni.get(key));
-				if(this.ultimaSterzata.equals(key) && !CasellaManager.isMortale(targetCasella)) {
+				if(this.ultimaSterzata.equals(key) && !targetCasella.isMortal()) {
 					newDir.remove(key);
 				}
 			}
@@ -234,11 +230,11 @@ public class CustomBotSnake extends Snake {
 	}
 	
 	private boolean controllaCibo(Casella casella, Direction dir, int remainingJumps) {
-		if(CasellaManager.isCibo(casella)) return true; 
+		if(casella.isFood()) return true; 
 		Casella casellaSuccessiva = CasellaManager.getCasellaAdiacente(casella, dir);
 		if(!casella.getStanza().equals(casellaSuccessiva.getStanza())) return false;
-		if(CasellaManager.isMortale(casellaSuccessiva)) return false;
-		if(CasellaManager.isCibo(casellaSuccessiva)) return true;
+		if(casellaSuccessiva.isMortal()) return false;
+		if(casellaSuccessiva.isFood()) return true;
 		if(remainingJumps>0) {
 			return controllaCibo(casellaSuccessiva, dir, remainingJumps-1);
 		} else {
@@ -249,7 +245,7 @@ public class CustomBotSnake extends Snake {
 	private Stanza getStanzaDelPortaleInDirezione(Casella casella, Direction dir, int range) {
 		Casella casellaSuccessiva = CasellaManager.getCasellaAdiacente(casella, dir);
 		if(!casella.getStanza().equals(casellaSuccessiva.getStanza())) return casellaSuccessiva.getStanza();
-		if(range <=0 || CasellaManager.isMortale(casellaSuccessiva)) return null;
+		if(range <=0 || casellaSuccessiva.isMortal()) return null;
         return getStanzaDelPortaleInDirezione(casellaSuccessiva, dir, range-1);
 	}
 	

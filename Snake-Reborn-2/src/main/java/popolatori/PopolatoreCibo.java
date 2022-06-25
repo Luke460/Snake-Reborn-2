@@ -1,9 +1,9 @@
 package popolatori;
 
-import static supporto.Costanti.CARATTERE_CASELLA_CIBO;
-import static supporto.Costanti.CARATTERE_CASELLA_VUOTA;
 import static supporto.Costanti.DIMENSIONE_STANZA_DEFAULT;
 import static supporto.Costanti.LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE;
+import static supporto.Costanti.QTY_SPECIAL_FOOD;
+import static supporto.Costanti.QTY_STANDARD_FOOD;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +11,6 @@ import java.util.List;
 import supporto.Posizione;
 import supporto.Utility;
 import terrenoDiGioco.Casella;
-import terrenoDiGioco.CasellaManager;
 import terrenoDiGioco.Mappa;
 import terrenoDiGioco.Stanza;
 
@@ -24,15 +23,14 @@ public class PopolatoreCibo {
 	}
 
 	public static void aggiungiCiboInPosizioneCasuale(Stanza s) {
-		int posX = (int)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;     // da 0 a N-1 compresi
+		int posX = (int)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		int posY = (int)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		Posizione pos = new Posizione(posX, posY);
 		Casella c = s.getCaselle().get(pos);
 		// posiziono il cibo solo in caselle libere e con posizione pari
-		if (CasellaManager.isVuota(c)){
-			if(posizioneValidaPerCibo(pos)){
-				CasellaManager.libera(c);
-				c.setStato(CARATTERE_CASELLA_CIBO);
+		if (c.isEmpty()){
+			if(posizioneValidaPerCibo(pos)){ // 50% chance is false
+				c.setFoodAmount(QTY_STANDARD_FOOD);
 			}
 		}
 	}
@@ -44,18 +42,14 @@ public class PopolatoreCibo {
 			Collections.sort(caselle, comparator);
 		}
 		for(Casella c:caselle){
+			c.freeCell();
 			if(posizioneValidaPerCibo(c.getPosizione())){
-				c.setVita(0);
-				CasellaManager.libera(c);
-				c.setStato(CARATTERE_CASELLA_CIBO);
 				if(inserisciTestaDiSerpente) {
-					c.setTestaDiSerpente(true);
+					c.setFoodAmount(QTY_SPECIAL_FOOD);
 					inserisciTestaDiSerpente = false;
+				} else {
+					c.setFoodAmount(QTY_STANDARD_FOOD);
 				}
-			} else {
-				c.setVita(0);
-				CasellaManager.libera(c);
-				c.setStato(CARATTERE_CASELLA_VUOTA);
 			}
 		}
 	}

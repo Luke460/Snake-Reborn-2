@@ -1,38 +1,38 @@
-[SOLID_CELL:W,P,-]
+[SOLID_CELL:W,P,-,']
 [FREE_CELL_FLOOR: ]
-[CELL_RENDER(W):F,50,50,50]
-[CELL_RENDER(P):R,100,100,100]
-[CELL_RENDER(-):F,0,0,0]
-[CELL_RENDER( ):F,0,0,0]
-
+[CELL_RENDER(W):FLAT,50,50,50]
+[CELL_RENDER(P):RELIEF,100,100,100]
+[CELL_RENDER(-):FLAT,40,80,0]
+[CELL_RENDER('):FLAT,0,50,100]
+[CELL_RENDER( ):FLAT,10,10,10]
 [SPAWN_ENABLED:true]
 
-<---------------------------------------->
-<---------------------------------------->
-<---------------------------------------->
-<---------------------------------------->
-<---------------------------------------->
-<---------------------------------------->
-<---PPPP--------------------------PPPP--->
-<---PWWPWWPPWWPPWWPPWWPPWWPPWWPPWWPWWP--->
-<---PWWPWWPPWWPPWWPPWWPPWWPPWWPPWWPWWP--->
-<---PPPP                          PPPP--->
-<----WW                            WW---->
-<----WW                            WW---->
-<----PP                            PP---->
-<----PP                            PP---->
-<----WW                            WW---->
-<----WW                            WW---->
-<----PP                            PP---->
-<----PP                            PP---->
-<----WW                            WW---->
-<----WW                            WW---->
-<----PP                            PP---->
-<----PP                            PP---->
-<----WW                            WW---->
-<----WW                            WW---->
-<---PPPP                          PPPP--->
-<PWWPWWP                          PWWP--->
+<''''''''''''''''''''''''''''''''''''''''>
+<''''''''''''''''''''''''''''''''''''''''>
+<''''''''''''''''''''''''''''''''''''''''>
+<''''''''''''''''''''''''''''''''''''''''>
+<''''''''''''''''''''''''''''''''''''''''>
+<''''''''''''''''''''''''''''''''''''''''>
+<'''PPPP''''''''''''''''''''''''''PPPP'''>
+<'''PWWPWWPPWWPPWWPPWWPPWWPPWWPPWWPWWP'''>
+<'''PWWPWWPPWWPPWWPPWWPPWWPPWWPPWWPWWP'''>
+<'''PPPP                          PPPP'''>
+<''''WW                            WW''''>
+<''''WW                            WW''''>
+<''''PP                            PP''''>
+<''''PP                            PP''''>
+<''''WW                            WW''''>
+<''''WW                            WW''''>
+<--''PP                            PP''''>
+<----PP                            PP''''>
+<----WW                            WW''''>
+<----WW                            WW''''>
+<----PP                            PP''''>
+<----PP                            PP''''>
+<----WW                            WW''''>
+<----WW                            WW-'''>
+<---PPPP                          PPPP-''>
+<PWWPWWP                          PWWP--'>
 <PWWPWWP                          PWWP--->
 <   PPPP                          PPPP--->
 <                                  WW---->

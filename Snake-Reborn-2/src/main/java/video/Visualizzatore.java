@@ -17,7 +17,7 @@ import serpenti.Snake;
 import supporto.OSdetector;
 import supporto.Utility;
 import terrenoDiGioco.Casella;
-import terrenoDiGioco.CasellaManager;
+import terrenoDiGioco.CellRenderOption;
 import terrenoDiGioco.Stanza;
 
 public class Visualizzatore extends JPanel {
@@ -72,9 +72,7 @@ public class Visualizzatore extends JPanel {
 			stanzaCorrente = this.partita.getStanzaDiSpawn();
 		}
 		for (Casella c : stanzaCorrente.getCaselle().values()) {
-			if(!CasellaManager.isVuota(c)) {
-				disegnaCasella(g, c);
-			}
+			disegnaCasella(g, c);
 		}
 		riportaStatisticheSullaFinestra(partita.getSnakeScore(partita.getSerpentePlayer1()));
 	}
@@ -90,12 +88,13 @@ public class Visualizzatore extends JPanel {
 	private void disegnaCasella(Graphics g, Casella casella) {
 		final int posX = casella.getPosizione().getX();
 		final int posY = casella.getPosizione().getY();
-		final Color colore = Pittore.getColore(casella.getStato());
-		g.setColor(colore);
+		//final Color colore = Pittore.getColore(casella.getStato());
+		CellRenderOption cellRenderOption = GraphicManager.getCellRenderOption(casella);
+		g.setColor(cellRenderOption.getColor());
 		int gx = posX*dimensioneCasella, gy = posY*dimensioneCasella;
-		if(casella.getStato()==CARATTERE_CASELLA_PORTALE){
+		if(cellRenderOption.isRelief()){
 			disegnaCasellaInRilievo(g, dimensioneCasella, gx, gy);
-		} else if(casella.isTestaDiSerpente()){
+		} else if(cellRenderOption.isHead()){
 			disegnaCasellaTesta(g, dimensioneCasella, gx, gy);
 		} else {
 			disegnaCasellaNormale(g, dimensioneCasella, gx, gy);

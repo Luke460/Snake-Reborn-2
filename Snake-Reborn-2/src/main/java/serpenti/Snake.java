@@ -1,7 +1,9 @@
 package serpenti;
 
 import static supporto.Costanti.*;
+import static supporto.CostantiConfig.FLAT_CELL;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,7 +19,11 @@ import supporto.Direction;
 import supporto.Posizione;
 import terrenoDiGioco.Casella;
 import terrenoDiGioco.CasellaManager;
+import terrenoDiGioco.CellRenderOption;
 import terrenoDiGioco.Stanza;
+
+import static supporto.Costanti.QTY_SPECIAL_FOOD;
+import static supporto.Costanti.QTY_STANDARD_FOOD;
 
 import java.util.Objects;
 import java.util.TreeMap;
@@ -33,26 +39,18 @@ public abstract class Snake {
 	private long tempoSopravvivenza;
 	private int hpPreMorte;
 	private Partita partita;
-	private char statoCaselleDefault;
 	private Stanza ultimaStanza;
 	private Casella casellaDiTesta;
 	private boolean vivo;
+	private CellRenderOption cellRenderOption;
 	
-	public char getStatoCaselleDefault() {
-		return statoCaselleDefault;
-	}
-
-	public void setStatoCaselleDefault(char statoCaselleDefault) {
-		this.statoCaselleDefault = statoCaselleDefault;
-		for(Casella c:this.getCaselle()){
-			c.setStato(statoCaselleDefault);		
-		}
-	}
+	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(FLAT_CELL, Color.gray);
 
 	public Snake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
 		this.vivo = false;
 		this.partita = partita;
 		this.nome=nome;
+		this.cellRenderOption=DEFAULT_CELL_RENDER_OPTION;
 		this.resettaSerpente(stanza, vitaIniziale);
 	}
 
@@ -72,7 +70,7 @@ public abstract class Snake {
 	}
 
 	public int getHP(){
-		return this.getCasellaDiTesta().getVita();
+		return this.getCasellaDiTesta().getHp();
 	}
 
 	public LinkedList<Casella> getCaselle() {
@@ -94,20 +92,15 @@ public abstract class Snake {
 		Casella vecchiaCasella = this.getCasellaDiTesta();
 		Casella nuovaCasella = CasellaManager.getCasellaAdiacente(vecchiaCasella, this.getDirezione());
 
-		if(!CasellaManager.isMortale(nuovaCasella)){
-			if(CasellaManager.isCibo(nuovaCasella)){
-				if(nuovaCasella.isTestaDiSerpente()){
-					this.incrementaVitaSerpente(QTA_CIBO_TESTA_SERPENTE);
+		if(!nuovaCasella.isMortal()){
+			if(nuovaCasella.isFood()){
+				if(nuovaCasella.getFoodAmount()==QTY_SPECIAL_FOOD){
+					this.incrementaVitaSerpente(QTY_SPECIAL_FOOD);
 				} else {
-					this.incrementaVitaSerpente(QTA_CIBO_BASE);
+					this.incrementaVitaSerpente(QTY_STANDARD_FOOD);
 				}
-				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP(),this.getCasellaDiTesta().getStato());
-			} else {
-				CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP(),this.getCasellaDiTesta().getStato());
 			}
-
-			nuovaCasella.setTestaDiSerpente(true);
-			vecchiaCasella.setTestaDiSerpente(false);
+			CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP());
 
 			// spostamento
 			decrementaVitaSerpente();
@@ -115,8 +108,8 @@ public abstract class Snake {
 			this.setCasellaDiTesta(nuovaCasella);
 			this.setUltimaStanza(nuovaCasella.getStanza());
 		} else { // casella mortale
-			if(CasellaManager.isOccupataDaSerpente(nuovaCasella)){
-				Snake altroSerpente = nuovaCasella.getSerpente();
+			if(nuovaCasella.isSnake()){
+				Snake altroSerpente = nuovaCasella.getSnake();
 				if(altroSerpente.getCasellaDiTesta().getPosizione().equals(nuovaCasella.getPosizione())){
 					altroSerpente.muori();
 				}
@@ -129,9 +122,9 @@ public abstract class Snake {
 		Iterator<Casella> iteratore = this.getCaselle().iterator();
 		while(iteratore.hasNext()){
 			Casella c = iteratore.next();
-			c.setVita(c.getVita()-1);
-			if(c.getVita()<=0) {
-				CasellaManager.libera(c);
+			c.setHp(c.getHp()-1);
+			if(c.getHp()<=0) {
+				c.freeCell();
 				iteratore.remove();
 			}
 		}
@@ -140,10 +133,10 @@ public abstract class Snake {
 	public void incrementaVitaSerpente(int qta) {
 		this.setCiboPreso(this.getCiboPreso()+qta);
 		for(Casella c : this.getCaselle()){
-			if(c.getVita()+qta<=VITA_SERPENTE_MASSIMA){
-				c.setVita(c.getVita()+qta);
+			if(c.getHp()+qta<=VITA_SERPENTE_MASSIMA){
+				c.setHp(c.getHp()+qta);
 			} else {
-				c.setVita(VITA_SERPENTE_MASSIMA);
+				c.setHp(VITA_SERPENTE_MASSIMA);
 			}
 		}
 	}
@@ -158,7 +151,7 @@ public abstract class Snake {
 	
 	public void muori(){
 		this.setVivo(false);
-		hpPreMorte = this.getCasellaDiTesta().getVita();
+		hpPreMorte = this.getCasellaDiTesta().getHp();
 		controllaUccisione();
 		rilasciaCiboEliberaCaselle();
 	}
@@ -172,10 +165,10 @@ public abstract class Snake {
 			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.LEFT)));
 			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.DOWN)));
 			for(Casella ca : caselleAdiacenti) {
-				if(ca.getSerpente()!=null) {
-					Snake uccisore = ca.getSerpente();
+				if(ca.isSnake()) {
+					Snake uccisore = ca.getSnake();
 					if(!uccisore.equals(this)) {
-						uccisori.put(ca.getSerpente().getNome(), ca.getSerpente());
+						uccisori.put(ca.getSnake().getNome(), ca.getSnake());
 					}
 				}
 			}
@@ -187,14 +180,7 @@ public abstract class Snake {
 
 	protected void rilasciaCiboEliberaCaselle() {
 		PopolatoreCibo.rilasciaCiboNelleCaselleDelSerpente(this.caselle);
-		rimuoviLinkSerpente(this.caselle);
 		this.caselle.clear();
-	}
-
-	private void rimuoviLinkSerpente(LinkedList<Casella> caselle) {
-		for(Casella c:caselle) {
-			c.setSerpente(null);
-		}
 	}
 
 	abstract public void scegliNuovaDirezione();
@@ -296,11 +282,9 @@ public abstract class Snake {
 		Casella primaCasella = stanza.getCaselle().get(posizionePrimaCasella);
 		this.casellaDiTesta = primaCasella;
 		//lo stato verrà sovrascritto dai creatori specializzati
-		primaCasella.setStato(this.statoCaselleDefault);
-		primaCasella.setSerpente(this);
-		primaCasella.setTestaDiSerpente(true);
+		primaCasella.setSnake(this);
 		int vitaCasella = vitaResurrezione;
-		primaCasella.setVita(vitaCasella);
+		primaCasella.setHp(vitaCasella);
 		this.getCaselle().add(primaCasella);
 
 		// creo le altre caselle del serpente
@@ -308,11 +292,10 @@ public abstract class Snake {
 		Casella casellaPrecedente = primaCasella;
 		for(int i=0; i<vitaResurrezione-1; i++){
 			Casella casella = CasellaManager.getCasellaAdiacente(casellaPrecedente, direzioneCreazioneCaselle);
-			if(!CasellaManager.isMortale(casella)) {
-				casella.setStato(statoCaselleDefault);
-				casella.setSerpente(this);
+			if(!casella.isMortal()) {
+				casella.setSnake(this);
 				vitaCasella--;
-				casella.setVita(vitaCasella);
+				casella.setHp(vitaCasella);
 				this.getCaselle().add(casella);
 				casellaPrecedente = casella;
 			} else {
@@ -328,6 +311,14 @@ public abstract class Snake {
 
 	public void setVivo(boolean vivo) {
 		this.vivo = vivo;
+	}
+
+	public CellRenderOption getCellRenderOption() {
+		return cellRenderOption;
+	}
+
+	public void setCellRenderOption(CellRenderOption cellRenderOption) {
+		this.cellRenderOption = cellRenderOption;
 	}
 
 	@Override

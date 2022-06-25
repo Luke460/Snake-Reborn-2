@@ -1,14 +1,6 @@
 package terrenoDiGioco;
 
-import static supporto.Costanti.CARATTERE_CASELLA_CIBO;
-import static supporto.Costanti.CARATTERE_CASELLA_MURO;
-import static supporto.Costanti.CARATTERE_CASELLA_PORTALE;
-import static supporto.Costanti.CARATTERE_CASELLA_VUOTA;
-import static supporto.Costanti.DIMENSIONE_STANZA_DEFAULT;
-import static supporto.Costanti.EST;
-import static supporto.Costanti.NORD;
-import static supporto.Costanti.OVEST;
-import static supporto.Costanti.SUD;
+import static supporto.Costanti.*;
 
 import serpenti.Snake;
 import supporto.Direction;
@@ -16,19 +8,18 @@ import supporto.Posizione;
 
 public class CasellaManager {
 	
-	public static void setCasellaOccupataDalSerpente(Casella casella, Snake serpente, int vita, char stato) {
-		casella.setSerpente(serpente);
-		casella.setVita(vita);
-		casella.setStato(stato);
+	public static void setCasellaOccupataDalSerpente(Casella casella, Snake serpente, int vita) {
+		casella.setSnake(serpente);
+		casella.setHp(vita);
 	}
 
 	public static boolean isPozzo(Stanza stanza, Casella casella, Direction direzione) {
 		Casella forwardCasella = getCasellaAdiacente(casella, direzione);
 		Casella rightCasella = getCasellaAdiacente(casella, direzione.getRotatedRightDirection());
 		Casella leftCasella = getCasellaAdiacente(casella, direzione.getRotatedLeftDirection());
-		if(	isMortale(forwardCasella) &&
-			isMortale(rightCasella) &&
-		    isMortale(leftCasella) ){
+		if(	forwardCasella.isMortal() &&
+			rightCasella.isMortal() &&
+		    leftCasella.isMortal() ){
 			return true;
 		} else {
 			return false;
@@ -69,42 +60,6 @@ public class CasellaManager {
 
 		// stiamo nei confini della stanza
 		return  stanzaCorrente.getCaselle().get(posizioneNuovaCasella);
-	}
-	
-	public static boolean isMortale(Casella casella) {
-		if (casella.getStato() == CARATTERE_CASELLA_VUOTA || casella.getStato() == CARATTERE_CASELLA_CIBO) return false;
-		return true;
-	}
-
-	public static void libera(Casella casella) {
-		casella.setStato(CARATTERE_CASELLA_VUOTA);
-		casella.setSerpente(null);
-		casella.setTestaDiSerpente(false);
-		casella.setVita(-1);
-	}
-
-	public static boolean isCibo(Casella casella) {
-		if(casella.getStato() == CARATTERE_CASELLA_CIBO) return true;
-		return false;
-	}
-
-	public static boolean isVuota(Casella casella) {
-		if(casella.getStato() == CARATTERE_CASELLA_VUOTA) return true;
-		return false;
-	}
-
-	public static boolean isMuro(Casella casella) {
-		if (casella.getStato() == CARATTERE_CASELLA_MURO || casella.getStato() == CARATTERE_CASELLA_PORTALE) return true;
-		return false;
-	}
-
-	public static boolean isOccupataDaSerpente(Casella casella) {
-		return casella.getSerpente()!=null;
-	}
-	
-	public static void setCasellaOccupataDalVerme(Casella casella, Snake serpente, char coloreSerpente) {
-		casella.setStato(coloreSerpente);
-		casella.setVita(serpente.getHP());
 	}
 
 }

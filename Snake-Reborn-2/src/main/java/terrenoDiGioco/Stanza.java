@@ -6,10 +6,14 @@ import supporto.*;
 
 public class Stanza {
 
-	private HashMap<Posizione,Casella> caselle;
-	private HashMap<String,Stanza> collegamenti;
+	private Map<Posizione,Casella> caselle;
+	private Map<String,Stanza> collegamenti;
 	private String nomeUnivoco;
 	private boolean spawnEnabled;
+	
+	private Set<Character> solidCellStatusList;
+	private Set<Character> freeCellFloorStatusList;
+	private Map<Character,CellRenderOption> cellRenderOptionMap;
 
 	public Stanza(String nomeUnivoco){
 		this.nomeUnivoco = nomeUnivoco;
@@ -23,7 +27,7 @@ public class Stanza {
 		this.collegamenti.put(OVEST, this);
 	}
 
-	public HashMap<Posizione, Casella> getCaselle() {
+	public Map<Posizione, Casella> getCaselle() {
 		return caselle;
 	}
 
@@ -31,7 +35,7 @@ public class Stanza {
 		this.caselle = caselle;
 	}
 
-	public HashMap<String, Stanza> getCollegamenti() {
+	public Map<String, Stanza> getCollegamenti() {
 		return collegamenti;
 	}
 
@@ -53,6 +57,30 @@ public class Stanza {
 
 	public void setSpawnEnabled(boolean spawnEnabled) {
 		this.spawnEnabled = spawnEnabled;
+	}
+	
+	public Map<Character, CellRenderOption> getCellRenderOptionMap() {
+		return cellRenderOptionMap;
+	}
+
+	public void setCellRenderOptionMap(Map<Character, CellRenderOption> cellRenderOptionMap) {
+		this.cellRenderOptionMap = cellRenderOptionMap;
+	}
+
+	public Set<Character> getSolidCellStatusList() {
+		return solidCellStatusList;
+	}
+
+	public void setSolidCellStatusList(Set<Character> solidCellStatusList) {
+		this.solidCellStatusList = solidCellStatusList;
+	}
+
+	public Set<Character> getFreeCellFloorStatusList() {
+		return freeCellFloorStatusList;
+	}
+
+	public void setFreeCellFloorStatusList(Set<Character> freeCellFloorStatusList) {
+		this.freeCellFloorStatusList = freeCellFloorStatusList;
 	}
 
 	@Override

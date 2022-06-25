@@ -30,27 +30,21 @@ public interface Costanti {
 	public static final String FILE_PORTA = "config/port.ini";
 	public static final String FILE_BRAIN = "ai/brain.json";	
 	
-	public static final char CARATTERE_CASELLA_VUOTA = ' ';
-	public static final char CARATTERE_CASELLA_PLAYER_GENERICO = 'X';
-	public static final char CARATTERE_CASELLA_BLUESNAKE = '1';
-	public static final char CARATTERE_CASELLA_PLAYER2 = '2';
-	public static final char CARATTERE_CASELLA_MURO = 'W';
-	public static final char CARATTERE_CASELLA_BOT_EASY = 'E';
-	public static final char CARATTERE_CASELLA_BOT_HARD = 'H';
-	public static final char CARATTERE_CASELLA_BOT_MEDIUM = 'M';
-	public static final char CARATTERE_CASELLA_BOT_INSANE = 'I';
-	public static final char CARATTERE_CASELLA_CIBO = 'F';
-	public static final char CARATTERE_CASELLA_PORTALE = 'P';
+	public static final String EMPTY_STATUS = "EM";
+	public static final String SNAKE_STATUS = "SN";
+	public static final String SOLID_STATUS = "SL";
+	public static final String FOOD_STATUS = "FD";
 	
 	public static final int VITA_SERPENTE_DEFAULT = 2;
 	static final public int VITA_SERPENTE_MASSIMA = 40;
 	
 	static final public int LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE = 10; // 10 hp
-	static final public int QTA_CIBO_TESTA_SERPENTE = 5; // 5 unita' cibo
-	static final public int QTA_CIBO_BASE = 1; // 1 unita' cibo
 	static final public int MOLTIPLICATORE_PUNTEGGIO_CIBO = 10;
 	static final public int MOLTIPLICATORE_PUNTEGGIO_UCCISIONE = 100;
 	static final public int TEMPO_RIPOPOLAMENTO_CIBO = (int) FPS * 5; // 5 sec
+	
+	static final public int QTY_SPECIAL_FOOD = 5;
+	static final public int QTY_STANDARD_FOOD = 1;
 	
 	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = (int) FPS * 3; // max 3 sec
 	
