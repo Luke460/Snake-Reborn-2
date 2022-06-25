@@ -22,7 +22,7 @@ public class GraphicManager {
 		CellRenderOption cellRenderOption = new CellRenderOption(FLAT_CELL, Color.white);
 		if(casella.isSolid() || casella.isEmpty()) {
 			Stanza stanza = casella.getStanza();
-			cellRenderOption = stanza.getCellRenderOptionMap().get(casella.getStatoOriginario());
+			cellRenderOption = stanza.getMap().getCellRenderOptionMap().get(casella.getStatoOriginario());
 		} else if (casella.isSnake()) {
 			cellRenderOption = casella.getSnake().getCellRenderOption();
 			if(casella.isSnakeHead()) {

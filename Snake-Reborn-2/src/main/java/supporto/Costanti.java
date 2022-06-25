@@ -4,7 +4,8 @@ public interface Costanti {
 
 	final static String ROOMS_FOLDER_NAME = "rooms";
 	final static String MAPS_PATH = "maps";
-	final static String ROOMS_FILE_TYPE = ".txt";
+	final static String CELL_SETTINGS_FILE_NAME = "cell-settings";
+	final static String FILE_TYPE = ".txt";
 	
 	final static String SOUNDS_PATH = "sounds";
 	

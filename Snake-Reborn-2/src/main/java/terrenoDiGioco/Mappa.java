@@ -2,12 +2,17 @@ package terrenoDiGioco;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class Mappa {
 
 	private String nomeUnivoco;
 	private HashSet<Stanza> stanze;
+	private Set<Character> solidCellStatusList;
+	private Set<Character> freeCellFloorStatusList;
+	private Map<Character,CellRenderOption> cellRenderOptionMap;
 
 	public Mappa(String nomeUnivoco) throws IOException {
 		this.nomeUnivoco = nomeUnivoco;
@@ -28,6 +33,30 @@ public class Mappa {
 
 	public void setStanze(HashSet<Stanza> stanze) {
 		this.stanze = stanze;
+	}	
+
+	public Set<Character> getSolidCellStatusList() {
+		return solidCellStatusList;
+	}
+
+	public void setSolidCellStatusList(Set<Character> solidCellStatusList) {
+		this.solidCellStatusList = solidCellStatusList;
+	}
+
+	public Set<Character> getFreeCellFloorStatusList() {
+		return freeCellFloorStatusList;
+	}
+
+	public void setFreeCellFloorStatusList(Set<Character> freeCellFloorStatusList) {
+		this.freeCellFloorStatusList = freeCellFloorStatusList;
+	}
+
+	public Map<Character, CellRenderOption> getCellRenderOptionMap() {
+		return cellRenderOptionMap;
+	}
+
+	public void setCellRenderOptionMap(Map<Character, CellRenderOption> cellRenderOptionMap) {
+		this.cellRenderOptionMap = cellRenderOptionMap;
 	}
 
 	@Override

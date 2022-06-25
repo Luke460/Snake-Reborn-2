@@ -10,10 +10,7 @@ public class Stanza {
 	private Map<String,Stanza> collegamenti;
 	private String nomeUnivoco;
 	private boolean spawnEnabled;
-	
-	private Set<Character> solidCellStatusList;
-	private Set<Character> freeCellFloorStatusList;
-	private Map<Character,CellRenderOption> cellRenderOptionMap;
+	private Mappa map;
 
 	public Stanza(String nomeUnivoco){
 		this.nomeUnivoco = nomeUnivoco;
@@ -58,29 +55,13 @@ public class Stanza {
 	public void setSpawnEnabled(boolean spawnEnabled) {
 		this.spawnEnabled = spawnEnabled;
 	}
-	
-	public Map<Character, CellRenderOption> getCellRenderOptionMap() {
-		return cellRenderOptionMap;
+
+	public Mappa getMap() {
+		return map;
 	}
 
-	public void setCellRenderOptionMap(Map<Character, CellRenderOption> cellRenderOptionMap) {
-		this.cellRenderOptionMap = cellRenderOptionMap;
-	}
-
-	public Set<Character> getSolidCellStatusList() {
-		return solidCellStatusList;
-	}
-
-	public void setSolidCellStatusList(Set<Character> solidCellStatusList) {
-		this.solidCellStatusList = solidCellStatusList;
-	}
-
-	public Set<Character> getFreeCellFloorStatusList() {
-		return freeCellFloorStatusList;
-	}
-
-	public void setFreeCellFloorStatusList(Set<Character> freeCellFloorStatusList) {
-		this.freeCellFloorStatusList = freeCellFloorStatusList;
+	public void setMap(Mappa map) {
+		this.map = map;
 	}
 
 	@Override
