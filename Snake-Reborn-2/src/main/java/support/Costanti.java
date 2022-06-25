@@ -10,6 +10,7 @@ public interface Costanti {
 	final static String SOUNDS_PATH = "sounds";
 	
 	static final public int TEMPO_BASE = 83; // 12 fps
+	//static final public int TEMPO_BASE = 1000; // 1 fps for test
 	static final public int FPS = (int)(1000/TEMPO_BASE);
 
 	public static final int DIMENSIONE_STANZA_DEFAULT = 40;

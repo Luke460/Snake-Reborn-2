@@ -1,7 +1,5 @@
 package gamefield;
 
-import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,12 +25,8 @@ public class MappaManager {
 			ArrayList<Stanza> listaStanzeDisponibili = new ArrayList<Stanza>(setStanzeDisponibili);
 			Collections.shuffle(listaStanzeDisponibili);
 			for(Stanza stanza:listaStanzeDisponibili) {
-				if(!stanza.equals(stanzaPrecedente) && stanza.isSpawnEnabled()) {
-					Position posizioneCasellaCentrale = new Position(DIMENSIONE_STANZA_DEFAULT/2, DIMENSIONE_STANZA_DEFAULT/2);
-					Casella casellaCentrale = stanza.getCaselle().get(posizioneCasellaCentrale);
-					if(!casellaCentrale.isMortal()) {
-						return stanza;
-					}
+				if(!stanza.equals(stanzaPrecedente) && stanza.isSpawnEnabled() && StanzaManager.isActuallyReadyForSpawn(stanza)) {
+					return stanza;
 				}
 			}
 		}

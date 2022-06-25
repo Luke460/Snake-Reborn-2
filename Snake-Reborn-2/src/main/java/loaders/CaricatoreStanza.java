@@ -1,6 +1,7 @@
 package loaders;
 
 import static support.CostantiConfig.*;
+import gamefield.StanzaManager;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -21,10 +22,6 @@ public class CaricatoreStanza {
 		String nomeStanza = fileWithExt.split("\\.")[0];
 		Stanza stanza = new Stanza(nomeStanza);
 		InfoMapFileContent stanzaInfo = LoaderSupporter.getInfoMapFileContent(testoStanza, nomeFile);
-		String spawnOption = stanzaInfo.getPrefixMap().get(SPAWN_ENABLED).get(0);
-		if(spawnOption!=null) {
-			stanza.setSpawnEnabled(spawnOption.equalsIgnoreCase("true") || spawnOption.equalsIgnoreCase("1"));
-		}	
 		
 		int rowIndex=0;
 		for(String lineContent:stanzaInfo.getInfoLines()) {
@@ -40,6 +37,16 @@ public class CaricatoreStanza {
 			}
 			rowIndex++;
 		}
+		
+		String spawnOption = stanzaInfo.getPrefixMap().get(SPAWN_ENABLED).get(0);
+		if(spawnOption!=null && spawnOption.equalsIgnoreCase("true") || spawnOption.equalsIgnoreCase("1")) {
+			if(StanzaManager.isActuallyReadyForSpawn(stanza)) {
+				stanza.setSpawnEnabled(true);
+			} else {
+				throw new IllegalArgumentException("Invalid spawn setting for room '" + fileWithExt + "': room center is not free");
+			}
+		}	
+		
 		return stanza;	
 	}
 

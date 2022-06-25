@@ -1,4 +1,4 @@
-[SPAWN_ENABLED:true]
+[SPAWN_ENABLED:false]
 
 <PPPPP----------''''''''''''''''''''--PWW>
 <WWWWP---------'''''''''''''''''''----PWW>

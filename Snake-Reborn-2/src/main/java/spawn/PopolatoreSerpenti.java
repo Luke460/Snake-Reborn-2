@@ -29,27 +29,31 @@ public class PopolatoreSerpenti {
 		HashMap<String,Snake> snakeList = new HashMap<String,Snake>();
 		
 		if(partita.getLivello()==3) {
-			while((serpentiInseriti+4)<=limiteSerpenti) {
+			while((serpentiInseriti+4)<limiteSerpenti) {
 				serpentiInseriti = insertInsaneBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertHardBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
 			}
 		} else if (partita.getLivello()==2){
-			while((serpentiInseriti+4)<=limiteSerpenti) {
+			while((serpentiInseriti+4)<limiteSerpenti) {
 				serpentiInseriti = insertHardBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);		
 			}			
 		} else if (partita.getLivello()==1){
-			while((serpentiInseriti+4)<=limiteSerpenti) {
+			while((serpentiInseriti+4)<limiteSerpenti) {
 				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
 				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
 			}			
 		}	
+		System.out.println("Initial AI snakes number: " + serpentiInseriti);
+		for(Snake snake:snakeList.values()) {
+			System.out.println(snake.toString());
+		}
 		return snakeList;
 	}
 
@@ -58,8 +62,12 @@ public class PopolatoreSerpenti {
 		String fullName;
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
-		snakeList.put(fullName, new EasyBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
-		serpentiInseriti++;
+		if(stanza!=null) {
+			snakeList.put(fullName, new EasyBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			serpentiInseriti++;
+		} else {
+			System.out.println("Unable to insert EasyBot");
+		}
 		return serpentiInseriti;
 	}
 
@@ -68,8 +76,12 @@ public class PopolatoreSerpenti {
 		String fullName;
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
-		snakeList.put(fullName, new MediumBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
-		serpentiInseriti++;
+		if(stanza!=null) {
+			snakeList.put(fullName, new MediumBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			serpentiInseriti++;
+		} else {
+			System.out.println("Unable to insert MediumBot");
+		}
 		return serpentiInseriti;
 	}
 
@@ -78,8 +90,12 @@ public class PopolatoreSerpenti {
 		String fullName;
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
-		snakeList.put(fullName,new HardBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
-		serpentiInseriti++;
+		if(stanza!=null) {
+			snakeList.put(fullName,new HardBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			serpentiInseriti++;
+		} else {
+			System.out.println("Unable to insert HardBot");
+		}
 		return serpentiInseriti;
 	}
 
@@ -88,8 +104,12 @@ public class PopolatoreSerpenti {
 		String fullName;
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
-		snakeList.put(fullName, new InsaneBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
-		serpentiInseriti++;
+		if(stanza!=null) {
+			snakeList.put(fullName, new InsaneBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			serpentiInseriti++;
+		} else {
+			System.out.println("Unable to insert InsaneBot");
+		}
 		return serpentiInseriti;
 	}
 	
@@ -112,12 +132,12 @@ public class PopolatoreSerpenti {
 				spawnableRoomsCounter ++;
 			}
 		}
-		return Math.min(totalRoomsNumber-1, spawnableRoomsCounter-1);
+		return Math.min(totalRoomsNumber, spawnableRoomsCounter);
 	}
 	
 	public static void provaAResuscitareUnSerpenteBot(Partita partita) {	
 		for(Snake snake:partita.getSerpenti().values()) {
-			if(!snake.getNome().equals(partita.getNomePlayer1())){
+			if(!snake.isVivo() && !snake.getNome().equals(partita.getNomePlayer1())){
 				provaAResuscitareUnSerpente(partita, snake);
 			}
 		}

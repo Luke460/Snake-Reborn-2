@@ -206,11 +206,6 @@ public abstract class Snake {
 		this.ciboPreso = ciboPreso;
 	}
 
-	@Override
-	public String toString(){
-		return this.getNome() + " \t " + this.getClass().getSimpleName() + " \t " + (this.getHP()*MOLTIPLICATORE_PUNTEGGIO_CIBO);
-	}
-
 	public void miHaiUcciso(){
 		this.numeroUccisioni++;
 		if(this.getNome().equals(NOME_PLAYER_1)){
@@ -333,6 +328,13 @@ public abstract class Snake {
 			return false;
 		Snake other = (Snake) obj;
 		return Objects.equals(nome, other.nome);
+	}
+
+	@Override
+	public String toString() {
+		return "Snake [nome=" + nome + ", ciboPreso=" + ciboPreso + ", numeroUccisioni=" + numeroUccisioni
+				+ ", hpPreMorte=" + hpPreMorte + ", vivo=" + vivo + ", getHP()=" + getHP() + ", isVivo()=" + isVivo()
+				+ "]";
 	}
 	
 }
