@@ -77,6 +77,9 @@ public class Main {
 
 			contaCicli++;
 
+			partita.eseguiTurni();
+			visualizzatore.repaint();
+			
 			if((contaCicli%TEMPO_RIPOPOLAMENTO_CIBO)==0){
 				PopolatoreCibo.aggiungiCiboNellaMappa(partita.getMappa());
 			}
@@ -84,9 +87,6 @@ public class Main {
 			if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT)==0)){
 				PopolatoreSerpenti.provaAResuscitareUnSerpenteBot(partita);
 			}
-
-			partita.eseguiTurni();
-			visualizzatore.repaint();
 
 			oraCorrente = System.currentTimeMillis();
 			aspettaPer = oraProgrammataDiRipresa - oraCorrente;
