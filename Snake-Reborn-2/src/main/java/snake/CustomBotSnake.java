@@ -214,7 +214,8 @@ public class CustomBotSnake extends Snake {
 	private HashMap<String, Direction> getDirezioniConCibo(HashMap<String, Direction> direzioni, int depth) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
 		for(Entry<String, Direction> entry: direzioni.entrySet()) {
-			if(controllaCibo(this.getCasellaDiTesta(), entry.getValue(), depth)) {
+			Casella startingCell = CasellaManager.getCasellaAdiacente(this.getCasellaDiTesta(), entry.getValue());
+			if(controllaCibo(startingCell, entry.getValue(), depth)) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
@@ -234,10 +235,9 @@ public class CustomBotSnake extends Snake {
 	
 	private boolean controllaCibo(Casella casella, Direction dir, int remainingJumps) {
 		if(casella.isFood()) return true; 
+		if(casella.isMortal()) return false;
 		Casella casellaSuccessiva = CasellaManager.getCasellaAdiacente(casella, dir);
 		if(!casella.getStanza().equals(casellaSuccessiva.getStanza())) return false;
-		if(casellaSuccessiva.isMortal()) return false;
-		if(casellaSuccessiva.isFood()) return true;
 		if(remainingJumps>0) {
 			return controllaCibo(casellaSuccessiva, dir, remainingJumps-1);
 		} else {
