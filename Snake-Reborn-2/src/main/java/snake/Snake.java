@@ -269,7 +269,7 @@ public abstract class Snake {
 		// pre: prima casella libera
 		Position posizionePrimaCasella = new Position(DIMENSIONE_STANZA_DEFAULT/2,DIMENSIONE_STANZA_DEFAULT/2);
 		// direzione casuale
-		Direction direzioneSerpente = new Direction();
+		Direction direzioneSerpente = getBestSpawnDirection(posizionePrimaCasella, stanza);
 		this.setDirezione(direzioneSerpente);
 		Direction direzioneCreazioneCaselle = direzioneSerpente.getInversa();
 		// creo la testa del serpente
@@ -301,6 +301,25 @@ public abstract class Snake {
 		
 	}
 	
+	private Direction getBestSpawnDirection(Position firstCellPosition, Stanza room) {
+		Casella firstCell = room.getCaselle().get(firstCellPosition);
+		Direction up = new Direction(Direction.Dir.UP);
+		Direction right = new Direction(Direction.Dir.RIGHT);
+		Direction down = new Direction(Direction.Dir.DOWN);
+		Direction left = new Direction(Direction.Dir.LEFT);
+		ArrayList<Direction> dirList = new ArrayList<>();
+		dirList.add(up);
+		dirList.add(right);
+		dirList.add(down);
+		dirList.add(left);
+		Collections.shuffle(dirList);
+		TreeMap<Integer,Direction> directionToSpace = new TreeMap<>();
+		for(Direction dir: dirList) {
+			directionToSpace.put(CasellaManager.getNumberOfNonLethalCellsInDirection(firstCell, dir), dir);
+		}
+		return directionToSpace.get(directionToSpace.lastKey());
+	}
+
 	public boolean isVivo() {
 		return vivo;
 	}

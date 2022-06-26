@@ -64,4 +64,15 @@ public class CasellaManager {
 		return  stanzaCorrente.getCaselle().get(posizioneNuovaCasella);
 	}
 
+	public static int getNumberOfNonLethalCellsInDirection(Casella firstCell, Direction dir) {
+		int distance = 0;
+		Casella cell = getCasellaAdiacente(firstCell, dir);
+		Stanza startingRoom = cell.getStanza();
+		while(!cell.isMortal() && cell.getStanza().equals(startingRoom)) {
+			distance++;
+			cell = getCasellaAdiacente(cell, dir);
+		}
+		return distance;
+	}
+
 }
