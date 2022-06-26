@@ -1,6 +1,6 @@
 package snake;
 
-import static support.CostantiConfig.FLAT_CELL;
+import static support.CostantiConfig.DARKER_CELL;
 
 import java.awt.Color;
 
@@ -10,7 +10,7 @@ import gamefield.Stanza;
 
 public class InsaneBotSnake extends CustomBotSnake {
 	
-	public static final CellRenderOption CELL_RENDER_OPTION = new CellRenderOption(FLAT_CELL, Color.magenta);
+	public static final CellRenderOption CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.magenta);
 
 	public InsaneBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
 		super(nome, stanza, vitaIniziale, partita);

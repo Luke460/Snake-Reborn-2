@@ -2,7 +2,7 @@ package video;
 
 import static support.Costanti.QTY_SPECIAL_FOOD;
 import static support.CostantiConfig.FLAT_CELL;
-import static support.CostantiConfig.HEAD_CELL;
+import static support.CostantiConfig.DARKER_CELL;
 import static support.CostantiConfig.RELIEF_CELL;
 
 import java.awt.Color;
@@ -24,14 +24,11 @@ public class GraphicManager {
 			cellRenderOption = stanza.getMap().getCellRenderOptionMap().get(casella.getStatoOriginario());
 		} else if (casella.isSnake()) {
 			cellRenderOption = casella.getSnake().getCellRenderOption();
-			if(casella.isSnakeHead()) {
-				cellRenderOption = new CellRenderOption(HEAD_CELL, casella.getSnake().getCellRenderOption().getColor());
-			}
 		} else if (casella.isFood()) {
 			if(casella.getFoodAmount() > 0 && casella.getFoodAmount() < QTY_SPECIAL_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, STANDARD_FOOD_COLOR);
 			} else if (casella.getFoodAmount() >= QTY_SPECIAL_FOOD) {
-				cellRenderOption = new CellRenderOption(HEAD_CELL, STANDARD_FOOD_COLOR);
+				cellRenderOption = new CellRenderOption(DARKER_CELL, STANDARD_FOOD_COLOR);
 			} else { // poison
 				cellRenderOption = new CellRenderOption(RELIEF_CELL, POISON_FOOD_COLOR);
 			}

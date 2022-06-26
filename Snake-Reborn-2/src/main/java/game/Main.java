@@ -1,7 +1,7 @@
 package game;
 
-import static support.Costanti.TEMPO_BASE;
-import static support.Costanti.FPS;
+import static support.Costanti.TEMPO_BASE_STANDARD;
+import static support.Costanti.TEMPO_BASE_HARDCORE;
 import static support.Costanti.TEMPO_RIPOPOLAMENTO_CIBO;
 import static support.Costanti.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
 
@@ -70,20 +70,24 @@ public class Main {
 
 		long oraInizioAlgoritmo = System.currentTimeMillis(); 
 		long oraProgrammataDiRipresa = oraInizioAlgoritmo;
-		long oraCorrente;
+		long oraCorrente;	
+		long tickTime = partita.isHardcoreMode() ? TEMPO_BASE_HARDCORE : TEMPO_BASE_STANDARD;
+		int fps = (int)(1000/tickTime);
+		int foodRespawn = (int)(TEMPO_RIPOPOLAMENTO_CIBO*fps);
+		int snakeRespawn = (int)(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT*fps);
 
 		while(partita.isInGame()) {
 			oraInizioAlgoritmo = oraProgrammataDiRipresa;
-			oraProgrammataDiRipresa = oraInizioAlgoritmo + TEMPO_BASE;
+			oraProgrammataDiRipresa = oraInizioAlgoritmo + tickTime;
 			contaCicli++;
 
 			partita.eseguiTurni();
 			
-			spawnJob(partita, contaCicli);
+			spawnJob(partita, contaCicli, foodRespawn, snakeRespawn);
 			
 			visualizzatore.repaint();
 			
-			if(contaCicli%FPS==0) {
+			if(contaCicli%fps==0) {
 				long latency = System.currentTimeMillis()-oraInizioAlgoritmo;
 				System.out.println("latency: " + latency +" ms");
 			}
@@ -98,13 +102,13 @@ public class Main {
 		}
 	}
 
-	private static void spawnJob(Partita partita, int contaCicli) {
-		if((contaCicli%TEMPO_RIPOPOLAMENTO_CIBO)==0){
+	private static void spawnJob(Partita partita, int contaCicli, int foodRespawn, int snakeRespawn) {
+		if((contaCicli%foodRespawn)==0){
 			System.out.println("adding food");
 			PopolatoreCibo.aggiungiCiboNellaMappa(partita.getMappa());
 		}
 
-		if((contaCicli%(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT)==0)){
+		if((contaCicli%snakeRespawn==0)){
 			System.out.println("ai snake respawn");
 			PopolatoreSerpenti.provaAResuscitareUnSerpenteBot(partita);
 		}

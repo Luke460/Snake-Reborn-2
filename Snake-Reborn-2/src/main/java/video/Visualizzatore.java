@@ -94,24 +94,24 @@ public class Visualizzatore extends JPanel {
 		g.setColor(cellRenderOption.getColor());
 		int gx = posX*dimensioneCasella, gy = posY*dimensioneCasella;
 		if(cellRenderOption.isFlat()) {
-			disegnaCasellaNormale(g, dimensioneCasella, gx, gy);
+			drawStandardCell(g, dimensioneCasella, gx, gy);
 		} else if (cellRenderOption.isRelief()){
-			disegnaCasellaInRilievo(g, dimensioneCasella, gx, gy);
-		} else if (cellRenderOption.isHead()) {
-			disegnaCasellaTesta(g, dimensioneCasella, gx, gy);
+			drawReliefCell(g, dimensioneCasella, gx, gy);
+		} else if (cellRenderOption.isDarker()) {
+			drawDarkerCell(g, dimensioneCasella, gx, gy);
 		}
 	}
 
-	private void disegnaCasellaNormale(Graphics g, int dimC, int gx, int gy) {
+	private void drawStandardCell(Graphics g, int dimC, int gx, int gy) {
 		paintSquare(g, dimC, gx, gy);
 	}
 
-	private void disegnaCasellaInRilievo(Graphics g, int dimC, int gx, int gy) {
+	private void drawReliefCell(Graphics g, int dimC, int gx, int gy) {
 		paintSquare(g, dimC, gx, gy);
 		g.fill3DRect(   gx+3,gy+3, dimC-7, dimC-7, true );
 	}
 
-	private void disegnaCasellaTesta(Graphics g, int dimC, int gx, int gy) {
+	private void drawDarkerCell(Graphics g, int dimC, int gx, int gy) {
 		paintSquare(g, dimC, gx, gy);
 		Color nuovoColore = g.getColor().darker();
 		g.setColor(nuovoColore);

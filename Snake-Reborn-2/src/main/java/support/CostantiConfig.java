@@ -9,6 +9,7 @@ public interface CostantiConfig {
 	static final public String MUSICA = "musicaDiSottofondo";
 	static final public String VOLUME_EFFETTI = "volumeEffettiSonori";
 	static final public String VOLUME_MUSICA = "volumeMusicaDiSottofondo";
+	static final public String HARDCORE_MODE = "hardcoreMode";
 	
 	//map and room handling
 	static final public String ROOM_PREFIX = "ROOM_PREFIX";
@@ -18,6 +19,6 @@ public interface CostantiConfig {
 	static final public String CELL_RENDER_ = "CELL_RENDER_";
 	static final public String FLAT_CELL = "FLAT";
 	static final public String RELIEF_CELL = "RELIEF";
-	static final public String HEAD_CELL = "HEAD";
+	static final public String DARKER_CELL = "DARKER";
 	
 }

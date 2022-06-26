@@ -36,6 +36,7 @@ public class Partita {
 	private boolean inGame;
 	private Stanza stanzaDiSpawn;
 	private String mapFileName;
+	private boolean hardcoreMode;
 
 	public Partita() throws IOException {
 		GestorePunteggi.inizializza(this);
@@ -116,6 +117,14 @@ public class Partita {
 
 	public void setLivello(int livello) {
 		this.livello = livello;
+	}
+
+	public boolean isHardcoreMode() {
+		return hardcoreMode;
+	}
+
+	public void setHardcoreMode(boolean hardcoreMode) {
+		this.hardcoreMode = hardcoreMode;
 	}
 
 	public int getVecchioRecord() {

@@ -9,10 +9,11 @@ public interface Costanti {
 	
 	final static String SOUNDS_PATH = "sounds";
 	
-	static final public int TEMPO_BASE = 83; // 12 fps
+	static final public int TEMPO_BASE_STANDARD = 83; // 12 fps
+	static final public int TEMPO_BASE_HARDCORE = 67; // 15 fps
 	//static final public int TEMPO_BASE = 1000; // 1 fps for test
 	//static final public int TEMPO_BASE = 28; // 3X speed test
-	static final public int FPS = (int)(1000/TEMPO_BASE);
+	//static final public int FPS = (int)(1000/TEMPO_BASE);
 
 	public static final int DIMENSIONE_STANZA_DEFAULT = 40;
 	public static final double RAPPORTO_DIMENSIONE_SCHERMO = 0.9; // 90% del lato minimo
@@ -44,12 +45,12 @@ public interface Costanti {
 	static final public int LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE = 10; // 10 hp
 	static final public int MOLTIPLICATORE_PUNTEGGIO_CIBO = 10;
 	static final public int MOLTIPLICATORE_PUNTEGGIO_UCCISIONE = 100;
-	static final public int TEMPO_RIPOPOLAMENTO_CIBO = (int) FPS * 5; // 5 sec
+	static final public int TEMPO_RIPOPOLAMENTO_CIBO = 5; // 5 sec
 	
 	static final public int QTY_SPECIAL_FOOD = 5;
 	static final public int QTY_STANDARD_FOOD = 1;
 	
-	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = (int) FPS * 7; // max 3 sec
+	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = 7; // max 3 sec
 	
 	static final public int CD_FLASH = 12*60; //fps x time
 	

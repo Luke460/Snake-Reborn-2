@@ -1,6 +1,6 @@
 package snake;
 
-import static support.CostantiConfig.FLAT_CELL;
+import static support.CostantiConfig.DARKER_CELL;
 
 import java.awt.Color;
 
@@ -12,7 +12,7 @@ import score.GestorePunteggi;
 
 public class PlayerSnake extends Snake {
 	
-	public static final CellRenderOption CELL_RENDER_OPTION = new CellRenderOption(FLAT_CELL, Color.blue);
+	public static final CellRenderOption CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.blue);
 
 	public PlayerSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
 		super(nome, stanza, vitaIniziale, partita);

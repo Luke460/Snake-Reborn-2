@@ -56,6 +56,7 @@ public class VisualizzatoreClient extends JFrame{
 	JSlider volumeEffetti;
 	JComboBox<String> selettoreLivello;
 	JComboBox<String> selettoreMappa;
+	JCheckBox hardcoreMode;
 	JLabel messaggioInformativo;
 	JButton accedi;
 	JButton ospite;
@@ -78,8 +79,6 @@ public class VisualizzatoreClient extends JFrame{
 		preparaLetturaPulsanti();
 
 		regolaFinestra();
-
-
 	}
 	
 	public void rileggi(Partita partita) {
@@ -112,16 +111,18 @@ public class VisualizzatoreClient extends JFrame{
 		GestoreSuoni.setMusicaAbilitata(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
+		partita.setHardcoreMode(hardcoreMode.isSelected());
 	}
 
 	private void aggiornaFileImpostazioni() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
-		cr.salvaImpostazione(CostantiConfig.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
 		cr.salvaImpostazione(CostantiConfig.EFFETTI, Boolean.toString(opzEffetti.isSelected()));
 		cr.salvaImpostazione(CostantiConfig.VOLUME_EFFETTI, Integer.toString(volumeEffetti.getValue()));
 		cr.salvaImpostazione(CostantiConfig.MUSICA, Boolean.toString(opzMusica.isSelected()));
 		cr.salvaImpostazione(CostantiConfig.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
 		cr.salvaImpostazione(CostantiConfig.USERNAME, nomeInserito.getText());
+		cr.salvaImpostazione(CostantiConfig.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
+		cr.salvaImpostazione(CostantiConfig.HARDCORE_MODE, Boolean.toString(hardcoreMode.isSelected()));
 	}
 
 	private void aggiungiPannelliAlContainer() {
@@ -132,12 +133,13 @@ public class VisualizzatoreClient extends JFrame{
 
 	private void preimpostaPannelli() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
-		selettoreMappa.setSelectedItem(cr.leggiImpostazione(CostantiConfig.NOME_MAPPA));
 		opzEffetti.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.EFFETTI)));
 		volumeEffetti.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_EFFETTI)));
 		opzMusica.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MUSICA)));
 		volumeMusica.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_MUSICA)));
 		nomeInserito.setText(cr.leggiImpostazione(CostantiConfig.USERNAME));
+		selettoreMappa.setSelectedItem(cr.leggiImpostazione(CostantiConfig.NOME_MAPPA));
+		hardcoreMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.HARDCORE_MODE)));
 		selettoreLivello.setSelectedIndex(2);
 	}
 
@@ -167,9 +169,9 @@ public class VisualizzatoreClient extends JFrame{
 		volumeMusica = new JSlider(0, 100, 50);
 		String[] data1 = {"basso", "medio", "alto*"}; 
 		selettoreLivello = new JComboBox(data1);
-
 		selettoreMappa = new JComboBox(listaFileMappe.toArray());
-		messaggioInformativo = new JLabel("       *punteggio valido");
+		hardcoreMode = new JCheckBox("Hardcore mode*");
+		messaggioInformativo = new JLabel("      *punteggio valido");
 
 		accedi=new JButton("Accedi e gioca");
 		ospite=new JButton("Gioca come ospite");
@@ -202,7 +204,7 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.add(selettoreLivello);
 		PannelloOpzioni.add(selettoreMappa);
 		
-		PannelloOpzioni.add(messaggioInformativo);
+		PannelloOpzioni.add(hardcoreMode);
 		PannelloOpzioni.add(new Component() {});
 		
 		PannelloOpzioni.add(opzEffetti);
@@ -210,6 +212,8 @@ public class VisualizzatoreClient extends JFrame{
 		
 		PannelloOpzioni.add(opzMusica);
 		PannelloOpzioni.add(volumeMusica);
+		
+		PannelloOpzioni.add(messaggioInformativo);
 		
 		PannelloTastiConferma.setLayout(new GridLayout(1, 2));
 		PannelloTastiConferma.setPreferredSize(new Dimension(1,36));
@@ -279,11 +283,6 @@ public class VisualizzatoreClient extends JFrame{
 				setPremuto(true);
 			}
 		}
-	}
-
-	public String getSelectedMap() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
 
