@@ -125,14 +125,14 @@ public class PopolatoreSerpenti {
 	}
 
 	public static int calcolaNumeroMassimoSerpentiMappa(Mappa mappa) {
-		int totalRoomsNumber = mappa.getStanze().size();
 		int spawnableRoomsCounter = 0;
 		for(Stanza stanza:mappa.getStanze()) {
 			if(stanza.isSpawnEnabled()) {
 				spawnableRoomsCounter ++;
 			}
 		}
-		return Math.min(totalRoomsNumber, spawnableRoomsCounter);
+		int maxSuggestedSnakeNumber = (int)(mappa.getStanze().size()*0.75);
+		return Math.min(maxSuggestedSnakeNumber, spawnableRoomsCounter);
 	}
 	
 	public static void provaAResuscitareUnSerpenteBot(Partita partita) {	
