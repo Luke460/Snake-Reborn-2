@@ -39,9 +39,11 @@ public class GestorePunteggi {
 		return aiMultiplier * hardcoreMultiplier;
 	}
 
+
+	
 	public static void inviaPunteggio() {
 		if(!punteggioValido()||partita.isOspite()) return;
-		int nuovoRecord = partita.getSnakeScore(partita.getSerpentePlayer1());
+		int nuovoRecord = partita.getSerpentePlayer1().getTotalSnakeScore();
 		InviaPunteggio inviatore = new InviaPunteggio(partita);
 		inviatore.start();
 		partita.setVecchioRecord(nuovoRecord);

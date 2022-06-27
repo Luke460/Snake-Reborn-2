@@ -5,6 +5,8 @@ import static support.Costanti.QTY_STANDARD_FOOD;
 import static support.Costanti.VITA_SERPENTE_MASSIMA;
 import static support.Costanti.NOME_PLAYER_1;
 import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
+import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_CIBO;
+import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
 import static support.CostantiConfig.FLAT_CELL;
 
 import java.awt.Color;
@@ -23,6 +25,7 @@ import gamefield.CellRenderOption;
 import gamefield.Direction;
 import gamefield.Position;
 import gamefield.Stanza;
+import score.GestorePunteggi;
 import spawn.ComparatoreCasellePerVita;
 import spawn.PopolatoreCibo;
 
@@ -44,6 +47,7 @@ public abstract class Snake {
 	private Casella casellaDiTesta;
 	private boolean vivo;
 	private CellRenderOption cellRenderOption;
+	private int previousScore;
 	
 	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(FLAT_CELL, Color.gray);
 
@@ -51,6 +55,7 @@ public abstract class Snake {
 		this.vivo = false;
 		this.partita = partita;
 		this.nome=nome;
+		this.previousScore=0;
 		this.cellRenderOption=DEFAULT_CELL_RENDER_OPTION;
 		this.resettaSerpente(stanza, vitaIniziale);
 	}
@@ -260,6 +265,7 @@ public abstract class Snake {
 	}
 	
 	public void resettaSerpente(Stanza stanza, int vitaResurrezione) {
+		this.previousScore = (int)(this.getTotalSnakeScore()/2);
 		this.vivo = true;
 		this.hpPreMorte = 0;
 		this.ciboPreso=0;
@@ -334,6 +340,23 @@ public abstract class Snake {
 
 	public void setCellRenderOption(CellRenderOption cellRenderOption) {
 		this.cellRenderOption = cellRenderOption;
+	}
+	
+	public double getCurrentGameSnakeScore() {
+		double punteggioCibo = this.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
+		double punteggioUccisioni = this.getNumeroUccisioni()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*GestorePunteggi.getMoltiplicatorePunteggio();
+		return punteggioCibo+punteggioUccisioni;
+	}
+	
+	public int getTotalSnakeScore() {
+		return (int)(this.getCurrentGameSnakeScore() + this.previousScore);
+		/*
+		if(this.isVivo()) {
+			return this.getCurrentGameSnakeScore() + this.previousScore;
+		} else {
+			return this.getCurrentGameSnakeScore();
+		}
+		*/
 	}
 
 	@Override

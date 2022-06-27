@@ -7,8 +7,11 @@ import static support.Costanti.RAPPORTO_DIMENSIONE_SCHERMO;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,6 +20,7 @@ import game.Partita;
 import gamefield.Casella;
 import gamefield.CellRenderOption;
 import gamefield.Stanza;
+import score.SnakeScoreComparator;
 import snake.Snake;
 import support.OSdetector;
 import support.Utility;
@@ -75,11 +79,32 @@ public class Visualizzatore extends JPanel {
 		for (Casella c : stanzaCorrente.getCaselle().values()) {
 			disegnaCasella(g, c);
 		}
-		riportaStatisticheSullaFinestra(partita.getSnakeScore(partita.getSerpentePlayer1()));
+		drawStatisticsOnScreen(g,partita.getSerpentePlayer1().getTotalSnakeScore());
 	}
 
-	private void riportaStatisticheSullaFinestra(long punteggio) {
-		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroAvversari())+ 
+	private void drawStatisticsOnScreen(Graphics g, long punteggio) {
+		ArrayList<Snake> snakes = new ArrayList<>(this.partita.getSerpenti().values());
+		SnakeScoreComparator comparator = new SnakeScoreComparator();
+		Collections.sort(snakes, comparator);
+		int x = (int)(DIMENSIONE_STANZA_DEFAULT*dimensioneCasella * 0.90);
+		int y = dimensioneCasella/2;
+		boolean first = true;
+		Font currentFont = g.getFont();
+		Font newFont = currentFont.deriveFont(currentFont.getSize() * 2F);
+		for(Snake snake:snakes) {
+			g.setColor(snake.getCellRenderOption().getColor());
+			if(first) {
+				drawDarkerCell(g, (int)(dimensioneCasella*0.75), x-(dimensioneCasella/8), y-(dimensioneCasella/8));
+				first = false;
+			} else {
+				drawDarkerCell(g, (int)(dimensioneCasella*0.5), x, y);
+			}
+			g.setColor(Color.white);
+			g.setFont(newFont);
+			g.drawString(String.valueOf(snake.getTotalSnakeScore()), x + dimensioneCasella, (int)(y + dimensioneCasella*0.5));
+			y+=dimensioneCasella;
+		}
+		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroAvversari()) +
 				"        Uccisioni: " + this.partita.getSerpentePlayer1().getNumeroUccisioni() +
 				"        Record: " + this.partita.getVecchioRecord() + 
 				"        Punteggio: " + punteggio +

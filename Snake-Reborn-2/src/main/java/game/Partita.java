@@ -2,8 +2,6 @@ package game;
 
 import static support.Costanti.NOME_PLAYER_1;
 import static support.Costanti.VITA_SERPENTE_DEFAULT;
-import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_CIBO;
-import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -93,12 +91,6 @@ public class Partita {
 
 	public void setMappa(Mappa mappa) {
 		this.mappa = mappa;
-	}
-	
-	public int getSnakeScore(Snake s) {
-		double punteggioCibo = s.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
-		double punteggioUccisioni = s.getNumeroUccisioni()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*GestorePunteggi.getMoltiplicatorePunteggio();
-		return (int) (punteggioCibo+punteggioUccisioni);
 	}
 	
 	public int getNumeroAvversari(){
