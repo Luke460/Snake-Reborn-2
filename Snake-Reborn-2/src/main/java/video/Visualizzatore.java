@@ -83,14 +83,24 @@ public class Visualizzatore extends JPanel {
 	}
 
 	private void drawStatisticsOnScreen(Graphics g, long punteggio) {
+		addLeaderboard(g);
+		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroAvversari()) +
+				"        Uccisioni: " + this.partita.getSerpentePlayer1().getNumeroUccisioni() +
+				"        Record: " + this.partita.getVecchioRecord() + 
+				"        Punteggio: " + punteggio +
+				"        Tempo: " + (int)(this.partita.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000));
+	}
+
+	private void addLeaderboard(Graphics g) {
 		ArrayList<Snake> snakes = new ArrayList<>(this.partita.getSerpenti().values());
 		SnakeScoreComparator comparator = new SnakeScoreComparator();
 		Collections.sort(snakes, comparator);
-		int x = (int)(DIMENSIONE_STANZA_DEFAULT*dimensioneCasella * 0.90);
-		int y = dimensioneCasella/2;
+		int x = (int)((DIMENSIONE_STANZA_DEFAULT*dimensioneCasella * 0.9));
+		int y = (int)(dimensioneCasella*0.75);
 		boolean first = true;
 		Font currentFont = g.getFont();
 		Font newFont = currentFont.deriveFont(currentFont.getSize() * 2F);
+		int i = 0;
 		for(Snake snake:snakes) {
 			g.setColor(snake.getCellRenderOption().getColor());
 			if(first) {
@@ -103,12 +113,9 @@ public class Visualizzatore extends JPanel {
 			g.setFont(newFont);
 			g.drawString(String.valueOf(snake.getTotalSnakeScore()), x + dimensioneCasella, (int)(y + dimensioneCasella*0.5));
 			y+=dimensioneCasella;
+			i++;
+			if(i>=5) break;
 		}
-		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroAvversari()) +
-				"        Uccisioni: " + this.partita.getSerpentePlayer1().getNumeroUccisioni() +
-				"        Record: " + this.partita.getVecchioRecord() + 
-				"        Punteggio: " + punteggio +
-				"        Tempo: " + (int)(this.partita.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000));
 	}
 
 	private void disegnaCasella(Graphics g, Casella casella) {
