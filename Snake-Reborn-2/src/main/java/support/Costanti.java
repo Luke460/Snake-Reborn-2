@@ -9,8 +9,9 @@ public interface Costanti {
 	
 	final static String SOUNDS_PATH = "sounds";
 	
-	static final public int TEMPO_BASE_STANDARD = 83; // 12 fps
-	static final public int TEMPO_BASE_HARDCORE = 67; // 15 fps
+	static final public int TICK_TIME_EASY = 100; // 10 fps
+	static final public int TICK_TIME_MEDIUM = 83; // 12 fps
+	static final public int TICK_TIME_HARD = 67; // 15 fps
 	//static final public int TEMPO_BASE = 1000; // 1 fps for test
 	//static final public int TEMPO_BASE = 28; // 3X speed test
 	//static final public int FPS = (int)(1000/TEMPO_BASE);

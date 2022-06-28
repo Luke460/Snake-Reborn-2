@@ -15,12 +15,25 @@ public class StanzaManager {
 	}
 	
 	public static boolean isActuallyReadyForSpawn(Stanza stanza) {
-		Position posizioneCasellaCentrale = new Position(DIMENSIONE_STANZA_DEFAULT/2, DIMENSIONE_STANZA_DEFAULT/2);
-		Casella casellaCentrale = stanza.getCaselle().get(posizioneCasellaCentrale);
-		if(!casellaCentrale.isMortal()) {
-			return true;
-		}
-		return false;
+		
+		int centralDistance = DIMENSIONE_STANZA_DEFAULT/2;
+		
+		Position pos1 = new Position(centralDistance-1, centralDistance-1);
+		Position pos2 = new Position(centralDistance, centralDistance-1);
+		Position pos3 = new Position(centralDistance-1, centralDistance);
+		Position pos4 = new Position(centralDistance, centralDistance);
+		
+		Casella cell1 = stanza.getCaselle().get(pos1);
+		Casella cell2 = stanza.getCaselle().get(pos2);
+		Casella cell3 = stanza.getCaselle().get(pos3);
+		Casella cell4 = stanza.getCaselle().get(pos4);
+		
+		if(cell1.isMortal()) return false;
+		if(cell2.isMortal()) return false;
+		if(cell3.isMortal()) return false;
+		if(cell4.isMortal()) return false;
+		
+		return true;
 	}
 	
 }

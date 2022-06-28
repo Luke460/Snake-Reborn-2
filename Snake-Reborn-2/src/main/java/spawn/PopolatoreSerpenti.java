@@ -27,29 +27,14 @@ public class PopolatoreSerpenti {
 		String nomeBot = "Bot_";
 		
 		HashMap<String,Snake> snakeList = new HashMap<String,Snake>();
-		
-		if(partita.getLivello()==3) {
-			while((serpentiInseriti+4)<limiteSerpenti) {
-				serpentiInseriti = insertInsaneBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertHardBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
-			}
-		} else if (partita.getLivello()==2){
-			while((serpentiInseriti+4)<limiteSerpenti) {
-				serpentiInseriti = insertHardBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);		
-			}			
-		} else if (partita.getLivello()==1){
-			while((serpentiInseriti+4)<limiteSerpenti) {
-				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
-				serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
-			}			
-		}	
+
+		while((serpentiInseriti+4)<limiteSerpenti) {
+			serpentiInseriti = insertInsaneBot(partita, serpentiInseriti, nomeBot, snakeList);
+			serpentiInseriti = insertHardBot(partita, serpentiInseriti, nomeBot, snakeList);
+			serpentiInseriti = insertMediumBot(partita, serpentiInseriti, nomeBot, snakeList);
+			serpentiInseriti = insertEasyBot(partita, serpentiInseriti, nomeBot, snakeList);
+		}
+
 		System.out.println("Initial AI snakes number: " + serpentiInseriti);
 		for(Snake snake:snakeList.values()) {
 			System.out.println(snake.toString());

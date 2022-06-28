@@ -28,6 +28,7 @@ import gamefield.Stanza;
 import score.GestorePunteggi;
 import spawn.ComparatoreCasellePerVita;
 import spawn.PopolatoreCibo;
+import support.Utility;
 
 import java.util.Objects;
 import java.util.TreeMap;
@@ -271,9 +272,15 @@ public abstract class Snake {
 		this.ciboPreso=0;
 		this.numeroUccisioni=0;
 		this.istanteDiNascita = System.currentTimeMillis();
-		// sempre al centro della stanza (20,20)
-		// pre: prima casella libera
-		Position posizionePrimaCasella = new Position(DIMENSIONE_STANZA_DEFAULT/2,DIMENSIONE_STANZA_DEFAULT/2);
+
+		// random center spawn
+		int deltaXspawn = 0;
+		if(Utility.veroAl(50)) deltaXspawn = -1;
+		int deltaYspawn = 0;
+		if(Utility.veroAl(50)) deltaYspawn = -1;
+		int centerPosition = DIMENSIONE_STANZA_DEFAULT/2;
+		Position posizionePrimaCasella = new Position(centerPosition+deltaXspawn,centerPosition+deltaYspawn);
+		
 		// direzione casuale
 		Direction direzioneSerpente = getBestSpawnDirection(posizionePrimaCasella, stanza);
 		this.setDirezione(direzioneSerpente);
@@ -318,7 +325,8 @@ public abstract class Snake {
 		dirList.add(right);
 		dirList.add(down);
 		dirList.add(left);
-		Collections.shuffle(dirList);
+		//not needed due to the random spawn position
+		//Collections.shuffle(dirList);
 		TreeMap<Integer,Direction> directionToSpace = new TreeMap<>();
 		for(Direction dir: dirList) {
 			directionToSpace.put(CasellaManager.getNumberOfNonLethalCellsInDirection(firstCell, dir), dir);

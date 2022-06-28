@@ -14,7 +14,7 @@ public class GestorePunteggi {
 	}
 
 	private static boolean punteggioValido() {
-		if(partita.getLivello()==3 && partita.isHardcoreMode()){
+		if(partita.getLivello()==3){
 			return true;
 		} else {
 			return false;
@@ -22,7 +22,6 @@ public class GestorePunteggi {
 	}	
 
 	public static double getMoltiplicatorePunteggio() {
-		double hardcoreMultiplier;
 		double aiMultiplier = 0;
 		if(partita.getLivello()==1) {
 			aiMultiplier = 0.2;
@@ -31,12 +30,7 @@ public class GestorePunteggi {
 		} else if(partita.getLivello()==3) {
 			aiMultiplier = 1;
 		}
-		if(partita.isHardcoreMode()) {
-			hardcoreMultiplier = 1;
-		} else {
-			hardcoreMultiplier = 0.5;
-		}
-		return aiMultiplier * hardcoreMultiplier;
+		return aiMultiplier;
 	}
 
 

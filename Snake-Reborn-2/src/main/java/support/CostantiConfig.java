@@ -9,7 +9,7 @@ public interface CostantiConfig {
 	static final public String MUSICA = "musicaDiSottofondo";
 	static final public String VOLUME_EFFETTI = "volumeEffettiSonori";
 	static final public String VOLUME_MUSICA = "volumeMusicaDiSottofondo";
-	static final public String HARDCORE_MODE = "hardcoreMode";
+	static final public String MOSTRA_LEADERBOARD = "mostraLeaderboard";
 	
 	//map and room handling
 	static final public String ROOM_PREFIX = "ROOM_PREFIX";

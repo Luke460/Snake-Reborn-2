@@ -22,7 +22,6 @@ import gamefield.CellRenderOption;
 import gamefield.Stanza;
 import score.SnakeScoreComparator;
 import snake.Snake;
-import support.OSdetector;
 import support.Utility;
 
 public class Visualizzatore extends JPanel {
@@ -31,27 +30,24 @@ public class Visualizzatore extends JPanel {
 
 	static final public int VK_HEARTBEAT = VK_SHIFT; // meglio un tasto "innocuo"
 
-	private Partita partita;
-	int dimensioneCasella;
-	final private JFrame finestra;
+	private Partita game;
+	int cellSize;
+	final private JFrame frame;
 
 	public Visualizzatore() {
-		this.finestra = new JFrame("Snake Reborn");		
-		finestra.add(this);
-		finestra.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		finestra.setBackground(Color.BLACK);
-		this.dimensioneCasella = calcolaDimensioneCasellaMassima();
-		// AGGIUNGI LE DIMENSIONI DEI BORDI DELLE FINESRE
-		if(OSdetector.isWindows()) {
-			finestra.setSize((int)(15+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (37+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
-		} else {
-			finestra.setSize((int)(0+(DIMENSIONE_STANZA_DEFAULT)*this.dimensioneCasella), (int) (24+(DIMENSIONE_STANZA_DEFAULT)*dimensioneCasella));
-		}		
-		finestra.setLocationRelativeTo(null);
+		this.frame = new JFrame("Snake Reborn");
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setBackground(Color.BLACK);
+		this.cellSize = calcolaDimensioneCasellaMassima();
+		Dimension panelDimension = new Dimension((DIMENSIONE_STANZA_DEFAULT*this.cellSize)-1, (DIMENSIONE_STANZA_DEFAULT*this.cellSize)-1);
+		frame.getContentPane().setPreferredSize(panelDimension);
+		frame.pack();
+		frame.add(this);
+		frame.setLocationRelativeTo(null);
 	}
 	
 	public void setPartita(Partita partita) {
-		this.partita = partita;
+		this.game = partita;
 	}
 
 	private int calcolaDimensioneCasellaMassima() {
@@ -63,40 +59,41 @@ public class Visualizzatore extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		//Thread.currentThread().setPriority(6);
 		g.setColor(Color.black);
-		g.fillRect(0, 0, DIMENSIONE_STANZA_DEFAULT*dimensioneCasella, DIMENSIONE_STANZA_DEFAULT*dimensioneCasella);
+		g.fillRect(0, 0, DIMENSIONE_STANZA_DEFAULT*cellSize, DIMENSIONE_STANZA_DEFAULT*cellSize);
 		//g.drawString
 		Stanza stanzaCorrente;
-		Snake snakePlayer1 = this.partita.getSerpentePlayer1();
+		Snake snakePlayer1 = this.game.getSerpentePlayer1();
 		if(snakePlayer1.isVivo()){
 			stanzaCorrente = snakePlayer1.getCasellaDiTesta().getStanza(); 
 		} else if(snakePlayer1.getUltimaStanza() != null){
 			stanzaCorrente = snakePlayer1.getUltimaStanza();
 		} else {
-			stanzaCorrente = this.partita.getStanzaDiSpawn();
+			stanzaCorrente = this.game.getStanzaDiSpawn();
 		}
 		for (Casella c : stanzaCorrente.getCaselle().values()) {
 			disegnaCasella(g, c);
 		}
-		drawStatisticsOnScreen(g,partita.getSerpentePlayer1().getTotalSnakeScore());
+		drawStatisticsOnScreen(g,game.getSerpentePlayer1().getTotalSnakeScore());
 	}
 
 	private void drawStatisticsOnScreen(Graphics g, long punteggio) {
-		addLeaderboard(g);
-		this.finestra.setTitle( " Avversari: " + (this.partita.getNumeroAvversari()) +
-				"        Uccisioni: " + this.partita.getSerpentePlayer1().getNumeroUccisioni() +
-				"        Record: " + this.partita.getVecchioRecord() + 
+		if(this.game.isShowLeaderboard()) {
+			addLeaderboard(g);
+		}
+		this.frame.setTitle( " Avversari: " + (this.game.getNumeroAvversari()) +
+				"        Uccisioni: " + this.game.getSerpentePlayer1().getNumeroUccisioni() +
+				"        Record: " + this.game.getVecchioRecord() + 
 				"        Punteggio: " + punteggio +
-				"        Tempo: " + (int)(this.partita.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000));
+				"        Tempo: " + (int)(this.game.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000));
 	}
 
 	private void addLeaderboard(Graphics g) {
-		ArrayList<Snake> snakes = new ArrayList<>(this.partita.getSerpenti().values());
+		ArrayList<Snake> snakes = new ArrayList<>(this.game.getSerpenti().values());
 		SnakeScoreComparator comparator = new SnakeScoreComparator();
 		Collections.sort(snakes, comparator);
-		int x = (int)((DIMENSIONE_STANZA_DEFAULT*dimensioneCasella * 0.9));
-		int y = (int)(dimensioneCasella*0.75);
+		int x = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.9)+cellSize*0.25);
+		int y = (int)(cellSize*0.75);
 		boolean first = true;
 		Font currentFont = g.getFont();
 		Font newFont = currentFont.deriveFont(currentFont.getSize() * 2F);
@@ -104,15 +101,15 @@ public class Visualizzatore extends JPanel {
 		for(Snake snake:snakes) {
 			g.setColor(snake.getCellRenderOption().getColor());
 			if(first) {
-				drawDarkerCell(g, (int)(dimensioneCasella*0.75), x-(dimensioneCasella/8), y-(dimensioneCasella/8));
+				drawDarkerCell(g, (int)(cellSize*0.75), x-(cellSize/8), y-(cellSize/8));
 				first = false;
 			} else {
-				drawDarkerCell(g, (int)(dimensioneCasella*0.5), x, y);
+				drawDarkerCell(g, (int)(cellSize*0.5), x, y);
 			}
 			g.setColor(Color.white);
 			g.setFont(newFont);
-			g.drawString(String.valueOf(snake.getTotalSnakeScore()), x + dimensioneCasella, (int)(y + dimensioneCasella*0.5));
-			y+=dimensioneCasella;
+			g.drawString(String.valueOf(snake.getTotalSnakeScore()), x + cellSize, (int)(y + cellSize*0.5));
+			y+=cellSize;
 			i++;
 			if(i>=5) break;
 		}
@@ -124,13 +121,13 @@ public class Visualizzatore extends JPanel {
 		//final Color colore = Pittore.getColore(casella.getStato());
 		CellRenderOption cellRenderOption = GraphicManager.getCellRenderOption(casella);
 		g.setColor(cellRenderOption.getColor());
-		int gx = posX*dimensioneCasella, gy = posY*dimensioneCasella;
+		int gx = posX*cellSize, gy = posY*cellSize;
 		if(cellRenderOption.isFlat()) {
-			drawStandardCell(g, dimensioneCasella, gx, gy);
+			drawStandardCell(g, cellSize, gx, gy);
 		} else if (cellRenderOption.isRelief()){
-			drawReliefCell(g, dimensioneCasella, gx, gy);
+			drawReliefCell(g, cellSize, gx, gy);
 		} else if (cellRenderOption.isDarker()) {
-			drawDarkerCell(g, dimensioneCasella, gx, gy);
+			drawDarkerCell(g, cellSize, gx, gy);
 		}
 	}
 
@@ -156,11 +153,11 @@ public class Visualizzatore extends JPanel {
 	}
 
 	public Partita getPartita() {
-		return partita;
+		return game;
 	}
 
 	public JFrame getFinestra() {
-		return finestra;
+		return frame;
 	}
 
 }

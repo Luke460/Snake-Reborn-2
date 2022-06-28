@@ -56,7 +56,7 @@ public class VisualizzatoreClient extends JFrame{
 	JSlider volumeEffetti;
 	JComboBox<String> selettoreLivello;
 	JComboBox<String> selettoreMappa;
-	JCheckBox hardcoreMode;
+	JCheckBox hideLeaderboard;
 	JLabel messaggioInformativo;
 	JButton accedi;
 	JButton ospite;
@@ -111,7 +111,7 @@ public class VisualizzatoreClient extends JFrame{
 		GestoreSuoni.setMusicaAbilitata(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
-		partita.setHardcoreMode(hardcoreMode.isSelected());
+		partita.setShowLeaderboard(hideLeaderboard.isSelected());
 	}
 
 	private void aggiornaFileImpostazioni() throws IOException {
@@ -122,7 +122,7 @@ public class VisualizzatoreClient extends JFrame{
 		cr.salvaImpostazione(CostantiConfig.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
 		cr.salvaImpostazione(CostantiConfig.USERNAME, nomeInserito.getText());
 		cr.salvaImpostazione(CostantiConfig.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
-		cr.salvaImpostazione(CostantiConfig.HARDCORE_MODE, Boolean.toString(hardcoreMode.isSelected()));
+		cr.salvaImpostazione(CostantiConfig.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
 	}
 
 	private void aggiungiPannelliAlContainer() {
@@ -139,7 +139,7 @@ public class VisualizzatoreClient extends JFrame{
 		volumeMusica.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_MUSICA)));
 		nomeInserito.setText(cr.leggiImpostazione(CostantiConfig.USERNAME));
 		selettoreMappa.setSelectedItem(cr.leggiImpostazione(CostantiConfig.NOME_MAPPA));
-		hardcoreMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.HARDCORE_MODE)));
+		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MOSTRA_LEADERBOARD)));
 		selettoreLivello.setSelectedIndex(2);
 	}
 
@@ -170,7 +170,7 @@ public class VisualizzatoreClient extends JFrame{
 		String[] data1 = {"basso", "medio", "alto*"}; 
 		selettoreLivello = new JComboBox(data1);
 		selettoreMappa = new JComboBox(listaFileMappe.toArray());
-		hardcoreMode = new JCheckBox("Hardcore mode*");
+		hideLeaderboard = new JCheckBox("Mostra classifica");
 		messaggioInformativo = new JLabel("      *punteggio valido");
 
 		accedi=new JButton("Accedi e gioca");
@@ -204,7 +204,8 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.add(selettoreLivello);
 		PannelloOpzioni.add(selettoreMappa);
 		
-		PannelloOpzioni.add(hardcoreMode);
+		PannelloOpzioni.add(messaggioInformativo);
+		
 		PannelloOpzioni.add(new Component() {});
 		
 		PannelloOpzioni.add(opzEffetti);
@@ -213,7 +214,7 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.add(opzMusica);
 		PannelloOpzioni.add(volumeMusica);
 		
-		PannelloOpzioni.add(messaggioInformativo);
+		PannelloOpzioni.add(hideLeaderboard);
 		
 		PannelloTastiConferma.setLayout(new GridLayout(1, 2));
 		PannelloTastiConferma.setPreferredSize(new Dimension(1,36));
