@@ -161,13 +161,13 @@ public class VisualizzatoreClient extends JFrame{
 		messaggioPassword = new JLabel("Password");	
 		passwordInserita = new JPasswordField(20);
 
-		messaggioLivello=new JLabel(" Livello avversari:");
+		messaggioLivello=new JLabel(" Velocità gioco:");
 		messaggioMappa=new JLabel(" mappa:");
 		opzEffetti = new JCheckBox("Effetti sonori");
 		volumeEffetti = new JSlider(0, 100, 50);
 		opzMusica = new JCheckBox("Musica di sottofondo");
 		volumeMusica = new JSlider(0, 100, 50);
-		String[] data1 = {"basso", "medio", "alto*"}; 
+		String[] data1 = {"bassa", "media", "alta*"}; 
 		selettoreLivello = new JComboBox(data1);
 		selettoreMappa = new JComboBox(listaFileMappe.toArray());
 		hideLeaderboard = new JCheckBox("Mostra classifica");
