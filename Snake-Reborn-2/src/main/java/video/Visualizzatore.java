@@ -96,7 +96,7 @@ public class Visualizzatore extends JPanel {
 		int y = (int)(cellSize*0.75);
 		boolean first = true;
 		Font currentFont = g.getFont();
-		Font newFont = currentFont.deriveFont(currentFont.getSize() * 2F);
+		Font newFont = currentFont.deriveFont(currentFont.getSize() * (cellSize/16f));
 		int i = 0;
 		for(Snake snake:snakes) {
 			g.setColor(snake.getCellRenderOption().getColor());
