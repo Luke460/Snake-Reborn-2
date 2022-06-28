@@ -106,7 +106,11 @@ public class Visualizzatore extends JPanel {
 			} else {
 				drawDarkerCell(g, (int)(cellSize*0.5), x, y);
 			}
-			g.setColor(Color.white);
+			if(snake.isVivo()) {
+				g.setColor(Color.white);
+			} else {
+				g.setColor(Color.gray);
+			}
 			g.setFont(newFont);
 			g.drawString(String.valueOf(snake.getTotalSnakeScore()), x + cellSize, (int)(y + cellSize*0.5));
 			y+=cellSize;
