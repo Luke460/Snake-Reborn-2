@@ -98,9 +98,12 @@ public class Visualizzatore extends JPanel {
 		Font currentFont = g.getFont();
 		Font newFont = currentFont.deriveFont(currentFont.getSize() * (cellSize/16f));
 		int i = 0;
+		int maxValue = -1;
 		for(Snake snake:snakes) {
 			g.setColor(snake.getCellRenderOption().getColor());
-			if(first && snake.isVivo()) {
+			int score = snake.getTotalSnakeScore();
+			if(score>0 && (first && snake.isVivo() || score>=maxValue && snake.isVivo())) {
+				maxValue = snake.getTotalSnakeScore();
 				drawDarkerCell(g, (int)(cellSize*0.75), x-(cellSize/8), y-(cellSize/8));
 				first = false;
 			} else {
@@ -112,7 +115,7 @@ public class Visualizzatore extends JPanel {
 				g.setColor(Color.gray);
 			}
 			g.setFont(newFont);
-			g.drawString(String.valueOf(snake.getTotalSnakeScore()), x + cellSize, (int)(y + cellSize*0.5));
+			g.drawString(String.valueOf(score), x + cellSize, (int)(y + cellSize*0.5));
 			y+=cellSize;
 			i++;
 			if(i>=5) break;
