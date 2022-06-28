@@ -100,7 +100,7 @@ public class Visualizzatore extends JPanel {
 		int i = 0;
 		for(Snake snake:snakes) {
 			g.setColor(snake.getCellRenderOption().getColor());
-			if(first) {
+			if(first && snake.isVivo()) {
 				drawDarkerCell(g, (int)(cellSize*0.75), x-(cellSize/8), y-(cellSize/8));
 				first = false;
 			} else {
