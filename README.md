@@ -1,7 +1,7 @@
 
 # *Snake Reborn 2* 
 
-![alt text](https://github.com/Luke460/Snake-Reborn-2/blob/master/Snake_Reborn_Icon.png)
+![alt text](https://github.com/Luke460/Snake-Reborn-2/blob/master/snake-reborn-2-icon.png)
 
 ---
 
