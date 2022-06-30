@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import gamefield.CellRenderOption;
 import gamefield.Mappa;
 import gamefield.Stanza;
 import support.FileHandler;
 import support.OSdetector;
+import video.CellRenderOption;
 
 public class CaricatoreMappa {
 	

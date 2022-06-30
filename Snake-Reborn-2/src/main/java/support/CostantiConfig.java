@@ -20,5 +20,6 @@ public interface CostantiConfig {
 	static final public String FLAT_CELL = "FLAT";
 	static final public String RELIEF_CELL = "RELIEF";
 	static final public String DARKER_CELL = "DARKER";
+	static final public String LIGHT_CELL = "LIGHT";
 	
 }

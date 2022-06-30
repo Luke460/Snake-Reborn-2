@@ -3,12 +3,11 @@ package video;
 import static support.Costanti.QTY_SPECIAL_FOOD;
 import static support.CostantiConfig.FLAT_CELL;
 import static support.CostantiConfig.DARKER_CELL;
-import static support.CostantiConfig.RELIEF_CELL;
+import static support.CostantiConfig.LIGHT_CELL;
 
 import java.awt.Color;
 
 import gamefield.Casella;
-import gamefield.CellRenderOption;
 import gamefield.Stanza;
 
 public class GraphicManager {
@@ -30,7 +29,7 @@ public class GraphicManager {
 			} else if (casella.getFoodAmount() >= QTY_SPECIAL_FOOD) {
 				cellRenderOption = new CellRenderOption(DARKER_CELL, STANDARD_FOOD_COLOR);
 			} else { // poison
-				cellRenderOption = new CellRenderOption(RELIEF_CELL, POISON_FOOD_COLOR);
+				cellRenderOption = new CellRenderOption(LIGHT_CELL, POISON_FOOD_COLOR);
 			}
 		}
 		return cellRenderOption;

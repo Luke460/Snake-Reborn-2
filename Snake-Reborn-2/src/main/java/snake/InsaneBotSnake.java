@@ -5,8 +5,8 @@ import static support.CostantiConfig.DARKER_CELL;
 import java.awt.Color;
 
 import game.Partita;
-import gamefield.CellRenderOption;
 import gamefield.Stanza;
+import video.CellRenderOption;
 
 public class InsaneBotSnake extends CustomBotSnake {
 	

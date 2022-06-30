@@ -8,6 +8,7 @@ import static support.Costanti.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
 
 import java.awt.AWTException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -16,32 +17,36 @@ import client.VisualizzatoreClient;
 import commands.GestoreComandi;
 import spawn.PopolatoreCibo;
 import spawn.PopolatoreSerpenti;
-import video.Visualizzatore;
+import video.CellRenderOptionWithPosition;
+import video.GraphicAdapter;
+import video.LeaderBoardCellRenderOption;
+import video.ScoreInfo;
+import video.GameVisualizer;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		Partita game;
-		Visualizzatore gameWindow;
+		GameVisualizer gameWindow;
 		try {
 			VisualizzatoreClient client = new VisualizzatoreClient();
-			gameWindow = new Visualizzatore();
+			gameWindow = new GameVisualizer();
 			while(true) {
 				game = new Partita();
 				client.rileggi(game);
-				gameWindow.setPartita(game);
 				while(!client.isPremuto()){ // viene "sbloccato dal Listener" (busy waiting)
 					Thread.sleep(250);
 				}
 				try {
 					client.leggiImpostazioniDaUI();
 					game.ImpostaPartita();
-					gameWindow.getFinestra().setVisible(true);
+					setUpGameWindow(game, gameWindow);
+					gameWindow.getFrame().setVisible(true);
 					avviaIlGioco(game, gameWindow);
 				} catch (AWTException e) {
 					e.printStackTrace();
 				}
-				gameWindow.getFinestra().setVisible(false);
+				gameWindow.getFrame().setVisible(false);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Impossibile avviare Snake Reborn 2:\nError details: " + e.getMessage());
@@ -49,7 +54,7 @@ public class Main {
 		}
 	}
 
-	public static void avviaIlGioco(Partita game, Visualizzatore gameWindow) throws AWTException, InterruptedException, IOException {
+	public static void avviaIlGioco(Partita game, GameVisualizer gameWindow) throws AWTException, InterruptedException, IOException {
 		// lancia un thread che legge i comandi, 
 		// SuppressWarnings perchè il compilatore e' stupido
 		GestoreComandi gestoreComandi = new GestoreComandi(game, gameWindow);
@@ -59,7 +64,7 @@ public class Main {
 		GestoreSuoni.silenziaMusica();
 	}
 
-	private static void cominciaIlGioco(Partita game, Visualizzatore gameWindow) throws AWTException, InterruptedException {
+	private static void cominciaIlGioco(Partita game, GameVisualizer gameWindow) throws AWTException, InterruptedException {
 		PopolatoreCibo.aggiungiCiboNellaMappa(game.getMappa());
 		gameWindow.repaint();
 		Thread.sleep(1000);
@@ -85,6 +90,8 @@ public class Main {
 			
 			spawnJob(game, contaCicli, foodRespawn, snakeRespawn);
 			
+			setUpGameWindow(game, gameWindow);
+			
 			gameWindow.repaint();
 			
 			if(contaCicli%fps==0) {
@@ -100,6 +107,16 @@ public class Main {
 				System.out.println("lag detected!");
 			}
 		}
+	}
+
+	private static void setUpGameWindow(Partita game, GameVisualizer gameWindow) {
+		List<CellRenderOptionWithPosition> positionToCellRenderOption = GraphicAdapter.getCellRenderOptionWithPosition(game);
+		List<LeaderBoardCellRenderOption> leaderboard = null;
+		ScoreInfo scoreInfo = GraphicAdapter.getScoreInfo(game);
+		if(game.isShowLeaderboard()) {
+			leaderboard = GraphicAdapter.getLeaderBoardMap(game);
+		}
+		gameWindow.setUpVisualization(positionToCellRenderOption, leaderboard, scoreInfo);
 	}
 
 	private static long getTickTime(Partita game) {

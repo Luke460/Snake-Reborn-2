@@ -7,14 +7,14 @@ import game.Partita;
 import gamefield.Direction;
 import snake.Snake;
 import spawn.PopolatoreSerpenti;
-import video.Visualizzatore;
+import video.GameVisualizer;
 
 public class GestoreComandi {
 
 	private Queue<String> sequenzaComandi;
 	private Partita partita;
 
-	public GestoreComandi(Partita partita, Visualizzatore visualizzatore) {
+	public GestoreComandi(Partita partita, GameVisualizer visualizzatore) {
 		this.partita = partita;
 		this.sequenzaComandi = new LinkedList<>();
 		LettoreComandi.initControlliDaTastiera(visualizzatore,this.sequenzaComandi);

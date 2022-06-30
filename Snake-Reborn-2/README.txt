@@ -3,13 +3,17 @@
  invio -> resuscita il serpente
  esc -> torna al menù
 -------------------------------
- freccia dx -> gira a destra
- freccia sx -> gira a sinistra
+ freccia su  -> vai in alto
+ freccia dx  -> gira a destra
+ freccia giù -> vai in basso
+ freccia sx  -> vai a sinistra
 -------------------------------
- A -> vai a sinistra
- D -> vai a destra
  W -> vai in alto
+ A -> vai a sinistra
  S -> vai in basso
+ D -> vai a destra
+ E -> ruota in senso orario
+ Q -> ruota in senso orario
 -------------------------------
 
 IMPORTANTE: in caso di problemi visitare il sito:

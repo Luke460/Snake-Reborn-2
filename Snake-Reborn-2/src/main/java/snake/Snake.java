@@ -21,7 +21,6 @@ import audio.GestoreSuoni;
 import game.Partita;
 import gamefield.Casella;
 import gamefield.CasellaManager;
-import gamefield.CellRenderOption;
 import gamefield.Direction;
 import gamefield.Position;
 import gamefield.Stanza;
@@ -29,6 +28,7 @@ import score.GestorePunteggi;
 import spawn.ComparatoreCasellePerVita;
 import spawn.PopolatoreCibo;
 import support.Utility;
+import video.CellRenderOption;
 
 import java.util.Objects;
 import java.util.TreeMap;

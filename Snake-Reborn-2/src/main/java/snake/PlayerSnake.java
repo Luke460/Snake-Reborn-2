@@ -6,9 +6,9 @@ import java.awt.Color;
 
 import audio.GestoreSuoni;
 import game.Partita;
-import gamefield.CellRenderOption;
 import gamefield.Stanza;
 import score.GestorePunteggi;
+import video.CellRenderOption;
 
 public class PlayerSnake extends Snake {
 	
