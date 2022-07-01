@@ -1,0 +1,50 @@
+[SPAWN_ENABLED:true]
+
+
+
+
+
+
+
+
+<WWWW                                WDWD>
+<WWWW                                WDWD>
+<WWWW                                WDWD>
+<WWW                                 WDWD>
+<WW                                  WDWD>
+<W                                   WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                    WDWD>
+<                                   WWDWD>
+<                                  WWWDWD>
+<                                 WWWWDWD>
+<                                WWWWWDWD>
+<                               WWWWWWDWD>
+<                              WWWWWWWDWD>
+<                             WWWWWWWWDWD>
+<                            WWWWWWWWWDWD>
+<                           WWWWWWWWWWDWD>
+<                          WWWWWWWWWWWDWD>
+<                         WWWWWWWWWWWWDWD>
+<                        WWWWWWWWWWWWWDWD>
+<                       WWWWWWWWWWWWWWDWD>
+<                      WWWWWWWWWWWWWWWDWD>
+<                     WWWWWWWWWWWWWWWWDWD>
+<                    WWWWWWWWWWWWWWWWWDWD>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWDWD>
+<DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDWD>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWD>
+<DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD>
+$

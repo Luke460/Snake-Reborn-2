@@ -1,0 +1,40 @@
+[SOLID_CELL:W,P,D]
+[FREE_CELL_FLOOR: ]
+
+[CELL_RENDER(D):FLAT,175,145,75]
+[CELL_RENDER(W):FLAT,125,100,40]
+[CELL_RENDER(P):RELIEF,110,110,110]
+[CELL_RENDER( ):FLAT,24,18,12]
+
+[ROOM_PREFIX:arena-]
+
+<1:E:2>
+<1:S:4>
+
+<2:N:0>
+<2:E:3>
+<2:S:5>
+<2:W:1>
+
+<3:S:6>
+<3:W:2>
+
+<4:N:1>
+<4:E:5>
+
+<5:N:2>
+<5:E:6>
+<5:S:7>
+<5:W:4>
+
+<6:N:3>
+<6:W:5>
+
+<7:N:5>
+$
+
+		1--2--3
+        |  |  |
+        4--5--6
+           |
+           7

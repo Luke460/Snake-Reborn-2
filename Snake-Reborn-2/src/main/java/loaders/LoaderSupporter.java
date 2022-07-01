@@ -57,6 +57,8 @@ public class LoaderSupporter {
 						//inizio riga
 						status = READING_ELEMENT;
 					}
+				} else {
+					break;
 				}
 			}
 			return result;

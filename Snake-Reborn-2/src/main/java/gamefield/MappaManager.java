@@ -20,15 +20,20 @@ public class MappaManager {
 				}
 			}
 		}
-		
+		boolean backupRoom = false;
 		if(setStanzeDisponibili.size()>0) {
 			ArrayList<Stanza> listaStanzeDisponibili = new ArrayList<Stanza>(setStanzeDisponibili);
 			Collections.shuffle(listaStanzeDisponibili);
 			for(Stanza stanza:listaStanzeDisponibili) {
 				if(!stanza.equals(stanzaPrecedente) && stanza.isSpawnEnabled() && StanzaManager.isActuallyReadyForSpawn(stanza)) {
 					return stanza;
+				} else if(stanzaPrecedente!=null && stanza.equals(stanzaPrecedente)) {
+					backupRoom = true;
 				}
 			}
+		}
+		if(backupRoom && stanzaPrecedente.isSpawnEnabled() && StanzaManager.isActuallyReadyForSpawn(stanzaPrecedente)) {
+			return stanzaPrecedente;
 		}
 		System.out.println("out of rooms!");
 		return null;

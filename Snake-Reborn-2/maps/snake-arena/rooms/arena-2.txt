@@ -1,0 +1,50 @@
+[SPAWN_ENABLED:true]
+
+
+
+
+
+
+
+
+<DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<                  PPPP                  >
+<                  PPPP                  >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                                        >
+<                  PPPP                  >
+<                  PPPP                  >
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+<WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW>
+$

@@ -13,6 +13,14 @@ public class GestoreComandi {
 
 	private Queue<String> sequenzaComandi;
 	private Partita partita;
+	public static final String UP = "UP";
+	public static final String RIGHT = "RIGHT";
+	public static final String LEFT = "LEFT";
+	public static final String DOWN = "DOWN";
+	public static final String ROTATE_RIGHT = "ROTATE_RIGHT";
+	public static final String ROTATE_LEFT = "ROTATE_LEFT";
+	public static final String RESPAWN = "RESPAWN";
+	public static final String EXIT = "EXIT";
 
 	public GestoreComandi(Partita partita, GameVisualizer visualizzatore) {
 		this.partita = partita;
@@ -87,28 +95,28 @@ public class GestoreComandi {
 		if(!this.sequenzaComandi.isEmpty()) {
 			String codiceComando = this.sequenzaComandi.poll();
 			switch(codiceComando){
-			case "W": 
+			case UP: 
 				goUpP1();
 				break;
-			case "S":
+			case DOWN:
 				goDownP1();
 				break;
-			case "D": 
+			case RIGHT: 
 				goRightP1();
 				break;
-			case "A":
+			case LEFT:
 				goLeftP1();
 				break;
-			case "RIGHT": 
+			case ROTATE_RIGHT: 
 				turnRightP1();
 				break;
-			case "LEFT":
+			case ROTATE_LEFT:
 				turnLeftP1();
 				break;
-			case "ENTER": 
+			case RESPAWN: 
 				resuscitaPlayer1();
 				break;
-			case "ESCAPE":
+			case EXIT:
 				gameOver();
 				break;
 			}

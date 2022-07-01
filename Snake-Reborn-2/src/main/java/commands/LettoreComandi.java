@@ -12,10 +12,8 @@ import static java.awt.event.KeyEvent.VK_S;
 import static java.awt.event.KeyEvent.VK_W;
 import static java.awt.event.KeyEvent.VK_Q;
 import static java.awt.event.KeyEvent.VK_E;
-import static java.awt.event.KeyEvent.VK_SPACE;
-import static java.awt.event.KeyEvent.VK_F;
-import static java.awt.event.KeyEvent.VK_CONTROL;
-import static java.awt.event.KeyEvent.VK_SHIFT;
+
+import static commands.GestoreComandi.*;
 
 
 import java.awt.event.KeyEvent;
@@ -43,52 +41,40 @@ public class LettoreComandi {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case VK_W:
-					sequenzaComandi.add("W");
+					sequenzaComandi.add(UP);
 					break;
 				case VK_S:
-					sequenzaComandi.add("S");
+					sequenzaComandi.add(DOWN);
 					break;
 				case VK_A:
-					sequenzaComandi.add("A");
+					sequenzaComandi.add(LEFT);
 					break;
 				case VK_D:
-					sequenzaComandi.add("D");
+					sequenzaComandi.add(RIGHT);
 					break;
 				case VK_UP:
-					sequenzaComandi.add("W");
+					sequenzaComandi.add(UP);
 					break;
 				case VK_DOWN:
-					sequenzaComandi.add("S");
+					sequenzaComandi.add(DOWN);
 					break;
 				case VK_LEFT:
-					sequenzaComandi.add("A");
+					sequenzaComandi.add(LEFT);
 					break;
 				case VK_RIGHT:
-					sequenzaComandi.add("D");
+					sequenzaComandi.add(RIGHT);
 					break;
 				case VK_Q:
-					sequenzaComandi.add("LEFT");
+					sequenzaComandi.add(ROTATE_LEFT);
 					break;
 				case VK_E:
-					sequenzaComandi.add("RIGHT");
-					break;
-				case VK_ESCAPE:
-					sequenzaComandi.add("ESCAPE");
-					break;
-				case VK_SPACE:
-					sequenzaComandi.add("SPACE");
-					break;
-				case VK_F:
-					sequenzaComandi.add("F");
-					break;
-				case VK_CONTROL:
-					sequenzaComandi.add("CONTROL");
-					break;
-				case VK_SHIFT:
-					sequenzaComandi.add("SHIFT");
+					sequenzaComandi.add(ROTATE_RIGHT);
 					break;
 				case VK_ENTER:
-					sequenzaComandi.add("ENTER");
+					sequenzaComandi.add(RESPAWN);
+					break;
+				case VK_ESCAPE:
+					sequenzaComandi.add(EXIT);
 					break;
 				}
 			}

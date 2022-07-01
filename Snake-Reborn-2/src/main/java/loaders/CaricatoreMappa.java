@@ -62,9 +62,11 @@ public class CaricatoreMappa {
 			String nomeStanza2 = prefix + lineInfo[2];
 			Stanza stanza1 = stanze.get(nomeStanza1);
 			Stanza stanza2 = stanze.get(nomeStanza2);
-			collegamento = getCollegamento(collegamento);
-			stanza1.getCollegamenti().put(collegamento, stanza2);
-			stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);		
+			if(stanza2!=null) {
+				collegamento = getCollegamento(collegamento);
+				stanza1.getCollegamenti().put(collegamento, stanza2);
+				stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);	
+			}
 		}
 		
 		mappa.setStanze(new HashSet<Stanza>(stanze.values()));
@@ -116,7 +118,7 @@ public class CaricatoreMappa {
 		if(collegamento.equalsIgnoreCase("N"))return NORD;
 		if(collegamento.equalsIgnoreCase("E"))return EST;
 		if(collegamento.equalsIgnoreCase("S"))return SUD;
-		if(collegamento.equalsIgnoreCase("O"))return OVEST;
+		if(collegamento.equalsIgnoreCase("O")||collegamento.equalsIgnoreCase("W"))return OVEST;
 		return null;
 
 	}
