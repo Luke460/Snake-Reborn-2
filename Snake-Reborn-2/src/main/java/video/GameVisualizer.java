@@ -78,7 +78,7 @@ public class GameVisualizer extends JPanel {
 		if(this.message==null) return;
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.messageFontMultiplayer);
 		g.setFont(newFont);
-		g.setColor(Color.white);
+		g.setColor(new Color(255,255,255,125));
 		int screenCenter = (int)(DIMENSIONE_STANZA_DEFAULT*cellSize/2);
 		g.drawString(this.message, (int)(screenCenter-(this.cellSize*message.length()*0.33)), screenCenter);
 	}
