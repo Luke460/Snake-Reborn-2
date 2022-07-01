@@ -101,10 +101,7 @@ public class PopolatoreSerpenti {
 	public static void resuscitaTuttiSerpenti(Partita partita, HashMap<String, Snake> serpenti) {			
 		for(Snake snake: serpenti.values()) {
 			if(!snake.isVivo() && snake.canRespawn()) {
-				Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), serpenti, null);
-				if(stanza!=null) {
-					resuscitaSerpente(partita, snake);
-				}
+				resuscitaSerpente(partita, snake);
 			}
 		}
 	}
