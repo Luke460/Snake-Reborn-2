@@ -71,7 +71,7 @@ public class GestoreComandi {
 
 	public  void resuscitaPlayer1( ) {
 		if(!partita.getSerpentePlayer1().isVivo()) {
-			PopolatoreSerpenti.provaAResuscitareUnSerpente(partita, partita.getSerpentePlayer1());
+			PopolatoreSerpenti.resuscitaSerpenteSpecifico(partita, partita.getSerpentePlayer1());
 		}
 	}
 

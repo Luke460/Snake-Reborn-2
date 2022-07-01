@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import audio.GestoreSuoni;
 import client.VisualizzatoreClient;
 import commands.GestoreComandi;
+import snake.Snake;
 import spawn.PopolatoreCibo;
 import spawn.PopolatoreSerpenti;
 import video.CellRenderOptionWithPosition;
@@ -110,13 +111,22 @@ public class Main {
 	}
 
 	private static void setUpGameWindow(Partita game, GameVisualizer gameWindow) {
+		Snake p1 = game.getSerpentePlayer1();
+		String message = null;
+		if(!p1.isVivo()) {
+			if(!p1.canRespawn()) {
+				message = "Resuscita in: " + p1.getRespawnSecondsLeft() + " secondi";
+			} else {
+				message = "Premi invio per resuscitare";
+			}
+		}
 		List<CellRenderOptionWithPosition> positionToCellRenderOption = GraphicAdapter.getCellRenderOptionWithPosition(game);
 		List<LeaderBoardCellRenderOption> leaderboard = null;
 		ScoreInfo scoreInfo = GraphicAdapter.getScoreInfo(game);
 		if(game.isShowLeaderboard()) {
 			leaderboard = GraphicAdapter.getLeaderBoardMap(game);
 		}
-		gameWindow.setUpVisualization(positionToCellRenderOption, leaderboard, scoreInfo);
+		gameWindow.setUpVisualization(positionToCellRenderOption, leaderboard, scoreInfo, message);
 	}
 
 	private static long getTickTime(Partita game) {
@@ -139,7 +149,7 @@ public class Main {
 
 		if((contaCicli%snakeRespawn==0)){
 			System.out.println("ai snake respawn");
-			PopolatoreSerpenti.provaAResuscitareUnSerpenteBot(game);
+			PopolatoreSerpenti.resuscitaUnSerpenteAI(game);
 		}
 	}
 

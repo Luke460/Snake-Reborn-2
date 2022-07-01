@@ -100,12 +100,35 @@ public class PopolatoreSerpenti {
 	
 	public static void resuscitaTuttiSerpenti(Partita partita, HashMap<String, Snake> serpenti) {			
 		for(Snake snake: serpenti.values()) {
-			if(!snake.isVivo()) {
+			if(!snake.isVivo() && snake.canRespawn()) {
 				Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), serpenti, null);
 				if(stanza!=null) {
 					resuscitaSerpente(partita, snake);
 				}
 			}
+		}
+	}
+	
+	public static void resuscitaUnSerpenteAI(Partita partita) {	
+		for(Snake snake:partita.getSerpenti().values()) {
+			if(!snake.isVivo() && snake.canRespawn() && !snake.getNome().equals(partita.getNomePlayer1())){
+				resuscitaSerpente(partita, snake);
+				return; // just one
+			}
+		}
+	}
+	
+	public static void resuscitaTuttiSerpentiAI(Partita partita) {	
+		for(Snake snake:partita.getSerpenti().values()) {
+			if(!snake.isVivo() && snake.canRespawn() && !snake.getNome().equals(partita.getNomePlayer1())){
+				resuscitaSerpente(partita, snake);
+			}
+		}
+	}
+	
+	public static void resuscitaSerpenteSpecifico(Partita partita, Snake snake) {	
+		if(!snake.isVivo() && snake.canRespawn()){
+			resuscitaSerpente(partita, snake);
 		}
 	}
 
@@ -120,31 +143,14 @@ public class PopolatoreSerpenti {
 		return Math.min(maxSuggestedSnakeNumber, spawnableRoomsCounter);
 	}
 	
-	public static void provaAResuscitareUnSerpenteBot(Partita partita) {	
-		for(Snake snake:partita.getSerpenti().values()) {
-			if(!snake.isVivo() && !snake.getNome().equals(partita.getNomePlayer1())){
-				provaAResuscitareUnSerpente(partita, snake);
-			}
-		}
-	}
-	
-	public static void provaAResuscitareUnSerpente(Partita partita, Snake snake) {	
-		if(!snake.isVivo()) {
-			resuscitaSerpente(partita, snake);
-			return; // just one
-		}
-	}
-	
 	private static void resuscitaSerpente(Partita partita, Snake s) {
-		if(!s.isVivo()) {
-			if(s.getNome().equals(partita.getNomePlayer1())) GestoreSuoni.playSpawnSound();
-			int vecchiaVita = s.getHpPreMorte();
-			int vitaResurrezione = Utility.massimoTra(VITA_SERPENTE_DEFAULT,(int)(vecchiaVita/2.0));
-			Stanza ultimaStanza = s.getUltimaStanza();
-			Stanza stanzaAlternativa = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), ultimaStanza);
-			if(stanzaAlternativa!=null) {
-				s.resettaSerpente(stanzaAlternativa, vitaResurrezione);
-			}
+		if(s.getNome().equals(partita.getNomePlayer1())) GestoreSuoni.playSpawnSound();
+		int vecchiaVita = s.getHpPreMorte();
+		int vitaResurrezione = Utility.massimoTra(VITA_SERPENTE_DEFAULT,(int)(vecchiaVita/2.0));
+		Stanza ultimaStanza = s.getUltimaStanza();
+		Stanza stanzaAlternativa = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), ultimaStanza);
+		if(stanzaAlternativa!=null) {
+			s.resettaSerpente(stanzaAlternativa, vitaResurrezione);
 		}
 	}
 	

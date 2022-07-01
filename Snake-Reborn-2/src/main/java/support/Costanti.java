@@ -51,7 +51,8 @@ public interface Costanti {
 	static final public int QTY_SPECIAL_FOOD = 5;
 	static final public int QTY_STANDARD_FOOD = 1;
 	
-	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = 9; // max 9 sec
+	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = 1;
+	static final public int SNAKE_RESPAWN_CD = 5;
 	
 	static final public int CD_FLASH = 12*60; //fps x time
 	

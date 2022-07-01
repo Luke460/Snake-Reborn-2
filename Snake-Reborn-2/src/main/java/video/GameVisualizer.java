@@ -24,7 +24,7 @@ import support.Utility;
 public class GameVisualizer extends JPanel {
 
 	static final private long serialVersionUID = 0L;
-
+	static final public int DEFAULT_FONT_SIZE = 12;
 	static final public int VK_HEARTBEAT = VK_SHIFT;
 
 	int cellSize;
@@ -34,8 +34,10 @@ public class GameVisualizer extends JPanel {
 	private int leaderboardPositionX;
 	private int leaderboardPositionY;
 	private float leaderboardFontMultiplier;
+	private float messageFontMultiplayer;
 	private ScoreInfo scoreInfo;
 	private Color frameBackground;
+	private String message;
 
 	public GameVisualizer() {
 		this.frame = new JFrame("Snake Reborn");
@@ -47,6 +49,7 @@ public class GameVisualizer extends JPanel {
 		this.leaderboardPositionX = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.9)+cellSize*0.25);
 		this.leaderboardPositionY = (int)(cellSize*0.75);
 		this.leaderboardFontMultiplier = cellSize/16f;
+		this.messageFontMultiplayer = cellSize/8f;
 		frame.getContentPane().setPreferredSize(panelDimension);
 		frame.pack();
 		frame.add(this);
@@ -68,6 +71,16 @@ public class GameVisualizer extends JPanel {
 			drawCell(g, c);
 		}
 		drawStatisticsOnScreen(g);
+		addScreenMessage(g);
+	}
+
+	private void addScreenMessage(Graphics g) {
+		if(this.message==null) return;
+		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.messageFontMultiplayer);
+		g.setFont(newFont);
+		g.setColor(Color.white);
+		int screenCenter = (int)(DIMENSIONE_STANZA_DEFAULT*cellSize/2);
+		g.drawString(this.message, (int)(screenCenter-(this.cellSize*message.length()*0.33)), screenCenter);
 	}
 
 	private void drawStatisticsOnScreen(Graphics g) {
@@ -84,8 +97,7 @@ public class GameVisualizer extends JPanel {
 	private void addLeaderboard(Graphics g) {
 		int relativeY = leaderboardPositionY;
 		boolean first = true;
-		Font currentFont = g.getFont();
-		Font newFont = currentFont.deriveFont(currentFont.getSize() * this.leaderboardFontMultiplier);
+		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
 		int i = 0;
 		int maxValue = -1;
 		for(LeaderBoardCellRenderOption crowp:leaderboard) {
@@ -159,10 +171,11 @@ public class GameVisualizer extends JPanel {
 	}
 
 	public void setUpVisualization(List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
-			List<LeaderBoardCellRenderOption> leaderboard, ScoreInfo scoreInfo) {
+			List<LeaderBoardCellRenderOption> leaderboard, ScoreInfo scoreInfo, String message) {
 		this.cellRenderOptionWithPosition = cellRenderOptionWithPosition;
 		this.leaderboard = leaderboard;
 		this.scoreInfo = scoreInfo;
+		this.message = message;
 	}
 
 }

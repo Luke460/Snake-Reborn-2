@@ -7,6 +7,7 @@ import static support.Costanti.NOME_PLAYER_1;
 import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
 import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_CIBO;
 import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
+import static support.Costanti.SNAKE_RESPAWN_CD;
 import static support.CostantiConfig.FLAT_CELL;
 
 import java.awt.Color;
@@ -49,6 +50,7 @@ public abstract class Snake {
 	private boolean vivo;
 	private CellRenderOption cellRenderOption;
 	private int previousScore;
+	private long deathTimestamp;
 	
 	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(FLAT_CELL, Color.gray);
 
@@ -57,6 +59,7 @@ public abstract class Snake {
 		this.partita = partita;
 		this.nome=nome;
 		this.previousScore=0;
+		this.deathTimestamp=-1;
 		this.cellRenderOption=DEFAULT_CELL_RENDER_OPTION;
 		this.resettaSerpente(stanza, vitaIniziale);
 	}
@@ -158,6 +161,7 @@ public abstract class Snake {
 	
 	public void muori(){
 		this.setVivo(false);
+		this.deathTimestamp = System.currentTimeMillis();
 		hpPreMorte = this.getCasellaDiTesta().getHp();
 		controllaUccisione();
 		rilasciaCiboEliberaCaselle();
@@ -358,13 +362,21 @@ public abstract class Snake {
 	
 	public int getTotalSnakeScore() {
 		return (int)(this.getCurrentGameSnakeScore() + this.previousScore);
-		/*
-		if(this.isVivo()) {
-			return this.getCurrentGameSnakeScore() + this.previousScore;
-		} else {
-			return this.getCurrentGameSnakeScore();
+	}
+	
+	public boolean canRespawn() {
+		if(System.currentTimeMillis()>this.deathTimestamp+(SNAKE_RESPAWN_CD*1000)) {
+			return true;
 		}
-		*/
+		return false;
+	}
+	
+	public int getRespawnSecondsLeft() {
+		if(this.canRespawn()) {
+			return 0;
+		} else {
+			return (int) ((this.deathTimestamp+(SNAKE_RESPAWN_CD*1000)-System.currentTimeMillis())/1000)+1;
+		}
 	}
 
 	@Override
