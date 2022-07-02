@@ -6,6 +6,7 @@ import static support.Costanti.ROOMS_FOLDER_NAME;
 import static support.CostantiConfig.ROOM_PREFIX;
 import static support.CostantiConfig.FREE_CELL_FLOOR;
 import static support.CostantiConfig.SOLID_CELL;
+import static support.CostantiConfig.BACKGROUND_COLOR;
 import static support.Costanti.NORD;
 import static support.Costanti.EST;
 import static support.Costanti.SUD;
@@ -48,6 +49,7 @@ public class CaricatoreMappa {
 		loadSolidCellStatusList(mappa, mapInfo);
 		loadFreeCellStatusList(mappa, mapInfo);	
 		loadRenderOptionMap(mappa, mapInfo);
+		loadMapBackgroundColor(mappa, mapInfo);
 		
 		for(String pathStanza:pathNames) {
 			Stanza stanza = CaricatoreStanza.caricaFile(roomFolder + OSdetector.getPathSeparator() + pathStanza, mappa);
@@ -77,6 +79,16 @@ public class CaricatoreMappa {
 		return mappa;	
 	}
 	
+	private static void loadMapBackgroundColor(Mappa mappa, InfoMapFileContent content) {
+		List<String> colors = content.getPrefixMap().get(BACKGROUND_COLOR);
+		Color background = new Color(
+				Integer.parseInt(colors.get(0)),
+				Integer.parseInt(colors.get(1)),
+				Integer.parseInt(colors.get(2))
+				);
+		mappa.setBackgroundColor(background);
+	}
+
 	private static void loadSolidCellStatusList(Mappa mappa, InfoMapFileContent colorInfoMap) {
 		List<String> solidCellList = colorInfoMap.getPrefixMap().get(SOLID_CELL);
 		Set<Character> solidCellListReduced = new HashSet<Character>();

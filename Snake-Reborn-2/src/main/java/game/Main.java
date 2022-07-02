@@ -7,6 +7,7 @@ import static support.Costanti.TEMPO_RIPOPOLAMENTO_CIBO;
 import static support.Costanti.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
 
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.List;
@@ -129,7 +130,8 @@ public class Main {
 		if(game.isShowLeaderboard()) {
 			leaderboard = GraphicAdapter.getLeaderBoardMap(game);
 		}
-		gameWindow.setUpVisualization(positionToCellRenderOption, leaderboard, scoreInfo, message);
+		Color backgroundColor = game.getMappa().getBackgroundColor();
+		gameWindow.setUpVisualization(backgroundColor, positionToCellRenderOption, leaderboard, scoreInfo, message);
 	}
 
 	private static long getTickTime(Partita game) {

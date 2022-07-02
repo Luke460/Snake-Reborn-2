@@ -2,7 +2,8 @@ package spawn;
 
 import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
 import static support.Costanti.LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE;
-import static support.Costanti.QTY_SPECIAL_FOOD;
+import static support.Costanti.QTY_SUPER_FOOD;
+import static support.Costanti.QTY_BONUS_FOOD;
 import static support.Costanti.QTY_STANDARD_FOOD;
 
 import java.util.Collections;
@@ -23,6 +24,12 @@ public class PopolatoreCibo {
 	}
 
 	public static void aggiungiCiboInPosizioneCasuale(Stanza s) {
+		int foodQty;
+		if(Utility.veroAl(10)) {
+			foodQty = QTY_BONUS_FOOD;
+		} else {
+			foodQty = QTY_STANDARD_FOOD;
+		}
 		int posX = (int)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		int posY = (int)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		Position pos = new Position(posX, posY);
@@ -30,7 +37,7 @@ public class PopolatoreCibo {
 		// posiziono il cibo solo in caselle libere e con posizione pari
 		if (c.isEmpty()){
 			if(posizioneValidaPerCibo(pos)){ // 50% chance is false
-				c.setFoodAmount(QTY_STANDARD_FOOD);
+				c.setFoodAmount(foodQty);
 			}
 		}
 	}
@@ -45,7 +52,7 @@ public class PopolatoreCibo {
 			c.freeCell();
 			if(posizioneValidaPerCibo(c.getPosizione())){
 				if(inserisciTestaDiSerpente) {
-					c.setFoodAmount(QTY_SPECIAL_FOOD);
+					c.setFoodAmount(QTY_SUPER_FOOD);
 					inserisciTestaDiSerpente = false;
 				} else {
 					c.setFoodAmount(QTY_STANDARD_FOOD);

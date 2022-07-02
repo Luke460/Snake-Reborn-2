@@ -18,6 +18,7 @@ public interface CostantiConfig {
 	static final public String SOLID_CELL = "SOLID_CELL";
 	static final public String FREE_CELL_FLOOR = "FREE_CELL_FLOOR";
 	static final public String CELL_RENDER_ = "CELL_RENDER_";
+	static final public String BACKGROUND_COLOR = "BACKGROUND_COLOR";
 	static final public String FLAT_CELL = "FLAT";
 	static final public String RELIEF_CELL = "RELIEF";
 	static final public String DARKER_CELL = "DARKER";

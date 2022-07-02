@@ -129,14 +129,16 @@ public class GameVisualizer extends JPanel {
 			final int posY = cellRenderOption.getPosition().getY();
 			g.setColor(cellRenderOption.getColor());
 			int gx = posX*cellSize, gy = posY*cellSize;
-			if(cellRenderOption.getRenderType().equals(FLAT_CELL)) {
-				drawStandardCell(g, cellSize, gx, gy);
-			} else if (cellRenderOption.getRenderType().equals(RELIEF_CELL)){
-				drawReliefCell(g, cellSize, gx, gy);
-			} else if (cellRenderOption.getRenderType().equals(DARKER_CELL)) {
-				drawDarkerCell(g, cellSize, gx, gy);
-			} else if (cellRenderOption.getRenderType().equals(LIGHT_CELL)) {
-				drawLightCell(g, cellSize, gx, gy);
+			if(!cellRenderOption.getColor().equals(this.frameBackground)) {
+				if(cellRenderOption.getRenderType().equals(FLAT_CELL)) {
+					drawStandardCell(g, cellSize, gx, gy);
+				} else if (cellRenderOption.getRenderType().equals(RELIEF_CELL)){
+					drawReliefCell(g, cellSize, gx, gy);
+				} else if (cellRenderOption.getRenderType().equals(DARKER_CELL)) {
+					drawDarkerCell(g, cellSize, gx, gy);
+				} else if (cellRenderOption.getRenderType().equals(LIGHT_CELL)) {
+					drawLightCell(g, cellSize, gx, gy);
+				}
 			}
 		}
 	}
@@ -172,8 +174,14 @@ public class GameVisualizer extends JPanel {
 		return frame;
 	}
 
-	public void setUpVisualization(List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
-			List<LeaderBoardCellRenderOption> leaderboard, ScoreInfo scoreInfo, String message) {
+	public void setUpVisualization(
+			Color backgroundColor, 
+			List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
+			List<LeaderBoardCellRenderOption> leaderboard, 
+			ScoreInfo scoreInfo, 
+			String message
+			) {
+		this.frameBackground = backgroundColor;
 		this.cellRenderOptionWithPosition = cellRenderOptionWithPosition;
 		this.leaderboard = leaderboard;
 		this.scoreInfo = scoreInfo;

@@ -48,7 +48,8 @@ public interface Costanti {
 	static final public int MOLTIPLICATORE_PUNTEGGIO_UCCISIONE = 100;
 	static final public int TEMPO_RIPOPOLAMENTO_CIBO = 5; // 5 sec
 	
-	static final public int QTY_SPECIAL_FOOD = 5;
+	static final public int QTY_SUPER_FOOD = 5;
+	static final public int QTY_BONUS_FOOD = 3;
 	static final public int QTY_STANDARD_FOOD = 1;
 	
 	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = 1;

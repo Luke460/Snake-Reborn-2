@@ -1,5 +1,6 @@
 package gamefield;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class Mappa {
 	private Set<Character> solidCellStatusList;
 	private Set<Character> freeCellFloorStatusList;
 	private Map<Character,CellRenderOption> cellRenderOptionMap;
+	private Color backgroundColor;
 
 	public Mappa(String nomeUnivoco) throws IOException {
 		this.nomeUnivoco = nomeUnivoco;
@@ -59,6 +61,14 @@ public class Mappa {
 
 	public void setCellRenderOptionMap(Map<Character, CellRenderOption> cellRenderOptionMap) {
 		this.cellRenderOptionMap = cellRenderOptionMap;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 
 	@Override

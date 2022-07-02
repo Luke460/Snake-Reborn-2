@@ -1,7 +1,5 @@
 package snake;
 
-import static support.Costanti.QTY_SPECIAL_FOOD;
-import static support.Costanti.QTY_STANDARD_FOOD;
 import static support.Costanti.VITA_SERPENTE_MASSIMA;
 import static support.Costanti.NOME_PLAYER_1;
 import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
@@ -104,11 +102,7 @@ public abstract class Snake {
 
 		if(!nuovaCasella.isMortal()){
 			if(nuovaCasella.isFood()){
-				if(nuovaCasella.getFoodAmount()==QTY_SPECIAL_FOOD){
-					this.incrementaVitaSerpente(QTY_SPECIAL_FOOD);
-				} else {
-					this.incrementaVitaSerpente(QTY_STANDARD_FOOD);
-				}
+				this.incrementaVitaSerpente(nuovaCasella.getFoodAmount());
 			}
 			CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP());
 
