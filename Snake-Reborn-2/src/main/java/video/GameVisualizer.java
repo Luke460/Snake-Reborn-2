@@ -124,18 +124,20 @@ public class GameVisualizer extends JPanel {
 	}
 
 	private void drawCell(Graphics g, CellRenderOptionWithPosition cellRenderOption) {
-		final int posX = cellRenderOption.getPosition().getX();
-		final int posY = cellRenderOption.getPosition().getY();
-		g.setColor(cellRenderOption.getColor());
-		int gx = posX*cellSize, gy = posY*cellSize;
-		if(cellRenderOption.getRenderType().equals(FLAT_CELL)) {
-			drawStandardCell(g, cellSize, gx, gy);
-		} else if (cellRenderOption.getRenderType().equals(RELIEF_CELL)){
-			drawReliefCell(g, cellSize, gx, gy);
-		} else if (cellRenderOption.getRenderType().equals(DARKER_CELL)) {
-			drawDarkerCell(g, cellSize, gx, gy);
-		} else if (cellRenderOption.getRenderType().equals(LIGHT_CELL)) {
-			drawLightCell(g, cellSize, gx, gy);
+		if(cellRenderOption!=null) {
+			final int posX = cellRenderOption.getPosition().getX();
+			final int posY = cellRenderOption.getPosition().getY();
+			g.setColor(cellRenderOption.getColor());
+			int gx = posX*cellSize, gy = posY*cellSize;
+			if(cellRenderOption.getRenderType().equals(FLAT_CELL)) {
+				drawStandardCell(g, cellSize, gx, gy);
+			} else if (cellRenderOption.getRenderType().equals(RELIEF_CELL)){
+				drawReliefCell(g, cellSize, gx, gy);
+			} else if (cellRenderOption.getRenderType().equals(DARKER_CELL)) {
+				drawDarkerCell(g, cellSize, gx, gy);
+			} else if (cellRenderOption.getRenderType().equals(LIGHT_CELL)) {
+				drawLightCell(g, cellSize, gx, gy);
+			}
 		}
 	}
 

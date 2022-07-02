@@ -16,8 +16,16 @@ public class CellRenderOption {
 		return renderType;
 	}
 
+	public void setRenderType(String renderType) {
+		this.renderType = renderType;
+	}
+
 	public Color getColor() {
 		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 }

@@ -24,7 +24,12 @@ public class GraphicAdapter {
 			stanzaCorrente = game.getStanzaDiSpawn();
 		}
 		for (Casella cell : stanzaCorrente.getCaselle().values()) {
-			CellRenderOption cellRenderOption = GraphicManager.getCellRenderOption(cell);
+			CellRenderOption cellRenderOption;
+			if(game.isLowGraphicMode()) {
+				cellRenderOption = GraphicManager.getCellRenderOptionLowGraphicMode(cell);
+			} else {
+				cellRenderOption = GraphicManager.getCellRenderOption(cell);
+			}
 			CellRenderOptionWithPosition cellRenderOptionWithPosition = new CellRenderOptionWithPosition(cellRenderOption, cell.getPosizione());
 			frameToVisualize.add(cellRenderOptionWithPosition);
 		}

@@ -7,6 +7,7 @@ import static support.Costanti.TEMPO_RIPOPOLAMENTO_CIBO;
 import static support.Costanti.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
 
 import java.awt.AWTException;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class Main {
 		int fps = (int)(1000/tickTime);
 		int foodRespawn = (int)(TEMPO_RIPOPOLAMENTO_CIBO*fps);
 		int snakeRespawn = (int)(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT*fps);
+		Rectangle gameWindowSize = gameWindow.getBounds();
 
 		while(game.isInGame()) {
 			oraInizioAlgoritmo = oraProgrammataDiRipresa;
@@ -93,7 +95,8 @@ public class Main {
 			
 			setUpGameWindow(game, gameWindow);
 			
-			gameWindow.repaint();
+			//gameWindow.repaint();
+			gameWindow.paintImmediately(gameWindowSize);
 			
 			if(contaCicli%fps==0) {
 				long latency = System.currentTimeMillis()-oraInizioAlgoritmo;

@@ -35,6 +35,7 @@ public class Partita {
 	private Stanza stanzaDiSpawn;
 	private String mapFileName;
 	private boolean showLeaderboard;
+	private boolean lowGraphicMode;
 
 	public Partita() throws IOException {
 		GestorePunteggi.inizializza(this);
@@ -193,6 +194,14 @@ public class Partita {
 
 	public void setShowLeaderboard(boolean showLeaderboard) {
 		this.showLeaderboard = showLeaderboard;
+	}
+
+	public boolean isLowGraphicMode() {
+		return lowGraphicMode;
+	}
+
+	public void setLowGraphicMode(boolean lowGraphicMode) {
+		this.lowGraphicMode = lowGraphicMode;
 	}
 
 }

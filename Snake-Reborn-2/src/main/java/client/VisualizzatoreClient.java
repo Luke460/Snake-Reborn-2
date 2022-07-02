@@ -57,6 +57,7 @@ public class VisualizzatoreClient extends JFrame{
 	JComboBox<String> selettoreLivello;
 	JComboBox<String> selettoreMappa;
 	JCheckBox hideLeaderboard;
+	JCheckBox lowGraphicMode;
 	JLabel messaggioInformativo;
 	JButton accedi;
 	JButton ospite;
@@ -112,6 +113,7 @@ public class VisualizzatoreClient extends JFrame{
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
 		partita.setShowLeaderboard(hideLeaderboard.isSelected());
+		partita.setLowGraphicMode(lowGraphicMode.isSelected());
 	}
 
 	private void aggiornaFileImpostazioni() throws IOException {
@@ -123,6 +125,7 @@ public class VisualizzatoreClient extends JFrame{
 		cr.salvaImpostazione(CostantiConfig.USERNAME, nomeInserito.getText());
 		cr.salvaImpostazione(CostantiConfig.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
 		cr.salvaImpostazione(CostantiConfig.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
+		cr.salvaImpostazione(CostantiConfig.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicMode.isSelected()));
 	}
 
 	private void aggiungiPannelliAlContainer() {
@@ -140,6 +143,7 @@ public class VisualizzatoreClient extends JFrame{
 		nomeInserito.setText(cr.leggiImpostazione(CostantiConfig.USERNAME));
 		selettoreMappa.setSelectedItem(cr.leggiImpostazione(CostantiConfig.NOME_MAPPA));
 		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MOSTRA_LEADERBOARD)));
+		lowGraphicMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.GRAFICA_SEMPLIFICATA)));
 		selettoreLivello.setSelectedIndex(2);
 	}
 
@@ -171,6 +175,7 @@ public class VisualizzatoreClient extends JFrame{
 		selettoreLivello = new JComboBox(data1);
 		selettoreMappa = new JComboBox(listaFileMappe.toArray());
 		hideLeaderboard = new JCheckBox("Mostra classifica");
+		lowGraphicMode = new JCheckBox("Grafica semplificata");
 		messaggioInformativo = new JLabel("      *punteggio valido");
 
 		accedi=new JButton("Accedi e gioca");
@@ -215,6 +220,7 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.add(volumeMusica);
 		
 		PannelloOpzioni.add(hideLeaderboard);
+		PannelloOpzioni.add(lowGraphicMode);
 		
 		PannelloTastiConferma.setLayout(new GridLayout(1, 2));
 		PannelloTastiConferma.setPreferredSize(new Dimension(1,36));
