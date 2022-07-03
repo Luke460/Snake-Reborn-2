@@ -100,17 +100,17 @@ public class GameVisualizer extends JPanel {
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
 		int i = 0;
 		int maxValue = -1;
-		for(LeaderBoardCellRenderOption crowp:leaderboard) {
-			g.setColor(crowp.getColor());
-			int score = crowp.getScore();
-			if(score>0 && (first && crowp.isActiveScore() || score>=maxValue && crowp.isActiveScore())) {
-				maxValue = crowp.getScore();
-				drawDarkerCell(g, (int)(cellSize*0.75), leaderboardPositionX-(cellSize/8), relativeY-(cellSize/8));
+		for(LeaderBoardCellRenderOption leaderboardCellRenOpt:leaderboard) {
+			g.setColor(leaderboardCellRenOpt.getColor());
+			int score = leaderboardCellRenOpt.getScore();
+			if(score>0 && (first && leaderboardCellRenOpt.isActiveScore() || score>=maxValue && leaderboardCellRenOpt.isActiveScore())) {
+				maxValue = leaderboardCellRenOpt.getScore();
+				drawCustomCell(g, (int)(cellSize*0.75), leaderboardPositionX-(cellSize/8), relativeY-(cellSize/8), leaderboardCellRenOpt);
 				first = false;
 			} else {
-				drawDarkerCell(g, (int)(cellSize*0.5), leaderboardPositionX, relativeY);
+				drawCustomCell(g, (int)(cellSize*0.5), leaderboardPositionX, relativeY, leaderboardCellRenOpt);
 			}
-			if(crowp.isActiveScore()) {
+			if(leaderboardCellRenOpt.isActiveScore()) {
 				g.setColor(Color.white);
 			} else {
 				g.setColor(Color.gray);
@@ -129,16 +129,21 @@ public class GameVisualizer extends JPanel {
 			final int posY = cellRenderOption.getPosition().getY();
 			g.setColor(cellRenderOption.getColor());
 			int gx = posX*cellSize, gy = posY*cellSize;
-			if(!cellRenderOption.getColor().equals(this.frameBackground)) {
-				if(cellRenderOption.getRenderType() == FLAT_CELL) {
-					drawStandardCell(g, cellSize, gx, gy);
-				} else if (cellRenderOption.getRenderType() == RELIEF_CELL){
-					drawReliefCell(g, cellSize, gx, gy);
-				} else if (cellRenderOption.getRenderType() == DARKER_CELL) {
-					drawDarkerCell(g, cellSize, gx, gy);
-				} else if (cellRenderOption.getRenderType() == LIGHT_CELL) {
-					drawLightCell(g, cellSize, gx, gy);
-				}
+			drawCustomCell(g, cellSize, gx, gy, cellRenderOption);
+		}
+	}
+	
+	private void drawCustomCell(Graphics g, int dimC, int gx, int gy, CellRenderOption cellRenderOption) {
+		g.setColor(cellRenderOption.getColor());
+		if(!cellRenderOption.getColor().equals(this.frameBackground)) {
+			if(cellRenderOption.getRenderType() == FLAT_CELL) {
+				drawStandardCell(g, dimC, gx, gy);
+			} else if (cellRenderOption.getRenderType() == RELIEF_CELL){
+				drawReliefCell(g, dimC, gx, gy);
+			} else if (cellRenderOption.getRenderType() == DARKER_CELL) {
+				drawDarkerCell(g, dimC, gx, gy);
+			} else if (cellRenderOption.getRenderType() == LIGHT_CELL) {
+				drawLightCell(g, dimC, gx, gy);
 			}
 		}
 	}

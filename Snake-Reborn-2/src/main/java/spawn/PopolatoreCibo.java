@@ -30,8 +30,8 @@ public class PopolatoreCibo {
 		} else {
 			foodQty = QTY_STANDARD_FOOD;
 		}
-		int posX = (int)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
-		int posY = (int)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
+		byte posX = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
+		byte posY = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		Position pos = new Position(posX, posY);
 		Casella c = s.getCaselle().get(pos);
 		// posiziono il cibo solo in caselle libere e con posizione pari

@@ -13,9 +13,9 @@ public interface MapConstants {
 	String RELIEF_CELL_STRING = "RELIEF";
 	String DARKER_CELL_STRING = "DARKER";
 	String LIGHT_CELL_STRING = "LIGHT";
-	char FLAT_CELL = 'f';
-	char RELIEF_CELL = 'r';
-	char DARKER_CELL = 'd';
-	char LIGHT_CELL = 'l';
+	byte FLAT_CELL = 0;
+	byte RELIEF_CELL = 1;
+	byte DARKER_CELL = 2;
+	byte LIGHT_CELL = 3;
 
 }

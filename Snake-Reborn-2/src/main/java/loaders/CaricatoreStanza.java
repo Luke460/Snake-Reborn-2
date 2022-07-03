@@ -24,11 +24,11 @@ public class CaricatoreStanza {
 		Stanza stanza = new Stanza(nomeStanza);
 		InfoMapFileContent stanzaInfo = LoaderSupporter.getInfoMapFileContent(testoStanza, nomeFile);
 		
-		int rowIndex=0;
+		byte rowIndex=0;
 		for(String lineContent:stanzaInfo.getInfoLines()) {
 			ArrayList<Character> lineCharList = new ArrayList<>();
 			lineCharList.addAll(Utility.stringaToArray(lineContent));
-			int characterIndex = 0;
+			byte characterIndex = 0;
 			for(char statusCharacter:lineCharList) {
 				Position position = new Position(characterIndex,rowIndex);
 				boolean isSolid = mappa.getSolidCellStatusList().contains(statusCharacter);

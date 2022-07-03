@@ -1,33 +1,35 @@
 package gamefield;
 
+import java.util.Objects;
+
 /**
- * Rappresenta una posizione, modellata come coppia di interi 
- * ascissa (x) ed ordinata (y), all'interno del {@link Pozzo}.
+ * Rappresenta una posizione, modellata come coppia di byteeri 
+ * ascissa (x) ed ordinata (y), all'byteerno del {@link Pozzo}.
  * 
  */
 
 public class Position {
 	
-	private int x;
-	private int y;
+	private byte x;
+	private byte y;
 	
-	public Position(int x, int y) {
+	public Position(byte x, byte y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public int getX() {
+	public byte getX() {
 		return this.x;
 	}
 
-	public int getY() {
+	public byte getY() {
 		return this.y;
 	}
 	
 	public Position getPositionInDirection(Direction d) {
 		// X=0 Y=0 : UPPER LEFT CORNER
-		int x = getX();
-		int y = getY();
+		byte x = getX();
+		byte y = getY();
 		switch(d.getDir()) {
 			case UP:
 				y -= 1;
@@ -46,16 +48,22 @@ public class Position {
 	}
 	
 	@Override
-	public int hashCode(){
-		return this.getX()+this.getY();
+	public int hashCode() {
+		return Objects.hash(x, y);
 	}
-	
+
 	@Override
-	public boolean equals(Object o){
-		Position that = (Position) o;
-		return (this.getX()==that.getX() &&
-				this.getY()==that.getY());
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		return x == other.x && y == other.y;
 	}
+
 	@Override
 	public String toString(){
 		return "X = " + this.getX() + "  Y = " + this.getY();

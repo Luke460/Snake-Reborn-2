@@ -6,7 +6,7 @@ import static constants.GeneralConstants.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
 import static constants.GeneralConstants.NOME_PLAYER_1;
 import static constants.GeneralConstants.SNAKE_RESPAWN_CD;
 import static constants.GeneralConstants.VITA_SERPENTE_MASSIMA;
-import static constants.MapConstants.FLAT_CELL;
+import static constants.MapConstants.DARKER_CELL;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public abstract class Snake {
 	private int previousScore;
 	private long deathTimestamp;
 	
-	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(FLAT_CELL, Color.gray);
+	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.gray);
 
 	public Snake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
 		this.vivo = false;
@@ -272,12 +272,12 @@ public abstract class Snake {
 		this.istanteDiNascita = System.currentTimeMillis();
 
 		// random center spawn
-		int deltaXspawn = 0;
+		byte deltaXspawn = 0;
 		if(Utility.veroAl(50)) deltaXspawn = -1;
-		int deltaYspawn = 0;
+		byte deltaYspawn = 0;
 		if(Utility.veroAl(50)) deltaYspawn = -1;
-		int centerPosition = DIMENSIONE_STANZA_DEFAULT/2;
-		Position posizionePrimaCasella = new Position(centerPosition+deltaXspawn,centerPosition+deltaYspawn);
+		byte centerPosition = (byte)(DIMENSIONE_STANZA_DEFAULT/2);
+		Position posizionePrimaCasella = new Position((byte)(centerPosition+deltaXspawn),(byte)(centerPosition+deltaYspawn));
 		
 		// direzione casuale
 		Direction direzioneSerpente = getBestSpawnDirection(posizionePrimaCasella, stanza);

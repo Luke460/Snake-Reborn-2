@@ -16,7 +16,7 @@ public interface GeneralConstants {
 	//static final public int TEMPO_BASE = 28; // 3X speed test
 	//static final public int FPS = (int)(1000/TEMPO_BASE);
 
-	public static final int DIMENSIONE_STANZA_DEFAULT = 40;
+	public static final byte DIMENSIONE_STANZA_DEFAULT = 40;
 	public static final double RAPPORTO_DIMENSIONE_SCHERMO = 0.9; // 90% del lato minimo
 	
 	public static final String EST = "est";

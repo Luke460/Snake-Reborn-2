@@ -3,7 +3,6 @@ package video;
 import static constants.GeneralConstants.QTY_BONUS_FOOD;
 import static constants.GeneralConstants.QTY_STANDARD_FOOD;
 import static constants.GeneralConstants.QTY_SUPER_FOOD;
-import static constants.MapConstants.DARKER_CELL;
 import static constants.MapConstants.FLAT_CELL;
 
 import java.awt.Color;
@@ -28,11 +27,11 @@ public class GraphicManager {
 			cellRenderOption = casella.getSnake().getCellRenderOption();
 		} else if (casella.isFood()) {
 			if(casella.getFoodAmount() == QTY_STANDARD_FOOD) {
-				cellRenderOption = new CellRenderOption(DARKER_CELL, STANDARD_FOOD_COLOR);
+				cellRenderOption = new CellRenderOption(FLAT_CELL, STANDARD_FOOD_COLOR);
 			} else if (casella.getFoodAmount() == QTY_BONUS_FOOD) {
-				cellRenderOption = new CellRenderOption(DARKER_CELL, BONUS_FOOD_COLOR);
+				cellRenderOption = new CellRenderOption(FLAT_CELL, BONUS_FOOD_COLOR);
 			} else if (casella.getFoodAmount() == QTY_SUPER_FOOD) {
-				cellRenderOption = new CellRenderOption(DARKER_CELL, SUPER_FOOD_COLOR);
+				cellRenderOption = new CellRenderOption(FLAT_CELL, SUPER_FOOD_COLOR);
 			}
 		}
 		return cellRenderOption;
@@ -45,6 +44,10 @@ public class GraphicManager {
 		} else {
 			cellRenderOption = new CellRenderOption(FLAT_CELL, casella.getStanza().getMap().getBackgroundColor());
 		}
+		return getSemplifiedCellRenderOption(cellRenderOption);
+	}
+	
+	public static CellRenderOption getSemplifiedCellRenderOption(CellRenderOption cellRenderOption) {
 		return new CellRenderOption(FLAT_CELL, cellRenderOption.getColor());
 	}
 

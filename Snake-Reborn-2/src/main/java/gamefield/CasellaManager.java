@@ -41,22 +41,23 @@ public class CasellaManager {
 		Position posizioneNuovaCasella = posizioneCasella.getPositionInDirection(direzione);
 		Stanza stanzaCorrente = casella.getStanza();
 		//controllo out of stanza
-		if(posizioneNuovaCasella.getX()>DIMENSIONE_STANZA_DEFAULT-1){
-			posizioneNuovaCasella = new Position(0,posizioneNuovaCasella.getY()); 
+		byte room_length = (byte)(DIMENSIONE_STANZA_DEFAULT-1);
+		if(posizioneNuovaCasella.getX()>room_length){
+			posizioneNuovaCasella = new Position((byte)0,posizioneNuovaCasella.getY()); 
 			return stanzaCorrente.getCollegamenti().get(EST).getCaselle().get(posizioneNuovaCasella);
 		}
 
 		if(posizioneNuovaCasella.getX()<0){
-			posizioneNuovaCasella = new Position(DIMENSIONE_STANZA_DEFAULT-1,posizioneNuovaCasella.getY()); 
+			posizioneNuovaCasella = new Position(room_length,posizioneNuovaCasella.getY()); 
 			return stanzaCorrente.getCollegamenti().get(OVEST).getCaselle().get(posizioneNuovaCasella);
 		}
 
-		if(posizioneNuovaCasella.getY()>DIMENSIONE_STANZA_DEFAULT-1){
-			posizioneNuovaCasella = new Position(posizioneNuovaCasella.getX(),0); 
+		if(posizioneNuovaCasella.getY()>room_length){
+			posizioneNuovaCasella = new Position(posizioneNuovaCasella.getX(),(byte)0); 
 			return stanzaCorrente.getCollegamenti().get(SUD).getCaselle().get(posizioneNuovaCasella);
 		}
 		if(posizioneNuovaCasella.getY()<0){
-			posizioneNuovaCasella = new Position(posizioneNuovaCasella.getX(),DIMENSIONE_STANZA_DEFAULT-1); 
+			posizioneNuovaCasella = new Position(posizioneNuovaCasella.getX(),room_length); 
 			return stanzaCorrente.getCollegamenti().get(NORD).getCaselle().get(posizioneNuovaCasella);
 		}
 

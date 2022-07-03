@@ -16,11 +16,12 @@ public class StanzaManager {
 	
 	public static boolean isActuallyReadyForSpawn(Stanza stanza) {
 		
-		int centralDistance = DIMENSIONE_STANZA_DEFAULT/2;
+		byte centralDistance = (byte)(DIMENSIONE_STANZA_DEFAULT/2);
+		byte centralDistanceMinusOne = (byte)(centralDistance-1);
 		
-		Position pos1 = new Position(centralDistance-1, centralDistance-1);
-		Position pos2 = new Position(centralDistance, centralDistance-1);
-		Position pos3 = new Position(centralDistance-1, centralDistance);
+		Position pos1 = new Position(centralDistanceMinusOne, centralDistanceMinusOne);
+		Position pos2 = new Position(centralDistance, centralDistanceMinusOne);
+		Position pos3 = new Position(centralDistanceMinusOne, centralDistance);
 		Position pos4 = new Position(centralDistance, centralDistance);
 		
 		Casella cell1 = stanza.getCaselle().get(pos1);

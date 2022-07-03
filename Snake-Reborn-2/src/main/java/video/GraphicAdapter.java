@@ -47,6 +47,9 @@ public class GraphicAdapter {
 		for(Snake snake:snakes) {
 			int score = snake.getTotalSnakeScore();
 			CellRenderOption cellRenderOption = snake.getCellRenderOption();
+			if(game.isLowGraphicMode()) {
+				cellRenderOption = GraphicManager.getSemplifiedCellRenderOption(cellRenderOption);
+			}
 			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first);
 			if(score>0 && (first && snake.isVivo() || score>=maxValue && snake.isVivo())) {
 				maxValue = score;

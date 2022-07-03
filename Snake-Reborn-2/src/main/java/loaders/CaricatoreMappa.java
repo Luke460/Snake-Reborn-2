@@ -124,7 +124,7 @@ public class CaricatoreMappa {
 			String actualInfoMapKey = CELL_RENDER_BEGIN + c + CELL_RENDER_END;
 			List<String> renderParams = colorInfoMap.getPrefixMap().get(actualInfoMapKey);
 			String stringRenderType = renderParams.get(0);
-			char renderType = getRenderTypeFromString(stringRenderType);
+			byte renderType = getRenderTypeFromString(stringRenderType);
 			int red = Integer.parseInt(renderParams.get(1));
 			int green = Integer.parseInt(renderParams.get(2));
 			int blue = Integer.parseInt(renderParams.get(3));
@@ -135,7 +135,7 @@ public class CaricatoreMappa {
 		mappa.setCellRenderOptionMap(cellRenderOptionMap);
 	}
 	
-	private static char getRenderTypeFromString(String s) {
+	private static byte getRenderTypeFromString(String s) {
 		if(s.equals(FLAT_CELL_STRING)) {
 			return FLAT_CELL;
 		} else if (s.equals(RELIEF_CELL_STRING)) {
