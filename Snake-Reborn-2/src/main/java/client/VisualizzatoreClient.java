@@ -91,7 +91,7 @@ public class VisualizzatoreClient extends JFrame{
 	private void regolaFinestra() {
 		// autoregola dimensione finestra e posizionala al centro
 		this.pack();
-		Dimension d = new Dimension(420,360);
+		Dimension d = new Dimension(460,400);
 		this.setSize(d);
 		this.setMinimumSize(d);
 		this.setResizable(true);
@@ -225,7 +225,7 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.add(lowGraphicMode);
 		
 		PannelloTastiConferma.setLayout(new GridLayout(1, 2));
-		PannelloTastiConferma.setPreferredSize(new Dimension(1,36));
+		PannelloTastiConferma.setPreferredSize(new Dimension(1,40));
 		PannelloTastiConferma.add(accedi);
 		PannelloTastiConferma.add(ospite);
 	}
