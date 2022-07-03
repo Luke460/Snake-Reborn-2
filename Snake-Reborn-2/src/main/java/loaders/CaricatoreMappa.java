@@ -153,7 +153,7 @@ public class CaricatoreMappa {
 		if(collegamento.equalsIgnoreCase("N"))return NORD;
 		if(collegamento.equalsIgnoreCase("E"))return EST;
 		if(collegamento.equalsIgnoreCase("S"))return SUD;
-		if(collegamento.equalsIgnoreCase("O")||collegamento.equalsIgnoreCase("W"))return OVEST;
+		if(collegamento.equalsIgnoreCase("W"))return OVEST;
 		return null;
 
 	}
