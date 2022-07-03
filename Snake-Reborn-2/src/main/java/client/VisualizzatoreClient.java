@@ -175,7 +175,7 @@ public class VisualizzatoreClient extends JFrame{
 		passwordInserita.setPreferredSize(textFieldSize);
 		
 		messaggioLivello=new JLabel(" Velocità gioco:");
-		messaggioMappa=new JLabel(" mappa:");
+		messaggioMappa=new JLabel(" Mappa:");
 		opzEffetti = new JCheckBox("Effetti sonori");
 		volumeEffetti = new JSlider(0, 100, 50);
 		opzMusica = new JCheckBox("Musica di sottofondo");
@@ -186,7 +186,7 @@ public class VisualizzatoreClient extends JFrame{
 		hideLeaderboard = new JCheckBox("Mostra classifica");
 		lowGraphicMode = new JCheckBox("Grafica semplificata");
 		endlessMode = new JCheckBox("Modalità senza fine");
-		messaggioInformativo = new JLabel("      *punteggio valido");
+		messaggioInformativo = new JLabel("      *Punteggio valido");
 
 		accedi=new JButton("Accedi e gioca");
 		ospite=new JButton("Gioca come ospite");

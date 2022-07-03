@@ -106,7 +106,7 @@ public class Main {
 			
 			gameWindow.paintImmediately(gameWindowSize);
 			
-			if(contaCicli%fps==0) {
+			if(contaCicli%fps==0) { // every seconds
 				long latency = System.currentTimeMillis()-oraInizioAlgoritmo;
 				System.out.println("latency: " + latency +" ms");
 			}
@@ -120,13 +120,14 @@ public class Main {
 			}
 		}
 		if(showEndGameStatistics) {
+			GestoreSuoni.playGameEndSound();
+			GestoreSuoni.silenziaMusica();
 			showEndGameStatistics(game, gameWindow, gameWindowSize);
 		}
 	}
 
 	private static void showEndGameStatistics(Partita game, GameVisualizer gameWindow, Rectangle gameWindowSize)
 			throws InterruptedException {
-		GestoreSuoni.playGameEndSound();
 		game.setInGame(true);
 		while(game.isInGame()) {
 			game.getGestoreComandi().eseguiComandoEndGame();
