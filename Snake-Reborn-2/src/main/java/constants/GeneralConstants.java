@@ -43,14 +43,15 @@ public interface GeneralConstants {
 	public static final int VITA_SERPENTE_DEFAULT = 2;
 	static final public int VITA_SERPENTE_MASSIMA = 40;
 	
-	static final public int LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE = 10; // 10 hp
+	static final public int SNAKE_HP_FOR_BONUS_FOOD = 10;
+	static final public int SNAKE_HP_FOR_SUPER_FOOD = 20;
 	static final public int MOLTIPLICATORE_PUNTEGGIO_CIBO = 10;
 	static final public int MOLTIPLICATORE_PUNTEGGIO_UCCISIONE = 100;
 	static final public int TEMPO_RIPOPOLAMENTO_CIBO = 5; // 5 sec
 	
-	static final public int QTY_SUPER_FOOD = 5;
-	static final public int QTY_BONUS_FOOD = 3;
 	static final public int QTY_STANDARD_FOOD = 1;
+	static final public int QTY_BONUS_FOOD = 3;
+	static final public int QTY_SUPER_FOOD = 6;
 	
 	static final public int TEMPO_RIPOPOLAMENTO_SERPENTI_BOT = 1;
 	static final public int SNAKE_RESPAWN_CD = 5;
