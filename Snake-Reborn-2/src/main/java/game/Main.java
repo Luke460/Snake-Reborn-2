@@ -1,10 +1,10 @@
 package game;
 
-import static support.Costanti.TICK_TIME_EASY;
-import static support.Costanti.TICK_TIME_MEDIUM;
-import static support.Costanti.TICK_TIME_HARD;
-import static support.Costanti.TEMPO_RIPOPOLAMENTO_CIBO;
-import static support.Costanti.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
+import static constants.GeneralConstants.TEMPO_RIPOPOLAMENTO_CIBO;
+import static constants.GeneralConstants.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
+import static constants.GeneralConstants.TICK_TIME_EASY;
+import static constants.GeneralConstants.TICK_TIME_HARD;
+import static constants.GeneralConstants.TICK_TIME_MEDIUM;
 
 import java.awt.AWTException;
 import java.awt.Color;

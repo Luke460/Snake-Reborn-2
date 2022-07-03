@@ -4,19 +4,19 @@ import java.awt.Color;
 
 public class CellRenderOption {
 	
-	private String renderType;
+	private char renderType;
 	private Color color;
 	
-	public CellRenderOption(String renderType, Color color) {
+	public CellRenderOption(char renderType, Color color) {
 		this.renderType = renderType;
 		this.color = color;
 	}
 
-	public String getRenderType() {
+	public char getRenderType() {
 		return renderType;
 	}
 
-	public void setRenderType(String renderType) {
+	public void setRenderType(char renderType) {
 		this.renderType = renderType;
 	}
 

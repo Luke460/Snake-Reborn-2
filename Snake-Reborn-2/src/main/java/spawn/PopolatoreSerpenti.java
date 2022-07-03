@@ -1,10 +1,11 @@
 package spawn;
 
-import static support.Costanti.VITA_SERPENTE_DEFAULT;
+import static constants.GeneralConstants.VITA_SERPENTE_DEFAULT;
 
 import java.util.HashMap;
 
 import audio.GestoreSuoni;
+import constants.GeneralConstants;
 import game.Partita;
 import gamefield.Mappa;
 import gamefield.MappaManager;
@@ -14,7 +15,6 @@ import snake.HardBotSnake;
 import snake.InsaneBotSnake;
 import snake.MediumBotSnake;
 import snake.Snake;
-import support.Costanti;
 import support.Utility;
 
 public class PopolatoreSerpenti {
@@ -48,7 +48,7 @@ public class PopolatoreSerpenti {
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
 		if(stanza!=null) {
-			snakeList.put(fullName, new EasyBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			snakeList.put(fullName, new EasyBotSnake(fullName, stanza, GeneralConstants.VITA_SERPENTE_DEFAULT, partita));
 			serpentiInseriti++;
 		} else {
 			System.out.println("Unable to insert EasyBot");
@@ -62,7 +62,7 @@ public class PopolatoreSerpenti {
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
 		if(stanza!=null) {
-			snakeList.put(fullName, new MediumBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			snakeList.put(fullName, new MediumBotSnake(fullName, stanza, GeneralConstants.VITA_SERPENTE_DEFAULT, partita));
 			serpentiInseriti++;
 		} else {
 			System.out.println("Unable to insert MediumBot");
@@ -76,7 +76,7 @@ public class PopolatoreSerpenti {
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
 		if(stanza!=null) {
-			snakeList.put(fullName,new HardBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			snakeList.put(fullName,new HardBotSnake(fullName, stanza, GeneralConstants.VITA_SERPENTE_DEFAULT, partita));
 			serpentiInseriti++;
 		} else {
 			System.out.println("Unable to insert HardBot");
@@ -90,7 +90,7 @@ public class PopolatoreSerpenti {
 		fullName = nomeBot + serpentiInseriti;
 		Stanza stanza = MappaManager.getStanzaCasualeLiberaPerSpawn(partita.getMappa(), partita.getSerpenti(), null);
 		if(stanza!=null) {
-			snakeList.put(fullName, new InsaneBotSnake(fullName, stanza, Costanti.VITA_SERPENTE_DEFAULT, partita));
+			snakeList.put(fullName, new InsaneBotSnake(fullName, stanza, GeneralConstants.VITA_SERPENTE_DEFAULT, partita));
 			serpentiInseriti++;
 		} else {
 			System.out.println("Unable to insert InsaneBot");

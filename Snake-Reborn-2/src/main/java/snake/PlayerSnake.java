@@ -1,6 +1,6 @@
 package snake;
 
-import static support.CostantiConfig.DARKER_CELL;
+import static constants.MapConstants.DARKER_CELL;
 
 import java.awt.Color;
 

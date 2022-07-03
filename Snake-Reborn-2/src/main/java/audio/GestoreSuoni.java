@@ -1,6 +1,6 @@
 package audio;
 
-import static support.Costanti.SOUNDS_PATH;
+import static constants.GeneralConstants.SOUNDS_PATH;
 
 import support.OSdetector;
 

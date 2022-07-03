@@ -1,7 +1,7 @@
 package game;
 
-import static support.Costanti.NOME_PLAYER_1;
-import static support.Costanti.VITA_SERPENTE_DEFAULT;
+import static constants.GeneralConstants.NOME_PLAYER_1;
+import static constants.GeneralConstants.VITA_SERPENTE_DEFAULT;
 
 import java.io.IOException;
 import java.util.HashMap;

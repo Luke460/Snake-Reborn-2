@@ -1,7 +1,8 @@
 package loaders;
 
-import static support.CostantiConfig.SPAWN_ENABLED;
 import gamefield.StanzaManager;
+
+import static constants.MapConstants.SPAWN_ENABLED;
 
 import java.io.IOException;
 import java.nio.file.Paths;

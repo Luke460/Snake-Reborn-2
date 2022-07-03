@@ -22,11 +22,11 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 
 import audio.GestoreSuoni;
+import constants.ConfigFileConstants;
 import game.Partita;
 import game.UserLocal;
 import server.client.Client;
 import support.ConfigurationManager;
-import support.CostantiConfig;
 
 public class VisualizzatoreClient extends JFrame{
 
@@ -68,7 +68,7 @@ public class VisualizzatoreClient extends JFrame{
 	public VisualizzatoreClient() throws IOException {
 		super("Snake Reborn");
 		client = new Client();
-		listaFileMappe = support.FileHandler.getFolderList(support.Costanti.MAPS_PATH);
+		listaFileMappe = support.FileHandler.getFolderList(constants.GeneralConstants.MAPS_PATH);
 		creaPannelli();
 		sistemaPannelli();
 		preimpostaPannelli();
@@ -118,14 +118,14 @@ public class VisualizzatoreClient extends JFrame{
 
 	private void aggiornaFileImpostazioni() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
-		cr.salvaImpostazione(CostantiConfig.EFFETTI, Boolean.toString(opzEffetti.isSelected()));
-		cr.salvaImpostazione(CostantiConfig.VOLUME_EFFETTI, Integer.toString(volumeEffetti.getValue()));
-		cr.salvaImpostazione(CostantiConfig.MUSICA, Boolean.toString(opzMusica.isSelected()));
-		cr.salvaImpostazione(CostantiConfig.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
-		cr.salvaImpostazione(CostantiConfig.USERNAME, nomeInserito.getText());
-		cr.salvaImpostazione(CostantiConfig.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
-		cr.salvaImpostazione(CostantiConfig.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
-		cr.salvaImpostazione(CostantiConfig.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicMode.isSelected()));
+		cr.salvaImpostazione(ConfigFileConstants.EFFETTI, Boolean.toString(opzEffetti.isSelected()));
+		cr.salvaImpostazione(ConfigFileConstants.VOLUME_EFFETTI, Integer.toString(volumeEffetti.getValue()));
+		cr.salvaImpostazione(ConfigFileConstants.MUSICA, Boolean.toString(opzMusica.isSelected()));
+		cr.salvaImpostazione(ConfigFileConstants.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
+		cr.salvaImpostazione(ConfigFileConstants.USERNAME, nomeInserito.getText());
+		cr.salvaImpostazione(ConfigFileConstants.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
+		cr.salvaImpostazione(ConfigFileConstants.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
+		cr.salvaImpostazione(ConfigFileConstants.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicMode.isSelected()));
 	}
 
 	private void aggiungiPannelliAlContainer() {
@@ -136,14 +136,14 @@ public class VisualizzatoreClient extends JFrame{
 
 	private void preimpostaPannelli() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
-		opzEffetti.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.EFFETTI)));
-		volumeEffetti.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_EFFETTI)));
-		opzMusica.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MUSICA)));
-		volumeMusica.setValue(Integer.parseInt(cr.leggiImpostazione(CostantiConfig.VOLUME_MUSICA)));
-		nomeInserito.setText(cr.leggiImpostazione(CostantiConfig.USERNAME));
-		selettoreMappa.setSelectedItem(cr.leggiImpostazione(CostantiConfig.NOME_MAPPA));
-		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.MOSTRA_LEADERBOARD)));
-		lowGraphicMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(CostantiConfig.GRAFICA_SEMPLIFICATA)));
+		opzEffetti.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.EFFETTI)));
+		volumeEffetti.setValue(Integer.parseInt(cr.leggiImpostazione(ConfigFileConstants.VOLUME_EFFETTI)));
+		opzMusica.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.MUSICA)));
+		volumeMusica.setValue(Integer.parseInt(cr.leggiImpostazione(ConfigFileConstants.VOLUME_MUSICA)));
+		nomeInserito.setText(cr.leggiImpostazione(ConfigFileConstants.USERNAME));
+		selettoreMappa.setSelectedItem(cr.leggiImpostazione(ConfigFileConstants.NOME_MAPPA));
+		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.MOSTRA_LEADERBOARD)));
+		lowGraphicMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.GRAFICA_SEMPLIFICATA)));
 		selettoreLivello.setSelectedIndex(2);
 	}
 

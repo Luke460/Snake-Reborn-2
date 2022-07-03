@@ -1,10 +1,10 @@
 package spawn;
 
-import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
-import static support.Costanti.LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE;
-import static support.Costanti.QTY_SUPER_FOOD;
-import static support.Costanti.QTY_BONUS_FOOD;
-import static support.Costanti.QTY_STANDARD_FOOD;
+import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
+import static constants.GeneralConstants.LUNGHEZZA_MINIMA_PER_TESTA_SERPENTE;
+import static constants.GeneralConstants.QTY_BONUS_FOOD;
+import static constants.GeneralConstants.QTY_STANDARD_FOOD;
+import static constants.GeneralConstants.QTY_SUPER_FOOD;
 
 import java.util.Collections;
 import java.util.List;

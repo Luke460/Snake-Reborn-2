@@ -1,8 +1,8 @@
 package server.client;
 
-import static support.Costanti.FILE_NOME_SERVER;
-import static support.Costanti.FILE_PORTA;
-import static support.Costanti.NOME_FILE_INDIRIZZO_SERVER;
+import static constants.GeneralConstants.FILE_NOME_SERVER;
+import static constants.GeneralConstants.FILE_PORTA;
+import static constants.GeneralConstants.NOME_FILE_INDIRIZZO_SERVER;
 
 import java.io.IOException;
 import java.io.InputStream;

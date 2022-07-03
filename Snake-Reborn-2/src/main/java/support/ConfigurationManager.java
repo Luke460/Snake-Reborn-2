@@ -1,8 +1,8 @@
 package support;
 
-import static support.Costanti.CARATTERE_FINE_FILE;
-import static support.Costanti.CARATTERE_FINE_RIGA;
-import static support.Costanti.CARATTERE_INIZIO_RIGA;
+import static constants.GeneralConstants.CARATTERE_FINE_FILE;
+import static constants.GeneralConstants.CARATTERE_FINE_RIGA;
+import static constants.GeneralConstants.CARATTERE_INIZIO_RIGA;
 
 import java.io.IOException;
 import java.util.ArrayList;

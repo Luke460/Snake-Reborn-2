@@ -1,9 +1,9 @@
 package gamefield;
 
-import static support.Costanti.NORD;
-import static support.Costanti.EST;
-import static support.Costanti.SUD;
-import static support.Costanti.OVEST;
+import static constants.GeneralConstants.EST;
+import static constants.GeneralConstants.NORD;
+import static constants.GeneralConstants.OVEST;
+import static constants.GeneralConstants.SUD;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package loaders;
 
-import static support.Costanti.CARATTERE_FINE_FILE;
+import static constants.GeneralConstants.CARATTERE_FINE_FILE;
 
 import java.util.ArrayList;
 import java.util.Arrays;

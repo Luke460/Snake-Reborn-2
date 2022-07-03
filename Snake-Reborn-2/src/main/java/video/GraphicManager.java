@@ -1,11 +1,10 @@
 package video;
 
-import static support.Costanti.QTY_STANDARD_FOOD;
-import static support.Costanti.QTY_BONUS_FOOD;
-import static support.Costanti.QTY_SUPER_FOOD;
-
-import static support.CostantiConfig.FLAT_CELL;
-import static support.CostantiConfig.DARKER_CELL;
+import static constants.GeneralConstants.QTY_BONUS_FOOD;
+import static constants.GeneralConstants.QTY_STANDARD_FOOD;
+import static constants.GeneralConstants.QTY_SUPER_FOOD;
+import static constants.MapConstants.DARKER_CELL;
+import static constants.MapConstants.FLAT_CELL;
 
 import java.awt.Color;
 

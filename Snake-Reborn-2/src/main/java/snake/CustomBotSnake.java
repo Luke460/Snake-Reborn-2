@@ -1,5 +1,5 @@
 package snake;
-import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
+import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
 
 import java.util.HashMap;
 import java.util.Map.Entry;

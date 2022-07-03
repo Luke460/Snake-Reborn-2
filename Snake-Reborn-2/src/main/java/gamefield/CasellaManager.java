@@ -1,10 +1,10 @@
 package gamefield;
 
-import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
-import static support.Costanti.NORD;
-import static support.Costanti.EST;
-import static support.Costanti.SUD;
-import static support.Costanti.OVEST;
+import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
+import static constants.GeneralConstants.EST;
+import static constants.GeneralConstants.NORD;
+import static constants.GeneralConstants.OVEST;
+import static constants.GeneralConstants.SUD;
 
 import snake.Snake;
 

@@ -1,12 +1,12 @@
 package snake;
 
-import static support.Costanti.VITA_SERPENTE_MASSIMA;
-import static support.Costanti.NOME_PLAYER_1;
-import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
-import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_CIBO;
-import static support.Costanti.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
-import static support.Costanti.SNAKE_RESPAWN_CD;
-import static support.CostantiConfig.FLAT_CELL;
+import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
+import static constants.GeneralConstants.MOLTIPLICATORE_PUNTEGGIO_CIBO;
+import static constants.GeneralConstants.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
+import static constants.GeneralConstants.NOME_PLAYER_1;
+import static constants.GeneralConstants.SNAKE_RESPAWN_CD;
+import static constants.GeneralConstants.VITA_SERPENTE_MASSIMA;
+import static constants.MapConstants.FLAT_CELL;
 
 import java.awt.Color;
 import java.util.ArrayList;

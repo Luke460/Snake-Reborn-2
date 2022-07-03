@@ -1,13 +1,13 @@
 package video;
 
+import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
+import static constants.GeneralConstants.RAPPORTO_DIMENSIONE_SCHERMO;
+import static constants.MapConstants.DARKER_CELL;
+import static constants.MapConstants.FLAT_CELL;
+import static constants.MapConstants.LIGHT_CELL;
+import static constants.MapConstants.RELIEF_CELL;
 import static java.awt.event.KeyEvent.VK_SHIFT;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import static support.Costanti.DIMENSIONE_STANZA_DEFAULT;
-import static support.Costanti.RAPPORTO_DIMENSIONE_SCHERMO;
-import static support.CostantiConfig.FLAT_CELL;
-import static support.CostantiConfig.RELIEF_CELL;
-import static support.CostantiConfig.DARKER_CELL;
-import static support.CostantiConfig.LIGHT_CELL;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -130,13 +130,13 @@ public class GameVisualizer extends JPanel {
 			g.setColor(cellRenderOption.getColor());
 			int gx = posX*cellSize, gy = posY*cellSize;
 			if(!cellRenderOption.getColor().equals(this.frameBackground)) {
-				if(cellRenderOption.getRenderType().equals(FLAT_CELL)) {
+				if(cellRenderOption.getRenderType() == FLAT_CELL) {
 					drawStandardCell(g, cellSize, gx, gy);
-				} else if (cellRenderOption.getRenderType().equals(RELIEF_CELL)){
+				} else if (cellRenderOption.getRenderType() == RELIEF_CELL){
 					drawReliefCell(g, cellSize, gx, gy);
-				} else if (cellRenderOption.getRenderType().equals(DARKER_CELL)) {
+				} else if (cellRenderOption.getRenderType() == DARKER_CELL) {
 					drawDarkerCell(g, cellSize, gx, gy);
-				} else if (cellRenderOption.getRenderType().equals(LIGHT_CELL)) {
+				} else if (cellRenderOption.getRenderType() == LIGHT_CELL) {
 					drawLightCell(g, cellSize, gx, gy);
 				}
 			}

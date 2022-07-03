@@ -1,6 +1,6 @@
-package support;
+package constants;
 
-public interface Costanti {
+public interface GeneralConstants {
 
 	final static String ROOMS_FOLDER_NAME = "rooms";
 	final static String MAPS_PATH = "maps";

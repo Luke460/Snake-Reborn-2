@@ -1,16 +1,24 @@
 package loaders;
 
-import static support.Costanti.MAPS_PATH;
-import static support.Costanti.FILE_TYPE;
-import static support.Costanti.ROOMS_FOLDER_NAME;
-import static support.CostantiConfig.ROOM_PREFIX;
-import static support.CostantiConfig.FREE_CELL_FLOOR;
-import static support.CostantiConfig.SOLID_CELL;
-import static support.CostantiConfig.BACKGROUND_COLOR;
-import static support.Costanti.NORD;
-import static support.Costanti.EST;
-import static support.Costanti.SUD;
-import static support.Costanti.OVEST;
+import static constants.GeneralConstants.EST;
+import static constants.GeneralConstants.FILE_TYPE;
+import static constants.GeneralConstants.MAPS_PATH;
+import static constants.GeneralConstants.NORD;
+import static constants.GeneralConstants.OVEST;
+import static constants.GeneralConstants.ROOMS_FOLDER_NAME;
+import static constants.GeneralConstants.SUD;
+import static constants.MapConstants.BACKGROUND_COLOR;
+import static constants.MapConstants.DARKER_CELL;
+import static constants.MapConstants.DARKER_CELL_STRING;
+import static constants.MapConstants.FLAT_CELL;
+import static constants.MapConstants.FLAT_CELL_STRING;
+import static constants.MapConstants.FREE_CELL_FLOOR;
+import static constants.MapConstants.LIGHT_CELL;
+import static constants.MapConstants.LIGHT_CELL_STRING;
+import static constants.MapConstants.RELIEF_CELL;
+import static constants.MapConstants.RELIEF_CELL_STRING;
+import static constants.MapConstants.ROOM_PREFIX;
+import static constants.MapConstants.SOLID_CELL;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -115,7 +123,8 @@ public class CaricatoreMappa {
 		for(Character c:allElements) {
 			String actualInfoMapKey = CELL_RENDER_BEGIN + c + CELL_RENDER_END;
 			List<String> renderParams = colorInfoMap.getPrefixMap().get(actualInfoMapKey);
-			String renderType = renderParams.get(0);
+			String stringRenderType = renderParams.get(0);
+			char renderType = getRenderTypeFromString(stringRenderType);
 			int red = Integer.parseInt(renderParams.get(1));
 			int green = Integer.parseInt(renderParams.get(2));
 			int blue = Integer.parseInt(renderParams.get(3));
@@ -126,6 +135,20 @@ public class CaricatoreMappa {
 		mappa.setCellRenderOptionMap(cellRenderOptionMap);
 	}
 	
+	private static char getRenderTypeFromString(String s) {
+		if(s.equals(FLAT_CELL_STRING)) {
+			return FLAT_CELL;
+		} else if (s.equals(RELIEF_CELL_STRING)) {
+			return RELIEF_CELL;
+		} else if (s.equals(DARKER_CELL_STRING)) {
+			return DARKER_CELL;
+		} else if (s.equals(LIGHT_CELL_STRING)) {
+			return LIGHT_CELL;
+		} else {
+			throw new IllegalArgumentException("Unknown Cell Render Option " + s);
+		}
+	}
+
 	private static String getCollegamento(String collegamento) {
 		if(collegamento.equalsIgnoreCase("N"))return NORD;
 		if(collegamento.equalsIgnoreCase("E"))return EST;
