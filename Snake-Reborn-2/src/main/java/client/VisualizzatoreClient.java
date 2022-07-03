@@ -152,6 +152,8 @@ public class VisualizzatoreClient extends JFrame{
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void creaPannelli() {
+		Dimension textFieldSize = new Dimension(300, 26);
+		Dimension labelSize = new Dimension(70, 26);
 		PannelloInserimentoNome = new JPanel();
 		PannelloInserimentoPassword = new JPanel();
 		PannelloInserimenti = new JPanel();
@@ -164,10 +166,14 @@ public class VisualizzatoreClient extends JFrame{
 		messaggioImpostazioni = new JLabel("Impostazioni:");
 		messaggioImpostazioni.setFont(new Font(messaggioLogin.getFont().getFontName(), 2, 18));
 		messaggioNome = new JLabel("Username");
+		messaggioNome.setPreferredSize(labelSize);
 		nomeInserito = new JTextField(20);
-		messaggioPassword = new JLabel("Password");	
+		nomeInserito.setPreferredSize(textFieldSize);
+		messaggioPassword = new JLabel("Password");
+		messaggioPassword.setPreferredSize(labelSize);
 		passwordInserita = new JPasswordField(20);
-
+		passwordInserita.setPreferredSize(textFieldSize);
+		
 		messaggioLivello=new JLabel(" Velocità gioco:");
 		messaggioMappa=new JLabel(" mappa:");
 		opzEffetti = new JCheckBox("Effetti sonori");
