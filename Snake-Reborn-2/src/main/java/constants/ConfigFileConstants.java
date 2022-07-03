@@ -11,5 +11,6 @@ public interface ConfigFileConstants extends MapConstants {
 	static final public String VOLUME_MUSICA = "volumeMusicaDiSottofondo";
 	static final public String MOSTRA_LEADERBOARD = "mostraLeaderboard";
 	public static final String GRAFICA_SEMPLIFICATA = "graficaSemplificata";
+	public static final String GIOCO_SENZA_FINE = "giocoSenzaFine";
 	
 }

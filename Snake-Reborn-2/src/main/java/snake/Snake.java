@@ -358,6 +358,14 @@ public abstract class Snake {
 		return (int)(this.getCurrentGameSnakeScore() + this.previousScore);
 	}
 	
+	public int getTotalSnakeScoreLifeStatusAdjusted() {
+		if(this.isVivo()) {
+			return getTotalSnakeScore();
+		} else {
+			return getTotalSnakeScore()/2;
+		}
+	}
+	
 	public boolean canRespawn() {
 		if(System.currentTimeMillis()>this.deathTimestamp+(SNAKE_RESPAWN_CD*1000)) {
 			return true;

@@ -124,4 +124,19 @@ public class GestoreComandi {
 
 	}
 
+	public void eseguiComandoEndGame() {
+		if(!this.sequenzaComandi.isEmpty()) {
+			String codiceComando = this.sequenzaComandi.poll();
+			switch(codiceComando){
+			case RESPAWN: 
+				gameOver();
+				break;
+			case EXIT:
+				gameOver();
+				break;
+			}
+		}
+
+	}
+	
 }

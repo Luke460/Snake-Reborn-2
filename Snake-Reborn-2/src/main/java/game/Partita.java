@@ -36,6 +36,8 @@ public class Partita {
 	private String mapFileName;
 	private boolean showLeaderboard;
 	private boolean lowGraphicMode;
+	private long startTimestamp;
+	private boolean endlessMode;
 
 	public Partita() throws IOException {
 		GestorePunteggi.inizializza(this);
@@ -202,6 +204,26 @@ public class Partita {
 
 	public void setLowGraphicMode(boolean lowGraphicMode) {
 		this.lowGraphicMode = lowGraphicMode;
+	}
+
+	public long getStartTimestamp() {
+		return startTimestamp;
+	}
+
+	public void setStartTimestamp(long startTimestamp) {
+		this.startTimestamp = startTimestamp;
+	}
+
+	public GestoreComandi getGestoreComandi() {
+		return this.gestoreComandi;
+	}
+
+	public boolean isEndlessMode() {
+		return endlessMode;
+	}
+
+	public void setEndlessMode(boolean endlessMode) {
+		this.endlessMode = endlessMode;
 	}
 
 }

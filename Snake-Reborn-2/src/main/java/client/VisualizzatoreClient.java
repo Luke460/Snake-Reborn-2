@@ -1,7 +1,6 @@
 package client;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -58,6 +57,7 @@ public class VisualizzatoreClient extends JFrame{
 	JComboBox<String> selettoreMappa;
 	JCheckBox hideLeaderboard;
 	JCheckBox lowGraphicMode;
+	JCheckBox endlessMode;
 	JLabel messaggioInformativo;
 	JButton accedi;
 	JButton ospite;
@@ -114,6 +114,7 @@ public class VisualizzatoreClient extends JFrame{
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
 		partita.setShowLeaderboard(hideLeaderboard.isSelected());
 		partita.setLowGraphicMode(lowGraphicMode.isSelected());
+		partita.setEndlessMode(endlessMode.isSelected());
 	}
 
 	private void aggiornaFileImpostazioni() throws IOException {
@@ -126,6 +127,7 @@ public class VisualizzatoreClient extends JFrame{
 		cr.salvaImpostazione(ConfigFileConstants.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
 		cr.salvaImpostazione(ConfigFileConstants.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
 		cr.salvaImpostazione(ConfigFileConstants.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicMode.isSelected()));
+		cr.salvaImpostazione(ConfigFileConstants.GIOCO_SENZA_FINE, Boolean.toString(endlessMode.isSelected()));
 	}
 
 	private void aggiungiPannelliAlContainer() {
@@ -144,6 +146,7 @@ public class VisualizzatoreClient extends JFrame{
 		selettoreMappa.setSelectedItem(cr.leggiImpostazione(ConfigFileConstants.NOME_MAPPA));
 		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.MOSTRA_LEADERBOARD)));
 		lowGraphicMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.GRAFICA_SEMPLIFICATA)));
+		endlessMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.GIOCO_SENZA_FINE)));
 		selettoreLivello.setSelectedIndex(2);
 	}
 
@@ -176,6 +179,7 @@ public class VisualizzatoreClient extends JFrame{
 		selettoreMappa = new JComboBox(listaFileMappe.toArray());
 		hideLeaderboard = new JCheckBox("Mostra classifica");
 		lowGraphicMode = new JCheckBox("Grafica semplificata");
+		endlessMode = new JCheckBox("Modalità senza fine");
 		messaggioInformativo = new JLabel("      *punteggio valido");
 
 		accedi=new JButton("Accedi e gioca");
@@ -183,7 +187,6 @@ public class VisualizzatoreClient extends JFrame{
 
 	}
 
-	@SuppressWarnings("serial")
 	private void sistemaPannelli() {
 
 		PannelloMessaggioLogin.add(messaggioLogin);
@@ -210,8 +213,7 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.add(selettoreMappa);
 		
 		PannelloOpzioni.add(messaggioInformativo);
-		
-		PannelloOpzioni.add(new Component() {});
+		PannelloOpzioni.add(endlessMode);
 		
 		PannelloOpzioni.add(opzEffetti);
 		PannelloOpzioni.add(volumeEffetti);

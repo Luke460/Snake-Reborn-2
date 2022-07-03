@@ -14,6 +14,7 @@ public class GestoreSuoni {
 	private static SuonoWAV suonoExplode;
 	private static SuonoWAV suonoTake;
 	private static SuonoWAV suonoMusic;
+	private static SuonoWAV suonoEnd;
 
 	public static void inizzializzaSuoni(int effectsVolume, int musicSound){
 		suonoSlain = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"slain.wav", effectsVolume);
@@ -21,6 +22,7 @@ public class GestoreSuoni {
 		suonoExplode = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"explode.wav", effectsVolume);
 		suonoTake = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"take.wav", effectsVolume);
 		suonoMusic = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"music.wav", musicSound);
+		suonoEnd = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"end.wav", musicSound);
 	}
 
 	public static void playMusicaInLoop(){
@@ -41,6 +43,10 @@ public class GestoreSuoni {
 	
 	public static void playTakeSound(){
 		if(effettiAbilitati) suonoTake.playClip();
+	}
+	
+	public static void playGameEndSound(){
+		if(effettiAbilitati) suonoEnd.playClip();
 	}
 
 	public static boolean isEffettiAbilitati() {
@@ -76,6 +82,7 @@ public class GestoreSuoni {
 		suonoSpawn.setVolume(volume);
 		suonoExplode.setVolume(volume);
 		suonoTake.setVolume(volume);
+		suonoEnd.setVolume(volume);
 	}
 	
 	public static void getVolumeEffetti(int volume) {

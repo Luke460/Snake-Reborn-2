@@ -26,6 +26,7 @@ public class GameVisualizer extends JPanel {
 	static final private long serialVersionUID = 0L;
 	static final public int DEFAULT_FONT_SIZE = 12;
 	static final public int VK_HEARTBEAT = VK_SHIFT;
+	static final private String END_GAME_MESSAGE = "STATISTICHE PARTITA";
 
 	int cellSize;
 	final private JFrame frame;
@@ -38,6 +39,8 @@ public class GameVisualizer extends JPanel {
 	private ScoreInfo scoreInfo;
 	private Color frameBackground;
 	private String message;
+	private boolean showEndGameStatistics;
+	private Integer secondsLeft;
 
 	public GameVisualizer() {
 		this.frame = new JFrame("Snake Reborn");
@@ -50,6 +53,7 @@ public class GameVisualizer extends JPanel {
 		this.leaderboardPositionY = (int)(cellSize*0.75);
 		this.leaderboardFontMultiplier = cellSize/16f;
 		this.messageFontMultiplayer = cellSize/8f;
+		this.showEndGameStatistics = false;
 		frame.getContentPane().setPreferredSize(panelDimension);
 		frame.pack();
 		frame.add(this);
@@ -67,11 +71,40 @@ public class GameVisualizer extends JPanel {
 	public void paintComponent(Graphics g) {
 		g.setColor(this.frameBackground);
 		g.fillRect(0, 0, DIMENSIONE_STANZA_DEFAULT*cellSize, DIMENSIONE_STANZA_DEFAULT*cellSize);
-		for (CellRenderOptionWithPosition c : cellRenderOptionWithPosition) {
-			drawCell(g, c);
+		if(!showEndGameStatistics) {
+			for (CellRenderOptionWithPosition c : cellRenderOptionWithPosition) {
+				drawCell(g, c);
+			}
+			drawStatisticsOnScreen(g);
+			addTimeLeft(g);
+			addScreenMessage(g);
+		} else {
+			drawEndGameStatisticsOnScreen(g);
 		}
-		drawStatisticsOnScreen(g);
-		addScreenMessage(g);
+	}
+
+	private void addTimeLeft(Graphics g) {
+		if(this.secondsLeft==null || this.secondsLeft<0) return;
+		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
+		g.setFont(newFont);
+		if(this.secondsLeft>60) {
+			g.setColor(Color.white);
+		} else if(this.secondsLeft>10) {
+			g.setColor(Color.yellow);
+		} else {
+			g.setColor(Color.red);
+		}
+		int minutes = this.secondsLeft/60;
+		int seconds = this.secondsLeft%60;
+		String sec;
+		if(seconds==0) {
+			sec = "00";
+		} else if(seconds<10) {
+			sec = "0"+seconds;
+		} else {
+			sec = ""+seconds;
+		}
+		g.drawString(minutes + ":" + sec, (int)(this.cellSize*1.25), (int)(leaderboardPositionY+this.cellSize*1));
 	}
 
 	private void addScreenMessage(Graphics g) {
@@ -93,12 +126,31 @@ public class GameVisualizer extends JPanel {
 				"        Punteggio: " + this.scoreInfo.getCurrentScore() +
 				"        Tempo: " + this.scoreInfo.getSurvivalTime());
 	}
+	
+	private void drawEndGameStatisticsOnScreen(Graphics g) {
+		int screenCenter = (int)(DIMENSIONE_STANZA_DEFAULT*cellSize/2);
+		int relativeY = screenCenter;
+		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.messageFontMultiplayer);
+		int leaderboardLength = leaderboard.size();
+		relativeY = (int)(screenCenter - (leaderboardLength*cellSize*1.5) + cellSize*2);
+		g.setFont(newFont);
+		g.setColor(Color.white);
+		g.drawString(END_GAME_MESSAGE, (int)(screenCenter-(this.cellSize*END_GAME_MESSAGE.length()*0.40)), relativeY - cellSize*4);
+		for(LeaderBoardCellRenderOption leaderboardCellRenOpt:leaderboard) {
+			g.setColor(leaderboardCellRenOpt.getColor());
+			int score = leaderboardCellRenOpt.getScore();
+			drawCustomCell(g, (int)(cellSize*1.5), screenCenter-cellSize*4, relativeY, leaderboardCellRenOpt);
+			g.setColor(Color.white);
+			g.setFont(newFont);
+			g.drawString(String.valueOf(score), screenCenter-cellSize*1, (int)(relativeY + cellSize*1.25));
+			relativeY+=cellSize*3;
+		}
+	}
 
 	private void addLeaderboard(Graphics g) {
 		int relativeY = leaderboardPositionY;
 		boolean first = true;
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
-		int i = 0;
 		int maxValue = -1;
 		for(LeaderBoardCellRenderOption leaderboardCellRenOpt:leaderboard) {
 			g.setColor(leaderboardCellRenOpt.getColor());
@@ -118,8 +170,6 @@ public class GameVisualizer extends JPanel {
 			g.setFont(newFont);
 			g.drawString(String.valueOf(score), leaderboardPositionX + cellSize, (int)(relativeY + cellSize*0.5));
 			relativeY+=cellSize;
-			i++;
-			if(i>=5) break;
 		}
 	}
 
@@ -179,18 +229,49 @@ public class GameVisualizer extends JPanel {
 		return frame;
 	}
 
+	public boolean isShowEndGameStatistics() {
+		return showEndGameStatistics;
+	}
+
+	public void setShowEndGameStatistics(boolean showEndGameStatistics) {
+		this.showEndGameStatistics = showEndGameStatistics;
+	}
+
+	public int getSecondsLeft() {
+		return secondsLeft;
+	}
+
+	public void setSecondsLeft(int secondsLeft) {
+		this.secondsLeft = secondsLeft;
+	}
+
 	public void setUpVisualization(
 			Color backgroundColor, 
 			List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
 			List<LeaderBoardCellRenderOption> leaderboard, 
 			ScoreInfo scoreInfo, 
-			String message
+			String message,
+			Integer secondsLeft
 			) {
 		this.frameBackground = backgroundColor;
 		this.cellRenderOptionWithPosition = cellRenderOptionWithPosition;
 		this.leaderboard = leaderboard;
 		this.scoreInfo = scoreInfo;
 		this.message = message;
+		this.secondsLeft = secondsLeft;
+	}
+	
+	public void setUpGameWindowForEndGameStatistics(
+			Color backgroundColor, 
+			List<LeaderBoardCellRenderOption> leaderboard
+			) {
+		this.frameBackground = backgroundColor;
+		this.cellRenderOptionWithPosition = null;
+		this.leaderboard = leaderboard;
+		this.scoreInfo = null;
+		this.message = null;
+		this.showEndGameStatistics = true;
+		this.secondsLeft = null;
 	}
 
 }

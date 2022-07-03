@@ -5,6 +5,7 @@ import static constants.GeneralConstants.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
 import static constants.GeneralConstants.TICK_TIME_EASY;
 import static constants.GeneralConstants.TICK_TIME_HARD;
 import static constants.GeneralConstants.TICK_TIME_MEDIUM;
+import static constants.GeneralConstants.GAME_LENGTH_IN_SECONDS;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -29,7 +30,7 @@ import video.GameVisualizer;
 public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Partita game;
+		Partita game = null;
 		GameVisualizer gameWindow;
 		try {
 			VisualizzatoreClient client = new VisualizzatoreClient();
@@ -37,7 +38,7 @@ public class Main {
 			while(true) {
 				game = new Partita();
 				client.rileggi(game);
-				while(!client.isPremuto()){ // viene "sbloccato dal Listener" (busy waiting)
+				while(!client.isPremuto()){
 					Thread.sleep(250);
 				}
 				try {
@@ -73,22 +74,29 @@ public class Main {
 		Thread.sleep(1000);
 		GestoreSuoni.playSpawnSound();
 		int contaCicli=0;
-
 		long aspettaPer;
-
-		long oraInizioAlgoritmo = System.currentTimeMillis(); 
-		long oraProgrammataDiRipresa = oraInizioAlgoritmo;
 		long oraCorrente;	
 		long tickTime = getTickTime(game);
 		int fps = (int)(1000/tickTime);
 		int foodRespawn = (int)(TEMPO_RIPOPOLAMENTO_CIBO*fps);
 		int snakeRespawn = (int)(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT*fps);
 		Rectangle gameWindowSize = gameWindow.getBounds();
+		
+		long oraInizioAlgoritmo = System.currentTimeMillis(); 
+		long oraProgrammataDiRipresa = oraInizioAlgoritmo;
+		game.setStartTimestamp(oraInizioAlgoritmo);
+		boolean showEndGameStatistics = false;
 
 		while(game.isInGame()) {
 			oraInizioAlgoritmo = oraProgrammataDiRipresa;
 			oraProgrammataDiRipresa = oraInizioAlgoritmo + tickTime;
 			contaCicli++;
+			
+			if(!game.isEndlessMode() && System.currentTimeMillis()>=game.getStartTimestamp()+(GAME_LENGTH_IN_SECONDS*1000)) {
+				// game end
+				showEndGameStatistics = true;
+				break;
+			}
 
 			game.eseguiTurni();
 			
@@ -96,7 +104,6 @@ public class Main {
 			
 			setUpGameWindow(game, gameWindow);
 			
-			//gameWindow.repaint();
 			gameWindow.paintImmediately(gameWindowSize);
 			
 			if(contaCicli%fps==0) {
@@ -112,6 +119,22 @@ public class Main {
 				System.out.println("lag detected!");
 			}
 		}
+		if(showEndGameStatistics) {
+			showEndGameStatistics(game, gameWindow, gameWindowSize);
+		}
+	}
+
+	private static void showEndGameStatistics(Partita game, GameVisualizer gameWindow, Rectangle gameWindowSize)
+			throws InterruptedException {
+		GestoreSuoni.playGameEndSound();
+		game.setInGame(true);
+		while(game.isInGame()) {
+			game.getGestoreComandi().eseguiComandoEndGame();
+			setUpGameWindowForEndGameStatistics(game, gameWindow);
+			gameWindow.paintImmediately(gameWindowSize);
+			Thread.sleep(250);
+		}
+		gameWindow.setShowEndGameStatistics(false);
 	}
 
 	private static void setUpGameWindow(Partita game, GameVisualizer gameWindow) {
@@ -131,7 +154,23 @@ public class Main {
 			leaderboard = GraphicAdapter.getLeaderBoardMap(game);
 		}
 		Color backgroundColor = game.getMappa().getBackgroundColor();
-		gameWindow.setUpVisualization(backgroundColor, positionToCellRenderOption, leaderboard, scoreInfo, message);
+		int secondsLeft = -1;
+		if(!game.isEndlessMode()) {
+			if(game.getStartTimestamp()==0) {
+				secondsLeft = GAME_LENGTH_IN_SECONDS;
+			} else {
+				int currentSecond = (int)(System.currentTimeMillis()/1000);
+				int endSecond = (int)(game.getStartTimestamp()/1000 + GAME_LENGTH_IN_SECONDS);
+				secondsLeft = endSecond - currentSecond;
+			}
+		}
+		gameWindow.setUpVisualization(backgroundColor, positionToCellRenderOption, leaderboard, scoreInfo, message, secondsLeft);
+	}
+	
+	private static void setUpGameWindowForEndGameStatistics(Partita game, GameVisualizer gameWindow) {
+		List<LeaderBoardCellRenderOption> leaderboard = GraphicAdapter.getLeaderBoardMapForEndGame(game);
+		Color backgroundColor = Color.black;
+		gameWindow.setUpGameWindowForEndGameStatistics(backgroundColor, leaderboard);
 	}
 
 	private static long getTickTime(Partita game) {

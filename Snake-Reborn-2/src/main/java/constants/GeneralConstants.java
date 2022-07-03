@@ -40,6 +40,8 @@ public interface GeneralConstants {
 	public static final String SOLID_STATUS = "SL";
 	public static final String FOOD_STATUS = "FD";
 	
+	public static final int GAME_LENGTH_IN_SECONDS = 300;
+	
 	public static final int VITA_SERPENTE_DEFAULT = 2;
 	static final public int VITA_SERPENTE_MASSIMA = 40;
 	

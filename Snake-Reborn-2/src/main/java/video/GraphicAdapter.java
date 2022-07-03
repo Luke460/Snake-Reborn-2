@@ -8,6 +8,7 @@ import game.Partita;
 import gamefield.Casella;
 import gamefield.Stanza;
 import score.SnakeScoreComparator;
+import score.SnakeEndGameScoreComparator;
 import snake.Snake;
 
 public class GraphicAdapter {
@@ -56,7 +57,34 @@ public class GraphicAdapter {
 				first = false;
 			}
 			leaderboard.add(scoreElement);
-			if(i>=5) break;
+			if(i>=4) break;
+			i++;
+		}
+		return leaderboard;
+	}
+	
+	public static List<LeaderBoardCellRenderOption> getLeaderBoardMapForEndGame(Partita game){
+		List<LeaderBoardCellRenderOption> leaderboard = new ArrayList<>();
+		ArrayList<Snake> snakes = new ArrayList<>(game.getSerpenti().values());
+		SnakeEndGameScoreComparator comparator = new SnakeEndGameScoreComparator();
+		Collections.sort(snakes, comparator);
+		boolean first = true;
+		int i = 0;
+		int maxValue = -1;
+		for(Snake snake:snakes) {
+			int score = snake.getTotalSnakeScore();
+			CellRenderOption cellRenderOption = snake.getCellRenderOption();
+			if(game.isLowGraphicMode()) {
+				cellRenderOption = GraphicManager.getSemplifiedCellRenderOption(cellRenderOption);
+			}
+			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first);
+			if(score>0 && (first || score>=maxValue)) {
+				maxValue = score;
+				first = false;
+			}
+			leaderboard.add(scoreElement);
+			if(i>=8) break;
+			i++;
 		}
 		return leaderboard;
 	}
