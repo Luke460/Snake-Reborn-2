@@ -49,7 +49,7 @@ public class GameVisualizer extends JPanel {
 		frame.setBackground(Color.BLACK);
 		this.cellSize = getCellSize();
 		Dimension panelDimension = new Dimension((DIMENSIONE_STANZA_DEFAULT*this.cellSize)-1, (DIMENSIONE_STANZA_DEFAULT*this.cellSize)-1);
-		this.leaderboardPositionX = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.9)+cellSize*0.25);
+		this.leaderboardPositionX = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.9)-cellSize*0.25);
 		this.leaderboardPositionY = (int)(cellSize*0.75);
 		this.leaderboardFontMultiplier = cellSize/16f;
 		this.messageFontMultiplayer = cellSize/8f;
@@ -139,10 +139,12 @@ public class GameVisualizer extends JPanel {
 		for(LeaderBoardCellRenderOption leaderboardCellRenOpt:leaderboard) {
 			g.setColor(leaderboardCellRenOpt.getColor());
 			int score = leaderboardCellRenOpt.getScore();
-			drawCustomCell(g, (int)(cellSize*1.5), screenCenter-cellSize*4, relativeY, leaderboardCellRenOpt);
+			drawCustomCell(g, (int)(cellSize*1.5), screenCenter-cellSize*6, relativeY, leaderboardCellRenOpt);
 			g.setColor(Color.white);
 			g.setFont(newFont);
-			g.drawString(String.valueOf(score), screenCenter-cellSize*1, (int)(relativeY + cellSize*1.25));
+			g.drawString(String.valueOf(score), screenCenter-cellSize*3, (int)(relativeY + cellSize*1.25));
+			String additionalInfo = "(" + leaderboardCellRenOpt.getKillsNuber() + "/" + leaderboardCellRenOpt.getDeathsNumber() + ")";
+			g.drawString(additionalInfo, screenCenter+cellSize*4, (int)(relativeY + cellSize*1.25));
 			relativeY+=cellSize*3;
 		}
 	}
@@ -155,20 +157,22 @@ public class GameVisualizer extends JPanel {
 		for(LeaderBoardCellRenderOption leaderboardCellRenOpt:leaderboard) {
 			g.setColor(leaderboardCellRenOpt.getColor());
 			int score = leaderboardCellRenOpt.getScore();
-			if(score>0 && (first && leaderboardCellRenOpt.isActiveScore() || score>=maxValue && leaderboardCellRenOpt.isActiveScore())) {
+			if(score>0 && (first && leaderboardCellRenOpt.isPlayerAlive() || score>=maxValue && leaderboardCellRenOpt.isPlayerAlive())) {
 				maxValue = leaderboardCellRenOpt.getScore();
 				drawCustomCell(g, (int)(cellSize*0.75), leaderboardPositionX-(cellSize/8), relativeY-(cellSize/8), leaderboardCellRenOpt);
 				first = false;
 			} else {
 				drawCustomCell(g, (int)(cellSize*0.5), leaderboardPositionX, relativeY, leaderboardCellRenOpt);
 			}
-			if(leaderboardCellRenOpt.isActiveScore()) {
+			if(leaderboardCellRenOpt.isPlayerAlive()) {
 				g.setColor(Color.white);
 			} else {
 				g.setColor(Color.gray);
 			}
 			g.setFont(newFont);
 			g.drawString(String.valueOf(score), leaderboardPositionX + cellSize, (int)(relativeY + cellSize*0.5));
+			String additionalInfo = String.valueOf(leaderboardCellRenOpt.getKillsNuber());
+			g.drawString(additionalInfo, leaderboardPositionX + cellSize*3, (int)(relativeY + cellSize*0.5));
 			relativeY+=cellSize;
 		}
 	}

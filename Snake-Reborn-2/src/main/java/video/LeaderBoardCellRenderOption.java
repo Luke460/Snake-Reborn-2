@@ -2,23 +2,27 @@ package video;
 
 public class LeaderBoardCellRenderOption extends CellRenderOption{
 	
-	private boolean activeScore;
+	private boolean playerAlive;
 	private boolean firstScore;
 	private int score;
+	private int killsNuber;
+	private int deathsNumber;
 
-	public LeaderBoardCellRenderOption(CellRenderOption cellRenderOption, int score, boolean activeScore, boolean firstScore) {
+	public LeaderBoardCellRenderOption(CellRenderOption cellRenderOption, int score, boolean activeScore, boolean firstScore, int kills, int deaths) {
 		super(cellRenderOption.getRenderType(), cellRenderOption.getColor());
 		this.score = score;
-		this.activeScore = activeScore;
+		this.playerAlive = activeScore;
 		this.firstScore = firstScore;
+		this.killsNuber = kills;
+		this.deathsNumber = deaths;
 	}
 
-	public boolean isActiveScore() {
-		return activeScore;
+	public boolean isPlayerAlive() {
+		return playerAlive;
 	}
 
-	public void setActiveScore(boolean activeScore) {
-		this.activeScore = activeScore;
+	public void setPlayerAlive(boolean playerAlive) {
+		this.playerAlive = playerAlive;
 	}
 
 	public boolean isFirstScore() {
@@ -35,6 +39,22 @@ public class LeaderBoardCellRenderOption extends CellRenderOption{
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public int getKillsNuber() {
+		return killsNuber;
+	}
+
+	public void setKillsNuber(int killsNuber) {
+		this.killsNuber = killsNuber;
+	}
+
+	public int getDeathsNumber() {
+		return deathsNumber;
+	}
+
+	public void setDeathsNumber(int deathsNumber) {
+		this.deathsNumber = deathsNumber;
 	}
 
 }

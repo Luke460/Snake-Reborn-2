@@ -75,6 +75,7 @@ public class Utility {
 		if(c=='z') return 35;
 		return -1;
 	}
+	
 	public static char getCharFromNumber(int c) {
 		if(c==0) return '0';
 		if(c==1) return '1';
@@ -114,4 +115,13 @@ public class Utility {
 		if(c==35) return 'z';
 		return 'Z';
 	}
+	
+	public static String extendsStringWithSpaces(String string, int length) {
+		String s = new String(string);
+	    if(s.length()<length) {
+	    	s+= new String(new char[length - s.length()]).replace('\0', ' ');
+	    }
+	    return s;
+	}
+	
 }

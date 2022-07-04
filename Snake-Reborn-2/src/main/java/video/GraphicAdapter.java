@@ -51,7 +51,9 @@ public class GraphicAdapter {
 			if(game.isLowGraphicMode()) {
 				cellRenderOption = GraphicManager.getSemplifiedCellRenderOption(cellRenderOption);
 			}
-			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first);
+			int kills = snake.getKillsNumber();
+			int deaths = snake.getDeathsNumber();
+			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths);
 			if(score>0 && (first && snake.isVivo() || score>=maxValue && snake.isVivo())) {
 				maxValue = score;
 				first = false;
@@ -77,7 +79,9 @@ public class GraphicAdapter {
 			if(game.isLowGraphicMode()) {
 				cellRenderOption = GraphicManager.getSemplifiedCellRenderOption(cellRenderOption);
 			}
-			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first);
+			int kills = snake.getKillsNumber();
+			int deaths = snake.getDeathsNumber();
+			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths);
 			if(score>0 && (first || score>=maxValue)) {
 				maxValue = score;
 				first = false;
@@ -92,7 +96,7 @@ public class GraphicAdapter {
 	public static ScoreInfo getScoreInfo(Partita game) {
 		ScoreInfo scoreInfo = new ScoreInfo();
 		scoreInfo.setEnemiesNumber(game.getNumeroAvversari());
-		scoreInfo.setPlayerKills(game.getSerpentePlayer1().getNumeroUccisioni());
+		scoreInfo.setPlayerKills(game.getSerpentePlayer1().getKillsNumber());
 		scoreInfo.setPlayerOldRecord(game.getVecchioRecord());
 		scoreInfo.setCurrentScore(game.getSerpentePlayer1().getTotalSnakeScore());
 		scoreInfo.setSurvivalTime((int)game.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000);

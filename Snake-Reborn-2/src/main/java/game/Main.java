@@ -65,7 +65,8 @@ public class Main {
 		game.setGestoreComandi(gestoreComandi);
 		GestoreSuoni.playMusicaInLoop();
 		cominciaIlGioco(game, gameWindow);
-		GestoreSuoni.silenziaMusica();
+		GestoreSuoni.stopAlert();
+		GestoreSuoni.stopMusic();
 	}
 
 	private static void cominciaIlGioco(Partita game, GameVisualizer gameWindow) throws AWTException, InterruptedException {
@@ -121,7 +122,8 @@ public class Main {
 		}
 		if(showEndGameStatistics) {
 			GestoreSuoni.playGameEndSound();
-			GestoreSuoni.silenziaMusica();
+			GestoreSuoni.stopAlert();
+			GestoreSuoni.stopMusic();
 			showEndGameStatistics(game, gameWindow, gameWindowSize);
 		}
 	}
@@ -163,6 +165,10 @@ public class Main {
 				int currentSecond = (int)(System.currentTimeMillis()/1000);
 				int endSecond = (int)(game.getStartTimestamp()/1000 + GAME_LENGTH_IN_SECONDS);
 				secondsLeft = endSecond - currentSecond;
+				if(secondsLeft<=10 && game.isEndGameAlert()) {
+					game.setEndGameAlert(false);
+					GestoreSuoni.playAlertSoundInLoop();
+				}
 			}
 		}
 		gameWindow.setUpVisualization(backgroundColor, positionToCellRenderOption, leaderboard, scoreInfo, message, secondsLeft);

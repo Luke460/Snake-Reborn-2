@@ -38,6 +38,7 @@ public class Partita {
 	private boolean lowGraphicMode;
 	private long startTimestamp;
 	private boolean endlessMode;
+	private boolean endGameAlert;
 
 	public Partita() throws IOException {
 		GestorePunteggi.inizializza(this);
@@ -51,6 +52,7 @@ public class Partita {
 		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpenti, null);
 		if(!ospite)this.vecchioRecord = GestorePunteggi.getRecord();
 		this.nomePlayer1 = NOME_PLAYER_1;
+		this.endGameAlert = true;
 		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
 		//Just for test
 		//Skill skill = new Skill(100,100,100,100);
@@ -224,6 +226,14 @@ public class Partita {
 
 	public void setEndlessMode(boolean endlessMode) {
 		this.endlessMode = endlessMode;
+	}
+
+	public boolean isEndGameAlert() {
+		return endGameAlert;
+	}
+
+	public void setEndGameAlert(boolean endGameAlert) {
+		this.endGameAlert = endGameAlert;
 	}
 
 }

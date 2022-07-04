@@ -38,7 +38,9 @@ public abstract class Snake {
 	private String nome;
 	private Direction direzione;
 	private int ciboPreso;
-	private int numeroUccisioni;
+	private int killsNumber;
+	private int killingStreak;
+	private int deathsNumber;
 	private long istanteDiNascita;
 	private long tempoSopravvivenza;
 	private int hpPreMorte;
@@ -58,6 +60,9 @@ public abstract class Snake {
 		this.nome=nome;
 		this.previousScore=0;
 		this.deathTimestamp=-1;
+		this.deathsNumber=0;
+		this.killsNumber=0;
+		this.killingStreak=0;
 		this.cellRenderOption=DEFAULT_CELL_RENDER_OPTION;
 		this.resettaSerpente(stanza, vitaIniziale);
 	}
@@ -157,6 +162,7 @@ public abstract class Snake {
 		this.setVivo(false);
 		this.deathTimestamp = System.currentTimeMillis();
 		hpPreMorte = this.getCasellaDiTesta().getHp();
+		this.deathsNumber++;
 		controllaUccisione();
 		rilasciaCiboEliberaCaselle();
 	}
@@ -215,18 +221,15 @@ public abstract class Snake {
 	}
 
 	public void miHaiUcciso(){
-		this.numeroUccisioni++;
+		this.killsNumber++;
+		this.killingStreak++;
 		if(this.getNome().equals(NOME_PLAYER_1)){
 			GestoreSuoni.playSlainSound();
 		}
 	}
 
-	public int getNumeroUccisioni() {
-		return numeroUccisioni;
-	}
-
-	public void setNumeroUccisioni(int numeroUccisioni) {
-		this.numeroUccisioni = numeroUccisioni;
+	public int getKillsNumber() {
+		return killsNumber;
 	}
 
 	public double getTempoSopravvissutoMillis() {
@@ -268,7 +271,7 @@ public abstract class Snake {
 		this.vivo = true;
 		this.hpPreMorte = 0;
 		this.ciboPreso=0;
-		this.numeroUccisioni=0;
+		this.killingStreak=0;
 		this.istanteDiNascita = System.currentTimeMillis();
 
 		// random center spawn
@@ -350,7 +353,7 @@ public abstract class Snake {
 	
 	public double getCurrentGameSnakeScore() {
 		double punteggioCibo = this.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
-		double punteggioUccisioni = this.getNumeroUccisioni()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*GestorePunteggi.getMoltiplicatorePunteggio();
+		double punteggioUccisioni = this.getKillingStreak()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*GestorePunteggi.getMoltiplicatorePunteggio();
 		return punteggioCibo+punteggioUccisioni;
 	}
 	
@@ -381,6 +384,14 @@ public abstract class Snake {
 		}
 	}
 
+	public int getDeathsNumber() {
+		return deathsNumber;
+	}
+	
+	public int getKillingStreak() {
+		return killingStreak;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(nome);
@@ -400,7 +411,7 @@ public abstract class Snake {
 
 	@Override
 	public String toString() {
-		return "Snake [nome=" + nome + ", ciboPreso=" + ciboPreso + ", numeroUccisioni=" + numeroUccisioni
+		return "Snake [nome=" + nome + ", ciboPreso=" + ciboPreso + ", numeroUccisioni=" + killsNumber
 				+ ", hpPreMorte=" + hpPreMorte + ", vivo=" + vivo + ", getHP()=" + getHP() + ", isVivo()=" + isVivo()
 				+ "]";
 	}

@@ -15,6 +15,7 @@ public class GestoreSuoni {
 	private static SuonoWAV suonoTake;
 	private static SuonoWAV suonoMusic;
 	private static SuonoWAV suonoEnd;
+	private static SuonoWAV suonoAlert;
 
 	public static void inizzializzaSuoni(int effectsVolume, int musicSound){
 		suonoSlain = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"slain.wav", effectsVolume);
@@ -22,7 +23,8 @@ public class GestoreSuoni {
 		suonoExplode = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"explode.wav", effectsVolume);
 		suonoTake = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"take.wav", effectsVolume);
 		suonoMusic = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"music.wav", musicSound);
-		suonoEnd = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"end.wav", musicSound);
+		suonoEnd = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"end.wav", effectsVolume);
+		suonoAlert = new SuonoWAV(SOUNDS_PATH+OSdetector.getPathSeparator()+"alert.wav", effectsVolume/3);
 	}
 
 	public static void playMusicaInLoop(){
@@ -48,6 +50,10 @@ public class GestoreSuoni {
 	public static void playGameEndSound(){
 		if(effettiAbilitati) suonoEnd.playClip();
 	}
+	
+	public static void playAlertSoundInLoop(){
+		if(effettiAbilitati) suonoAlert.loopClip();
+	}
 
 	public static boolean isEffettiAbilitati() {
 		return effettiAbilitati;
@@ -65,8 +71,12 @@ public class GestoreSuoni {
 		musicaAbilitata = b;
 	}
 
-	public static void silenziaMusica() {
+	public static void stopMusic() {
 		suonoMusic.fermaClip();	
+	}
+	
+	public static void stopAlert() {
+		suonoAlert.fermaClip();	
 	}
 	
 	public static void setVolumeMusica(int volume) {
@@ -83,6 +93,7 @@ public class GestoreSuoni {
 		suonoExplode.setVolume(volume);
 		suonoTake.setVolume(volume);
 		suonoEnd.setVolume(volume);
+		suonoAlert.setVolume(volume/3);
 	}
 	
 	public static void getVolumeEffetti(int volume) {
