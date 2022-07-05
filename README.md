@@ -11,7 +11,15 @@
 
 ---
 
-![alt text](https://github.com/Luke460/Snake-Reborn-2/blob/master/demo.gif)
+<div>
+  <img src="https://github.com/Luke460/Snake-Reborn-2/blob/master/snake-gameplay-1.png" alt="drawing" width="400"/>
+  <img src="https://github.com/Luke460/Snake-Reborn-2/blob/master/demo.gif" alt="drawing" width="400"/>
+</div>
+
+<div>
+  <img src="https://github.com/Luke460/Snake-Reborn-2/blob/master/snake-gameplay-2.png" alt="drawing" width="400"/>
+  <img src="https://github.com/Luke460/Snake-Reborn-2/blob/master/snake-gameplay-3.png" alt="drawing" width="400"/>
+</div>
 
 ---
 
