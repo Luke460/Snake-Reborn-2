@@ -138,15 +138,29 @@ public class GameVisualizer extends JPanel {
 		g.setFont(newFont);
 		g.setColor(Color.white);
 		g.drawString(END_GAME_MESSAGE, (int)(screenCenter-(this.cellSize*END_GAME_MESSAGE.length()*0.40)), relativeY - cellSize*4);
+		CellRenderOption food = new CellRenderOption((byte)0, GraphicManager.getStandardFoodColor());
+		
+		int snakeIconSize = (int)(cellSize*1.5);
+		
+		int snakeIconPosition = screenCenter-cellSize*10;
+		int scorePosition = screenCenter-cellSize*7;
+		int kdPosition = screenCenter;
+		int foodIconPosition = screenCenter+cellSize*7;
+		int foodTakenPosition = screenCenter+cellSize*8;
+		
 		for(LeaderBoardCellRenderOption leaderboardCellRenOpt:leaderboard) {
 			g.setColor(leaderboardCellRenOpt.getColor());
 			int score = leaderboardCellRenOpt.getScore();
-			drawCustomCell(g, (int)(cellSize*1.5), screenCenter-cellSize*6, relativeY, leaderboardCellRenOpt);
+			drawCustomCell(g, snakeIconSize, snakeIconPosition, relativeY, leaderboardCellRenOpt);
 			g.setColor(Color.white);
 			g.setFont(newFont);
-			g.drawString(String.valueOf(score), screenCenter-cellSize*3, (int)(relativeY + cellSize*1.25));
+			g.drawString(String.valueOf(score), scorePosition, (int)(relativeY + cellSize*1.25));
 			String additionalInfo = "(" + leaderboardCellRenOpt.getKillsNuber() + "/" + leaderboardCellRenOpt.getDeathsNumber() + ")";
-			g.drawString(additionalInfo, screenCenter+cellSize*4, (int)(relativeY + cellSize*1.25));
+			g.drawString(additionalInfo, kdPosition, (int)(relativeY + cellSize*1.25));
+			drawCustomCell(g, (int)(cellSize*0.5), foodIconPosition, relativeY+cellSize/2, food);
+			int foodTaken = leaderboardCellRenOpt.getFoodTaken();
+			g.setColor(Color.white);
+			g.drawString(String.valueOf(foodTaken), foodTakenPosition, (int)(relativeY + cellSize*1.25));
 			relativeY+=cellSize*3;
 		}
 	}

@@ -7,14 +7,16 @@ public class LeaderBoardCellRenderOption extends CellRenderOption{
 	private int score;
 	private int killsNuber;
 	private int deathsNumber;
+	private int foodTaken;
 
-	public LeaderBoardCellRenderOption(CellRenderOption cellRenderOption, int score, boolean activeScore, boolean firstScore, int kills, int deaths) {
+	public LeaderBoardCellRenderOption(CellRenderOption cellRenderOption, int score, boolean activeScore, boolean firstScore, int kills, int deaths, int foodTaken) {
 		super(cellRenderOption.getRenderType(), cellRenderOption.getColor());
 		this.score = score;
 		this.playerAlive = activeScore;
 		this.firstScore = firstScore;
 		this.killsNuber = kills;
 		this.deathsNumber = deaths;
+		this.foodTaken = foodTaken;
 	}
 
 	public boolean isPlayerAlive() {
@@ -57,4 +59,12 @@ public class LeaderBoardCellRenderOption extends CellRenderOption{
 		this.deathsNumber = deathsNumber;
 	}
 
+	public int getFoodTaken() {
+		return foodTaken;
+	}
+
+	public void setFoodTaken(int foodTaken) {
+		this.foodTaken = foodTaken;
+	}
+	
 }

@@ -50,5 +50,9 @@ public class GraphicManager {
 	public static CellRenderOption getSemplifiedCellRenderOption(CellRenderOption cellRenderOption) {
 		return new CellRenderOption(FLAT_CELL, cellRenderOption.getColor());
 	}
+	
+	public static Color getStandardFoodColor() {
+		return STANDARD_FOOD_COLOR;
+	}
 
 }

@@ -53,7 +53,8 @@ public class GraphicAdapter {
 			}
 			int kills = snake.getKillsNumber();
 			int deaths = snake.getDeathsNumber();
-			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths);
+			int foodTaken = snake.getTotalFoodTaken();
+			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths, foodTaken);
 			if(score>0 && (first && snake.isVivo() || score>=maxValue && snake.isVivo())) {
 				maxValue = score;
 				first = false;
@@ -81,7 +82,8 @@ public class GraphicAdapter {
 			}
 			int kills = snake.getKillsNumber();
 			int deaths = snake.getDeathsNumber();
-			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths);
+			int foodTaken = snake.getTotalFoodTaken();
+			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths, foodTaken);
 			if(score>0 && (first || score>=maxValue)) {
 				maxValue = score;
 				first = false;
