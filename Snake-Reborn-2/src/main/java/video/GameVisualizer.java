@@ -19,6 +19,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import server.model.Match;
 import support.Utility;
 
 public class GameVisualizer extends JPanel {
@@ -36,7 +37,7 @@ public class GameVisualizer extends JPanel {
 	private int leaderboardPositionY;
 	private float leaderboardFontMultiplier;
 	private float messageFontMultiplayer;
-	private ScoreInfo scoreInfo;
+	private Match match;
 	private Color frameBackground;
 	private String message;
 	private boolean showEndGameStatistics;
@@ -120,11 +121,12 @@ public class GameVisualizer extends JPanel {
 		if(this.leaderboard!=null) {
 			addLeaderboard(g);
 		}
-		this.frame.setTitle( " Avversari: " + (this.scoreInfo.getEnemiesNumber()) +
-				"        Uccisioni: " + this.scoreInfo.getPlayerKills() +
-				"        Record: " + this.scoreInfo.getPlayerOldRecord() + 
-				"        Punteggio: " + this.scoreInfo.getCurrentScore() +
-				"        Tempo: " + this.scoreInfo.getSurvivalTime());
+		String kd =       "  K/D: " + this.match.getKillsNumber() + "/" + this.match.getDeathsNumber();
+		String streak =   "        Serie: " + this.match.getBestKillingStreak();
+		String food =     "        Cibo: " + this.match.getTotalFoodTaken();
+		String score =    "        Punteggio: " + this.match.getFinalScore();
+		String position = "        Posizione: " + this.match.getFinalLeaderboardPosition();
+		this.frame.setTitle(kd + streak + food + score + position);
 	}
 	
 	private void drawEndGameStatisticsOnScreen(Graphics g) {
@@ -253,14 +255,14 @@ public class GameVisualizer extends JPanel {
 			Color backgroundColor, 
 			List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
 			List<LeaderBoardCellRenderOption> leaderboard, 
-			ScoreInfo scoreInfo, 
+			Match match, 
 			String message,
 			Integer secondsLeft
 			) {
 		this.frameBackground = backgroundColor;
 		this.cellRenderOptionWithPosition = cellRenderOptionWithPosition;
 		this.leaderboard = leaderboard;
-		this.scoreInfo = scoreInfo;
+		this.match = match;
 		this.message = message;
 		this.secondsLeft = secondsLeft;
 	}
@@ -272,7 +274,7 @@ public class GameVisualizer extends JPanel {
 		this.frameBackground = backgroundColor;
 		this.cellRenderOptionWithPosition = null;
 		this.leaderboard = leaderboard;
-		this.scoreInfo = null;
+		this.match = null;
 		this.message = null;
 		this.showEndGameStatistics = true;
 		this.secondsLeft = null;

@@ -92,15 +92,5 @@ public class GraphicAdapter {
 		}
 		return leaderboard;
 	}
-	
-	public static ScoreInfo getScoreInfo(Partita game) {
-		ScoreInfo scoreInfo = new ScoreInfo();
-		scoreInfo.setEnemiesNumber(game.getNumeroAvversari());
-		scoreInfo.setPlayerKills(game.getSerpentePlayer1().getKillsNumber());
-		scoreInfo.setPlayerOldRecord(game.getVecchioRecord());
-		scoreInfo.setCurrentScore(game.getSerpentePlayer1().getTotalSnakeScore());
-		scoreInfo.setSurvivalTime((int)game.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000);
-		return scoreInfo;
-	}
 
 }

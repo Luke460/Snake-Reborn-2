@@ -18,13 +18,15 @@ import javax.swing.JOptionPane;
 import audio.GestoreSuoni;
 import client.VisualizzatoreClient;
 import commands.GestoreComandi;
+import score.MatchFactory;
+import score.ScoreHandler;
+import server.model.Match;
 import snake.Snake;
 import spawn.PopolatoreCibo;
 import spawn.PopolatoreSerpenti;
 import video.CellRenderOptionWithPosition;
 import video.GraphicAdapter;
 import video.LeaderBoardCellRenderOption;
-import video.ScoreInfo;
 import video.GameVisualizer;
 
 public class Main {
@@ -39,7 +41,7 @@ public class Main {
 				game = new Partita();
 				client.rileggi(game);
 				while(!client.isPremuto()){
-					Thread.sleep(250);
+					Thread.sleep(200);
 				}
 				try {
 					client.leggiImpostazioniDaUI();
@@ -131,11 +133,12 @@ public class Main {
 	private static void showEndGameStatistics(Partita game, GameVisualizer gameWindow, Rectangle gameWindowSize)
 			throws InterruptedException {
 		game.setInGame(true);
+		setUpGameWindowForEndGameStatistics(game, gameWindow);
+		gameWindow.paintImmediately(gameWindowSize);
+		ScoreHandler.sendScore(game);
 		while(game.isInGame()) {
 			game.getGestoreComandi().eseguiComandoEndGame();
-			setUpGameWindowForEndGameStatistics(game, gameWindow);
-			gameWindow.paintImmediately(gameWindowSize);
-			Thread.sleep(250);
+			Thread.sleep(200);
 		}
 		gameWindow.setShowEndGameStatistics(false);
 	}
@@ -152,7 +155,7 @@ public class Main {
 		}
 		List<CellRenderOptionWithPosition> positionToCellRenderOption = GraphicAdapter.getCellRenderOptionWithPosition(game);
 		List<LeaderBoardCellRenderOption> leaderboard = null;
-		ScoreInfo scoreInfo = GraphicAdapter.getScoreInfo(game);
+		Match match = MatchFactory.buildMatch(game);
 		if(game.isShowLeaderboard()) {
 			leaderboard = GraphicAdapter.getLeaderBoardMap(game);
 		}
@@ -171,7 +174,7 @@ public class Main {
 				}
 			}
 		}
-		gameWindow.setUpVisualization(backgroundColor, positionToCellRenderOption, leaderboard, scoreInfo, message, secondsLeft);
+		gameWindow.setUpVisualization(backgroundColor, positionToCellRenderOption, leaderboard, match, message, secondsLeft);
 	}
 	
 	private static void setUpGameWindowForEndGameStatistics(Partita game, GameVisualizer gameWindow) {

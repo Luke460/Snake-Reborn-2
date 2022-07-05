@@ -4,36 +4,69 @@ import java.util.Date;
 public class Match {
 
 	private Date date;
-	private int score;
-	private long playingTime;
-	private int kills;
+	private int killsNumber;
+	private int deathsNumber;
+	private int bestKillingStreak;
+	private int totalFoodTaken;
+	private int finalScore;
+	private int finalLeaderboardPosition;
 	
-	public Match() {
-		date = new Date();
-	}
-	
+	public Match() {}
+
 	public Date getDate() {
 		return date;
 	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public long getPlayingTime() {
-		return playingTime;
+
+	public int getKillsNumber() {
+		return killsNumber;
 	}
-	public void setPlayingTime(long playingTime) {
-		this.playingTime = playingTime;
+
+	public void setKillsNumber(int killsNumber) {
+		this.killsNumber = killsNumber;
 	}
-	public int getScore() {
-		return score;
+
+	public int getDeathsNumber() {
+		return deathsNumber;
 	}
-	public void setScore(int score) {
-		this.score = score;
+
+	public void setDeathsNumber(int deathsNumber) {
+		this.deathsNumber = deathsNumber;
 	}
-	public int getKills() {
-		return kills;
+
+	public int getBestKillingStreak() {
+		return bestKillingStreak;
 	}
-	public void setKills(int kills) {
-		this.kills = kills;
+
+	public void setBestKillingStreak(int bestKillingStreak) {
+		this.bestKillingStreak = bestKillingStreak;
 	}
+
+	public int getTotalFoodTaken() {
+		return totalFoodTaken;
+	}
+
+	public void setTotalFoodTaken(int totalFoodTaken) {
+		this.totalFoodTaken = totalFoodTaken;
+	}
+
+	public int getFinalScore() {
+		return finalScore;
+	}
+
+	public void setFinalScore(int finalScore) {
+		this.finalScore = finalScore;
+	}
+
+	public int getFinalLeaderboardPosition() {
+		return finalLeaderboardPosition;
+	}
+
+	public void setFinalLeaderboardPosition(int finalLeaderboardPosition) {
+		this.finalLeaderboardPosition = finalLeaderboardPosition;
+	}
+	
 }

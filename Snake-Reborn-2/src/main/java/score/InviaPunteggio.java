@@ -18,8 +18,7 @@ public class InviaPunteggio extends Thread {
 
 	public void run() {
 		try {
-			MatchFactory mf = new MatchFactory();
-			Match match = mf.buildMatch(partita);
+			Match match = MatchFactory.buildMatch(partita);
 			partita.getClient().addMatch(match);
 		} catch (Exception e4){
 			JOptionPane.showMessageDialog(null, 

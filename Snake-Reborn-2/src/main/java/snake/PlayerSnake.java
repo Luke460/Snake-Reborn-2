@@ -7,7 +7,6 @@ import java.awt.Color;
 import audio.GestoreSuoni;
 import game.Partita;
 import gamefield.Stanza;
-import score.GestorePunteggi;
 import video.CellRenderOption;
 
 public class PlayerSnake extends Snake {
@@ -39,7 +38,6 @@ public class PlayerSnake extends Snake {
 	@Override
 	public void muori(){
 		GestoreSuoni.playExplodeSound();
-		GestorePunteggi.inviaPunteggio();
 		super.muori();
 	}
 

@@ -1,15 +1,23 @@
 package score;
 
+import java.util.Date;
+
 import game.Partita;
 import server.model.Match;
+import snake.Snake;
 
 public class MatchFactory {
 	
-	public Match buildMatch(Partita partita){
+	public static Match buildMatch(Partita partita){
 		Match m = new Match(); 
-		m.setScore(partita.getSerpentePlayer1().getTotalSnakeScore());
-		m.setPlayingTime((long)partita.getSerpentePlayer1().getTempoSopravvissutoMillis()/1000);
-	    m.setKills(partita.getSerpentePlayer1().getKillingStreak());
+		Snake p1 = partita.getSerpentePlayer1();
+		m.setDate(new Date());
+		m.setKillsNumber(p1.getKillsNumber());
+		m.setDeathsNumber(p1.getDeathsNumber());
+		m.setBestKillingStreak(p1.getBestGameKillingStreak());
+		m.setTotalFoodTaken(p1.getTotalFoodTaken());
+		m.setFinalScore(p1.getTotalSnakeScore());
+		m.setFinalLeaderboardPosition(partita.getPlayerPosition());
 	    return m;
 	}
 	

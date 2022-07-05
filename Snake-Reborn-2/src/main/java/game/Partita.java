@@ -4,15 +4,18 @@ import static constants.GeneralConstants.NOME_PLAYER_1;
 import static constants.GeneralConstants.VITA_SERPENTE_DEFAULT;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import commands.GestoreComandi;
 import gamefield.Mappa;
 import gamefield.MappaManager;
 import gamefield.Stanza;
 import loaders.CaricatoreMappa;
-import score.GestorePunteggi;
+import score.ScoreHandler;
+import score.SnakeScoreComparator;
 import server.client.Client;
 import snake.PlayerSnake;
 import snake.Snake;
@@ -41,7 +44,6 @@ public class Partita {
 	private boolean endGameAlert;
 
 	public Partita() throws IOException {
-		GestorePunteggi.inizializza(this);
 		this.ilGiocatoreHaFattoLaMossa = false;
 		this.serpenti = new HashMap<String, Snake>();
 		this.inGame = true;
@@ -50,7 +52,7 @@ public class Partita {
 	public void ImpostaPartita() throws IOException {
 		this.setMappa(CaricatoreMappa.caricaFile(mapFileName)); 
 		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpenti, null);
-		if(!ospite)this.vecchioRecord = GestorePunteggi.getRecord();
+		if(!ospite)this.vecchioRecord = ScoreHandler.getRecord(this);
 		this.nomePlayer1 = NOME_PLAYER_1;
 		this.endGameAlert = true;
 		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
@@ -234,6 +236,20 @@ public class Partita {
 
 	public void setEndGameAlert(boolean endGameAlert) {
 		this.endGameAlert = endGameAlert;
+	}
+
+	public int getPlayerPosition() {
+		List<Snake> snakes = new ArrayList<>();
+		snakes.addAll(this.serpenti.values());
+		snakes.sort(new SnakeScoreComparator());
+		int position = 1;
+		for(Snake s:snakes) {
+			if(s.equals(this.getSerpentePlayer1())) {
+				return position;
+			}
+			position ++;
+		}
+		return position;
 	}
 
 }

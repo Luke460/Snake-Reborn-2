@@ -23,7 +23,7 @@ import gamefield.CasellaManager;
 import gamefield.Direction;
 import gamefield.Position;
 import gamefield.Stanza;
-import score.GestorePunteggi;
+import score.ScoreHandler;
 import spawn.ComparatoreCasellePerVita;
 import spawn.PopolatoreCibo;
 import support.Utility;
@@ -39,10 +39,9 @@ public abstract class Snake {
 	private Direction direzione;
 	private int ciboPreso;
 	private int killsNumber;
-	private int killingStreak;
+	private int currentKillingStreak;
+	private int bestGameKillingStreak;
 	private int deathsNumber;
-	private long istanteDiNascita;
-	private long tempoSopravvivenza;
 	private int hpPreMorte;
 	private Partita partita;
 	private Stanza ultimaStanza;
@@ -51,6 +50,8 @@ public abstract class Snake {
 	private CellRenderOption cellRenderOption;
 	private int previousScore;
 	private long deathTimestamp;
+	private int currentFoodTaken;
+	private int totalFoodTaken;
 	
 	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.gray);
 
@@ -62,7 +63,10 @@ public abstract class Snake {
 		this.deathTimestamp=-1;
 		this.deathsNumber=0;
 		this.killsNumber=0;
-		this.killingStreak=0;
+		this.currentKillingStreak=0;
+		this.bestGameKillingStreak=0;
+		this.currentFoodTaken=0;
+		this.totalFoodTaken=0;
 		this.cellRenderOption=DEFAULT_CELL_RENDER_OPTION;
 		this.resettaSerpente(stanza, vitaIniziale);
 	}
@@ -140,7 +144,8 @@ public abstract class Snake {
 	}
 	
 	public void incrementaVitaSerpente(int qta) {
-		this.setCiboPreso(this.getCiboPreso()+qta);
+		this.currentFoodTaken+=qta;
+		this.totalFoodTaken+=qta;
 		for(Casella c : this.getCaselle()){
 			if(c.getHp()+qta<=VITA_SERPENTE_MASSIMA){
 				c.setHp(c.getHp()+qta);
@@ -185,7 +190,7 @@ public abstract class Snake {
 			}
 		}
 		for(Entry<String, Snake> entry:uccisori.entrySet()) {
-			entry.getValue().miHaiUcciso();
+			entry.getValue().performKill();
 		}
 	}
 
@@ -211,18 +216,13 @@ public abstract class Snake {
 	public void setDirezione(Direction direzione) {
 		this.direzione = direzione;
 	}
-	
-	public int getCiboPreso() {
-		return this.ciboPreso;
-	}
 
-	public void setCiboPreso(int ciboPreso) {
-		this.ciboPreso = ciboPreso;
-	}
-
-	public void miHaiUcciso(){
+	public void performKill(){
 		this.killsNumber++;
-		this.killingStreak++;
+		this.currentKillingStreak++;
+		if(this.currentKillingStreak>this.bestGameKillingStreak) {
+			this.bestGameKillingStreak = this.currentKillingStreak;
+		}
 		if(this.getNome().equals(NOME_PLAYER_1)){
 			GestoreSuoni.playSlainSound();
 		}
@@ -230,15 +230,6 @@ public abstract class Snake {
 
 	public int getKillsNumber() {
 		return killsNumber;
-	}
-
-	public double getTempoSopravvissutoMillis() {
-		if(this.isVivo()){
-			this.tempoSopravvivenza = System.currentTimeMillis()-this.istanteDiNascita;
-			return tempoSopravvivenza;
-		} else {
-			return this.tempoSopravvivenza;
-		}
 	}
 
 	public boolean isTesta(Casella casella){
@@ -271,8 +262,8 @@ public abstract class Snake {
 		this.vivo = true;
 		this.hpPreMorte = 0;
 		this.ciboPreso=0;
-		this.killingStreak=0;
-		this.istanteDiNascita = System.currentTimeMillis();
+		this.currentKillingStreak=0;
+		this.currentFoodTaken=0;
 
 		// random center spawn
 		byte deltaXspawn = 0;
@@ -350,12 +341,12 @@ public abstract class Snake {
 	public void setCellRenderOption(CellRenderOption cellRenderOption) {
 		this.cellRenderOption = cellRenderOption;
 	}
-	
 	public double getCurrentGameSnakeScore() {
-		double punteggioCibo = this.getCiboPreso()*MOLTIPLICATORE_PUNTEGGIO_CIBO*GestorePunteggi.getMoltiplicatorePunteggio();
-		double punteggioUccisioni = this.getKillingStreak()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*GestorePunteggi.getMoltiplicatorePunteggio();
+		double punteggioCibo = this.currentFoodTaken*MOLTIPLICATORE_PUNTEGGIO_CIBO*ScoreHandler.getScoreMultiplier(this.partita);
+		double punteggioUccisioni = this.getCurrentKillingStreak()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*ScoreHandler.getScoreMultiplier(this.partita);
 		return punteggioCibo+punteggioUccisioni;
 	}
+
 	
 	public int getTotalSnakeScore() {
 		return (int)(this.getCurrentGameSnakeScore() + this.previousScore);
@@ -388,10 +379,22 @@ public abstract class Snake {
 		return deathsNumber;
 	}
 	
-	public int getKillingStreak() {
-		return killingStreak;
+	public int getCurrentKillingStreak() {
+		return currentKillingStreak;
+	}
+	
+	public int getBestGameKillingStreak() {
+		return bestGameKillingStreak;
+	}
+	
+	public int getCurrentFoodTaken() {
+		return currentFoodTaken;
 	}
 
+	public int getTotalFoodTaken() {
+		return totalFoodTaken;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(nome);
