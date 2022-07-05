@@ -144,7 +144,7 @@ public class GameVisualizer extends JPanel {
 		
 		int snakeIconPosition = screenCenter-cellSize*10;
 		int scorePosition = screenCenter-cellSize*7;
-		int kdPosition = screenCenter;
+		int kdPosition = screenCenter-cellSize;
 		int foodIconPosition = screenCenter+cellSize*7;
 		int foodTakenPosition = screenCenter+cellSize*8;
 		
@@ -152,15 +152,27 @@ public class GameVisualizer extends JPanel {
 			g.setColor(leaderboardCellRenOpt.getColor());
 			int score = leaderboardCellRenOpt.getScore();
 			drawCustomCell(g, snakeIconSize, snakeIconPosition, relativeY, leaderboardCellRenOpt);
-			g.setColor(Color.white);
 			g.setFont(newFont);
-			g.drawString(String.valueOf(score), scorePosition, (int)(relativeY + cellSize*1.25));
-			String additionalInfo = "(" + leaderboardCellRenOpt.getKillsNuber() + "/" + leaderboardCellRenOpt.getDeathsNumber() + ")";
-			g.drawString(additionalInfo, kdPosition, (int)(relativeY + cellSize*1.25));
+			g.setColor(Color.white);
+			int textYposition = (int)(relativeY + cellSize*1.25);
+			g.drawString(String.valueOf(score), scorePosition, textYposition);
+			int killInfo = leaderboardCellRenOpt.getKillsNuber();
+			if(killInfo>0) {
+				g.setColor(Color.green);
+			}
+			String killString = String.valueOf(killInfo).length()<=1?" "+killInfo:String.valueOf(killInfo);
+			g.drawString(killString, kdPosition, textYposition);
+			g.setColor(Color.white);
+			g.drawString("/", kdPosition + cellSize*2, textYposition);
+			int deathInfo = leaderboardCellRenOpt.getDeathsNumber();
+			if(deathInfo>0) {
+				g.setColor(Color.red);
+			}
+			g.drawString(String.valueOf(deathInfo), + kdPosition + cellSize * 3, textYposition);
 			drawCustomCell(g, (int)(cellSize*0.5), foodIconPosition, relativeY+cellSize/2, food);
 			int foodTaken = leaderboardCellRenOpt.getFoodTaken();
 			g.setColor(Color.white);
-			g.drawString(String.valueOf(foodTaken), foodTakenPosition, (int)(relativeY + cellSize*1.25));
+			g.drawString(String.valueOf(foodTaken), foodTakenPosition, textYposition);
 			relativeY+=cellSize*3;
 		}
 	}
