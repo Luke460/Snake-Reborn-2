@@ -168,7 +168,8 @@ public class GameVisualizer extends JPanel {
 			if(deathInfo>0) {
 				g.setColor(Color.red);
 			}
-			g.drawString(String.valueOf(deathInfo), + kdPosition + cellSize * 3, textYposition);
+			String deathString = String.valueOf(deathInfo).length()<=1?" "+deathInfo:String.valueOf(deathInfo);
+			g.drawString(deathString, (int)(kdPosition + cellSize * 2.75), textYposition);
 			drawCustomCell(g, (int)(cellSize*0.5), foodIconPosition, relativeY+cellSize/2, food);
 			int foodTaken = leaderboardCellRenOpt.getFoodTaken();
 			g.setColor(Color.white);

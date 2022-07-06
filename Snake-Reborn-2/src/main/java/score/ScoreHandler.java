@@ -20,11 +20,12 @@ public class ScoreHandler {
 	}
 
 	public static void sendScore(Partita game) {
-		if(game.getLivello()!=3||game.isEndlessMode()||game.isOspite()) return;
-		int nuovoRecord = game.getSerpentePlayer1().getTotalSnakeScore();
-		InviaPunteggio inviatore = new InviaPunteggio(game);
-		inviatore.start();
-		game.setVecchioRecord(nuovoRecord);
+		if(game.getLivello()==3 && !game.isEndlessMode() && !game.isOspite()) {
+			int nuovoRecord = game.getSerpentePlayer1().getTotalSnakeScore();
+			InviaPunteggio inviatore = new InviaPunteggio(game);
+			inviatore.start();
+			game.setVecchioRecord(nuovoRecord);
+		}
 	}
 
 	public static int getRecord(Partita game) {
