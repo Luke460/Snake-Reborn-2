@@ -15,7 +15,7 @@ import gamefield.MappaManager;
 import gamefield.Stanza;
 import loaders.CaricatoreMappa;
 import score.ScoreHandler;
-import score.SnakeScoreComparator;
+import score.SnakeEndGameScoreComparator;
 import server.client.Client;
 import snake.PlayerSnake;
 import snake.Snake;
@@ -241,7 +241,7 @@ public class Partita {
 	public int getPlayerPosition() {
 		List<Snake> snakes = new ArrayList<>();
 		snakes.addAll(this.serpenti.values());
-		snakes.sort(new SnakeScoreComparator());
+		snakes.sort(new SnakeEndGameScoreComparator());
 		int position = 1;
 		for(Snake s:snakes) {
 			if(s.equals(this.getSerpentePlayer1())) {

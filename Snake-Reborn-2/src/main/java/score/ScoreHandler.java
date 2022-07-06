@@ -21,7 +21,7 @@ public class ScoreHandler {
 
 	public static void sendScore(Partita game) {
 		if(game.getLivello()==3 && !game.isEndlessMode() && !game.isOspite()) {
-			int nuovoRecord = game.getSerpentePlayer1().getTotalSnakeScore();
+			int nuovoRecord = game.getSerpentePlayer1().getTotalSnakeScorePreDeath();
 			InviaPunteggio inviatore = new InviaPunteggio(game);
 			inviatore.start();
 			game.setVecchioRecord(nuovoRecord);

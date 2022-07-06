@@ -258,7 +258,7 @@ public abstract class Snake {
 	}
 	
 	public void resettaSerpente(Stanza stanza, int vitaResurrezione) {
-		this.previousScore = (int)(this.getTotalSnakeScore()/2);
+		this.previousScore = (int)(this.getTotalSnakeScorePreDeath()/2);
 		this.vivo = true;
 		this.hpPreMorte = 0;
 		this.ciboPreso=0;
@@ -341,22 +341,22 @@ public abstract class Snake {
 	public void setCellRenderOption(CellRenderOption cellRenderOption) {
 		this.cellRenderOption = cellRenderOption;
 	}
+	
 	public double getCurrentGameSnakeScore() {
 		double punteggioCibo = this.currentFoodTaken*MOLTIPLICATORE_PUNTEGGIO_CIBO*ScoreHandler.getScoreMultiplier(this.partita);
 		double punteggioUccisioni = this.getCurrentKillingStreak()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*ScoreHandler.getScoreMultiplier(this.partita);
 		return punteggioCibo+punteggioUccisioni;
 	}
-
 	
-	public int getTotalSnakeScore() {
+	public int getTotalSnakeScorePreDeath() {
 		return (int)(this.getCurrentGameSnakeScore() + this.previousScore);
 	}
 	
 	public int getTotalSnakeScoreLifeStatusAdjusted() {
 		if(this.isVivo()) {
-			return getTotalSnakeScore();
+			return getTotalSnakeScorePreDeath();
 		} else {
-			return getTotalSnakeScore()/2;
+			return getTotalSnakeScorePreDeath()/2;
 		}
 	}
 	

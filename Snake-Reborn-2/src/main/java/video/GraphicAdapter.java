@@ -46,7 +46,7 @@ public class GraphicAdapter {
 		int i = 0;
 		int maxValue = -1;
 		for(Snake snake:snakes) {
-			int score = snake.getTotalSnakeScore();
+			int score = snake.getTotalSnakeScorePreDeath();
 			CellRenderOption cellRenderOption = snake.getCellRenderOption();
 			if(game.isLowGraphicMode()) {
 				cellRenderOption = GraphicManager.getSemplifiedCellRenderOption(cellRenderOption);

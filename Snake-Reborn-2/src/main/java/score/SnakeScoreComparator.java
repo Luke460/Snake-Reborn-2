@@ -8,8 +8,8 @@ public class SnakeScoreComparator implements Comparator<Snake> {
 
 	@Override
 	public int compare(Snake first, Snake second) {
-		if(second.getTotalSnakeScore()!=first.getTotalSnakeScore()) {
-			return Integer.compare(second.getTotalSnakeScore(), first.getTotalSnakeScore());
+		if(second.getTotalSnakeScorePreDeath()!=first.getTotalSnakeScorePreDeath()) {
+			return Integer.compare(second.getTotalSnakeScorePreDeath(), first.getTotalSnakeScorePreDeath());
 		} else if (second.getKillsNumber()!=first.getKillsNumber()) {
 			return Integer.compare(second.getKillsNumber(), first.getKillsNumber());
 		} else if (second.getDeathsNumber()!=first.getDeathsNumber()){

@@ -16,7 +16,7 @@ public class MatchFactory {
 		m.setDeathsNumber(p1.getDeathsNumber());
 		m.setBestKillingStreak(p1.getBestGameKillingStreak());
 		m.setTotalFoodTaken(p1.getTotalFoodTaken());
-		m.setFinalScore(p1.getTotalSnakeScore());
+		m.setFinalScore(p1.getTotalSnakeScoreLifeStatusAdjusted());
 		m.setFinalLeaderboardPosition(partita.getPlayerPosition());
 	    return m;
 	}
