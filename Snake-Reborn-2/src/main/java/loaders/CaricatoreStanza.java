@@ -27,7 +27,7 @@ public class CaricatoreStanza {
 		byte rowIndex=0;
 		for(String lineContent:stanzaInfo.getInfoLines()) {
 			ArrayList<Character> lineCharList = new ArrayList<>();
-			lineCharList.addAll(Utility.stringaToArray(lineContent));
+			lineCharList.addAll(Utility.stringToArray(lineContent));
 			byte characterIndex = 0;
 			for(char statusCharacter:lineCharList) {
 				Position position = new Position(characterIndex,rowIndex);

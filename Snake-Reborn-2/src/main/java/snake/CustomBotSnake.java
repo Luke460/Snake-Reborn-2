@@ -1,6 +1,8 @@
 package snake;
 import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
+import static constants.MapConstants.DARKER_CELL;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -10,6 +12,7 @@ import gamefield.CasellaManager;
 import gamefield.Direction;
 import gamefield.Stanza;
 import support.Utility;
+import video.CellRenderOption;
 
 public class CustomBotSnake extends Snake {
 
@@ -20,11 +23,47 @@ public class CustomBotSnake extends Snake {
 	private final static String FORWARD = "FORWARD";
 	private final static String RIGHT = "RIGHT";
 	private final static String LEFT = "LEFT";
+	
+	private final static String UNDEFINED_LAST_TURN = "NONE";
+	
+	public static enum BotLevel {
+		  INSANE,
+		  HARD,
+		  MEDIUM,
+		  EASY
+	}
 
-	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
+	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita, Skill skill) {
 		super(nome, stanza, vitaIniziale, partita);
-		this.skill = new Skill(0, 0, 0, 0);
-		this.ultimaSterzata = "NONE";
+		this.ultimaSterzata = UNDEFINED_LAST_TURN;
+		this.skill = skill;
+	}
+	
+	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita, BotLevel botLevel) {
+		super(nome, stanza, vitaIniziale, partita);
+		this.ultimaSterzata = UNDEFINED_LAST_TURN;
+		// Skill parameters:
+		// evadeSkill, farmSkill, exploreSkill, courageSkill
+		switch(botLevel) {
+			case INSANE:
+				this.skill = new Skill(100, 100, 100, 100);
+				this.setCellRenderOption(new CellRenderOption(DARKER_CELL, Color.magenta)); 
+			break;
+			case HARD:
+				this.skill = new Skill(80, 80, 80, 80);
+				this.setCellRenderOption(new CellRenderOption(DARKER_CELL, Color.red)); 
+			break;
+			case MEDIUM:
+				this.skill = new Skill(50, 50, 50, 50);
+				this.setCellRenderOption(new CellRenderOption(DARKER_CELL, new Color(250, 150, 0))); 
+			break;
+			case EASY:
+				this.skill = new Skill(25, 25, 25, 25);
+				this.setCellRenderOption(new CellRenderOption(DARKER_CELL, Color.green));
+			break;
+			default:
+				throw new IllegalArgumentException("invalid AI Snake BotLevel type");
+		}
 	}
 	
 	public int getSnakeAbilityScore() {
@@ -52,15 +91,15 @@ public class CustomBotSnake extends Snake {
 		
 		direzioni = rimuoviCelleMuro(direzioni);
 		
-		if(Utility.veroAl(this.skill.getEvadeSkill())) {
+		if(Utility.truePercentage(this.skill.getEvadeSkill())) {
 			direzioni = rimuoviCelleSerpenti(direzioni);
 		}
 		
-		if(Utility.veroAl(this.skill.getEvadeSkill())) {
+		if(Utility.truePercentage(this.skill.getEvadeSkill())) {
 			direzioni = rimuoviCelleCappi(direzioni);
 		}
 		
-		if(!Utility.veroAl(this.skill.getCourageSkill())) {
+		if(!Utility.truePercentage(this.skill.getCourageSkill())) {
 			direzioni = evitaSituazionePericolosa(direzioni);
 		}
 		
@@ -77,13 +116,13 @@ public class CustomBotSnake extends Snake {
 			direzioniConCiboVicine = getDirezioniConCibo(direzioni, 1);
 			if(direzioniConCiboVicine.size()==0) {
 				direzioniConCiboMedie = getDirezioniConCibo(direzioni, 4);
-				if(direzioniConCiboMedie.size()==0 && Utility.veroAl(this.skill.getFarmSkill())) {
+				if(direzioniConCiboMedie.size()==0 && Utility.truePercentage(this.skill.getFarmSkill())) {
 					direzioniConCiboLontane = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT);
 				}
 			}
 		}
 		
-		if(Utility.veroAl((int)(this.skill.getExploreSkill()*0.50))) {
+		if(Utility.truePercentage((int)(this.skill.getExploreSkill()*0.50))) {
 			direzioniPortali = getDirezioniPortali(direzioni);
 		}
 
@@ -256,9 +295,9 @@ public class CustomBotSnake extends Snake {
 		
 		if(direzioni.size()==0) return null;
 
-		if(Utility.veroAl(95) && direzioni.containsKey(FORWARD)) {
+		if(Utility.truePercentage(95) && direzioni.containsKey(FORWARD)) {
 			return direzioni.get(FORWARD);
-		} else if (Utility.veroAl(50) && direzioni.containsKey(RIGHT)) {
+		} else if (Utility.truePercentage(50) && direzioni.containsKey(RIGHT)) {
 			return direzioni.get(RIGHT);
 		} else if (direzioni.containsKey(LEFT)){
 			return direzioni.get(LEFT);

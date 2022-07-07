@@ -15,15 +15,15 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import audio.GestoreSuoni;
+import audio.SoundManager;
 import client.VisualizzatoreClient;
 import commands.GestoreComandi;
 import score.MatchFactory;
 import score.ScoreHandler;
 import server.model.Match;
 import snake.Snake;
-import spawn.PopolatoreCibo;
-import spawn.PopolatoreSerpenti;
+import spawn.FoodSpawnManager;
+import spawn.SnakeSpawnManager;
 import video.CellRenderOptionWithPosition;
 import video.GraphicAdapter;
 import video.LeaderBoardCellRenderOption;
@@ -65,17 +65,17 @@ public class Main {
 		// SuppressWarnings perchè il compilatore e' stupido
 		GestoreComandi gestoreComandi = new GestoreComandi(game, gameWindow);
 		game.setGestoreComandi(gestoreComandi);
-		GestoreSuoni.playMusicaInLoop();
+		SoundManager.playMusicaInLoop();
 		cominciaIlGioco(game, gameWindow);
-		GestoreSuoni.stopAlert();
-		GestoreSuoni.stopMusic();
+		SoundManager.stopAlert();
+		SoundManager.stopMusic();
 	}
 
 	private static void cominciaIlGioco(Partita game, GameVisualizer gameWindow) throws AWTException, InterruptedException {
-		PopolatoreCibo.aggiungiCiboNellaMappa(game.getMappa());
+		FoodSpawnManager.spawnFoodInTheMap(game.getMappa());
 		gameWindow.repaint();
 		Thread.sleep(1000);
-		GestoreSuoni.playSpawnSound();
+		SoundManager.playSpawnSound();
 		int contaCicli=0;
 		long aspettaPer;
 		long oraCorrente;	
@@ -123,9 +123,9 @@ public class Main {
 			}
 		}
 		if(showEndGameStatistics) {
-			GestoreSuoni.playGameEndSound();
-			GestoreSuoni.stopAlert();
-			GestoreSuoni.stopMusic();
+			SoundManager.playGameEndSound();
+			SoundManager.stopAlert();
+			SoundManager.stopMusic();
 			showEndGameStatistics(game, gameWindow, gameWindowSize);
 		}
 	}
@@ -170,7 +170,7 @@ public class Main {
 				secondsLeft = endSecond - currentSecond;
 				if(secondsLeft<=10 && game.isEndGameAlert()) {
 					game.setEndGameAlert(false);
-					GestoreSuoni.playAlertSoundInLoop();
+					SoundManager.playAlertSoundInLoop();
 				}
 			}
 		}
@@ -198,12 +198,12 @@ public class Main {
 	private static void spawnJob(Partita game, int contaCicli, int foodRespawn, int snakeRespawn) {
 		if((contaCicli%foodRespawn)==0){
 			System.out.println("adding food");
-			PopolatoreCibo.aggiungiCiboNellaMappa(game.getMappa());
+			FoodSpawnManager.spawnFoodInTheMap(game.getMappa());
 		}
 
 		if((contaCicli%snakeRespawn==0)){
 			System.out.println("ai snake respawn");
-			PopolatoreSerpenti.resuscitaUnSerpenteAI(game);
+			SnakeSpawnManager.reviveSpecificBotSnake(game);
 		}
 	}
 

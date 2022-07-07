@@ -24,10 +24,6 @@ public interface GeneralConstants {
 	public static final String SUD = "sud";
 	public static final String NORD = "nord";
 	
-	public static final char CARATTERE_FINE_FILE = '$';
-	public static final char CARATTERE_INIZIO_RIGA = '<';
-	public static final char CARATTERE_FINE_RIGA = '>';
-	
 	//public static final String NOME_FILE_RECORD = "temp.int";
 	public static final String NOME_FILE_INDIRIZZO_SERVER = "config/index.ini";
 	public static final String FILE_NOME_SERVER = "config/server.ini";

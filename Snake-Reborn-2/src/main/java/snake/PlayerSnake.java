@@ -4,7 +4,7 @@ import static constants.MapConstants.DARKER_CELL;
 
 import java.awt.Color;
 
-import audio.GestoreSuoni;
+import audio.SoundManager;
 import game.Partita;
 import gamefield.Stanza;
 import video.CellRenderOption;
@@ -31,13 +31,13 @@ public class PlayerSnake extends Snake {
 	
 	@Override
 	public void incrementaVitaSerpente(int qta) {
-		GestoreSuoni.playTakeSound();
+		SoundManager.playTakeSound();
 		super.incrementaVitaSerpente(qta);
 	}
 	
 	@Override
 	public void muori(){
-		GestoreSuoni.playExplodeSound();
+		SoundManager.playExplodeSound();
 		super.muori();
 	}
 

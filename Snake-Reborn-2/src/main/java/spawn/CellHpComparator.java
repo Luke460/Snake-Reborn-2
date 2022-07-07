@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import gamefield.Casella;
 
-public class ComparatoreCasellePerVita implements Comparator<Casella> {
+public class CellHpComparator implements Comparator<Casella> {
 
     @Override
     public int compare(Casella first, Casella second) {

@@ -11,27 +11,20 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class SuonoWAV{
+public class WAVSound{
 	private Clip clip;
 	FloatControl gainControl;
 
-	public SuonoWAV(String filePath, int volume) {
+	public WAVSound(String filePath, int volume) {
 		try {
-			// Usa URL (invece di File) per leggere dal disco.
-			File filePathRelativo = new File(filePath);
-			File filePathAssoluto = new File(filePathRelativo.getAbsolutePath());
-			//URL url = getClass().getResource(fileSuono.getAbsolutePath());
- 			//File fileSuono = new File(filePath);
-			// Crea uno stream d'input audio dal file del suono.
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(filePathAssoluto);
-			// Ottieni il clip.
+			File relativePath = new File(filePath);
+			File absolutePath = new File(relativePath.getAbsolutePath());
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(absolutePath);
 			
 			AudioFormat af = audioInputStream.getFormat();
 	        DataLine.Info info = new DataLine.Info(Clip.class, af);
 	        this.clip = (Clip)AudioSystem.getLine(info);
 			if(this.clip==null) throw new Exception("Clip is null");
-			//clip = AudioSystem.getClip();
-			// Apri l'audio del clip.
 			this.clip.open(audioInputStream);
 			this.gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			this.setVolume(volume);
@@ -50,25 +43,24 @@ public class SuonoWAV{
 		if (this.clip==null) {
 			return;
 		}
-		this.clip.stop();   // Ferma il suono se e' ancora in esecuzione.
-		this.clip.setFramePosition(0); // Riavvolgi il suono.
-		this.clip.start();     // Esegui il suono.
+		this.clip.stop();
+		this.clip.setFramePosition(0);
+		this.clip.start();
 	}
 	
 	@SuppressWarnings("static-access")
 	public void loopClip() {
-		if (this.clip==null)return;
-		//if (this.clip.isRunning())
-		this.clip.stop();   // Ferma il suono se e' ancora in esecuzione.
-		this.clip.setFramePosition(0); // Riavvolgi il suono.
-		this.clip.loop(clip.LOOP_CONTINUOUSLY);     // Esegui il suono.
+		if (this.clip==null) return;
+		this.clip.stop();
+		this.clip.setFramePosition(0);
+		this.clip.loop(clip.LOOP_CONTINUOUSLY);
 	}
 	
-	public void fermaClip() {
+	public void stopClip() {
 		try {
 			this.clip.stop();
 		} catch (Exception e) {
-			//pazienza
+			//do nothing
 		}
 	}
 	

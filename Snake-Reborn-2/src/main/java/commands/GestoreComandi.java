@@ -6,7 +6,7 @@ import java.util.Queue;
 import game.Partita;
 import gamefield.Direction;
 import snake.Snake;
-import spawn.PopolatoreSerpenti;
+import spawn.SnakeSpawnManager;
 import video.GameVisualizer;
 
 public class GestoreComandi {
@@ -79,7 +79,7 @@ public class GestoreComandi {
 
 	public  void resuscitaPlayer1( ) {
 		if(!partita.getSerpentePlayer1().isVivo()) {
-			PopolatoreSerpenti.resuscitaSerpenteSpecifico(partita, partita.getSerpentePlayer1());
+			SnakeSpawnManager.reviveSpecificSnake(partita, partita.getSerpentePlayer1());
 		}
 	}
 

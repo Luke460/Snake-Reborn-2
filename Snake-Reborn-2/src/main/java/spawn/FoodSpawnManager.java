@@ -16,17 +16,17 @@ import gamefield.Position;
 import gamefield.Stanza;
 import support.Utility;
 
-public class PopolatoreCibo {
+public class FoodSpawnManager {
 	
-	public static void aggiungiCiboNellaMappa(Mappa m) {
+	public static void spawnFoodInTheMap(Mappa m) {
 		for(Stanza s:m.getStanze()){
-			aggiungiCiboInPosizioneCasuale(s);
+			spawnFoodInTheRoom(s);
 		}
 	}
 
-	public static void aggiungiCiboInPosizioneCasuale(Stanza s) {
+	private static void spawnFoodInTheRoom(Stanza room) {
 		int foodQty;
-		if(Utility.veroAl(5)) {
+		if(Utility.truePercentage(5)) {
 			foodQty = QTY_BONUS_FOOD;
 		} else {
 			foodQty = QTY_STANDARD_FOOD;
@@ -34,36 +34,35 @@ public class PopolatoreCibo {
 		byte posX = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		byte posY = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		Position pos = new Position(posX, posY);
-		Casella c = s.getCaselle().get(pos);
-		// posiziono il cibo solo in caselle libere e con posizione pari
-		if (c.isEmpty()){
-			if(posizioneValidaPerCibo(pos)){ // 50% chance is false
-				c.setFoodAmount(foodQty);
+		Casella cell = room.getCaselle().get(pos);
+		if (cell.isEmpty()){
+			if(isPositionValidForFoodSpawn(pos)){ // 50% chance is false
+				cell.setFoodAmount(foodQty);
 			}
 		}
 	}
-	public static void rilasciaCiboNelleCaselleDelSerpente(List<Casella> caselle){
-		boolean bonus_food = false;
-		boolean super_food = false;
-		int snakeHp = caselle.size();
+	public static void spawnFoodAfterSnakeDeath(List<Casella> cellsList){
+		boolean bonusFood = false;
+		boolean superFood = false;
+		int snakeHp = cellsList.size();
 		if(snakeHp >= SNAKE_HP_FOR_SUPER_FOOD) {
-			super_food = true;
-			ComparatoreCasellePerVita comparator = new ComparatoreCasellePerVita();
-			Collections.sort(caselle, comparator);
+			superFood = true;
+			CellHpComparator comparator = new CellHpComparator();
+			Collections.sort(cellsList, comparator);
 		} else if (snakeHp >= SNAKE_HP_FOR_BONUS_FOOD) {
-			bonus_food = true;
-			ComparatoreCasellePerVita comparator = new ComparatoreCasellePerVita();
-			Collections.sort(caselle, comparator);
+			bonusFood = true;
+			CellHpComparator comparator = new CellHpComparator();
+			Collections.sort(cellsList, comparator);
 		}	
-		for(Casella c:caselle){
+		for(Casella c:cellsList){
 			c.freeCell();
-			if(posizioneValidaPerCibo(c.getPosizione())){
-				if(super_food) {
+			if(isPositionValidForFoodSpawn(c.getPosizione())){
+				if(superFood) {
 					c.setFoodAmount(QTY_SUPER_FOOD);
-					super_food = false;
-				} else if (bonus_food){
+					superFood = false;
+				} else if (bonusFood){
 					c.setFoodAmount(QTY_BONUS_FOOD);
-					bonus_food = false;
+					bonusFood = false;
 				} else {
 					c.setFoodAmount(QTY_STANDARD_FOOD);
 				}
@@ -71,13 +70,13 @@ public class PopolatoreCibo {
 		}
 	}
 
-	public static boolean posizioneValidaPerCibo(Position p){
+	public static boolean isPositionValidForFoodSpawn(Position p){
 		// pre: casella vuota
 		int x = p.getX();
 		int y = p.getY();
-		if(Utility.isPari(x)&&Utility.isPari(y)) {
+		if(Utility.isEven(x)&&Utility.isEven(y)) {
 			return true;
-		} else if(!Utility.isPari(x)&&(!Utility.isPari(y))){
+		} else if(!Utility.isEven(x)&&(!Utility.isEven(y))){
 			return true;
 		} else {
 			return false;

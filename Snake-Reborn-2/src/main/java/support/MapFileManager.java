@@ -13,16 +13,16 @@ public class MapFileManager {
 	private HashMap<String,String> map;
 	private String fileName, finalComments;
 	
-	public MapFileManager(String nomeFile) {
-		this.fileName = nomeFile;
+	public MapFileManager(String fileName) {
+		this.fileName = fileName;
 		this.finalComments = new String();
 	}
 	
 	public void updateFile() throws IOException {
-		LinkedList<String> listaChiavi = new LinkedList<String>();
-		listaChiavi.addAll(this.map.keySet());
+		LinkedList<String> keys = new LinkedList<String>();
+		keys.addAll(this.map.keySet());
 		String fileContent = "";
-		for(String tempChiave:listaChiavi) {
+		for(String tempChiave:keys) {
 			fileContent += "<";
 			fileContent+=tempChiave;
 			fileContent+= ">";
@@ -40,37 +40,37 @@ public class MapFileManager {
 		map = new HashMap<String,String>();
 		String text = FileHandler.readFile(fileName);
 		String line = new String();
-		String chiave = new String();
-		String valore = new String();
-		Boolean isChiave = false;
-		ArrayList<Character> listaCaratteri = new ArrayList<>();
-		listaCaratteri.addAll(Utility.stringaToArray(text));
+		String key = new String();
+		String value = new String();
+		Boolean isKey = false;
+		ArrayList<Character> chars = new ArrayList<>();
+		chars.addAll(Utility.stringToArray(text));
 
-		boolean rigaValida=false;
+		boolean validLine=false;
 
-		for(char c:listaCaratteri){
+		for(char c:chars){
 			if (c!=END_FILE_CHAR){ // finche' il file non � finito...
 				// controllo
 				if(c==START_LINE_CHAR){
 					line = new String();
-					rigaValida=true;
-					if(isChiave==true) {
-						isChiave = false;
+					validLine=true;
+					if(isKey==true) {
+						isKey = false;
 					} else {
-						isChiave = true;
+						isKey = true;
 					}
 				}
 				if(c==END_LINE_CHAR){
-					rigaValida=false;
-					if(isChiave) {
-						chiave = new String(line);
+					validLine=false;
+					if(isKey) {
+						key = new String(line);
 					} else {
-						valore = new String(line);
-						map.put(chiave, valore);
+						value = new String(line);
+						map.put(key, value);
 					}
 				}
 				// fine controllo
-				if(rigaValida && (c!=START_LINE_CHAR && c!=END_LINE_CHAR)){
+				if(validLine && (c!=START_LINE_CHAR && c!=END_LINE_CHAR)){
 					line+=c;
 				}
 			} else {
@@ -79,12 +79,12 @@ public class MapFileManager {
 		}
 	}
 
-	public String get(String chiave) {
-		return this.map.get(chiave);
+	public String get(String key) {
+		return this.map.get(key);
 	}
 	
-	public void put(String chiave, String valore) {
-		this.map.put(chiave, valore);
+	public void put(String key, String value) {
+		this.map.put(key, value);
 	}
 	
 	public HashMap<String, String> getMap() {

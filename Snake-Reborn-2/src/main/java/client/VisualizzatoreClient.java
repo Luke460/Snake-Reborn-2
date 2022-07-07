@@ -20,12 +20,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 
-import audio.GestoreSuoni;
+import audio.SoundManager;
 import constants.ConfigFileConstants;
 import game.Partita;
 import game.UserLocal;
+import loaders.ConfigurationManager;
 import server.client.Client;
-import support.ConfigurationManager;
 
 public class VisualizzatoreClient extends JFrame{
 
@@ -107,9 +107,9 @@ public class VisualizzatoreClient extends JFrame{
 
 	public void leggiImpostazioniDaUI() throws IOException {
 		aggiornaFileImpostazioni();
-		GestoreSuoni.inizzializzaSuoni(volumeEffetti.getValue(), volumeMusica.getValue());
-		GestoreSuoni.setEffettiAbilitati(opzEffetti.isSelected());
-		GestoreSuoni.setMusicaAbilitata(opzMusica.isSelected());
+		SoundManager.inizzializzaSuoni(volumeEffetti.getValue(), volumeMusica.getValue());
+		SoundManager.setEffettiAbilitati(opzEffetti.isSelected());
+		SoundManager.setMusicSoundEnabled(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
 		partita.setShowLeaderboard(hideLeaderboard.isSelected());
@@ -119,15 +119,15 @@ public class VisualizzatoreClient extends JFrame{
 
 	private void aggiornaFileImpostazioni() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
-		cr.salvaImpostazione(ConfigFileConstants.EFFETTI, Boolean.toString(opzEffetti.isSelected()));
-		cr.salvaImpostazione(ConfigFileConstants.VOLUME_EFFETTI, Integer.toString(volumeEffetti.getValue()));
-		cr.salvaImpostazione(ConfigFileConstants.MUSICA, Boolean.toString(opzMusica.isSelected()));
-		cr.salvaImpostazione(ConfigFileConstants.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
-		cr.salvaImpostazione(ConfigFileConstants.USERNAME, nomeInserito.getText());
-		cr.salvaImpostazione(ConfigFileConstants.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
-		cr.salvaImpostazione(ConfigFileConstants.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
-		cr.salvaImpostazione(ConfigFileConstants.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicMode.isSelected()));
-		cr.salvaImpostazione(ConfigFileConstants.GIOCO_SENZA_FINE, Boolean.toString(endlessMode.isSelected()));
+		cr.saveSetting(ConfigFileConstants.EFFETTI, Boolean.toString(opzEffetti.isSelected()));
+		cr.saveSetting(ConfigFileConstants.VOLUME_EFFETTI, Integer.toString(volumeEffetti.getValue()));
+		cr.saveSetting(ConfigFileConstants.MUSICA, Boolean.toString(opzMusica.isSelected()));
+		cr.saveSetting(ConfigFileConstants.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
+		cr.saveSetting(ConfigFileConstants.USERNAME, nomeInserito.getText());
+		cr.saveSetting(ConfigFileConstants.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
+		cr.saveSetting(ConfigFileConstants.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
+		cr.saveSetting(ConfigFileConstants.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicMode.isSelected()));
+		cr.saveSetting(ConfigFileConstants.GIOCO_SENZA_FINE, Boolean.toString(endlessMode.isSelected()));
 	}
 
 	private void aggiungiPannelliAlContainer() {
@@ -138,15 +138,15 @@ public class VisualizzatoreClient extends JFrame{
 
 	private void preimpostaPannelli() throws IOException {
 		ConfigurationManager cr = new ConfigurationManager();
-		opzEffetti.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.EFFETTI)));
-		volumeEffetti.setValue(Integer.parseInt(cr.leggiImpostazione(ConfigFileConstants.VOLUME_EFFETTI)));
-		opzMusica.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.MUSICA)));
-		volumeMusica.setValue(Integer.parseInt(cr.leggiImpostazione(ConfigFileConstants.VOLUME_MUSICA)));
-		nomeInserito.setText(cr.leggiImpostazione(ConfigFileConstants.USERNAME));
-		selettoreMappa.setSelectedItem(cr.leggiImpostazione(ConfigFileConstants.NOME_MAPPA));
-		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.MOSTRA_LEADERBOARD)));
-		lowGraphicMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.GRAFICA_SEMPLIFICATA)));
-		endlessMode.setSelected(Boolean.parseBoolean(cr.leggiImpostazione(ConfigFileConstants.GIOCO_SENZA_FINE)));
+		opzEffetti.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.EFFETTI)));
+		volumeEffetti.setValue(Integer.parseInt(cr.readSetting(ConfigFileConstants.VOLUME_EFFETTI)));
+		opzMusica.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.MUSICA)));
+		volumeMusica.setValue(Integer.parseInt(cr.readSetting(ConfigFileConstants.VOLUME_MUSICA)));
+		nomeInserito.setText(cr.readSetting(ConfigFileConstants.USERNAME));
+		selettoreMappa.setSelectedItem(cr.readSetting(ConfigFileConstants.NOME_MAPPA));
+		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.MOSTRA_LEADERBOARD)));
+		lowGraphicMode.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.GRAFICA_SEMPLIFICATA)));
+		endlessMode.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.GIOCO_SENZA_FINE)));
 		selettoreLivello.setSelectedIndex(2);
 	}
 

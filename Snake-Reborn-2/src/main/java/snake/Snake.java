@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-import audio.GestoreSuoni;
+import audio.SoundManager;
 import game.Partita;
 import gamefield.Casella;
 import gamefield.CasellaManager;
@@ -24,8 +24,8 @@ import gamefield.Direction;
 import gamefield.Position;
 import gamefield.Stanza;
 import score.ScoreHandler;
-import spawn.ComparatoreCasellePerVita;
-import spawn.PopolatoreCibo;
+import spawn.CellHpComparator;
+import spawn.FoodSpawnManager;
 import support.Utility;
 import video.CellRenderOption;
 
@@ -81,7 +81,7 @@ public abstract class Snake {
 
 	public Casella getCasellaDiCoda(){
 		ArrayList<Casella> caselleOrdinatePerVita = new ArrayList<>(this.caselle);
-		ComparatoreCasellePerVita comparator = new ComparatoreCasellePerVita();
+		CellHpComparator comparator = new CellHpComparator();
 		Collections.sort(caselleOrdinatePerVita, comparator);
 		return caselleOrdinatePerVita.get(caselleOrdinatePerVita.size()-1);
 	}
@@ -195,7 +195,7 @@ public abstract class Snake {
 	}
 
 	protected void rilasciaCiboEliberaCaselle() {
-		PopolatoreCibo.rilasciaCiboNelleCaselleDelSerpente(this.caselle);
+		FoodSpawnManager.spawnFoodAfterSnakeDeath(this.caselle);
 		this.caselle.clear();
 	}
 
@@ -224,7 +224,7 @@ public abstract class Snake {
 			this.bestGameKillingStreak = this.currentKillingStreak;
 		}
 		if(this.getNome().equals(NOME_PLAYER_1)){
-			GestoreSuoni.playSlainSound();
+			SoundManager.playSlainSound();
 		}
 	}
 
@@ -267,9 +267,9 @@ public abstract class Snake {
 
 		// random center spawn
 		byte deltaXspawn = 0;
-		if(Utility.veroAl(50)) deltaXspawn = -1;
+		if(Utility.truePercentage(50)) deltaXspawn = -1;
 		byte deltaYspawn = 0;
-		if(Utility.veroAl(50)) deltaYspawn = -1;
+		if(Utility.truePercentage(50)) deltaYspawn = -1;
 		byte centerPosition = (byte)(DIMENSIONE_STANZA_DEFAULT/2);
 		Position posizionePrimaCasella = new Position((byte)(centerPosition+deltaXspawn),(byte)(centerPosition+deltaYspawn));
 		

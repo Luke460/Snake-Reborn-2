@@ -20,7 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import server.model.Match;
-import support.Utility;
 
 public class GameVisualizer extends JPanel {
 
@@ -65,7 +64,7 @@ public class GameVisualizer extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit ().getScreenSize ();
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
-		return (int) ((Utility.minimoTra(width,height)/(DIMENSIONE_STANZA_DEFAULT))*RAPPORTO_DIMENSIONE_SCHERMO);
+		return (int) ((Math.min(width,height)/(DIMENSIONE_STANZA_DEFAULT))*RAPPORTO_DIMENSIONE_SCHERMO);
 	}
 
 	@Override

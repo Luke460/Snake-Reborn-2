@@ -19,7 +19,7 @@ import score.SnakeEndGameScoreComparator;
 import server.client.Client;
 import snake.PlayerSnake;
 import snake.Snake;
-import spawn.PopolatoreSerpenti;
+import spawn.SnakeSpawnManager;
 
 public class Partita {
 
@@ -62,7 +62,7 @@ public class Partita {
 		//testSnake.setSkill(skill);
 		//this.serpentePlayer1 = testSnake;
 		this.serpenti.put(this.nomePlayer1, this.serpentePlayer1);
-		this.serpenti.putAll(PopolatoreSerpenti.creaSerpentiBot(this));
+		this.serpenti.putAll(SnakeSpawnManager.createBotSnakes(this));
 		for(Snake snake:this.serpenti.values()) {
 			snake.setVivo(true);
 		}
