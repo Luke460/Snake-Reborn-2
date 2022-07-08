@@ -97,14 +97,13 @@ public class GameVisualizer extends JPanel {
 
 		g.drawString(String.valueOf(hp), (int)(xPosition+this.cellSize/2), (int)(yPosition-this.cellSize/2));
 		
-		g.setColor(Color.black);
-		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*VITA_SERPENTE_MASSIMA), (int)(cellSize*0.5));
-		
 		if(hp>VITA_SERPENTE_MASSIMA) {
-			g.setColor(Color.orange);
-		} else {
-			g.setColor(Color.green);
+			g.fillRect((int)(xPosition-cellSize*0.1), (int)(yPosition-cellSize*0.1), (int)((cellSize*0.1*VITA_SERPENTE_MASSIMA)+cellSize*0.4), (int)(cellSize*0.7));
+			hp = VITA_SERPENTE_MASSIMA;
 		}
+		g.setColor(Color.black);
+		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*VITA_SERPENTE_MASSIMA + cellSize*0.2), (int)(cellSize*0.5));
+		g.setColor(Color.green);
 		g.fillRect((int)(xPosition+cellSize*0.1), (int)(yPosition+cellSize*0.1), (int)(cellSize*0.1*hp), (int)(cellSize*0.3));
 		
 	}
