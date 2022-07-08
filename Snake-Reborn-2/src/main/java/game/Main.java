@@ -20,7 +20,7 @@ import client.VisualizzatoreClient;
 import commands.GestoreComandi;
 import score.MatchFactory;
 import score.ScoreHandler;
-import server.model.Match;
+import server.model.MatchForGameVisualizer;
 import snake.Snake;
 import spawn.FoodSpawnManager;
 import spawn.SnakeSpawnManager;
@@ -155,7 +155,7 @@ public class Main {
 		}
 		List<CellRenderOptionWithPosition> positionToCellRenderOption = GraphicAdapter.getCellRenderOptionWithPosition(game);
 		List<LeaderBoardCellRenderOption> leaderboard = null;
-		Match match = MatchFactory.buildMatch(game);
+		MatchForGameVisualizer match = MatchFactory.buildMatchForGameVisualizer(game);
 		if(game.isShowLeaderboard()) {
 			leaderboard = GraphicAdapter.getLeaderBoardMap(game);
 		}

@@ -19,7 +19,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import server.model.Match;
+import server.model.MatchForGameVisualizer;
 
 public class GameVisualizer extends JPanel {
 
@@ -36,7 +36,7 @@ public class GameVisualizer extends JPanel {
 	private int leaderboardPositionY;
 	private float leaderboardFontMultiplier;
 	private float messageFontMultiplayer;
-	private Match match;
+	private MatchForGameVisualizer match;
 	private Color frameBackground;
 	private String message;
 	private boolean showEndGameStatistics;
@@ -86,7 +86,18 @@ public class GameVisualizer extends JPanel {
 	}
 
 	private void addHpInfo(Graphics g) {
-		// TODO
+		CellRenderOption hpCellRO = this.match.getPlayerCellRenderOption();
+		int xPosition = (int)(cellSize*1.25);
+		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
+		drawCustomCell(g, (int)(cellSize*0.5), xPosition, yPosition, hpCellRO);
+		
+		
+		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
+		g.setFont(newFont);
+		g.setColor(Color.white);
+		String hp = String.valueOf(this.match.getSnakeLength());
+
+		g.drawString(hp, xPosition+this.cellSize, (int)(yPosition+this.cellSize/2));
 	}
 
 	private void addFoodInfo(Graphics g) {
@@ -102,7 +113,6 @@ public class GameVisualizer extends JPanel {
 		String foodScore = String.valueOf(this.match.getTotalFoodTaken());
 
 		g.drawString(foodScore, xPosition+this.cellSize, (int)(yPosition+this.cellSize/2));
-		
 	}
 
 	private void addTimeLeft(Graphics g) {
@@ -303,7 +313,7 @@ public class GameVisualizer extends JPanel {
 			Color backgroundColor, 
 			List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
 			List<LeaderBoardCellRenderOption> leaderboard, 
-			Match match, 
+			MatchForGameVisualizer match, 
 			String message,
 			Integer secondsLeft
 			) {

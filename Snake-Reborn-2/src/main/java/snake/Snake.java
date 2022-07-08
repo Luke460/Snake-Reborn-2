@@ -406,6 +406,11 @@ public abstract class Snake {
 		return totalFoodTaken;
 	}
 	
+	public int getLength() {
+		if(this.caselle==null) return 0;
+		return this.caselle.size();
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(nome);
