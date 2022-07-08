@@ -77,10 +77,32 @@ public class GameVisualizer extends JPanel {
 			}
 			drawStatisticsOnScreen(g);
 			addTimeLeft(g);
+			addFoodInfo(g);
+			addHpInfo(g);
 			addScreenMessage(g);
 		} else {
 			drawEndGameStatisticsOnScreen(g);
 		}
+	}
+
+	private void addHpInfo(Graphics g) {
+		// TODO
+	}
+
+	private void addFoodInfo(Graphics g) {
+		CellRenderOption food = new CellRenderOption((byte)0, GraphicManager.getStandardFoodColor());
+		int xPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)-cellSize*0.75);
+		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
+		drawCustomCell(g, (int)(cellSize*0.5), xPosition, yPosition, food);
+		
+		
+		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
+		g.setFont(newFont);
+		g.setColor(Color.white);
+		String foodScore = String.valueOf(this.match.getTotalFoodTaken());
+
+		g.drawString(foodScore, xPosition+this.cellSize, (int)(yPosition+this.cellSize/2));
+		
 	}
 
 	private void addTimeLeft(Graphics g) {

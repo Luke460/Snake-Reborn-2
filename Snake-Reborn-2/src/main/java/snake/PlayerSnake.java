@@ -36,9 +36,9 @@ public class PlayerSnake extends Snake {
 	}
 	
 	@Override
-	public void muori(){
+	public void die(){
 		SoundManager.playExplodeSound();
-		super.muori();
+		super.die();
 	}
 
 }

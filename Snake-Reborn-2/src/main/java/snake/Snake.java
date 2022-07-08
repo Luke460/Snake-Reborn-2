@@ -124,10 +124,10 @@ public abstract class Snake {
 			if(nuovaCasella.isSnake()){
 				Snake altroSerpente = nuovaCasella.getSnake();
 				if(altroSerpente.getCasellaDiTesta().getPosizione().equals(nuovaCasella.getPosizione())){
-					altroSerpente.muori();
+					altroSerpente.dieNoKillForSelectedSnake(this);
 				}
 			}
-			this.muori();
+			this.die();
 		}
 	}
 
@@ -163,16 +163,25 @@ public abstract class Snake {
 		this.hpPreMorte = hpPreMorte;
 	}
 	
-	public void muori(){
+	public void die(){
 		this.setVivo(false);
 		this.deathTimestamp = System.currentTimeMillis();
 		hpPreMorte = this.getCasellaDiTesta().getHp();
 		this.deathsNumber++;
-		controllaUccisione();
+		controllaUccisione(null);
 		rilasciaCiboEliberaCaselle();
 	}
 	
-	private void controllaUccisione() {		
+	public void dieNoKillForSelectedSnake(Snake snake){
+		this.setVivo(false);
+		this.deathTimestamp = System.currentTimeMillis();
+		hpPreMorte = this.getCasellaDiTesta().getHp();
+		this.deathsNumber++;
+		controllaUccisione(snake);
+		rilasciaCiboEliberaCaselle();
+	}
+	
+	private void controllaUccisione(Snake excludedSnake) {		
 		TreeMap<String,Snake> uccisori = new TreeMap<>();
 		for(Casella c : this.getCaselle()) {
 			HashSet<Casella> caselleAdiacenti = new HashSet<>();
@@ -190,7 +199,9 @@ public abstract class Snake {
 			}
 		}
 		for(Entry<String, Snake> entry:uccisori.entrySet()) {
-			entry.getValue().performKill();
+			if(excludedSnake==null || !entry.getValue().equals(excludedSnake)) {
+				entry.getValue().performKill();
+			}
 		}
 	}
 
