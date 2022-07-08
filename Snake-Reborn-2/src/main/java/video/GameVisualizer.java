@@ -2,6 +2,7 @@ package video;
 
 import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
 import static constants.GeneralConstants.RAPPORTO_DIMENSIONE_SCHERMO;
+import static constants.GeneralConstants.VITA_SERPENTE_MASSIMA;
 import static constants.MapConstants.DARKER_CELL;
 import static constants.MapConstants.FLAT_CELL;
 import static constants.MapConstants.LIGHT_CELL;
@@ -86,18 +87,26 @@ public class GameVisualizer extends JPanel {
 	}
 
 	private void addHpInfo(Graphics g) {
-		CellRenderOption hpCellRO = this.match.getPlayerCellRenderOption();
 		int xPosition = (int)(cellSize*1.25);
 		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
-		drawCustomCell(g, (int)(cellSize*0.5), xPosition, yPosition, hpCellRO);
-		
 		
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
 		g.setFont(newFont);
 		g.setColor(Color.white);
-		String hp = String.valueOf(this.match.getSnakeLength());
+		int hp = this.match.getSnakeLength();
 
-		g.drawString(hp, xPosition+this.cellSize, (int)(yPosition+this.cellSize/2));
+		g.drawString(String.valueOf(hp), (int)(xPosition+this.cellSize/2), (int)(yPosition-this.cellSize/2));
+		
+		g.setColor(Color.black);
+		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*VITA_SERPENTE_MASSIMA), (int)(cellSize*0.5));
+		
+		if(hp>VITA_SERPENTE_MASSIMA) {
+			g.setColor(Color.orange);
+		} else {
+			g.setColor(Color.green);
+		}
+		g.fillRect((int)(xPosition+cellSize*0.1), (int)(yPosition+cellSize*0.1), (int)(cellSize*0.1*hp), (int)(cellSize*0.3));
+		
 	}
 
 	private void addFoodInfo(Graphics g) {
@@ -105,7 +114,6 @@ public class GameVisualizer extends JPanel {
 		int xPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)-cellSize*0.75);
 		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
 		drawCustomCell(g, (int)(cellSize*0.5), xPosition, yPosition, food);
-		
 		
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
 		g.setFont(newFont);
