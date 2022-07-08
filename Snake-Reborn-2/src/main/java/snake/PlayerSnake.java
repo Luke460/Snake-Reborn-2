@@ -40,5 +40,11 @@ public class PlayerSnake extends Snake {
 		SoundManager.playExplodeSound();
 		super.die();
 	}
+	
+	@Override
+	public void dieNoKillForSelectedSnake(Snake s) {
+		SoundManager.playExplodeSound();
+		super.dieNoKillForSelectedSnake(s);
+	}
 
 }

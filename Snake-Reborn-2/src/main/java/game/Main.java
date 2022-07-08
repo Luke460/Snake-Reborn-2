@@ -153,12 +153,7 @@ public class Main {
 				message = "Premi invio per resuscitare";
 			}
 		}
-		List<CellRenderOptionWithPosition> positionToCellRenderOption = GraphicAdapter.getCellRenderOptionWithPosition(game);
-		List<LeaderBoardCellRenderOption> leaderboard = null;
 		MatchForGameVisualizer match = MatchFactory.buildMatchForGameVisualizer(game);
-		if(game.isShowLeaderboard()) {
-			leaderboard = GraphicAdapter.getLeaderBoardMap(game);
-		}
 		Color backgroundColor = game.getMappa().getBackgroundColor();
 		int secondsLeft = -1;
 		if(!game.isEndlessMode()) {
@@ -174,7 +169,13 @@ public class Main {
 				}
 			}
 		}
-		gameWindow.setUpVisualization(backgroundColor, positionToCellRenderOption, leaderboard, match, message, secondsLeft);
+		List<CellRenderOptionWithPosition> positionToCellRenderOption = GraphicAdapter.getCellRenderOptionWithPosition(game);
+		if(game.isShowInterface()) {
+			List<LeaderBoardCellRenderOption> leaderboard = GraphicAdapter.getLeaderBoardMap(game);
+			gameWindow.setUpVisualizationWithInterface(backgroundColor, positionToCellRenderOption, leaderboard, match, message, secondsLeft);
+		} else {
+			gameWindow.setUpVisualizationWithoutInterface(backgroundColor, positionToCellRenderOption, match, message, secondsLeft);
+		}
 	}
 	
 	private static void setUpGameWindowForEndGameStatistics(Partita game, GameVisualizer gameWindow) {
