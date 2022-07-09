@@ -42,6 +42,7 @@ public class GameVisualizer extends JPanel {
 	private String message;
 	private boolean showEndGameStatistics;
 	private Integer secondsLeft;
+	private boolean interfaceEnabled;
 
 	public GameVisualizer() {
 		this.frame = new JFrame("Snake Reborn");
@@ -76,11 +77,14 @@ public class GameVisualizer extends JPanel {
 			for (CellRenderOptionWithPosition c : cellRenderOptionWithPosition) {
 				drawCell(g, c);
 			}
-			drawStatisticsOnScreen(g);
+			drawStatisticsOnGameFrame(g);
 			addTimeLeft(g);
-			addFoodInfo(g);
-			addHpInfo(g);
 			addScreenMessage(g);
+			if(this.interfaceEnabled) {
+				addLeaderboard(g);
+				addFoodInfo(g);
+				addHpInfo(g);
+			}
 		} else {
 			drawEndGameStatisticsOnScreen(g);
 		}
@@ -89,23 +93,24 @@ public class GameVisualizer extends JPanel {
 	private void addHpInfo(Graphics g) {
 		int xPosition = (int)(cellSize*1.25);
 		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
-		
+		int hpValue = this.match.getSnakeLength();
+		int hpBar = hpValue;
+		if(hpValue>VITA_SERPENTE_MASSIMA) {
+			hpBar = VITA_SERPENTE_MASSIMA;
+			g.setColor(Color.green);
+		} else {
+			g.setColor(Color.white);
+		}
+		// hp value
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
 		g.setFont(newFont);
-		g.setColor(Color.white);
-		int hp = this.match.getSnakeLength();
-
-		g.drawString(String.valueOf(hp), (int)(xPosition+this.cellSize/2), (int)(yPosition-this.cellSize/2));
-		
-		if(hp>VITA_SERPENTE_MASSIMA) {
-			g.fillRect((int)(xPosition-cellSize*0.1), (int)(yPosition-cellSize*0.1), (int)((cellSize*0.1*VITA_SERPENTE_MASSIMA)+cellSize*0.4), (int)(cellSize*0.7));
-			hp = VITA_SERPENTE_MASSIMA;
-		}
+		g.drawString(String.valueOf(hpValue), (int)(xPosition+this.cellSize/2), (int)(yPosition-this.cellSize/2));
+		// background
 		g.setColor(Color.black);
-		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*VITA_SERPENTE_MASSIMA + cellSize*0.2), (int)(cellSize*0.5));
+		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*VITA_SERPENTE_MASSIMA + cellSize*0.2), (int)(cellSize*0.5)-1);
+		// hp bar
 		g.setColor(Color.green);
-		g.fillRect((int)(xPosition+cellSize*0.1), (int)(yPosition+cellSize*0.1), (int)(cellSize*0.1*hp), (int)(cellSize*0.3));
-		
+		g.fillRect((int)(xPosition+cellSize*0.1), (int)(yPosition+cellSize*0.1), (int)(cellSize*0.1*hpBar), (int)(cellSize*0.3));	
 	}
 
 	private void addFoodInfo(Graphics g) {
@@ -113,13 +118,17 @@ public class GameVisualizer extends JPanel {
 		int xPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)-cellSize*0.75);
 		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
 		drawCustomCell(g, (int)(cellSize*0.5), xPosition, yPosition, food);
-		
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
 		g.setFont(newFont);
 		g.setColor(Color.white);
-		String foodScore = String.valueOf(this.match.getTotalFoodTaken());
-
-		g.drawString(foodScore, xPosition+this.cellSize, (int)(yPosition+this.cellSize/2));
+		int foodScore = this.match.getTotalFoodTaken();
+		int xShift;
+		if(foodScore/100>0) {
+			xShift = (int)(xPosition+this.cellSize*0.75);
+		} else {
+			xShift = (int)(xPosition+this.cellSize);
+		}
+		g.drawString(String.valueOf(foodScore), xShift, (int)(yPosition+this.cellSize/2));
 	}
 
 	private void addTimeLeft(Graphics g) {
@@ -155,10 +164,7 @@ public class GameVisualizer extends JPanel {
 		g.drawString(this.message, (int)(screenCenter-(this.cellSize*message.length()*0.33)), screenCenter);
 	}
 
-	private void drawStatisticsOnScreen(Graphics g) {
-		if(this.leaderboard!=null) {
-			addLeaderboard(g);
-		}
+	private void drawStatisticsOnGameFrame(Graphics g) {
 		String kd =       "  K/D: " + this.match.getKillsNumber() + "/" + this.match.getDeathsNumber();
 		String streak =   "        Serie: " + this.match.getBestKillingStreak();
 		String food =     "        Cibo: " + this.match.getTotalFoodTaken();
@@ -316,7 +322,7 @@ public class GameVisualizer extends JPanel {
 		this.secondsLeft = secondsLeft;
 	}
 
-	public void setUpVisualization(
+	public void setUpVisualizationWithInterface(
 			Color backgroundColor, 
 			List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
 			List<LeaderBoardCellRenderOption> leaderboard, 
@@ -330,6 +336,22 @@ public class GameVisualizer extends JPanel {
 		this.match = match;
 		this.message = message;
 		this.secondsLeft = secondsLeft;
+		this.interfaceEnabled = true;
+	}
+	
+	public void setUpVisualizationWithoutInterface(
+			Color backgroundColor, 
+			List<CellRenderOptionWithPosition> cellRenderOptionWithPosition,
+			MatchForGameVisualizer match, 
+			String message,
+			Integer secondsLeft
+			) {
+		this.frameBackground = backgroundColor;
+		this.cellRenderOptionWithPosition = cellRenderOptionWithPosition;
+		this.match = match;
+		this.message = message;
+		this.secondsLeft = secondsLeft;
+		this.interfaceEnabled = false;
 	}
 	
 	public void setUpGameWindowForEndGameStatistics(

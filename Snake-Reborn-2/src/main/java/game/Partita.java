@@ -37,7 +37,7 @@ public class Partita {
 	private boolean inGame;
 	private Stanza stanzaDiSpawn;
 	private String mapFileName;
-	private boolean showLeaderboard;
+	private boolean showInterface;
 	private boolean lowGraphicMode;
 	private long startTimestamp;
 	private boolean endlessMode;
@@ -194,12 +194,12 @@ public class Partita {
 		this.mapFileName = mapFileName;
 	}
 
-	public boolean isShowLeaderboard() {
-		return showLeaderboard;
+	public boolean isShowInterface() {
+		return showInterface;
 	}
 
-	public void setShowLeaderboard(boolean showLeaderboard) {
-		this.showLeaderboard = showLeaderboard;
+	public void setShowInterface(boolean showLeaderboard) {
+		this.showInterface = showLeaderboard;
 	}
 
 	public boolean isLowGraphicMode() {

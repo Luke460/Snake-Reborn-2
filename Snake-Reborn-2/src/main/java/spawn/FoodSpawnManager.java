@@ -26,10 +26,17 @@ public class FoodSpawnManager {
 
 	private static void spawnFoodInTheRoom(Stanza room) {
 		int foodQty;
-		if(Utility.truePercentage(5)) {
+		//95% -> STANDARD
+		// 4% -> BONUS
+		// 1% -> SUPER
+		//5% -> 80% BONUS, 20% SUPER
+		if(Utility.truePercentage(95)) {
+			foodQty = QTY_STANDARD_FOOD;
+			// 5% left
+		} else if(Utility.truePercentage(80)) {
 			foodQty = QTY_BONUS_FOOD;
 		} else {
-			foodQty = QTY_STANDARD_FOOD;
+			foodQty = QTY_SUPER_FOOD;
 		}
 		byte posX = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
 		byte posY = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;

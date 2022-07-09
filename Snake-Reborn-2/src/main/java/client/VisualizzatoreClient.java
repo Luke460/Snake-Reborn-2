@@ -55,7 +55,7 @@ public class VisualizzatoreClient extends JFrame{
 	JSlider volumeEffetti;
 	JComboBox<String> selettoreLivello;
 	JComboBox<String> selettoreMappa;
-	JCheckBox hideLeaderboard;
+	JCheckBox showInterface;
 	JCheckBox lowGraphicMode;
 	JCheckBox endlessMode;
 	JLabel messaggioInformativo;
@@ -112,7 +112,7 @@ public class VisualizzatoreClient extends JFrame{
 		SoundManager.setMusicSoundEnabled(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
-		partita.setShowLeaderboard(hideLeaderboard.isSelected());
+		partita.setShowInterface(showInterface.isSelected());
 		partita.setLowGraphicMode(lowGraphicMode.isSelected());
 		partita.setEndlessMode(endlessMode.isSelected());
 	}
@@ -125,7 +125,7 @@ public class VisualizzatoreClient extends JFrame{
 		cr.saveSetting(ConfigFileConstants.VOLUME_MUSICA, Integer.toString(volumeMusica.getValue()));
 		cr.saveSetting(ConfigFileConstants.USERNAME, nomeInserito.getText());
 		cr.saveSetting(ConfigFileConstants.NOME_MAPPA, (String)selettoreMappa.getSelectedItem());
-		cr.saveSetting(ConfigFileConstants.MOSTRA_LEADERBOARD, Boolean.toString(hideLeaderboard.isSelected()));
+		cr.saveSetting(ConfigFileConstants.MOSTRA_INTERFACCIA, Boolean.toString(showInterface.isSelected()));
 		cr.saveSetting(ConfigFileConstants.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicMode.isSelected()));
 		cr.saveSetting(ConfigFileConstants.GIOCO_SENZA_FINE, Boolean.toString(endlessMode.isSelected()));
 	}
@@ -144,7 +144,7 @@ public class VisualizzatoreClient extends JFrame{
 		volumeMusica.setValue(Integer.parseInt(cr.readSetting(ConfigFileConstants.VOLUME_MUSICA)));
 		nomeInserito.setText(cr.readSetting(ConfigFileConstants.USERNAME));
 		selettoreMappa.setSelectedItem(cr.readSetting(ConfigFileConstants.NOME_MAPPA));
-		hideLeaderboard.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.MOSTRA_LEADERBOARD)));
+		showInterface.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.MOSTRA_INTERFACCIA)));
 		lowGraphicMode.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.GRAFICA_SEMPLIFICATA)));
 		endlessMode.setSelected(Boolean.parseBoolean(cr.readSetting(ConfigFileConstants.GIOCO_SENZA_FINE)));
 		selettoreLivello.setSelectedIndex(2);
@@ -183,7 +183,7 @@ public class VisualizzatoreClient extends JFrame{
 		String[] data1 = {"bassa", "media", "alta*"}; 
 		selettoreLivello = new JComboBox(data1);
 		selettoreMappa = new JComboBox(listaFileMappe.toArray());
-		hideLeaderboard = new JCheckBox("Mostra classifica");
+		showInterface = new JCheckBox("Mostra interfaccia");
 		lowGraphicMode = new JCheckBox("Grafica semplificata");
 		endlessMode = new JCheckBox("Modalità senza fine");
 		messaggioInformativo = new JLabel("      *Punteggio valido");
@@ -227,7 +227,7 @@ public class VisualizzatoreClient extends JFrame{
 		PannelloOpzioni.add(opzMusica);
 		PannelloOpzioni.add(volumeMusica);
 		
-		PannelloOpzioni.add(hideLeaderboard);
+		PannelloOpzioni.add(showInterface);
 		PannelloOpzioni.add(lowGraphicMode);
 		
 		PannelloTastiConferma.setLayout(new GridLayout(1, 2));
