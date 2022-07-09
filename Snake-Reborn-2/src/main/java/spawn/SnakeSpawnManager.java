@@ -72,7 +72,7 @@ public class SnakeSpawnManager {
 		}
 	}
 	
-	public static void reviveSpecificBotSnake(Partita game) {	
+	public static void reviveOneBotSnake(Partita game) {
 		for(Snake snake:game.getSerpenti().values()) {
 			if(!snake.isVivo() && snake.canRespawn() && !snake.equals(game.getSerpentePlayer1())){
 				reviveSnake(game, snake);

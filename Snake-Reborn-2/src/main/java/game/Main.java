@@ -89,6 +89,11 @@ public class Main {
 		long oraProgrammataDiRipresa = oraInizioAlgoritmo;
 		game.setStartTimestamp(oraInizioAlgoritmo);
 		boolean showEndGameStatistics = false;
+		
+		long latencyCounter = 0;
+		long latencyAcc = 0;
+		long latency = 0;
+		long maxLatency = 0;
 
 		while(game.isInGame()) {
 			oraInizioAlgoritmo = oraProgrammataDiRipresa;
@@ -109,11 +114,21 @@ public class Main {
 			
 			gameWindow.paintImmediately(gameWindowSize);
 			
-			if(contaCicli%fps==0) { // every seconds
-				long latency = System.currentTimeMillis()-oraInizioAlgoritmo;
-				System.out.println("latency: " + latency +" ms");
+			// latency monitoring begin
+			latencyCounter++;
+			latency = System.currentTimeMillis()-oraInizioAlgoritmo; 
+			latencyAcc += latency;
+			if(latency > maxLatency) {
+				maxLatency = latency;
 			}
-
+			if(contaCicli%fps==0) { // every seconds
+				long latencyAvg = latencyAcc/latencyCounter;
+				System.out.println("latency: " + maxLatency + "ms (max) - " + latencyAvg +"ms (avg)");
+				latencyAcc=0;
+				latencyCounter=0;
+				maxLatency=0;
+			}
+			// latency compensation
 			oraCorrente = System.currentTimeMillis();
 			aspettaPer = oraProgrammataDiRipresa - oraCorrente;
 			if (aspettaPer>0) {
@@ -197,13 +212,17 @@ public class Main {
 
 	private static void spawnJob(Partita game, int contaCicli, int foodRespawn, int snakeRespawn) {
 		if((contaCicli%foodRespawn)==0){
-			System.out.println("adding food");
+			//long before=System.currentTimeMillis();
 			FoodSpawnManager.spawnFoodInTheMap(game.getMappa());
+			//long after=System.currentTimeMillis();
+			//System.out.println("spawn food job (" + (after-before) + "ms)");
 		}
 
 		if((contaCicli%snakeRespawn==0)){
-			System.out.println("ai snake respawn");
-			SnakeSpawnManager.reviveSpecificBotSnake(game);
+			//long before=System.currentTimeMillis();
+			SnakeSpawnManager.reviveOneBotSnake(game);
+			//long after=System.currentTimeMillis();
+			//System.out.println("spawn bot job (" + (after-before) + "ms)");
 		}
 	}
 
