@@ -16,7 +16,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import audio.SoundManager;
-import client.VisualizzatoreClient;
+import client.ClientWindow;
 import commands.GestoreComandi;
 import score.MatchFactory;
 import score.ScoreHandler;
@@ -35,16 +35,16 @@ public class Main {
 		Partita game = null;
 		GameVisualizer gameWindow;
 		try {
-			VisualizzatoreClient client = new VisualizzatoreClient();
+			ClientWindow client = new ClientWindow();
 			gameWindow = new GameVisualizer();
 			while(true) {
 				game = new Partita();
-				client.rileggi(game);
-				while(!client.isPremuto()){
+				client.reload(game);
+				while(!client.isActionRequired()){
 					Thread.sleep(200);
 				}
 				try {
-					client.leggiImpostazioniDaUI();
+					client.readClientSettings();
 					game.ImpostaPartita();
 					setUpGameWindow(game, gameWindow);
 					gameWindow.getFrame().setVisible(true);
@@ -201,11 +201,11 @@ public class Main {
 
 	private static long getTickTime(Partita game) {
 		long tick = 1000;
-		if(game.getLivello()==1) {
+		if(game.getGameSpeed()==1) {
 			tick = TICK_TIME_EASY;
-		} else if(game.getLivello()==2) {
+		} else if(game.getGameSpeed()==2) {
 			tick = TICK_TIME_MEDIUM;
-		} else if(game.getLivello()==3) {
+		} else if(game.getGameSpeed()==3) {
 			tick = TICK_TIME_HARD;
 		}
 		return tick;

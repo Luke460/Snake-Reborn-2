@@ -28,7 +28,7 @@ public class Partita {
 	private String nomePlayer1;
 	private Mappa mappa;
 	private boolean ilGiocatoreHaFattoLaMossa;
-	private int livello;
+	private int gameSpeed;
 	private int vecchioRecord;
 	private UserLocal userLocal;
 	private boolean ospite;
@@ -110,12 +110,12 @@ public class Partita {
 		return count;
 	}
 
-	public int getLivello() {
-		return livello;
+	public int getGameSpeed() {
+		return gameSpeed;
 	}
 
-	public void setLivello(int livello) {
-		this.livello = livello;
+	public void setGameSpeed(int gameSpeed) {
+		this.gameSpeed = gameSpeed;
 	}
 
 	public int getVecchioRecord() {

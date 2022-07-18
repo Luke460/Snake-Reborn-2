@@ -77,14 +77,12 @@ public class ConfigurationManager {
 		}
 	}
 
-	public String readSetting(String key) throws IOException {
-		this.readFile();
+	public String getSetting(String key) throws IOException {
 		return this.settings.get(key);
 	}
 	
-	public void saveSetting(String key, String value) throws IOException {
+	public void updateSetting(String key, String value) throws IOException {
 		this.settings.put(key, value);
-		this.updateFile();
 	}
 
 }

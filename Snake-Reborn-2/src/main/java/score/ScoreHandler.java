@@ -9,18 +9,18 @@ public class ScoreHandler {
 
 	public static double getScoreMultiplier(Partita game) {
 		double aiMultiplier = 0;
-		if(game.getLivello()==1) {
+		if(game.getGameSpeed()==1) {
 			aiMultiplier = 0.2;
-		} else if(game.getLivello()==2) {
+		} else if(game.getGameSpeed()==2) {
 			aiMultiplier = 0.5;
-		} else if(game.getLivello()==3) {
+		} else if(game.getGameSpeed()==3) {
 			aiMultiplier = 1;
 		}
 		return aiMultiplier;
 	}
 
 	public static void sendScore(Partita game) {
-		if(game.getLivello()==3 && !game.isEndlessMode() && !game.isOspite()) {
+		if(game.getGameSpeed()==3 && !game.isEndlessMode() && !game.isOspite()) {
 			int nuovoRecord = game.getSerpentePlayer1().getTotalSnakeScorePreDeath();
 			InviaPunteggio inviatore = new InviaPunteggio(game);
 			inviatore.start();
