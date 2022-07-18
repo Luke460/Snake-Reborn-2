@@ -4,7 +4,7 @@
 
 	<groupId>groupId</groupId>
 	<artifactId>Snake-Reborn-2</artifactId>
-	<version>1.10-SNAPSHOT</version>
+	<version>1.11-SNAPSHOT</version>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
