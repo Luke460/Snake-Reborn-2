@@ -158,7 +158,6 @@ public class ClientWindow extends JFrame{
 	private void createPanels() {
 		
 		Dimension textFieldSize = new Dimension(220, 28);
-		Dimension labelSize = new Dimension(70, 28);
 		usernamePanel = new JPanel();
 		passwordPanel = new JPanel();
 		loginContainerPanel = new JPanel();
@@ -173,15 +172,13 @@ public class ClientWindow extends JFrame{
 		loginTitleLabel.setFont(bigFont);
 		settingsTitleLabel = new JLabel("Settings:");
 		settingsTitleLabel.setFont(bigFont);
-		usernameLabel = new JLabel("Username");
+		usernameLabel = new JLabel("Username ");
 		usernameLabel.setFont(smallFont);
-		usernameLabel.setPreferredSize(labelSize);
 		usernameTextField = new JTextField();
 		usernameTextField.setFont(smallFont);
 		usernameTextField.setPreferredSize(textFieldSize);
-		passwordLabel = new JLabel("Password");
+		passwordLabel = new JLabel("Password ");
 		passwordLabel.setFont(smallFont);
-		passwordLabel.setPreferredSize(labelSize);
 		passwordTextField = new JPasswordField();
 		passwordTextField.setFont(smallFont);
 		passwordTextField.setPreferredSize(textFieldSize);
