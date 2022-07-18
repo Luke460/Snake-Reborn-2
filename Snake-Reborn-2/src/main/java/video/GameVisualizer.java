@@ -27,7 +27,7 @@ public class GameVisualizer extends JPanel {
 	static final private long serialVersionUID = 0L;
 	static final public int DEFAULT_FONT_SIZE = 12;
 	static final public int VK_HEARTBEAT = VK_SHIFT;
-	static final private String END_GAME_MESSAGE = "STATISTICHE PARTITA";
+	static final private String END_GAME_MESSAGE = "MATCH RESULTS";
 
 	int cellSize;
 	final private JFrame frame;
@@ -45,7 +45,7 @@ public class GameVisualizer extends JPanel {
 	private boolean interfaceEnabled;
 
 	public GameVisualizer() {
-		this.frame = new JFrame("Snake Reborn");
+		this.frame = new JFrame("Snake Reborn 2");
 		this.frameBackground = Color.black;
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setBackground(Color.BLACK);
@@ -166,11 +166,11 @@ public class GameVisualizer extends JPanel {
 
 	private void drawStatisticsOnGameFrame(Graphics g) {
 		String kd =       "  K/D: " + this.match.getKillsNumber() + "/" + this.match.getDeathsNumber();
-		String streak =   "        Serie: " + this.match.getBestKillingStreak();
-		String food =     "        Cibo: " + this.match.getTotalFoodTaken();
-		String score =    "        Punteggio: " + this.match.getFinalScore();
-		String position = "        Posizione: " + this.match.getFinalLeaderboardPosition();
-		this.frame.setTitle(kd + streak + food + score + position);
+		String spree =    "        Killing Spree: " + this.match.getBestKillingSpree();
+		String food =     "        Food: " + this.match.getTotalFoodTaken();
+		String score =    "        Score: " + this.match.getFinalScore();
+		String position = "        Position: " + this.match.getFinalLeaderboardPosition();
+		this.frame.setTitle(kd + spree + food + score + position);
 	}
 	
 	private void drawEndGameStatisticsOnScreen(Graphics g) {

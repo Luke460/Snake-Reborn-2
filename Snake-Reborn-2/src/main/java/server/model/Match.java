@@ -6,7 +6,7 @@ public class Match {
 	private Date date;
 	private int killsNumber;
 	private int deathsNumber;
-	private int bestKillingStreak;
+	private int bestKillingSpree;
 	private int totalFoodTaken;
 	private int finalScore;
 	private int finalLeaderboardPosition;
@@ -37,12 +37,12 @@ public class Match {
 		this.deathsNumber = deathsNumber;
 	}
 
-	public int getBestKillingStreak() {
-		return bestKillingStreak;
+	public int getBestKillingSpree() {
+		return bestKillingSpree;
 	}
 
-	public void setBestKillingStreak(int bestKillingStreak) {
-		this.bestKillingStreak = bestKillingStreak;
+	public void setBestKillingSpree(int bestKillingSpree) {
+		this.bestKillingSpree = bestKillingSpree;
 	}
 
 	public int getTotalFoodTaken() {

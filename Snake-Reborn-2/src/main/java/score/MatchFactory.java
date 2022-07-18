@@ -29,7 +29,7 @@ public class MatchFactory {
 		m.setDate(new Date());
 		m.setKillsNumber(p1.getKillsNumber());
 		m.setDeathsNumber(p1.getDeathsNumber());
-		m.setBestKillingStreak(p1.getBestGameKillingStreak());
+		m.setBestKillingSpree(p1.getBestGameKillingStreak());
 		m.setTotalFoodTaken(p1.getTotalFoodTaken());
 		m.setFinalScore(p1.getTotalSnakeScoreLifeStatusAdjusted());
 		m.setFinalLeaderboardPosition(game.getPlayerPosition());

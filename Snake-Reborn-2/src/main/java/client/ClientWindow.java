@@ -72,7 +72,7 @@ public class ClientWindow extends JFrame{
 	private ArrayList<String> mapList;
 
 	public ClientWindow() throws IOException {
-		super("Snake Reborn");
+		super("Snake Reborn 2");
 		client = new Client();
 		mapList = support.FileHandler.getFolderList(constants.GeneralConstants.MAPS_PATH);
 		createPanels();
@@ -95,7 +95,7 @@ public class ClientWindow extends JFrame{
 
 	private void setupWindowSize() {
 		this.pack();
-		Dimension d = new Dimension(460,400);
+		Dimension d = new Dimension(480,420);
 		this.setSize(d);
 		this.setMinimumSize(d);
 		this.setResizable(true);
@@ -122,36 +122,43 @@ public class ClientWindow extends JFrame{
 
 	private void updateConfigurationFile() throws IOException {
 		ConfigurationManager cm = new ConfigurationManager();
-		cm.updateSetting(ConfigFileConstants.EFFETTI, Boolean.toString(soundEffectsCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.VOLUME_EFFETTI, Integer.toString(soundEffectsVolumeSlider.getValue()));
-		cm.updateSetting(ConfigFileConstants.MUSICA, Boolean.toString(musicCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.VOLUME_MUSICA, Integer.toString(musicVolumeSlider.getValue()));
+		cm.updateSetting(ConfigFileConstants.ENABLE_SOUND_EFFECTS, Boolean.toString(soundEffectsCheckBox.isSelected()));
+		cm.updateSetting(ConfigFileConstants.SOUND_EFFECTS_VOLUME, Integer.toString(soundEffectsVolumeSlider.getValue()));
+		cm.updateSetting(ConfigFileConstants.ENABLE_MUSIC, Boolean.toString(musicCheckBox.isSelected()));
+		cm.updateSetting(ConfigFileConstants.MUSIC_VOLUME, Integer.toString(musicVolumeSlider.getValue()));
 		cm.updateSetting(ConfigFileConstants.USERNAME, usernameTextField.getText());
-		cm.updateSetting(ConfigFileConstants.NOME_MAPPA, (String)mapComboBox.getSelectedItem());
-		cm.updateSetting(ConfigFileConstants.MOSTRA_INTERFACCIA, Boolean.toString(showInterfaceCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.GRAFICA_SEMPLIFICATA, Boolean.toString(lowGraphicModeCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.GIOCO_SENZA_FINE, Boolean.toString(endlessModeCheckBox.isSelected()));
+		cm.updateSetting(ConfigFileConstants.MAP_NAME, (String)mapComboBox.getSelectedItem());
+		cm.updateSetting(ConfigFileConstants.SHOW_INTERFACE, Boolean.toString(showInterfaceCheckBox.isSelected()));
+		cm.updateSetting(ConfigFileConstants.LOW_GRAPHIC_MODE, Boolean.toString(lowGraphicModeCheckBox.isSelected()));
+		cm.updateSetting(ConfigFileConstants.ENDLESS_MODE, Boolean.toString(endlessModeCheckBox.isSelected()));
 		cm.updateFile();
 	}
 
 	private void initPanelsFromConfigFile() throws IOException {
 		ConfigurationManager cm = new ConfigurationManager();
-		cm.readFile();
-		soundEffectsCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.EFFETTI)));
-		soundEffectsVolumeSlider.setValue(Integer.parseInt(cm.getSetting(ConfigFileConstants.VOLUME_EFFETTI)));
-		musicCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.MUSICA)));
-		musicVolumeSlider.setValue(Integer.parseInt(cm.getSetting(ConfigFileConstants.VOLUME_MUSICA)));
-		usernameTextField.setText(cm.getSetting(ConfigFileConstants.USERNAME));
-		mapComboBox.setSelectedItem(cm.getSetting(ConfigFileConstants.NOME_MAPPA));
-		showInterfaceCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.MOSTRA_INTERFACCIA)));
-		lowGraphicModeCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.GRAFICA_SEMPLIFICATA)));
-		endlessModeCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.GIOCO_SENZA_FINE)));
-		gameSpeedComboBox.setSelectedIndex(2);
+		try {
+			cm.readFile();
+			soundEffectsCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.ENABLE_SOUND_EFFECTS)));
+			soundEffectsVolumeSlider.setValue(Integer.parseInt(cm.getSetting(ConfigFileConstants.SOUND_EFFECTS_VOLUME)));
+			musicCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.ENABLE_MUSIC)));
+			musicVolumeSlider.setValue(Integer.parseInt(cm.getSetting(ConfigFileConstants.MUSIC_VOLUME)));
+			usernameTextField.setText(cm.getSetting(ConfigFileConstants.USERNAME));
+			mapComboBox.setSelectedItem(cm.getSetting(ConfigFileConstants.MAP_NAME));
+			showInterfaceCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.SHOW_INTERFACE)));
+			lowGraphicModeCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.LOW_GRAPHIC_MODE)));
+			endlessModeCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.ENDLESS_MODE)));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Cannot read stored settings, loading default values.");
+			soundEffectsCheckBox.setSelected(true);
+			musicCheckBox.setSelected(true);
+			showInterfaceCheckBox.setSelected(true);
+		}
 	}
 
 	private void createPanels() {
-		Dimension textFieldSize = new Dimension(300, 26);
-		Dimension labelSize = new Dimension(70, 26);
+		
+		Dimension textFieldSize = new Dimension(220, 28);
+		Dimension labelSize = new Dimension(70, 28);
 		usernamePanel = new JPanel();
 		passwordPanel = new JPanel();
 		loginContainerPanel = new JPanel();
@@ -160,35 +167,59 @@ public class ClientWindow extends JFrame{
 		loginMessagePanel =  new JPanel();
 		settingsMessagePanel =  new JPanel();
 		loginTitleLabel = new JLabel("Login:");
-		loginTitleLabel.setFont(new Font(loginTitleLabel.getFont().getFontName(), 2, 18));
-		settingsTitleLabel = new JLabel("Impostazioni:");
-		settingsTitleLabel.setFont(new Font(loginTitleLabel.getFont().getFontName(), 2, 18));
+		Font bigFont = (new Font(loginTitleLabel.getFont().getFontName(), 2, 18));
+		Font mediumFont = (new Font(loginTitleLabel.getFont().getFontName(), 1, 15));
+		Font smallFont = (new Font(loginTitleLabel.getFont().getFontName(), 0, 13));
+		loginTitleLabel.setFont(bigFont);
+		settingsTitleLabel = new JLabel("Settings:");
+		settingsTitleLabel.setFont(bigFont);
 		usernameLabel = new JLabel("Username");
+		usernameLabel.setFont(smallFont);
 		usernameLabel.setPreferredSize(labelSize);
-		usernameTextField = new JTextField(20);
+		usernameTextField = new JTextField();
+		usernameTextField.setFont(smallFont);
 		usernameTextField.setPreferredSize(textFieldSize);
 		passwordLabel = new JLabel("Password");
+		passwordLabel.setFont(smallFont);
 		passwordLabel.setPreferredSize(labelSize);
-		passwordTextField = new JPasswordField(20);
+		passwordTextField = new JPasswordField();
+		passwordTextField.setFont(smallFont);
 		passwordTextField.setPreferredSize(textFieldSize);
 		
-		gameSpeedLabel=new JLabel(" Velocità gioco:");
-		mapLabel=new JLabel(" Mappa:");
-		soundEffectsCheckBox = new JCheckBox("Effetti sonori");
+		gameSpeedLabel = new JLabel(" Game Speed:");
+		gameSpeedLabel.setFont(smallFont);
+		mapLabel=new JLabel(" Map Selection:");
+		mapLabel.setFont(smallFont);
+		soundEffectsCheckBox = new JCheckBox("Enable Sound Effects");
+		soundEffectsCheckBox.setFont(smallFont);
 		soundEffectsVolumeSlider = new JSlider(0, 100, 50);
-		musicCheckBox = new JCheckBox("Musica di sottofondo");
+		soundEffectsVolumeSlider.setMinorTickSpacing(5);
+		soundEffectsVolumeSlider.setSnapToTicks(true);
+		musicCheckBox = new JCheckBox("Enable Music");
+		musicCheckBox.setFont(smallFont);
 		musicVolumeSlider = new JSlider(0, 100, 50);
-		String[] speedArray = {"bassa", "media", "alta*"}; 
+		musicVolumeSlider.setMinorTickSpacing(5);
+		musicVolumeSlider.setSnapToTicks(true);
+		String[] speedArray = {"slow", "medium", "competitive*"}; 
 		gameSpeedComboBox = new JComboBox<String>(speedArray);
+		gameSpeedComboBox.setFont(smallFont);
+		gameSpeedComboBox.setSelectedIndex(2);
 		String[] mapArray = mapList.toArray(new String[mapList.size()]);
 		mapComboBox = new JComboBox<String>(mapArray);
-		showInterfaceCheckBox = new JCheckBox("Mostra interfaccia");
-		lowGraphicModeCheckBox = new JCheckBox("Grafica semplificata");
-		endlessModeCheckBox = new JCheckBox("Modalità senza fine");
-		validScoreLabel = new JLabel("      *Punteggio valido");
+		mapComboBox.setFont(smallFont);
+		showInterfaceCheckBox = new JCheckBox("Show Interface");
+		showInterfaceCheckBox.setFont(smallFont);
+		lowGraphicModeCheckBox = new JCheckBox("Low Graphic Mode");
+		lowGraphicModeCheckBox.setFont(smallFont);
+		endlessModeCheckBox = new JCheckBox("Endless Mode");
+		endlessModeCheckBox.setFont(smallFont);
+		validScoreLabel = new JLabel("      *Valid Online Score");
+		validScoreLabel.setFont(smallFont);
 
-		loginAndPlayButton=new JButton("Accedi e gioca");
-		playAsGuestButton=new JButton("Gioca come playAsGuestButton");
+		loginAndPlayButton=new JButton("Login and Play");
+		loginAndPlayButton.setFont(mediumFont);
+		playAsGuestButton=new JButton("Play as a Guest");
+		playAsGuestButton.setFont(mediumFont);
 	}
 
 	private void linkPanels() {
@@ -267,8 +298,8 @@ public class ClientWindow extends JFrame{
 			if (src == loginAndPlayButton){
 				if(usernameTextField.getText().equals("")||passwordTextField.getText().equals("")){
 					JOptionPane.showMessageDialog(null, 
-							"                   Inserisci Username e Password."
-									+ "\nNon sei registrato? Registrati gratuitamente sul sito ufficiale!");
+							"                   Enter username and password."
+									+ "\nNot registered? Register for free on the official website!");
 				} else {
 					UserLocal userLocal = new UserLocal();
 					userLocal.setUsername(usernameTextField.getText());
@@ -280,8 +311,8 @@ public class ClientWindow extends JFrame{
 
 						if(!autenticato){
 							JOptionPane.showMessageDialog(null, 
-									"           Combinazione Username/Password errata. "
-											+ "\nNon sei registrato? Registrati gratuitamente sul sito ufficiale!");
+									"           Wrong username or password. "
+											+ "\nNot registered? Register for free on the official website!");
 						} else { // successo, sono autenticato
 							game.setOspite(false);
 							setActionRequired(true);
@@ -289,7 +320,7 @@ public class ClientWindow extends JFrame{
 					} catch (Exception e3){
 						autenticato = false;
 						JOptionPane.showMessageDialog(null, 
-								"Non e' possibile contattare il server, controlla la tua connessione.");
+								"Unable to connect to the server, please check your internet connection.");
 						e3.printStackTrace();
 					}
 
