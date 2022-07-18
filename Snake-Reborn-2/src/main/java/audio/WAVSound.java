@@ -48,12 +48,11 @@ public class WAVSound{
 		this.clip.start();
 	}
 	
-	@SuppressWarnings("static-access")
 	public void loopClip() {
 		if (this.clip==null) return;
 		this.clip.stop();
 		this.clip.setFramePosition(0);
-		this.clip.loop(clip.LOOP_CONTINUOUSLY);
+		this.clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
 	public void stopClip() {

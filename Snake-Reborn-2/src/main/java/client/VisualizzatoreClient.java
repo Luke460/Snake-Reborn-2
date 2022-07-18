@@ -107,9 +107,9 @@ public class VisualizzatoreClient extends JFrame{
 
 	public void leggiImpostazioniDaUI() throws IOException {
 		aggiornaFileImpostazioni();
-		SoundManager.inizzializzaSuoni(volumeEffetti.getValue(), volumeMusica.getValue());
-		SoundManager.setEffettiAbilitati(opzEffetti.isSelected());
-		SoundManager.setMusicSoundEnabled(opzMusica.isSelected());
+		SoundManager.soundInitialization(volumeEffetti.getValue(), volumeMusica.getValue());
+		SoundManager.enableSoundEffects(opzEffetti.isSelected());
+		SoundManager.enableMusic(opzMusica.isSelected());
 		partita.setLivello(selettoreLivello.getSelectedIndex()+1);
 		partita.setMapFileName(listaFileMappe.get(selettoreMappa.getSelectedIndex()));
 		partita.setShowInterface(showInterface.isSelected());

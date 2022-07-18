@@ -17,17 +17,19 @@ public class SoundManager {
 	private static WAVSound endSound;
 	private static WAVSound alertSound;
 
-	public static void inizzializzaSuoni(int effectsVolume, int musicVolume){
+	public static void soundInitialization(int effectsVolume, int musicVolume){
+		//effects
 		slainSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"slain.wav", effectsVolume);
 		spawnSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"spawn.wav", effectsVolume);
 		ExplodeSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"explode.wav", effectsVolume);
 		takeSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"take.wav", effectsVolume);
-		musicSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"music.wav", musicVolume);
 		endSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"end.wav", effectsVolume);
-		alertSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"alert.wav", effectsVolume/3);
+		alertSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"alert.wav", effectsVolume/3); //lower volume
+		//music
+		musicSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"music.wav", musicVolume);
 	}
 
-	public static void playMusicaInLoop(){
+	public static void playMusicLoop(){
 		if(musicSoundEnabled) musicSound.loopClip();
 	}
 	
@@ -51,23 +53,15 @@ public class SoundManager {
 		if(effectsSoundEnabled) endSound.playClip();
 	}
 	
-	public static void playAlertSoundInLoop(){
+	public static void playAlertSoundLoop(){
 		if(effectsSoundEnabled) alertSound.loopClip();
 	}
 
-	public static boolean isEffettiAbilitati() {
-		return effectsSoundEnabled;
-	}
-
-	public static void setEffettiAbilitati(boolean b) {
+	public static void enableSoundEffects(boolean b) {
 		effectsSoundEnabled = b;
 	}
 
-	public static boolean isMusicSoundEnabled() {
-		return musicSoundEnabled;
-	}
-
-	public static void setMusicSoundEnabled(boolean b) {
+	public static void enableMusic(boolean b) {
 		musicSoundEnabled = b;
 	}
 

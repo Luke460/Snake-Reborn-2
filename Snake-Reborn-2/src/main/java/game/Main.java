@@ -65,7 +65,7 @@ public class Main {
 		// SuppressWarnings perchè il compilatore e' stupido
 		GestoreComandi gestoreComandi = new GestoreComandi(game, gameWindow);
 		game.setGestoreComandi(gestoreComandi);
-		SoundManager.playMusicaInLoop();
+		SoundManager.playMusicLoop();
 		cominciaIlGioco(game, gameWindow);
 		SoundManager.stopAlert();
 		SoundManager.stopMusic();
@@ -165,7 +165,7 @@ public class Main {
 				secondsLeft = endSecond - currentSecond;
 				if(secondsLeft<=10 && game.isEndGameAlert()) {
 					game.setEndGameAlert(false);
-					SoundManager.playAlertSoundInLoop();
+					SoundManager.playAlertSoundLoop();
 				}
 			}
 		}
