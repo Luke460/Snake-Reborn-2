@@ -166,9 +166,9 @@ public class ClientWindow extends JFrame{
 		loginMessagePanel =  new JPanel();
 		settingsMessagePanel =  new JPanel();
 		loginTitleLabel = new JLabel("Login:");
-		Font bigFont = (new Font(loginTitleLabel.getFont().getFontName(), 2, 18));
-		Font mediumFont = (new Font(loginTitleLabel.getFont().getFontName(), 1, 15));
-		Font smallFont = (new Font(loginTitleLabel.getFont().getFontName(), 0, 13));
+		Font bigFont = (new Font(loginTitleLabel.getFont().getFontName(), Font.ITALIC, 18));
+		Font mediumFont = (new Font(loginTitleLabel.getFont().getFontName(), Font.PLAIN, 15));
+		Font smallFont = (new Font(loginTitleLabel.getFont().getFontName(), Font.PLAIN, 13));
 		loginTitleLabel.setFont(bigFont);
 		settingsTitleLabel = new JLabel("Settings:");
 		settingsTitleLabel.setFont(bigFont);

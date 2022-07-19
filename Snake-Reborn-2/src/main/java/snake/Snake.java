@@ -287,7 +287,7 @@ public abstract class Snake {
 		// direzione casuale
 		Direction direzioneSerpente = getBestSpawnDirection(posizionePrimaCasella, stanza);
 		this.setDirezione(direzioneSerpente);
-		Direction direzioneCreazioneCaselle = direzioneSerpente.getInversa();
+		Direction direzioneCreazioneCaselle = direzioneSerpente.getReverse();
 		// creo la testa del serpente
 		this.setCaselle(new LinkedList<Casella>());
 		this.setUltimaStanza(stanza);

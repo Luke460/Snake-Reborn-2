@@ -30,51 +30,38 @@ public class GestoreComandi {
 
 	public void goUpP1() {
 		Snake serpente = partita.getSerpentePlayer1();
-		Direction dir = serpente.getDirezione();
-		if(!dir.getDir().equals(Direction.Dir.DOWN)) {
-			dir.setDir(Direction.Dir.UP);
+		if(serpente.getHP()==1 || !serpente.getDirezione().getDir().equals(Direction.Dir.DOWN)) {
+			serpente.getDirezione().setDir(Direction.Dir.UP);
 		}
 	}
 
 	public  void goDownP1() {
-
 		Snake serpente = partita.getSerpentePlayer1();
-		Direction dir = serpente.getDirezione();
-		if(!dir.getDir().equals(Direction.Dir.UP)) {
-			dir.setDir(Direction.Dir.DOWN);
+		if(serpente.getHP()==1 || !serpente.getDirezione().getDir().equals(Direction.Dir.UP)) {
+			serpente.getDirezione().setDir(Direction.Dir.DOWN);
 		}	
 	}
 
 	public  void goLeftP1() {
-
 		Snake serpente = partita.getSerpentePlayer1();
-		Direction dir = serpente.getDirezione();
-		if(!dir.getDir().equals(Direction.Dir.RIGHT)) {
-			dir.setDir(Direction.Dir.LEFT);
+		if(serpente.getHP()==1 || !serpente.getDirezione().getDir().equals(Direction.Dir.RIGHT)) {
+			serpente.getDirezione().setDir(Direction.Dir.LEFT);
 		}		
-
 	}
 
 	public  void goRightP1() {
-
 		Snake serpente =partita.getSerpentePlayer1();
-		Direction dir = serpente.getDirezione();
-		if(!dir.getDir().equals(Direction.Dir.LEFT)) {
-			dir.setDir(Direction.Dir.RIGHT);
+		if(serpente.getHP()==1 || !serpente.getDirezione().getDir().equals(Direction.Dir.LEFT)) {
+			serpente.getDirezione().setDir(Direction.Dir.RIGHT);
 		}		
-
 	}
 
 	public  void turnLeftP1() {
-
 		partita.getSerpentePlayer1().getDirezione().rotateToLeft();
-
 	}
 
 	public  void turnRightP1() {
-
 		partita.getSerpentePlayer1().getDirezione().rotateToRight();
-
 	}
 
 	public  void resuscitaPlayer1( ) {

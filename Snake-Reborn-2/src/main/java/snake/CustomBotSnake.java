@@ -21,6 +21,7 @@ public class CustomBotSnake extends Snake {
 	private Skill skill;
 	
 	private final static String FORWARD = "FORWARD";
+	private final static String BACK = "BACK";
 	private final static String RIGHT = "RIGHT";
 	private final static String LEFT = "LEFT";
 	
@@ -88,6 +89,9 @@ public class CustomBotSnake extends Snake {
 		direzioni.put(FORWARD, super.getDirezione());
 		direzioni.put(RIGHT, super.getDirezione().getRotatedRightDirection());
 		direzioni.put(LEFT, super.getDirezione().getRotatedLeftDirection());
+		if(this.getHP()==1) {
+			direzioni.put(BACK, super.getDirezione().getReverse());
+		}
 		
 		direzioni = rimuoviCelleMuro(direzioni);
 		

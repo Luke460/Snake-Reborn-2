@@ -91,7 +91,7 @@ public class Direction {
 		this.rotateToRight();
 	}
 	
-	public Direction getInversa() {
+	public Direction getReverse() {
 		Direction dir = new Direction(this.getDir());
 		dir.rotateToRight();
 		dir.rotateToRight();

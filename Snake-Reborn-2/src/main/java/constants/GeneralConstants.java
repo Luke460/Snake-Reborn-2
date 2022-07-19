@@ -38,7 +38,7 @@ public interface GeneralConstants {
 	
 	public static final int GAME_LENGTH_IN_SECONDS = 300;
 	
-	public static final int VITA_SERPENTE_DEFAULT = 2;
+	public static final int VITA_SERPENTE_DEFAULT = 1;
 	static final public int VITA_SERPENTE_MASSIMA = 40;
 	
 	static final public int SNAKE_HP_FOR_BONUS_FOOD = 10;
