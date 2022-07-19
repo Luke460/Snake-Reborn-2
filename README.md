@@ -24,26 +24,17 @@
 ---
 
 # *Snake Reborn 2* 
-*Un gioco ispirato al celebre Snake*.
+*A game inspired by the famous Snake*.
 
 ---
 
-Il gioco si svolge all'interno di una mappa (l'utente potrà scegliere tra le mappe disponibili o crearne di nuove), dove il giocatore dovrà cercare di sopravvivere il più a lungo possibile guadagnando punti e uccidendo avversari.
-
-Ci sono 4 tipi di bot: verdi, arancioni, rossi e viola con difficoltà crescente.
-
-Il giocatore deve raccogliere il cibo all'interno della mappa e tentare di uccidere i vari bot per rubare il cibo da loro preso (anche i bot potranno fare lo stesso nei confronti del giocatore). I serpenti con più di 10 HP rilasciano cibo bonus.
-
-Per uccidere un serpente è necessario tagliargli la strada.
-
-Sono state implementate 2 diverse configurazioni di comandi (dettagli nel file README).
+The game takes place within one of the available maps, but the user will also have the opportunity to create new ones. 
+Each game lasts 5 minutes and the player will have to try to be in the first position at the end of this time. Points can be earned by eating food or killing other players (who will drop a portion of their food). With each death you will lose half of the points obtained, so it is very important to pay attention at the end of the game.
 
 ---
 
-Per giocare **online** è necessario:
-
-   * aprire la cartella "config"
-   * inserire l'indirizzo del server nel file "index.ini" (disponibile a breve)
-   * inserire il nome del server nel file "server.ini" (disponibile a breve)
+To play **online** you need to: 
+ - open the "config" folder and enter the server address in the "index.ini" file (coming soon)
+ - enter the name of the server in the file "server.ini" (coming soon)
 
 ---
