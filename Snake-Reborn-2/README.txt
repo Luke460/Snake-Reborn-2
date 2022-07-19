@@ -4,7 +4,7 @@
 ---
 
 The game takes place within one of the available maps, but the user will also have the opportunity to create new ones. 
-Each game lasts 5 minutes and the player will have to try to be in the first position at the end of this time. Points can be earned by eating food or killing other players (who will drop a portion of their food). With each death you will lose half of the points obtained, so it is very important to pay attention at the end of the game.
+Each game lasts 5 minutes and the player will have to try to be in the first position at the end of this time. Points can be earned by eating food or killing other players (which will also drop a portion of their food). With each death, you will lose half of the points obtained, so it is very important to pay attention at the end of the game.
 
 ---
 
