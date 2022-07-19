@@ -34,7 +34,36 @@ Each game lasts 5 minutes and the player will have to try to be in the first pos
 ---
 
 To play **online** you need to: 
- - open the "config" folder and enter the server address in the "index.ini" file (coming soon)
+ - open the "config" folder
+ - enter the server address in the "index.ini" file (coming soon)
  - enter the name of the server in the file "server.ini" (coming soon)
 
 ---
+
+***Minimum requirements:***
+
+ - Operative System at 32 or 64 bit
+ - Java 8 or later
+ - 800 MHz CPU
+ - 250 MB of free RAM
+ - 30 MB of free storage
+
+---
+
+***Commands:***
+
+ - enter -> respawn
+ - esc -> back to menu
+
+ - up arrow    -> go up
+ - down arrow  -> go down
+ - right arrow -> go right
+ - left arrow  -> go left
+
+ - W -> go up
+ - A -> go left
+ - S -> go down
+ - D -> go right
+ - E -> rotate right
+ - Q -> rotate left
+
