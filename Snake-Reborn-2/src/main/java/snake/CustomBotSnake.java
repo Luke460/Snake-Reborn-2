@@ -89,9 +89,6 @@ public class CustomBotSnake extends Snake {
 		direzioni.put(FORWARD, super.getDirezione());
 		direzioni.put(RIGHT, super.getDirezione().getRotatedRightDirection());
 		direzioni.put(LEFT, super.getDirezione().getRotatedLeftDirection());
-		if(this.getHP()==1) {
-			direzioni.put(BACK, super.getDirezione().getReverse());
-		}
 		
 		direzioni = rimuoviCelleMuro(direzioni);
 		
