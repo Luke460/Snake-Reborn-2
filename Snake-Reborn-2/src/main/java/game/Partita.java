@@ -55,12 +55,10 @@ public class Partita {
 		if(!ospite)this.vecchioRecord = ScoreHandler.getRecord(this);
 		this.nomePlayer1 = NOME_PLAYER_1;
 		this.endGameAlert = true;
-		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
 		//Just for test
-		//Skill skill = new Skill(100,100,100,100);
-		//CustomBotSnake testSnake = new CustomBotSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
-		//testSnake.setSkill(skill);
+		//CustomBotSnake testSnake = new CustomBotSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this, new Skill(100,100,100,100));
 		//this.serpentePlayer1 = testSnake;
+		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
 		this.serpenti.put(this.nomePlayer1, this.serpentePlayer1);
 		this.serpenti.putAll(SnakeSpawnManager.createBotSnakes(this));
 		for(Snake snake:this.serpenti.values()) {

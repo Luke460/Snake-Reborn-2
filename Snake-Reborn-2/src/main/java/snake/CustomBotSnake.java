@@ -89,6 +89,9 @@ public class CustomBotSnake extends Snake {
 		direzioni.put(FORWARD, super.getDirezione());
 		direzioni.put(RIGHT, super.getDirezione().getRotatedRightDirection());
 		direzioni.put(LEFT, super.getDirezione().getRotatedLeftDirection());
+		if(this.getHP()==1) {
+			direzioni.put(BACK, super.getDirezione().getReverse());
+		}
 		
 		direzioni = rimuoviCelleMuro(direzioni);
 		
@@ -265,9 +268,11 @@ public class CustomBotSnake extends Snake {
 	private HashMap<String, Direction> getDirezioniPortali(HashMap<String, Direction> direzioni) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
 		for(Entry<String, Direction> entry: direzioni.entrySet()) {
-			Stanza stanzaPortale = getStanzaDelPortaleInDirezione(this.getCasellaDiTesta(), entry.getValue(), DIMENSIONE_STANZA_DEFAULT);
-			if(stanzaPortale != null) {
-				availableDirections.put(entry.getKey(), entry.getValue());
+			if(!entry.getKey().equals(BACK)) {
+				Stanza stanzaPortale = getStanzaDelPortaleInDirezione(this.getCasellaDiTesta(), entry.getValue(), DIMENSIONE_STANZA_DEFAULT);
+				if(stanzaPortale != null) {
+					availableDirections.put(entry.getKey(), entry.getValue());
+				}
 			}
 		}
 		return availableDirections;
@@ -310,6 +315,8 @@ public class CustomBotSnake extends Snake {
 			return direzioni.get(RIGHT);
 		} else if (direzioni.containsKey(LEFT)){
 			return direzioni.get(LEFT);
+		} else if (direzioni.containsKey(BACK)){
+			return direzioni.get(BACK);
 		}
 		
 		return null;
