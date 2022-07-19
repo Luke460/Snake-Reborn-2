@@ -163,9 +163,9 @@ public class Main {
 		String message = null;
 		if(!p1.isVivo()) {
 			if(!p1.canRespawn()) {
-				message = "Resuscita in: " + p1.getRespawnSecondsLeft() + " secondi";
+				message = "Respawn in: " + p1.getRespawnSecondsLeft() + " seconds";
 			} else {
-				message = "Premi invio per resuscitare";
+				message = "Press ENTER to respawn";
 			}
 		}
 		MatchForGameVisualizer match = MatchFactory.buildMatchForGameVisualizer(game);
