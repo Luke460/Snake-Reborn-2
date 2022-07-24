@@ -12,6 +12,8 @@ public class User {
 	private Integer elo;
 	private Boolean promo;
 	
+	public User() {}
+	
 	public String getIdUser() {
 		return idUser;
 	}
@@ -58,6 +60,12 @@ public class User {
 	
 	public void setPromo(Boolean promo) {
 		this.promo = promo;
+	}
+
+	@Override
+	public String toString() {
+		return "User [idUser=" + idUser + ", username=" + username + ", email=" + email + ", rank=" + rank + ", elo="
+				+ elo + ", promo=" + promo + "]";
 	}
 	
 }

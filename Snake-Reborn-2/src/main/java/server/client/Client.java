@@ -43,7 +43,7 @@ public class Client {
 
 		String matchJson = jsonService.match2Json(match);
 
-		String playerJson = this.sendHttp("/client/addMatch", matchJson);
+		String playerJson = this.performHttpPost("/client/addMatch", matchJson);
 
 		return jsonService.json2Player(playerJson);
 	}
@@ -52,7 +52,7 @@ public class Client {
 
 		String credentialsJson = jsonService.credentials2Json(credentials);
 
-		String playerJson = this.sendHttp("/client/logUser", credentialsJson);
+		String playerJson = this.performHttpPost("/client/logUser", credentialsJson);
 
 		return jsonService.json2Player(playerJson);
 	}
@@ -72,7 +72,7 @@ public class Client {
 		return this.userLogged;
 	}
 
-	private String sendHttp(String function, String json) throws ClientProtocolException, IOException {
+	private String performHttpPost(String function, String json) throws ClientProtocolException, IOException {
 
 		String host = FileHandler.readFile(NOME_FILE_INDIRIZZO_SERVER);
 
@@ -101,8 +101,6 @@ public class Client {
 
 		InputStream is = response.getEntity().getContent();	    
 		responseGSon = IOUtils.toString(is, "UTF-8");
-
-
 
 		return responseGSon;
 	}

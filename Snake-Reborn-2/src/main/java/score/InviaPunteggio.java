@@ -4,9 +4,7 @@ import javax.swing.JOptionPane;
 
 import game.Partita;
 import server.model.Match;
-
-// la scrittura non deve interrompere l'esecuzione del gioco, 
-// meglio avviare un altro thread!
+import server.model.User;
 
 public class InviaPunteggio extends Thread {
 
@@ -19,7 +17,8 @@ public class InviaPunteggio extends Thread {
 	public void run() {
 		try {
 			Match match = MatchFactory.buildMatch(partita);
-			partita.getClient().addMatch(match);
+			User outputMessage = partita.getClient().addMatch(match);
+			System.out.println(outputMessage.toString());
 		} catch (Exception e4){
 			JOptionPane.showMessageDialog(null, 
 					"Non e' possibile contattare il server, controlla la tua connessione.");

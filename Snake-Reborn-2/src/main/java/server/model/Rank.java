@@ -15,6 +15,8 @@ public class Rank {
 	Integer fourthPositionPoints;
 	Integer fifthPositionPoints;
 	
+	public Rank() {}
+	
 	public String getIdRank() {
 		return idRank;
 	}
@@ -85,6 +87,14 @@ public class Rank {
 	
 	public void setFifthPositionPoints(Integer fifthPositionPoints) {
 		this.fifthPositionPoints = fifthPositionPoints;
+	}
+
+	@Override
+	public String toString() {
+		return "Rank [idRank=" + idRank + ", rankName=" + rankName + ", minElo=" + minElo + ", maxElo=" + maxElo
+				+ ", firstPositionPoints=" + firstPositionPoints + ", secondPositionPoints=" + secondPositionPoints
+				+ ", thirdPositionPoints=" + thirdPositionPoints + ", fourthPositionPoints=" + fourthPositionPoints
+				+ ", fifthPositionPoints=" + fifthPositionPoints + "]";
 	}
 	
 }

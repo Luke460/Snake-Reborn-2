@@ -98,5 +98,13 @@ public class Match {
 	public void setFinalLeaderboardPosition(int finalLeaderboardPosition) {
 		this.finalLeaderboardPosition = finalLeaderboardPosition;
 	}
+
+	@Override
+	public String toString() {
+		return "Match [idMatch=" + idMatch + ", idGame=" + idGame + ", version=" + version + ", date=" + date
+				+ ", killsNumber=" + killsNumber + ", deathsNumber=" + deathsNumber + ", bestKillingSpree="
+				+ bestKillingSpree + ", totalFoodTaken=" + totalFoodTaken + ", finalScore=" + finalScore
+				+ ", finalLeaderboardPosition=" + finalLeaderboardPosition + "]";
+	}
 	
 }
