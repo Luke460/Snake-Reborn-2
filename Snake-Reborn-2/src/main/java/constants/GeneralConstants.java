@@ -2,6 +2,8 @@ package constants;
 
 public interface GeneralConstants {
 
+	final static String GAME_VERSION = "alpha-0.1.0";
+	
 	final static String ROOMS_FOLDER_NAME = "rooms";
 	final static String MAPS_PATH = "maps";
 	final static String CELL_SETTINGS_FILE_NAME = "cell-settings";
@@ -36,7 +38,7 @@ public interface GeneralConstants {
 	public static final String SOLID_STATUS = "SL";
 	public static final String FOOD_STATUS = "FD";
 	
-	public static final int GAME_LENGTH_IN_SECONDS = 300;
+	public static final int GAME_LENGTH_IN_SECONDS = 1;
 	
 	public static final int VITA_SERPENTE_DEFAULT = 1;
 	static final public int VITA_SERPENTE_MASSIMA = 40;

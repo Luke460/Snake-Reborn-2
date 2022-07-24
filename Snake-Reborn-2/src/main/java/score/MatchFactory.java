@@ -7,7 +7,12 @@ import server.model.Match;
 import server.model.MatchForGameVisualizer;
 import snake.Snake;
 
+import static constants.GeneralConstants.GAME_VERSION;
+
 public class MatchFactory {
+	
+	private final static String MATCH_PREFIX = "match-";
+	private final static String GAME_PREFIX = "game-";
 	
 	public static Match buildMatch(Partita game){
 		Match m = new Match(); 
@@ -26,6 +31,10 @@ public class MatchFactory {
 	}
 	
 	private static void build(Partita game, Match m, Snake p1) {
+		long milliseconds = System.currentTimeMillis();
+		m.setIdMatch(MATCH_PREFIX + milliseconds);
+		m.setIdGame(GAME_PREFIX + milliseconds);
+		m.setVersion(GAME_VERSION);
 		m.setDate(new Date());
 		m.setKillsNumber(p1.getKillsNumber());
 		m.setDeathsNumber(p1.getDeathsNumber());
