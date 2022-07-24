@@ -1,9 +1,6 @@
 package score;
 
-import javax.swing.JOptionPane;
-
 import game.Partita;
-import server.client.Client;
 
 public class ScoreHandler {
 
@@ -21,21 +18,9 @@ public class ScoreHandler {
 
 	public static void sendScore(Partita game) {
 		if(game.getGameSpeed()==3 && !game.isEndlessMode() && !game.isOspite()) {
-			int nuovoRecord = game.getSerpentePlayer1().getTotalSnakeScorePreDeath();
 			InviaPunteggio inviatore = new InviaPunteggio(game);
 			inviatore.start();
-			game.setVecchioRecord(nuovoRecord);
 		}
 	}
 
-	public static int getRecord(Partita game) {
-		try{
-			Client c = game.getClient();
-			return c.getRecord();
-		} catch (Exception e4){
-			JOptionPane.showMessageDialog(null, 
-					"Non e' possibile contattare il server, controlla la tua connessione.");
-			return 0;
-		}
-	}
 }

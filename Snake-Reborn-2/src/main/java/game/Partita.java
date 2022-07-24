@@ -9,12 +9,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import commands.GestoreComandi;
+import commands.CommandHandler;
 import gamefield.Mappa;
 import gamefield.MappaManager;
 import gamefield.Stanza;
 import loaders.CaricatoreMappa;
-import score.ScoreHandler;
 import score.SnakeEndGameScoreComparator;
 import server.client.Client;
 import snake.PlayerSnake;
@@ -29,11 +28,10 @@ public class Partita {
 	private Mappa mappa;
 	private boolean ilGiocatoreHaFattoLaMossa;
 	private int gameSpeed;
-	private int vecchioRecord;
 	private UserLocal userLocal;
 	private boolean ospite;
 	private Client client;
-	private GestoreComandi gestoreComandi;
+	private CommandHandler commandHandler;
 	private boolean inGame;
 	private Stanza stanzaDiSpawn;
 	private String mapFileName;
@@ -52,7 +50,6 @@ public class Partita {
 	public void ImpostaPartita() throws IOException {
 		this.setMappa(CaricatoreMappa.caricaFile(mapFileName)); 
 		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpenti, null);
-		if(!ospite)this.vecchioRecord = ScoreHandler.getRecord(this);
 		this.nomePlayer1 = NOME_PLAYER_1;
 		this.endGameAlert = true;
 		//Just for test
@@ -67,7 +64,7 @@ public class Partita {
 	}
 
 	public void eseguiTurni() {
-		this.gestoreComandi.eseguiComando();
+		this.commandHandler.executeCommand();
 		Iterator<Snake> iteratore = this.getSerpenti().values().iterator();
 		while(iteratore.hasNext()){
 			Snake s = iteratore.next();
@@ -116,14 +113,6 @@ public class Partita {
 		this.gameSpeed = gameSpeed;
 	}
 
-	public int getVecchioRecord() {
-		return vecchioRecord;
-	}
-
-	public void setVecchioRecord(int vecchioRecord) {
-		this.vecchioRecord = vecchioRecord;
-	}
-
 	public boolean isIlGiocatoreHaFattoLaMossa() {
 		return ilGiocatoreHaFattoLaMossa;
 	}
@@ -156,8 +145,8 @@ public class Partita {
 		this.client = client;
 	}
 	
-	public void setGestoreComandi(GestoreComandi g) {
-		this.gestoreComandi = g;
+	public void setGestoreComandi(CommandHandler g) {
+		this.commandHandler = g;
 	}
 
 	public boolean isInGame() {
@@ -216,8 +205,8 @@ public class Partita {
 		this.startTimestamp = startTimestamp;
 	}
 
-	public GestoreComandi getGestoreComandi() {
-		return this.gestoreComandi;
+	public CommandHandler getGestoreComandi() {
+		return this.commandHandler;
 	}
 
 	public boolean isEndlessMode() {

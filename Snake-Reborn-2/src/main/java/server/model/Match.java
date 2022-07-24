@@ -1,8 +1,14 @@
 package server.model;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Match {
 
+	private String idMatch;
+	private String idGame;
+	private String version;
 	private Date date;
 	private int killsNumber;
 	private int deathsNumber;
@@ -12,6 +18,30 @@ public class Match {
 	private int finalLeaderboardPosition;
 	
 	public Match() {}
+
+	public String getIdMatch() {
+		return idMatch;
+	}
+
+	public void setIdMatch(String idMatch) {
+		this.idMatch = idMatch;
+	}
+
+	public String getIdGame() {
+		return idGame;
+	}
+
+	public void setIdGame(String idGame) {
+		this.idGame = idGame;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	public Date getDate() {
 		return date;

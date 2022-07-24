@@ -5,47 +5,59 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class User {
 
+	private String idUser;
 	private String username;
 	private String email;
-	private Integer highScore;
-	private Long playTime;
-	private Integer kills;
+	private String rank;
+	private Integer elo;
+	private Boolean promo;
+	
+	public String getIdUser() {
+		return idUser;
+	}
+	
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
 	
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getHighScore() {
-		return highScore;
-	}
-	public void setHighScore(int highScore) {
-		this.highScore = highScore;
-	}
-	public long getPlayTime() {
-		return playTime;
-	}
-	public void setPlayTime(long playTime) {
-		this.playTime = playTime;
-	}
-	public int getKills() {
-		return kills;
-	}
-	public void setKills(int kills) {
-		this.kills = kills;
+	
+	public String getRank() {
+		return rank;
 	}
 	
-	@Override
-	public String toString() {
-		String result = username + " " + email + " " + highScore + " " + playTime + " " + kills;
-		
-		return result;
+	public void setRank(String rank) {
+		this.rank = rank;
 	}
+	
+	public Integer getElo() {
+		return elo;
+	}
+	
+	public void setElo(Integer elo) {
+		this.elo = elo;
+	}
+	
+	public Boolean getPromo() {
+		return promo;
+	}
+	
+	public void setPromo(Boolean promo) {
+		this.promo = promo;
+	}
+	
 }

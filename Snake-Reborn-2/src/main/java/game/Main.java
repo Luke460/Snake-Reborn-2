@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 import audio.SoundManager;
 import client.ClientWindow;
-import commands.GestoreComandi;
+import commands.CommandHandler;
 import score.MatchFactory;
 import score.ScoreHandler;
 import server.model.MatchForGameVisualizer;
@@ -63,8 +63,8 @@ public class Main {
 	public static void avviaIlGioco(Partita game, GameVisualizer gameWindow) throws AWTException, InterruptedException, IOException {
 		// lancia un thread che legge i comandi, 
 		// SuppressWarnings perchè il compilatore e' stupido
-		GestoreComandi gestoreComandi = new GestoreComandi(game, gameWindow);
-		game.setGestoreComandi(gestoreComandi);
+		CommandHandler commandHandler = new CommandHandler(game, gameWindow);
+		game.setGestoreComandi(commandHandler);
 		SoundManager.playMusicLoop();
 		cominciaIlGioco(game, gameWindow);
 		SoundManager.stopAlert();
@@ -152,7 +152,7 @@ public class Main {
 		gameWindow.paintImmediately(gameWindowSize);
 		ScoreHandler.sendScore(game);
 		while(game.isInGame()) {
-			game.getGestoreComandi().eseguiComandoEndGame();
+			game.getGestoreComandi().executeCommandInLeaderboardWindow();
 			Thread.sleep(200);
 		}
 		gameWindow.setShowEndGameStatistics(false);

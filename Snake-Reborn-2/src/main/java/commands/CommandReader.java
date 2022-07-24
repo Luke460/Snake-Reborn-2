@@ -13,68 +13,60 @@ import static java.awt.event.KeyEvent.VK_W;
 import static java.awt.event.KeyEvent.VK_Q;
 import static java.awt.event.KeyEvent.VK_E;
 
-import static commands.GestoreComandi.*;
-
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Queue;
 
-import javax.swing.JFrame;
-
 import game.Partita;
 import video.GameVisualizer;
+import static commands.CommandHandler.*;
 
-public class LettoreComandi {
-	public Partita partita;
-	public int dimensioneCasella;
-	public JFrame finestra;
+public class CommandReader {
+	public Partita game;
 
+	public static void initControlliDaTastiera(GameVisualizer gameVisualizer, Queue<String> commandsSequence) {
 
-	public static void initControlliDaTastiera(GameVisualizer visualizzatore, Queue<String> sequenzaComandi) {
-
-		// Gestione eventi associati alla tastiera
-		visualizzatore.getFrame().addKeyListener(new KeyListener() {
+		gameVisualizer.getFrame().addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {}
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case VK_W:
-					sequenzaComandi.add(UP);
+					commandsSequence.add(UP);
 					break;
 				case VK_S:
-					sequenzaComandi.add(DOWN);
+					commandsSequence.add(DOWN);
 					break;
 				case VK_A:
-					sequenzaComandi.add(LEFT);
+					commandsSequence.add(LEFT);
 					break;
 				case VK_D:
-					sequenzaComandi.add(RIGHT);
+					commandsSequence.add(RIGHT);
 					break;
 				case VK_UP:
-					sequenzaComandi.add(UP);
+					commandsSequence.add(UP);
 					break;
 				case VK_DOWN:
-					sequenzaComandi.add(DOWN);
+					commandsSequence.add(DOWN);
 					break;
 				case VK_LEFT:
-					sequenzaComandi.add(LEFT);
+					commandsSequence.add(LEFT);
 					break;
 				case VK_RIGHT:
-					sequenzaComandi.add(RIGHT);
+					commandsSequence.add(RIGHT);
 					break;
 				case VK_Q:
-					sequenzaComandi.add(ROTATE_LEFT);
+					commandsSequence.add(ROTATE_LEFT);
 					break;
 				case VK_E:
-					sequenzaComandi.add(ROTATE_RIGHT);
+					commandsSequence.add(ROTATE_RIGHT);
 					break;
 				case VK_ENTER:
-					sequenzaComandi.add(RESPAWN);
+					commandsSequence.add(RESPAWN);
 					break;
 				case VK_ESCAPE:
-					sequenzaComandi.add(EXIT);
+					commandsSequence.add(EXIT);
 					break;
 				}
 			}
