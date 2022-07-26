@@ -1,12 +1,11 @@
 package loaders;
 
-import static constants.GeneralConstants.EST;
-import static constants.GeneralConstants.FILE_TYPE;
+import static constants.GeneralConstants.EAST;
 import static constants.GeneralConstants.MAPS_PATH;
-import static constants.GeneralConstants.NORD;
-import static constants.GeneralConstants.OVEST;
+import static constants.GeneralConstants.NORTH;
+import static constants.GeneralConstants.WEST;
 import static constants.GeneralConstants.ROOMS_FOLDER_NAME;
-import static constants.GeneralConstants.SUD;
+import static constants.GeneralConstants.SOUTH;
 import static constants.MapConstants.BACKGROUND_COLOR;
 import static constants.MapConstants.DARKER_CELL;
 import static constants.MapConstants.DARKER_CELL_STRING;
@@ -40,6 +39,7 @@ public class CaricatoreMappa {
 	
 	private static final String CELL_RENDER_BEGIN = "CELL_RENDER(";
 	private static final String CELL_RENDER_END = ")";
+	private static final String FILE_TYPE = ".txt";
 
 	public static Mappa caricaFile(String selectedMapFolder) throws IOException {		
 		HashMap<String, Stanza> stanze = new HashMap<>();	
@@ -150,19 +150,19 @@ public class CaricatoreMappa {
 	}
 
 	private static String getCollegamento(String collegamento) {
-		if(collegamento.equalsIgnoreCase("N"))return NORD;
-		if(collegamento.equalsIgnoreCase("E"))return EST;
-		if(collegamento.equalsIgnoreCase("S"))return SUD;
-		if(collegamento.equalsIgnoreCase("W"))return OVEST;
+		if(collegamento.equalsIgnoreCase("N"))return NORTH;
+		if(collegamento.equalsIgnoreCase("E"))return EAST;
+		if(collegamento.equalsIgnoreCase("S"))return SOUTH;
+		if(collegamento.equalsIgnoreCase("W"))return WEST;
 		return null;
 
 	}
 	
 	private static String getInversaCollegamento(String collegamento) {
-		if(collegamento.equals(NORD))return SUD;
-		if(collegamento.equals(EST))return OVEST;
-		if(collegamento.equals(SUD))return NORD;
-		if(collegamento.equals(OVEST))return EST;
+		if(collegamento.equals(NORTH))return SOUTH;
+		if(collegamento.equals(EAST))return WEST;
+		if(collegamento.equals(SOUTH))return NORTH;
+		if(collegamento.equals(WEST))return EAST;
 		return null;
 
 	}

@@ -49,8 +49,7 @@ public class MapFileManager {
 		boolean validLine=false;
 
 		for(char c:chars){
-			if (c!=END_FILE_CHAR){ // finche' il file non � finito...
-				// controllo
+			if (c!=END_FILE_CHAR){
 				if(c==START_LINE_CHAR){
 					line = new String();
 					validLine=true;
@@ -69,7 +68,6 @@ public class MapFileManager {
 						map.put(key, value);
 					}
 				}
-				// fine controllo
 				if(validLine && (c!=START_LINE_CHAR && c!=END_LINE_CHAR)){
 					line+=c;
 				}

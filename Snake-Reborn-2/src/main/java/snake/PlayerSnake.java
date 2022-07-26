@@ -5,7 +5,7 @@ import static constants.MapConstants.DARKER_CELL;
 import java.awt.Color;
 
 import audio.SoundManager;
-import game.Partita;
+import game.Game;
 import gamefield.Stanza;
 import video.CellRenderOption;
 
@@ -13,8 +13,8 @@ public class PlayerSnake extends Snake {
 	
 	public static final CellRenderOption CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.blue);
 
-	public PlayerSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
-		super(nome, stanza, vitaIniziale, partita);
+	public PlayerSnake(String nome, Stanza stanza, int vitaIniziale, Game game) {
+		super(nome, stanza, vitaIniziale, game);
 		this.setCellRenderOption(CELL_RENDER_OPTION);
 	}
 

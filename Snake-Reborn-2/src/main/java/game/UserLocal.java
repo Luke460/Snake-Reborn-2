@@ -1,7 +1,7 @@
 package game;
 
 public class UserLocal {
-	private String nomeUtente;
+	private String username;
 	private String password;
 	
 	public UserLocal(){
@@ -9,11 +9,11 @@ public class UserLocal {
 	}
 
 	public String getUsername() {
-		return this.nomeUtente;
+		return this.username;
 	}
 
-	public void setUsername(String nomeUtente) {
-		this.nomeUtente = nomeUtente;
+	public void setUsername(String username) {
+		this.username = username;
 	}	
 
 	public String getPassword() {

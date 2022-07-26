@@ -1,11 +1,11 @@
 package snake;
 
-import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
-import static constants.GeneralConstants.MOLTIPLICATORE_PUNTEGGIO_CIBO;
-import static constants.GeneralConstants.MOLTIPLICATORE_PUNTEGGIO_UCCISIONE;
-import static constants.GeneralConstants.NOME_PLAYER_1;
+import static constants.GeneralConstants.ROOM_SIZE;
+import static constants.GeneralConstants.FOOD_SCORE_MULTIPLIER;
+import static constants.GeneralConstants.KILL_SCORE_MULTIPLIER;
+import static constants.GeneralConstants.NAME_PLAYER_1;
 import static constants.GeneralConstants.SNAKE_RESPAWN_CD;
-import static constants.GeneralConstants.VITA_SERPENTE_MASSIMA;
+import static constants.GeneralConstants.MAX_HP;
 import static constants.MapConstants.DARKER_CELL;
 
 import java.awt.Color;
@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import audio.SoundManager;
-import game.Partita;
+import game.Game;
 import gamefield.Casella;
 import gamefield.CasellaManager;
 import gamefield.Direction;
@@ -43,7 +43,7 @@ public abstract class Snake {
 	private int bestGameKillingStreak;
 	private int deathsNumber;
 	private int hpPreMorte;
-	private Partita partita;
+	private Game game;
 	private Stanza ultimaStanza;
 	private Casella casellaDiTesta;
 	private boolean vivo;
@@ -55,9 +55,9 @@ public abstract class Snake {
 	
 	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.gray);
 
-	public Snake(String nome, Stanza stanza, int vitaIniziale, Partita partita) {
+	public Snake(String nome, Stanza stanza, int vitaIniziale, Game game) {
 		this.vivo = false;
-		this.partita = partita;
+		this.game = game;
 		this.nome=nome;
 		this.previousScore=0;
 		this.deathTimestamp=-1;
@@ -147,10 +147,10 @@ public abstract class Snake {
 		this.currentFoodTaken+=qta;
 		this.totalFoodTaken+=qta;
 		for(Casella c : this.getCaselle()){
-			if(c.getHp()+qta<=VITA_SERPENTE_MASSIMA){
+			if(c.getHp()+qta<=MAX_HP){
 				c.setHp(c.getHp()+qta);
 			} else {
-				c.setHp(VITA_SERPENTE_MASSIMA);
+				c.setHp(MAX_HP);
 			}
 		}
 	}
@@ -234,7 +234,7 @@ public abstract class Snake {
 		if(this.currentKillingStreak>this.bestGameKillingStreak) {
 			this.bestGameKillingStreak = this.currentKillingStreak;
 		}
-		if(this.getNome().equals(NOME_PLAYER_1)){
+		if(this.getNome().equals(NAME_PLAYER_1)){
 			SoundManager.playSlainSound();
 		}
 	}
@@ -248,12 +248,12 @@ public abstract class Snake {
 		return false;
 	}
 	
-	public Partita getPartita() {
-		return partita;
+	public Game getPartita() {
+		return game;
 	}
 	
-	public void setPartita(Partita partita) {
-		this.partita = partita;
+	public void setPartita(Game game) {
+		this.game = game;
 	}
 
 	public void setUltimaStanza(Stanza ultimaStanza) {
@@ -281,7 +281,7 @@ public abstract class Snake {
 		if(Utility.truePercentage(50)) deltaXspawn = -1;
 		byte deltaYspawn = 0;
 		if(Utility.truePercentage(50)) deltaYspawn = -1;
-		byte centerPosition = (byte)(DIMENSIONE_STANZA_DEFAULT/2);
+		byte centerPosition = (byte)(ROOM_SIZE/2);
 		Position posizionePrimaCasella = new Position((byte)(centerPosition+deltaXspawn),(byte)(centerPosition+deltaYspawn));
 		
 		// direzione casuale
@@ -354,8 +354,8 @@ public abstract class Snake {
 	}
 	
 	public double getCurrentGameSnakeScore() {
-		double punteggioCibo = this.currentFoodTaken*MOLTIPLICATORE_PUNTEGGIO_CIBO*ScoreHandler.getScoreMultiplier(this.partita);
-		double punteggioUccisioni = this.getCurrentKillingStreak()*MOLTIPLICATORE_PUNTEGGIO_UCCISIONE*ScoreHandler.getScoreMultiplier(this.partita);
+		double punteggioCibo = this.currentFoodTaken*FOOD_SCORE_MULTIPLIER*ScoreHandler.getScoreMultiplier(this.game);
+		double punteggioUccisioni = this.getCurrentKillingStreak()*KILL_SCORE_MULTIPLIER*ScoreHandler.getScoreMultiplier(this.game);
 		return punteggioCibo+punteggioUccisioni;
 	}
 	

@@ -1,9 +1,5 @@
 package server.client;
 
-import static constants.GeneralConstants.FILE_NOME_SERVER;
-import static constants.GeneralConstants.FILE_PORTA;
-import static constants.GeneralConstants.NOME_FILE_INDIRIZZO_SERVER;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,19 +18,22 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClients;
 
-import game.Partita;
+import game.Game;
 import server.model.Credentials;
 import server.model.Match;
 import server.model.User;
-import support.FileHandler;
 
 public class Client {
 
 	private JsonService jsonService;
 	private HttpClientContext httpClientContext;
 	private User userLogged;
+	private String host;
+	private int port;
 
-	public Client() {
+	public Client(String host, int port) {
+		this.host = host;
+		this.port = port;
 		this.jsonService = new JsonService();
 		this.httpClientContext = new HttpClientContext();
 	}
@@ -57,11 +56,11 @@ public class Client {
 		return jsonService.json2Player(playerJson);
 	}
 
-	public boolean logUser(String username, String password, Partita partita) throws ClientProtocolException, IOException {
+	public boolean logUser(String username, String password, Game game) throws ClientProtocolException, IOException {
 		Credentials credentials = new Credentials(username, password);
 		//System.out.println(credentials.getUsername() + ":" +  credentials.getPassword());
 		this.userLogged = this.logUser(credentials);
-		if(this.userLogged!=null && this.userLogged.getUsername().equals(partita.getUtente().getUsername())) {
+		if(this.userLogged!=null && this.userLogged.getUsername().equals(game.getUser().getUsername())) {
 			return true;
 		} else {
 			return false;
@@ -74,12 +73,8 @@ public class Client {
 
 	private String performHttpPost(String function, String json) throws ClientProtocolException, IOException {
 
-		String host = FileHandler.readFile(NOME_FILE_INDIRIZZO_SERVER);
-
-		int port = Integer.parseInt(FileHandler.readFile(FILE_PORTA));
-
 		UsernamePasswordCredentials credentialsClient = new UsernamePasswordCredentials("SnakeReborn", "Snake123");		
-		AuthScope authScope = new AuthScope(host, port);
+		AuthScope authScope = new AuthScope(this.host, this.port);
 		CredentialsProvider credsProvider = new BasicCredentialsProvider();
 		credsProvider.setCredentials(authScope, credentialsClient);
 
@@ -87,9 +82,7 @@ public class Client {
 
 		String responseGSon = null;
 
-		String nomeServer = FileHandler.readFile(FILE_NOME_SERVER);
-
-		String stringRequest = ("http://" + host + ":" + port + nomeServer + function);
+		String stringRequest = ("http://" + this.host + ":" + this.port + "/snake" + function);
 		HttpPost request = new HttpPost(stringRequest);
 		request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 

@@ -20,9 +20,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 
+import org.json.JSONObject;
+
 import audio.SoundManager;
 import constants.ConfigFileConstants;
-import game.Partita;
+import game.Game;
 import game.UserLocal;
 import loaders.ConfigurationManager;
 import server.client.Client;
@@ -67,16 +69,20 @@ public class ClientWindow extends JFrame{
 	private JButton loginAndPlayButton;
 	private JButton playAsGuestButton;
 	
-	private Partita game;
+	private Game game;
 	private Client client;
+	private String serverSettingsFile;
+	private String clientSettingsFile;
 	private ArrayList<String> mapList;
 
-	public ClientWindow() throws IOException {
+	public ClientWindow(String clientSettingsFile, String serverSettingsFile) throws IOException {
 		super("Snake Reborn 2");
-		client = new Client();
+		this.serverSettingsFile = serverSettingsFile;
+		initClient();
 		mapList = support.FileHandler.getFolderList(constants.GeneralConstants.MAPS_PATH);
 		createPanels();
 		linkPanels();
+		this.clientSettingsFile = clientSettingsFile;
 		initPanelsFromConfigFile();
 
 		this.setVisible(true);
@@ -87,7 +93,15 @@ public class ClientWindow extends JFrame{
 		setupWindowSize();
 	}
 	
-	public void reload(Partita game) {
+	private void initClient() throws IOException {
+		String fileContent = support.FileHandler.readFile(this.serverSettingsFile);
+		JSONObject settings = new JSONObject(fileContent);
+		String host = settings.getString("host");
+		int port = settings.getInt("port");
+		this.client = new Client(host, port);
+	}
+
+	public void reload(Game game) {
 		this.game = game;
 		game.setClient(client);
 		this.actionRequired = false;
@@ -121,7 +135,7 @@ public class ClientWindow extends JFrame{
 	}
 
 	private void updateConfigurationFile() throws IOException {
-		ConfigurationManager cm = new ConfigurationManager();
+		ConfigurationManager cm = new ConfigurationManager(this.clientSettingsFile);
 		cm.updateSetting(ConfigFileConstants.ENABLE_SOUND_EFFECTS, Boolean.toString(soundEffectsCheckBox.isSelected()));
 		cm.updateSetting(ConfigFileConstants.SOUND_EFFECTS_VOLUME, Integer.toString(soundEffectsVolumeSlider.getValue()));
 		cm.updateSetting(ConfigFileConstants.ENABLE_MUSIC, Boolean.toString(musicCheckBox.isSelected()));
@@ -135,7 +149,7 @@ public class ClientWindow extends JFrame{
 	}
 
 	private void initPanelsFromConfigFile() throws IOException {
-		ConfigurationManager cm = new ConfigurationManager();
+		ConfigurationManager cm = new ConfigurationManager(this.clientSettingsFile);
 		try {
 			cm.readFile();
 			soundEffectsCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.ENABLE_SOUND_EFFECTS)));
@@ -301,7 +315,7 @@ public class ClientWindow extends JFrame{
 					UserLocal userLocal = new UserLocal();
 					userLocal.setUsername(usernameTextField.getText());
 					userLocal.setPassword(passwordTextField.getText());
-					game.setUtente(userLocal);
+					game.setUser(userLocal);
 					boolean autenticato = false;
 					try{
 						autenticato = getClient().logUser(userLocal.getUsername() , userLocal.getPassword(),game);
@@ -311,7 +325,7 @@ public class ClientWindow extends JFrame{
 									"           Wrong username or password. "
 											+ "\nNot registered? Register for free on the official website!");
 						} else { // successo, sono autenticato
-							game.setOspite(false);
+							game.setGuest(false);
 							setActionRequired(true);
 						}
 					} catch (Exception e3){
@@ -323,7 +337,7 @@ public class ClientWindow extends JFrame{
 
 				}
 			} else if(src == playAsGuestButton){
-				game.setOspite(true);
+				game.setGuest(true);
 				setActionRequired(true);
 			}
 		}

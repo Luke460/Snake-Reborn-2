@@ -3,7 +3,7 @@ package commands;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import game.Partita;
+import game.Game;
 import gamefield.Direction;
 import snake.Snake;
 import spawn.SnakeSpawnManager;
@@ -12,7 +12,7 @@ import video.GameVisualizer;
 public class CommandHandler {
 
 	private Queue<String> commandsSequence;
-	private Partita game;
+	private Game game;
 	public static final String UP = "UP";
 	public static final String RIGHT = "RIGHT";
 	public static final String LEFT = "LEFT";
@@ -22,51 +22,51 @@ public class CommandHandler {
 	public static final String RESPAWN = "RESPAWN";
 	public static final String EXIT = "EXIT";
 
-	public CommandHandler(Partita game, GameVisualizer gameVisualizer) {
+	public CommandHandler(Game game, GameVisualizer gameVisualizer) {
 		this.game = game;
 		this.commandsSequence = new LinkedList<>();
 		CommandReader.initControlliDaTastiera(gameVisualizer,this.commandsSequence);
 	}
 
 	public void goUpP1() {
-		Snake snake = game.getSerpentePlayer1();
+		Snake snake = game.getSnakePlayer1();
 		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.DOWN)) {
 			snake.getDirezione().setDir(Direction.Dir.UP);
 		}
 	}
 
 	public  void goDownP1() {
-		Snake snake = game.getSerpentePlayer1();
+		Snake snake = game.getSnakePlayer1();
 		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.UP)) {
 			snake.getDirezione().setDir(Direction.Dir.DOWN);
 		}	
 	}
 
 	public  void goLeftP1() {
-		Snake snake = game.getSerpentePlayer1();
+		Snake snake = game.getSnakePlayer1();
 		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.RIGHT)) {
 			snake.getDirezione().setDir(Direction.Dir.LEFT);
 		}		
 	}
 
 	public  void goRightP1() {
-		Snake snake =game.getSerpentePlayer1();
+		Snake snake =game.getSnakePlayer1();
 		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.LEFT)) {
 			snake.getDirezione().setDir(Direction.Dir.RIGHT);
 		}		
 	}
 
 	public  void turnLeftP1() {
-		game.getSerpentePlayer1().getDirezione().rotateToLeft();
+		game.getSnakePlayer1().getDirezione().rotateToLeft();
 	}
 
 	public  void turnRightP1() {
-		game.getSerpentePlayer1().getDirezione().rotateToRight();
+		game.getSnakePlayer1().getDirezione().rotateToRight();
 	}
 
 	public  void resuscitaPlayer1( ) {
-		if(!game.getSerpentePlayer1().isVivo()) {
-			SnakeSpawnManager.reviveSpecificSnake(game, game.getSerpentePlayer1());
+		if(!game.getSnakePlayer1().isVivo()) {
+			SnakeSpawnManager.reviveSpecificSnake(game, game.getSnakePlayer1());
 		}
 	}
 

@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import support.OSdetector;
-
 public class ConfigurationManager {
 	private HashMap<String,String> settings;
-	private static final String FILE_NAME = ("config"+OSdetector.getPathSeparator()+"userConfig.ini");
+	private String path;
 	
-	public ConfigurationManager() throws IOException {
+	public ConfigurationManager(String path) throws IOException {
+		this.path = path;
 		this.readFile();
 	}
 
@@ -35,12 +34,12 @@ public class ConfigurationManager {
 		}
 		fileContent += END_FILE_MARKER;
 
-		support.FileHandler.writeFile(FILE_NAME, fileContent);
+		support.FileHandler.writeFile(this.path, fileContent);
 	}
 	
 	public void readFile() throws IOException {
 		settings = new HashMap<String,String>();
-		String text = support.FileHandler.readFile(FILE_NAME);
+		String text = support.FileHandler.readFile(this.path);
 		String line = new String();
 		String key = new String();
 		String value = new String();

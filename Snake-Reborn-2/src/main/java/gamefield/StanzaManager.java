@@ -1,6 +1,6 @@
 package gamefield;
 
-import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
+import static constants.GeneralConstants.ROOM_SIZE;
 
 public class StanzaManager {
 
@@ -16,7 +16,7 @@ public class StanzaManager {
 	
 	public static boolean isActuallyReadyForSpawn(Stanza stanza) {
 		
-		byte centralDistance = (byte)(DIMENSIONE_STANZA_DEFAULT/2);
+		byte centralDistance = (byte)(ROOM_SIZE/2);
 		byte centralDistanceMinusOne = (byte)(centralDistance-1);
 		
 		Position pos1 = new Position(centralDistanceMinusOne, centralDistanceMinusOne);

@@ -1,10 +1,10 @@
 package gamefield;
 
-import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
-import static constants.GeneralConstants.EST;
-import static constants.GeneralConstants.NORD;
-import static constants.GeneralConstants.OVEST;
-import static constants.GeneralConstants.SUD;
+import static constants.GeneralConstants.ROOM_SIZE;
+import static constants.GeneralConstants.EAST;
+import static constants.GeneralConstants.NORTH;
+import static constants.GeneralConstants.WEST;
+import static constants.GeneralConstants.SOUTH;
 
 import snake.Snake;
 
@@ -41,24 +41,24 @@ public class CasellaManager {
 		Position posizioneNuovaCasella = posizioneCasella.getPositionInDirection(direzione);
 		Stanza stanzaCorrente = casella.getStanza();
 		//controllo out of stanza
-		byte room_length = (byte)(DIMENSIONE_STANZA_DEFAULT-1);
+		byte room_length = (byte)(ROOM_SIZE-1);
 		if(posizioneNuovaCasella.getX()>room_length){
 			posizioneNuovaCasella = new Position((byte)0,posizioneNuovaCasella.getY()); 
-			return stanzaCorrente.getCollegamenti().get(EST).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(EAST).getCaselle().get(posizioneNuovaCasella);
 		}
 
 		if(posizioneNuovaCasella.getX()<0){
 			posizioneNuovaCasella = new Position(room_length,posizioneNuovaCasella.getY()); 
-			return stanzaCorrente.getCollegamenti().get(OVEST).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(WEST).getCaselle().get(posizioneNuovaCasella);
 		}
 
 		if(posizioneNuovaCasella.getY()>room_length){
 			posizioneNuovaCasella = new Position(posizioneNuovaCasella.getX(),(byte)0); 
-			return stanzaCorrente.getCollegamenti().get(SUD).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(SOUTH).getCaselle().get(posizioneNuovaCasella);
 		}
 		if(posizioneNuovaCasella.getY()<0){
 			posizioneNuovaCasella = new Position(posizioneNuovaCasella.getX(),room_length); 
-			return stanzaCorrente.getCollegamenti().get(NORD).getCaselle().get(posizioneNuovaCasella);
+			return stanzaCorrente.getCollegamenti().get(NORTH).getCaselle().get(posizioneNuovaCasella);
 		}
 
 		// stiamo nei confini della stanza

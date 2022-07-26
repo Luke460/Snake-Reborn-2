@@ -1,11 +1,11 @@
 package spawn;
 
-import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
-import static constants.GeneralConstants.SNAKE_HP_FOR_SUPER_FOOD;
-import static constants.GeneralConstants.SNAKE_HP_FOR_BONUS_FOOD;
-import static constants.GeneralConstants.QTY_BONUS_FOOD;
-import static constants.GeneralConstants.QTY_STANDARD_FOOD;
-import static constants.GeneralConstants.QTY_SUPER_FOOD;
+import static constants.GeneralConstants.ROOM_SIZE;
+import static constants.GeneralConstants.MIN_SNAKE_HP_FOR_SUPER_FOOD;
+import static constants.GeneralConstants.MIN_SNAKE_HP_FOR_BONUS_FOOD;
+import static constants.GeneralConstants.HP_BONUS_FOOD;
+import static constants.GeneralConstants.HP_STANDARD_FOOD;
+import static constants.GeneralConstants.HP_SUPER_FOOD;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,15 +31,15 @@ public class FoodSpawnManager {
 		// 1% -> SUPER
 		//5% -> 80% BONUS, 20% SUPER
 		if(Utility.truePercentage(95)) {
-			foodQty = QTY_STANDARD_FOOD;
+			foodQty = HP_STANDARD_FOOD;
 			// 5% left
 		} else if(Utility.truePercentage(80)) {
-			foodQty = QTY_BONUS_FOOD;
+			foodQty = HP_BONUS_FOOD;
 		} else {
-			foodQty = QTY_SUPER_FOOD;
+			foodQty = HP_SUPER_FOOD;
 		}
-		byte posX = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
-		byte posY = (byte)(Math.random() * DIMENSIONE_STANZA_DEFAULT) ;
+		byte posX = (byte)(Math.random() * ROOM_SIZE) ;
+		byte posY = (byte)(Math.random() * ROOM_SIZE) ;
 		Position pos = new Position(posX, posY);
 		Casella cell = room.getCaselle().get(pos);
 		if (cell.isEmpty()){
@@ -49,30 +49,36 @@ public class FoodSpawnManager {
 		}
 	}
 	public static void spawnFoodAfterSnakeDeath(List<Casella> cellsList){
-		boolean bonusFood = false;
-		boolean superFood = false;
 		int snakeHp = cellsList.size();
-		if(snakeHp >= SNAKE_HP_FOR_SUPER_FOOD) {
-			superFood = true;
-			CellHpComparator comparator = new CellHpComparator();
-			Collections.sort(cellsList, comparator);
-		} else if (snakeHp >= SNAKE_HP_FOR_BONUS_FOOD) {
-			bonusFood = true;
-			CellHpComparator comparator = new CellHpComparator();
-			Collections.sort(cellsList, comparator);
-		}	
-		for(Casella c:cellsList){
-			c.freeCell();
-			if(isPositionValidForFoodSpawn(c.getPosizione())){
-				if(superFood) {
-					c.setFoodAmount(QTY_SUPER_FOOD);
-					superFood = false;
-				} else if (bonusFood){
-					c.setFoodAmount(QTY_BONUS_FOOD);
-					bonusFood = false;
-				} else {
-					c.setFoodAmount(QTY_STANDARD_FOOD);
+		if(snakeHp>1) {
+			boolean bonusFood = false;
+			boolean superFood = false;
+			if(snakeHp >= MIN_SNAKE_HP_FOR_SUPER_FOOD) {
+				superFood = true;
+				CellHpComparator comparator = new CellHpComparator();
+				Collections.sort(cellsList, comparator);
+			} else if (snakeHp >= MIN_SNAKE_HP_FOR_BONUS_FOOD) {
+				bonusFood = true;
+				CellHpComparator comparator = new CellHpComparator();
+				Collections.sort(cellsList, comparator);
+			}	
+			for(Casella c:cellsList){
+				c.freeCell();
+				if(isPositionValidForFoodSpawn(c.getPosizione())){
+					if(superFood) {
+						c.setFoodAmount(HP_SUPER_FOOD);
+						superFood = false;
+					} else if (bonusFood){
+						c.setFoodAmount(HP_BONUS_FOOD);
+						bonusFood = false;
+					} else {
+						c.setFoodAmount(HP_STANDARD_FOOD);
+					}
 				}
+			}
+		} else {
+			for(Casella c:cellsList){
+				c.freeCell();
 			}
 		}
 	}

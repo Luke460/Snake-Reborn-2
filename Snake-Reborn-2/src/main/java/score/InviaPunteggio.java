@@ -2,22 +2,22 @@ package score;
 
 import javax.swing.JOptionPane;
 
-import game.Partita;
+import game.Game;
 import server.model.Match;
 import server.model.User;
 
 public class InviaPunteggio extends Thread {
 
-	private Partita partita;
+	private Game game;
 
-	public InviaPunteggio(Partita partita){
-		this.partita = partita;
+	public InviaPunteggio(Game game){
+		this.game = game;
 	}
 
 	public void run() {
 		try {
-			Match match = MatchFactory.buildMatch(partita);
-			User outputMessage = partita.getClient().addMatch(match);
+			Match match = MatchFactory.buildMatch(game);
+			User outputMessage = game.getClient().addMatch(match);
 			System.out.println(outputMessage.toString());
 		} catch (Exception e4){
 			JOptionPane.showMessageDialog(null, 

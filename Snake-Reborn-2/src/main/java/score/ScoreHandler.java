@@ -1,10 +1,10 @@
 package score;
 
-import game.Partita;
+import game.Game;
 
 public class ScoreHandler {
 
-	public static double getScoreMultiplier(Partita game) {
+	public static double getScoreMultiplier(Game game) {
 		double aiMultiplier = 0;
 		if(game.getGameSpeed()==1) {
 			aiMultiplier = 0.2;
@@ -16,8 +16,8 @@ public class ScoreHandler {
 		return aiMultiplier;
 	}
 
-	public static void sendScore(Partita game) {
-		if(game.getGameSpeed()==3 && !game.isEndlessMode() && !game.isOspite()) {
+	public static void sendScore(Game game) {
+		if(game.getGameSpeed()==3 && !game.isEndlessMode() && !game.isGuest()) {
 			InviaPunteggio inviatore = new InviaPunteggio(game);
 			inviatore.start();
 		}

@@ -1,8 +1,8 @@
 package video;
 
-import static constants.GeneralConstants.QTY_BONUS_FOOD;
-import static constants.GeneralConstants.QTY_STANDARD_FOOD;
-import static constants.GeneralConstants.QTY_SUPER_FOOD;
+import static constants.GeneralConstants.HP_BONUS_FOOD;
+import static constants.GeneralConstants.HP_STANDARD_FOOD;
+import static constants.GeneralConstants.HP_SUPER_FOOD;
 import static constants.MapConstants.FLAT_CELL;
 import static constants.MapConstants.RELIEF_CELL;
 
@@ -30,11 +30,11 @@ public class GraphicManager {
 				cellRenderOption = new CellRenderOption(RELIEF_CELL, cellRenderOption.getColor());
 			}
 		} else if (casella.isFood()) {
-			if(casella.getFoodAmount() == QTY_STANDARD_FOOD) {
+			if(casella.getFoodAmount() == HP_STANDARD_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, STANDARD_FOOD_COLOR);
-			} else if (casella.getFoodAmount() == QTY_BONUS_FOOD) {
+			} else if (casella.getFoodAmount() == HP_BONUS_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, BONUS_FOOD_COLOR);
-			} else if (casella.getFoodAmount() == QTY_SUPER_FOOD) {
+			} else if (casella.getFoodAmount() == HP_SUPER_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, SUPER_FOOD_COLOR);
 			}
 		}

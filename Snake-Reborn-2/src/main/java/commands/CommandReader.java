@@ -17,12 +17,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Queue;
 
-import game.Partita;
+import game.Game;
 import video.GameVisualizer;
 import static commands.CommandHandler.*;
 
 public class CommandReader {
-	public Partita game;
+	public Game game;
 
 	public static void initControlliDaTastiera(GameVisualizer gameVisualizer, Queue<String> commandsSequence) {
 

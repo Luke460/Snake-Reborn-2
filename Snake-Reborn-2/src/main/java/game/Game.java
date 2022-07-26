@@ -1,7 +1,7 @@
 package game;
 
-import static constants.GeneralConstants.NOME_PLAYER_1;
-import static constants.GeneralConstants.VITA_SERPENTE_DEFAULT;
+import static constants.GeneralConstants.NAME_PLAYER_1;
+import static constants.GeneralConstants.MIN_HP;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,20 +20,19 @@ import snake.PlayerSnake;
 import snake.Snake;
 import spawn.SnakeSpawnManager;
 
-public class Partita {
+public class Game {
 
-	private HashMap<String, Snake> serpenti;
-	private Snake serpentePlayer1;
-	private String nomePlayer1;
-	private Mappa mappa;
-	private boolean ilGiocatoreHaFattoLaMossa;
+	private HashMap<String, Snake> snakeMap;
+	private Snake snakePlayer1;
+	private String namePlayer1;
+	private Mappa map;
 	private int gameSpeed;
 	private UserLocal userLocal;
-	private boolean ospite;
+	private boolean guest;
 	private Client client;
 	private CommandHandler commandHandler;
 	private boolean inGame;
-	private Stanza stanzaDiSpawn;
+	private Stanza spawnRoom;
 	private String mapFileName;
 	private boolean showInterface;
 	private boolean lowGraphicMode;
@@ -41,33 +40,32 @@ public class Partita {
 	private boolean endlessMode;
 	private boolean endGameAlert;
 
-	public Partita() throws IOException {
-		this.ilGiocatoreHaFattoLaMossa = false;
-		this.serpenti = new HashMap<String, Snake>();
+	public Game() throws IOException {
+		this.snakeMap = new HashMap<String, Snake>();
 		this.inGame = true;
 	}
 
-	public void ImpostaPartita() throws IOException {
-		this.setMappa(CaricatoreMappa.caricaFile(mapFileName)); 
-		this.stanzaDiSpawn = MappaManager.getStanzaCasualeLiberaPerSpawn(this.mappa, this.serpenti, null);
-		this.nomePlayer1 = NOME_PLAYER_1;
+	public void setUpGame() throws IOException {
+		this.setMap(CaricatoreMappa.caricaFile(mapFileName)); 
+		this.spawnRoom = MappaManager.getStanzaCasualeLiberaPerSpawn(this.map, this.snakeMap, null);
+		this.namePlayer1 = NAME_PLAYER_1;
 		this.endGameAlert = true;
 		//Just for test
-		//CustomBotSnake testSnake = new CustomBotSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this, new Skill(100,100,100,100));
+		//CustomBotSnake testSnake = new CustomBotSnake(this.nomePlayer1, this.stanzaDiSpawn, MIN_HP,this, new Skill(100,100,100,100));
 		//this.serpentePlayer1 = testSnake;
-		this.serpentePlayer1 = new PlayerSnake(this.nomePlayer1, this.stanzaDiSpawn, VITA_SERPENTE_DEFAULT,this);
-		this.serpenti.put(this.nomePlayer1, this.serpentePlayer1);
-		this.serpenti.putAll(SnakeSpawnManager.createBotSnakes(this));
-		for(Snake snake:this.serpenti.values()) {
+		this.snakePlayer1 = new PlayerSnake(this.namePlayer1, this.spawnRoom, MIN_HP,this);
+		this.snakeMap.put(this.namePlayer1, this.snakePlayer1);
+		this.snakeMap.putAll(SnakeSpawnManager.createBotSnakes(this));
+		for(Snake snake:this.snakeMap.values()) {
 			snake.setVivo(true);
 		}
 	}
 
-	public void eseguiTurni() {
+	public void executeMoves() {
 		this.commandHandler.executeCommand();
-		Iterator<Snake> iteratore = this.getSerpenti().values().iterator();
-		while(iteratore.hasNext()){
-			Snake s = iteratore.next();
+		Iterator<Snake> iterator = this.getSnakeMap().values().iterator();
+		while(iterator.hasNext()){
+			Snake s = iterator.next();
 			if(s.isVivo()){
 				s.scegliNuovaDirezione();
 				s.sposta();
@@ -75,30 +73,30 @@ public class Partita {
 		}
 	}
 
-	public HashMap<String, Snake> getSerpenti() {
-		return serpenti;
+	public HashMap<String, Snake> getSnakeMap() {
+		return snakeMap;
 	}
 
-	public void setSerpenti(HashMap<String, Snake> serpenti) {
-		this.serpenti = serpenti;
+	public void setSnakeMap(HashMap<String, Snake> snakeMap) {
+		this.snakeMap = snakeMap;
 	}
 
 	public void gameOver() {
 		this.inGame = false;
 	}
 
-	public Mappa getMappa() {
-		return mappa;
+	public Mappa getMap() {
+		return map;
 	}
 
-	public void setMappa(Mappa mappa) {
-		this.mappa = mappa;
+	public void setMap(Mappa map) {
+		this.map = map;
 	}
 	
-	public int getNumeroAvversari(){
+	public int getOpponentsNumber(){
 		int count = 0;
-		for(Snake snake: this.serpenti.values()) {
-			if(snake.isVivo() && !snake.equals(this.getSerpentePlayer1())) {
+		for(Snake snake: this.snakeMap.values()) {
+			if(snake.isVivo() && !snake.equals(this.getSnakePlayer1())) {
 				count++;
 			}
 		}
@@ -113,28 +111,20 @@ public class Partita {
 		this.gameSpeed = gameSpeed;
 	}
 
-	public boolean isIlGiocatoreHaFattoLaMossa() {
-		return ilGiocatoreHaFattoLaMossa;
-	}
-
-	public void setIlGiocatoreHaFattoLaMossa(boolean ilGiocatoreHaFattoLaMossa) {
-		this.ilGiocatoreHaFattoLaMossa = ilGiocatoreHaFattoLaMossa;
-	}
-
-	public UserLocal getUtente() {
+	public UserLocal getUser() {
 		return userLocal;
 	}
 
-	public void setUtente(UserLocal userLocal) {
+	public void setUser(UserLocal userLocal) {
 		this.userLocal = userLocal;
 	}
 
-	public boolean isOspite() {
-		return ospite;
+	public boolean isGuest() {
+		return guest;
 	}
 
-	public void setOspite(boolean ospite) {
-		this.ospite = ospite;
+	public void setGuest(boolean guest) {
+		this.guest = guest;
 	}
 
 	public Client getClient() {
@@ -145,7 +135,7 @@ public class Partita {
 		this.client = client;
 	}
 	
-	public void setGestoreComandi(CommandHandler g) {
+	public void setCommandHandler(CommandHandler g) {
 		this.commandHandler = g;
 	}
 
@@ -157,20 +147,20 @@ public class Partita {
 		this.inGame = inGame;
 	}
 	
-	public String getNomePlayer1() {
-		return nomePlayer1;
+	public String getNamePlayer1() {
+		return namePlayer1;
 	}
 	
-	public void setNomePlayer1(String nomePlayer1) {
-		this.nomePlayer1 = nomePlayer1;
+	public void setNamePlayer1(String nomePlayer1) {
+		this.namePlayer1 = nomePlayer1;
 	}
 
-	public Snake getSerpentePlayer1() {
-		return serpentePlayer1;
+	public Snake getSnakePlayer1() {
+		return snakePlayer1;
 	}
 
-	public Stanza getStanzaDiSpawn() {
-		return stanzaDiSpawn;
+	public Stanza getSpawnRoom() {
+		return spawnRoom;
 	}
 
 	public String getMapFileName() {
@@ -205,7 +195,7 @@ public class Partita {
 		this.startTimestamp = startTimestamp;
 	}
 
-	public CommandHandler getGestoreComandi() {
+	public CommandHandler getCommandHandler() {
 		return this.commandHandler;
 	}
 
@@ -227,14 +217,14 @@ public class Partita {
 
 	public int getPlayerPosition() {
 		List<Snake> snakes = new ArrayList<>();
-		snakes.addAll(this.serpenti.values());
+		snakes.addAll(this.snakeMap.values());
 		snakes.sort(new SnakeEndGameScoreComparator());
 		int position = 1;
 		for(Snake s:snakes) {
-			if(s.equals(this.getSerpentePlayer1())) {
+			if(s.equals(this.getSnakePlayer1())) {
 				return position;
 			}
-			position ++;
+			position++;
 		}
 		return position;
 	}

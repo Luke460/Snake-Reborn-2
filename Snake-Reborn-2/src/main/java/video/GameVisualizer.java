@@ -1,8 +1,8 @@
 package video;
 
-import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
-import static constants.GeneralConstants.RAPPORTO_DIMENSIONE_SCHERMO;
-import static constants.GeneralConstants.VITA_SERPENTE_MASSIMA;
+import static constants.GeneralConstants.ROOM_SIZE;
+import static constants.GeneralConstants.WINDOW_SCREEN_PERCENTAGE;
+import static constants.GeneralConstants.MAX_HP;
 import static constants.MapConstants.DARKER_CELL;
 import static constants.MapConstants.FLAT_CELL;
 import static constants.MapConstants.LIGHT_CELL;
@@ -50,8 +50,8 @@ public class GameVisualizer extends JPanel {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setBackground(Color.BLACK);
 		this.cellSize = getCellSize();
-		Dimension panelDimension = new Dimension((DIMENSIONE_STANZA_DEFAULT*this.cellSize)-1, (DIMENSIONE_STANZA_DEFAULT*this.cellSize)-1);
-		this.leaderboardPositionX = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.9)-cellSize*0.25);
+		Dimension panelDimension = new Dimension((ROOM_SIZE*this.cellSize)-1, (ROOM_SIZE*this.cellSize)-1);
+		this.leaderboardPositionX = (int)((ROOM_SIZE*cellSize * 0.9)-cellSize*0.25);
 		this.leaderboardPositionY = (int)(cellSize*0.75);
 		this.leaderboardFontMultiplier = cellSize/16f;
 		this.messageFontMultiplayer = cellSize/8f;
@@ -66,13 +66,13 @@ public class GameVisualizer extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit ().getScreenSize ();
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
-		return (int) ((Math.min(width,height)/(DIMENSIONE_STANZA_DEFAULT))*RAPPORTO_DIMENSIONE_SCHERMO);
+		return (int) ((Math.min(width,height)/(ROOM_SIZE))*WINDOW_SCREEN_PERCENTAGE);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(this.frameBackground);
-		g.fillRect(0, 0, DIMENSIONE_STANZA_DEFAULT*cellSize, DIMENSIONE_STANZA_DEFAULT*cellSize);
+		g.fillRect(0, 0, ROOM_SIZE*cellSize, ROOM_SIZE*cellSize);
 		if(!showEndGameStatistics) {
 			for (CellRenderOptionWithPosition c : cellRenderOptionWithPosition) {
 				drawCell(g, c);
@@ -92,11 +92,11 @@ public class GameVisualizer extends JPanel {
 
 	private void addHpInfo(Graphics g) {
 		int xPosition = (int)(cellSize*1.25);
-		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
+		int yPosition = (int)((ROOM_SIZE*cellSize * 0.95)+cellSize*0.75);
 		int hpValue = this.match.getSnakeLength();
 		int hpBar = hpValue;
-		if(hpValue>VITA_SERPENTE_MASSIMA) {
-			hpBar = VITA_SERPENTE_MASSIMA;
+		if(hpValue>MAX_HP) {
+			hpBar = MAX_HP;
 			g.setColor(Color.green);
 		} else {
 			g.setColor(Color.white);
@@ -107,7 +107,7 @@ public class GameVisualizer extends JPanel {
 		g.drawString(String.valueOf(hpValue), (int)(xPosition+this.cellSize/2), (int)(yPosition-this.cellSize/2));
 		// background
 		g.setColor(Color.black);
-		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*VITA_SERPENTE_MASSIMA + cellSize*0.2), (int)(cellSize*0.5)-1);
+		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*MAX_HP + cellSize*0.2), (int)(cellSize*0.5)-1);
 		// hp bar
 		g.setColor(Color.green);
 		g.fillRect((int)(xPosition+cellSize*0.1), (int)(yPosition+cellSize*0.1), (int)(cellSize*0.1*hpBar), (int)(cellSize*0.3));	
@@ -115,8 +115,8 @@ public class GameVisualizer extends JPanel {
 
 	private void addFoodInfo(Graphics g) {
 		CellRenderOption food = new CellRenderOption((byte)0, GraphicManager.getStandardFoodColor());
-		int xPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)-cellSize*0.75);
-		int yPosition = (int)((DIMENSIONE_STANZA_DEFAULT*cellSize * 0.95)+cellSize*0.75);
+		int xPosition = (int)((ROOM_SIZE*cellSize * 0.95)-cellSize*0.75);
+		int yPosition = (int)((ROOM_SIZE*cellSize * 0.95)+cellSize*0.75);
 		drawCustomCell(g, (int)(cellSize*0.5), xPosition, yPosition, food);
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.leaderboardFontMultiplier);
 		g.setFont(newFont);
@@ -160,7 +160,7 @@ public class GameVisualizer extends JPanel {
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.messageFontMultiplayer);
 		g.setFont(newFont);
 		g.setColor(new Color(255,255,255,125));
-		int screenCenter = (int)(DIMENSIONE_STANZA_DEFAULT*cellSize/2);
+		int screenCenter = (int)(ROOM_SIZE*cellSize/2);
 		g.drawString(this.message, (int)(screenCenter-(this.cellSize*message.length()*0.33)), screenCenter);
 	}
 
@@ -174,7 +174,7 @@ public class GameVisualizer extends JPanel {
 	}
 	
 	private void drawEndGameStatisticsOnScreen(Graphics g) {
-		int screenCenter = (int)(DIMENSIONE_STANZA_DEFAULT*cellSize/2);
+		int screenCenter = (int)(ROOM_SIZE*cellSize/2);
 		int relativeY = screenCenter;
 		Font newFont = g.getFont().deriveFont(DEFAULT_FONT_SIZE * this.messageFontMultiplayer);
 		int leaderboardLength = leaderboard.size();

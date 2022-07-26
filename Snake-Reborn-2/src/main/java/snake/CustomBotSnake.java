@@ -1,12 +1,12 @@
 package snake;
-import static constants.GeneralConstants.DIMENSIONE_STANZA_DEFAULT;
+import static constants.GeneralConstants.ROOM_SIZE;
 import static constants.MapConstants.DARKER_CELL;
 
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import game.Partita;
+import game.Game;
 import gamefield.Casella;
 import gamefield.CasellaManager;
 import gamefield.Direction;
@@ -34,14 +34,14 @@ public class CustomBotSnake extends Snake {
 		  EASY
 	}
 
-	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita, Skill skill) {
-		super(nome, stanza, vitaIniziale, partita);
+	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Game game, Skill skill) {
+		super(nome, stanza, vitaIniziale, game);
 		this.ultimaSterzata = UNDEFINED_LAST_TURN;
 		this.skill = skill;
 	}
 	
-	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Partita partita, BotLevel botLevel) {
-		super(nome, stanza, vitaIniziale, partita);
+	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Game game, BotLevel botLevel) {
+		super(nome, stanza, vitaIniziale, game);
 		this.ultimaSterzata = UNDEFINED_LAST_TURN;
 		// Skill parameters:
 		// evadeSkill, farmSkill, exploreSkill, courageSkill
@@ -121,7 +121,7 @@ public class CustomBotSnake extends Snake {
 			if(direzioniConCiboVicine.size()==0) {
 				direzioniConCiboMedie = getDirezioniConCibo(direzioni, 4);
 				if(direzioniConCiboMedie.size()==0 && Utility.truePercentage(this.skill.getFarmSkill())) {
-					direzioniConCiboLontane = getDirezioniConCibo(direzioni, DIMENSIONE_STANZA_DEFAULT);
+					direzioniConCiboLontane = getDirezioniConCibo(direzioni, ROOM_SIZE);
 				}
 			}
 		}
@@ -269,7 +269,7 @@ public class CustomBotSnake extends Snake {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
 		for(Entry<String, Direction> entry: direzioni.entrySet()) {
 			if(!entry.getKey().equals(BACK)) {
-				Stanza stanzaPortale = getStanzaDelPortaleInDirezione(this.getCasellaDiTesta(), entry.getValue(), DIMENSIONE_STANZA_DEFAULT);
+				Stanza stanzaPortale = getStanzaDelPortaleInDirezione(this.getCasellaDiTesta(), entry.getValue(), ROOM_SIZE);
 				if(stanzaPortale != null) {
 					availableDirections.put(entry.getKey(), entry.getValue());
 				}

@@ -1,9 +1,9 @@
 package gamefield;
 
-import static constants.GeneralConstants.EST;
-import static constants.GeneralConstants.NORD;
-import static constants.GeneralConstants.OVEST;
-import static constants.GeneralConstants.SUD;
+import static constants.GeneralConstants.EAST;
+import static constants.GeneralConstants.NORTH;
+import static constants.GeneralConstants.WEST;
+import static constants.GeneralConstants.SOUTH;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,10 +25,10 @@ public class Stanza {
 		this.caselle = new HashMap<>();
 		this.collegamenti=new HashMap<>();
 		// collegamenti di default
-		this.collegamenti.put(NORD, this);
-		this.collegamenti.put(EST, this);
-		this.collegamenti.put(SUD, this);
-		this.collegamenti.put(OVEST, this);
+		this.collegamenti.put(NORTH, this);
+		this.collegamenti.put(EAST, this);
+		this.collegamenti.put(SOUTH, this);
+		this.collegamenti.put(WEST, this);
 	}
 
 	public Map<Position, Casella> getCaselle() {

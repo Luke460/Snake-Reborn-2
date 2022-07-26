@@ -1,12 +1,12 @@
 package spawn;
 
-import static constants.GeneralConstants.VITA_SERPENTE_DEFAULT;
+import static constants.GeneralConstants.MIN_HP;
 
 import java.util.HashMap;
 
 import audio.SoundManager;
 import constants.GeneralConstants;
-import game.Partita;
+import game.Game;
 import gamefield.Mappa;
 import gamefield.MappaManager;
 import gamefield.Stanza;
@@ -15,8 +15,8 @@ import snake.Snake;
 
 public class SnakeSpawnManager {
 	
-	public static HashMap<String,Snake> createBotSnakes(Partita game){
-		int snakeNumberLimit = getMaxSnakeNumberForSelectedMap(game.getMappa());
+	public static HashMap<String,Snake> createBotSnakes(Game game){
+		int snakeNumberLimit = getMaxSnakeNumberForSelectedMap(game.getMap());
 	
 		int snakeCounter = 0;
 		String botNome = "Bot_";
@@ -37,12 +37,12 @@ public class SnakeSpawnManager {
 		return snakeList;
 	}
 
-	private static int insertBot(Partita game, int snakeCounter, String botName, CustomBotSnake.BotLevel botLevel, HashMap<String, Snake> snakeList) {
+	private static int insertBot(Game game, int snakeCounter, String botName, CustomBotSnake.BotLevel botLevel, HashMap<String, Snake> snakeList) {
 		String fullName;
 		fullName = botName + snakeCounter;
-		Stanza room = MappaManager.getStanzaCasualeLiberaPerSpawn(game.getMappa(), game.getSerpenti(), null);
+		Stanza room = MappaManager.getStanzaCasualeLiberaPerSpawn(game.getMap(), game.getSnakeMap(), null);
 		if(room!=null) {
-			snakeList.put(fullName, new CustomBotSnake(fullName, room, GeneralConstants.VITA_SERPENTE_DEFAULT, game, botLevel));
+			snakeList.put(fullName, new CustomBotSnake(fullName, room, GeneralConstants.MIN_HP, game, botLevel));
 			snakeCounter++;
 		} else {
 			System.out.println("Unable to insert Bot");
@@ -50,7 +50,7 @@ public class SnakeSpawnManager {
 		return snakeCounter;
 	}
 	
-	public static void reviveAllSnakes(Partita game, HashMap<String, Snake> snakeMap) {			
+	public static void reviveAllSnakes(Game game, HashMap<String, Snake> snakeMap) {			
 		for(Snake snake: snakeMap.values()) {
 			if(!snake.isVivo() && snake.canRespawn()) {
 				reviveSnake(game, snake);
@@ -58,23 +58,23 @@ public class SnakeSpawnManager {
 		}
 	}
 	
-	public static void reviveAllBotSnakes(Partita game) {	
-		for(Snake snake:game.getSerpenti().values()) {
-			if(!snake.isVivo() && snake.canRespawn() && !snake.equals(game.getSerpentePlayer1())){
+	public static void reviveAllBotSnakes(Game game) {	
+		for(Snake snake:game.getSnakeMap().values()) {
+			if(!snake.isVivo() && snake.canRespawn() && !snake.equals(game.getSnakePlayer1())){
 				reviveSnake(game, snake);
 			}
 		}
 	}
 	
-	public static void reviveSpecificSnake(Partita game, Snake snake) {	
+	public static void reviveSpecificSnake(Game game, Snake snake) {	
 		if(!snake.isVivo() && snake.canRespawn()){
 			reviveSnake(game, snake);
 		}
 	}
 	
-	public static void reviveOneBotSnake(Partita game) {
-		for(Snake snake:game.getSerpenti().values()) {
-			if(!snake.isVivo() && snake.canRespawn() && !snake.equals(game.getSerpentePlayer1())){
+	public static void reviveOneBotSnake(Game game) {
+		for(Snake snake:game.getSnakeMap().values()) {
+			if(!snake.isVivo() && snake.canRespawn() && !snake.equals(game.getSnakePlayer1())){
 				reviveSnake(game, snake);
 				return; // just one
 			}
@@ -92,12 +92,12 @@ public class SnakeSpawnManager {
 		return Math.min(maxSuggestedSnakeNumber, spawnableRoomsCounter);
 	}
 	
-	private static void reviveSnake(Partita game, Snake snake) {
-		if(snake.getNome().equals(game.getNomePlayer1())) SoundManager.playSpawnSound();
+	private static void reviveSnake(Game game, Snake snake) {
+		if(snake.getNome().equals(game.getNamePlayer1())) SoundManager.playSpawnSound();
 		int preDeathHp = snake.getHpPreMorte();
-		int respawnHp = Math.max(VITA_SERPENTE_DEFAULT, (int)(preDeathHp/2.0));
+		int respawnHp = Math.max(MIN_HP, (int)(preDeathHp/2.0));
 		Stanza lastRoom = snake.getUltimaStanza();
-		Stanza alternativeSpawnRoom = MappaManager.getStanzaCasualeLiberaPerSpawn(game.getMappa(), game.getSerpenti(), lastRoom);
+		Stanza alternativeSpawnRoom = MappaManager.getStanzaCasualeLiberaPerSpawn(game.getMap(), game.getSnakeMap(), lastRoom);
 		if(alternativeSpawnRoom!=null) {
 			snake.resettaSerpente(alternativeSpawnRoom, respawnHp);
 		}

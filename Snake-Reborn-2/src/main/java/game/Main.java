@@ -1,7 +1,7 @@
 package game;
 
-import static constants.GeneralConstants.TEMPO_RIPOPOLAMENTO_CIBO;
-import static constants.GeneralConstants.TEMPO_RIPOPOLAMENTO_SERPENTI_BOT;
+import static constants.GeneralConstants.FOOD_SPAWN_JOB_TIMER;
+import static constants.GeneralConstants.SNAKE_SPAWN_JOB_TIMER;
 import static constants.GeneralConstants.TICK_TIME_EASY;
 import static constants.GeneralConstants.TICK_TIME_HARD;
 import static constants.GeneralConstants.TICK_TIME_MEDIUM;
@@ -24,6 +24,7 @@ import server.model.MatchForGameVisualizer;
 import snake.Snake;
 import spawn.FoodSpawnManager;
 import spawn.SnakeSpawnManager;
+import support.OSdetector;
 import video.CellRenderOptionWithPosition;
 import video.GraphicAdapter;
 import video.LeaderBoardCellRenderOption;
@@ -32,23 +33,25 @@ import video.GameVisualizer;
 public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Partita game = null;
+		Game game = null;
 		GameVisualizer gameWindow;
 		try {
-			ClientWindow client = new ClientWindow();
+			String clientSettingsFile = ("config"+OSdetector.getPathSeparator()+"userConfig.ini");
+			String serverSettingsFile = ("config"+OSdetector.getPathSeparator()+"serverConfig.json");
+			ClientWindow client = new ClientWindow(clientSettingsFile, serverSettingsFile);
 			gameWindow = new GameVisualizer();
 			while(true) {
-				game = new Partita();
+				game = new Game();
 				client.reload(game);
 				while(!client.isActionRequired()){
 					Thread.sleep(200);
 				}
 				try {
 					client.readClientSettings();
-					game.ImpostaPartita();
+					game.setUpGame();
 					setUpGameWindow(game, gameWindow);
 					gameWindow.getFrame().setVisible(true);
-					avviaIlGioco(game, gameWindow);
+					startTheGame(game, gameWindow);
 				} catch (AWTException e) {
 					e.printStackTrace();
 				}
@@ -60,34 +63,32 @@ public class Main {
 		}
 	}
 
-	public static void avviaIlGioco(Partita game, GameVisualizer gameWindow) throws AWTException, InterruptedException, IOException {
-		// lancia un thread che legge i comandi, 
-		// SuppressWarnings perchè il compilatore e' stupido
+	public static void startTheGame(Game game, GameVisualizer gameWindow) throws AWTException, InterruptedException, IOException {
 		CommandHandler commandHandler = new CommandHandler(game, gameWindow);
-		game.setGestoreComandi(commandHandler);
+		game.setCommandHandler(commandHandler);
 		SoundManager.playMusicLoop();
-		cominciaIlGioco(game, gameWindow);
+		startGameLoop(game, gameWindow);
 		SoundManager.stopAlert();
 		SoundManager.stopMusic();
 	}
 
-	private static void cominciaIlGioco(Partita game, GameVisualizer gameWindow) throws AWTException, InterruptedException {
-		FoodSpawnManager.spawnFoodInTheMap(game.getMappa());
+	private static void startGameLoop(Game game, GameVisualizer gameWindow) throws AWTException, InterruptedException {
+		FoodSpawnManager.spawnFoodInTheMap(game.getMap());
 		gameWindow.repaint();
 		Thread.sleep(1000);
 		SoundManager.playSpawnSound();
-		int contaCicli=0;
-		long aspettaPer;
-		long oraCorrente;	
+		int cycleCount=0;
+		long waitFor;
+		long currentTimestamp;	
 		long tickTime = getTickTime(game);
 		int fps = (int)(1000/tickTime);
-		int foodRespawn = (int)(TEMPO_RIPOPOLAMENTO_CIBO*fps);
-		int snakeRespawn = (int)(TEMPO_RIPOPOLAMENTO_SERPENTI_BOT*fps);
+		int foodRespawn = (int)(FOOD_SPAWN_JOB_TIMER*fps);
+		int snakeRespawn = (int)(SNAKE_SPAWN_JOB_TIMER*fps);
 		Rectangle gameWindowSize = gameWindow.getBounds();
 		
-		long oraInizioAlgoritmo = System.currentTimeMillis(); 
-		long oraProgrammataDiRipresa = oraInizioAlgoritmo;
-		game.setStartTimestamp(oraInizioAlgoritmo);
+		long startTimestamp = System.currentTimeMillis(); 
+		long nextCycleTargetTimestamp = startTimestamp;
+		game.setStartTimestamp(startTimestamp);
 		boolean showEndGameStatistics = false;
 		
 		long latencyCounter = 0;
@@ -96,9 +97,9 @@ public class Main {
 		long maxLatency = 0;
 
 		while(game.isInGame()) {
-			oraInizioAlgoritmo = oraProgrammataDiRipresa;
-			oraProgrammataDiRipresa = oraInizioAlgoritmo + tickTime;
-			contaCicli++;
+			startTimestamp = nextCycleTargetTimestamp;
+			nextCycleTargetTimestamp = startTimestamp + tickTime;
+			cycleCount++;
 			
 			if(!game.isEndlessMode() && System.currentTimeMillis()>=game.getStartTimestamp()+(GAME_LENGTH_IN_SECONDS*1000)) {
 				// game end
@@ -106,9 +107,9 @@ public class Main {
 				break;
 			}
 
-			game.eseguiTurni();
+			game.executeMoves();
 			
-			spawnJob(game, contaCicli, foodRespawn, snakeRespawn);
+			spawnJob(game, cycleCount, foodRespawn, snakeRespawn);
 			
 			setUpGameWindow(game, gameWindow);
 			
@@ -116,12 +117,12 @@ public class Main {
 			
 			// latency monitoring begin
 			latencyCounter++;
-			latency = System.currentTimeMillis()-oraInizioAlgoritmo; 
+			latency = System.currentTimeMillis()-startTimestamp; 
 			latencyAcc += latency;
 			if(latency > maxLatency) {
 				maxLatency = latency;
 			}
-			if(contaCicli%fps==0) { // every seconds
+			if(cycleCount%fps==0) { // every seconds
 				long latencyAvg = latencyAcc/latencyCounter;
 				System.out.println("latency: " + maxLatency + "ms (max) - " + latencyAvg +"ms (avg)");
 				latencyAcc=0;
@@ -129,10 +130,10 @@ public class Main {
 				maxLatency=0;
 			}
 			// latency compensation
-			oraCorrente = System.currentTimeMillis();
-			aspettaPer = oraProgrammataDiRipresa - oraCorrente;
-			if (aspettaPer>0) {
-				Thread.sleep(aspettaPer);
+			currentTimestamp = System.currentTimeMillis();
+			waitFor = nextCycleTargetTimestamp - currentTimestamp;
+			if (waitFor>0) {
+				Thread.sleep(waitFor);
 			} else {
 				System.out.println("lag detected!");
 			}
@@ -145,21 +146,21 @@ public class Main {
 		}
 	}
 
-	private static void showEndGameStatistics(Partita game, GameVisualizer gameWindow, Rectangle gameWindowSize)
+	private static void showEndGameStatistics(Game game, GameVisualizer gameWindow, Rectangle gameWindowSize)
 			throws InterruptedException {
 		game.setInGame(true);
 		setUpGameWindowForEndGameStatistics(game, gameWindow);
 		gameWindow.paintImmediately(gameWindowSize);
 		ScoreHandler.sendScore(game);
 		while(game.isInGame()) {
-			game.getGestoreComandi().executeCommandInLeaderboardWindow();
+			game.getCommandHandler().executeCommandInLeaderboardWindow();
 			Thread.sleep(200);
 		}
 		gameWindow.setShowEndGameStatistics(false);
 	}
 
-	private static void setUpGameWindow(Partita game, GameVisualizer gameWindow) {
-		Snake p1 = game.getSerpentePlayer1();
+	private static void setUpGameWindow(Game game, GameVisualizer gameWindow) {
+		Snake p1 = game.getSnakePlayer1();
 		String message = null;
 		if(!p1.isVivo()) {
 			if(!p1.canRespawn()) {
@@ -169,7 +170,7 @@ public class Main {
 			}
 		}
 		MatchForGameVisualizer match = MatchFactory.buildMatchForGameVisualizer(game);
-		Color backgroundColor = game.getMappa().getBackgroundColor();
+		Color backgroundColor = game.getMap().getBackgroundColor();
 		int secondsLeft = -1;
 		if(!game.isEndlessMode()) {
 			if(game.getStartTimestamp()==0) {
@@ -193,13 +194,13 @@ public class Main {
 		}
 	}
 	
-	private static void setUpGameWindowForEndGameStatistics(Partita game, GameVisualizer gameWindow) {
+	private static void setUpGameWindowForEndGameStatistics(Game game, GameVisualizer gameWindow) {
 		List<LeaderBoardCellRenderOption> leaderboard = GraphicAdapter.getLeaderBoardMapForEndGame(game);
 		Color backgroundColor = Color.black;
 		gameWindow.setUpGameWindowForEndGameStatistics(backgroundColor, leaderboard);
 	}
 
-	private static long getTickTime(Partita game) {
+	private static long getTickTime(Game game) {
 		long tick = 1000;
 		if(game.getGameSpeed()==1) {
 			tick = TICK_TIME_EASY;
@@ -211,19 +212,12 @@ public class Main {
 		return tick;
 	}
 
-	private static void spawnJob(Partita game, int contaCicli, int foodRespawn, int snakeRespawn) {
-		if((contaCicli%foodRespawn)==0){
-			//long before=System.currentTimeMillis();
-			FoodSpawnManager.spawnFoodInTheMap(game.getMappa());
-			//long after=System.currentTimeMillis();
-			//System.out.println("spawn food job (" + (after-before) + "ms)");
+	private static void spawnJob(Game game, int cycleCount, int foodRespawn, int snakeRespawn) {
+		if((cycleCount%foodRespawn)==0){
+			FoodSpawnManager.spawnFoodInTheMap(game.getMap());
 		}
-
-		if((contaCicli%snakeRespawn==0)){
-			//long before=System.currentTimeMillis();
+		if((cycleCount%snakeRespawn==0)){
 			SnakeSpawnManager.reviveOneBotSnake(game);
-			//long after=System.currentTimeMillis();
-			//System.out.println("spawn bot job (" + (after-before) + "ms)");
 		}
 	}
 
