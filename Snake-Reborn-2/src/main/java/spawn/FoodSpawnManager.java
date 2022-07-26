@@ -18,8 +18,8 @@ import support.Utility;
 
 public class FoodSpawnManager {
 	
-	public static void spawnFoodInTheMap(GameMap m) {
-		for(Room s:m.getRooms()){
+	public static void spawnFoodInTheMap(GameMap gameMap) {
+		for(Room s:gameMap.getRooms()){
 			spawnFoodInTheRoom(s);
 		}
 	}
@@ -84,7 +84,7 @@ public class FoodSpawnManager {
 	}
 
 	public static boolean isPositionValidForFoodSpawn(Position p){
-		// pre: casella vuota
+		// precondition: cell is free
 		int x = p.getX();
 		int y = p.getY();
 		if(Utility.isEven(x)&&Utility.isEven(y)) {
