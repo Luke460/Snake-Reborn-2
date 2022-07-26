@@ -8,8 +8,8 @@ import static constants.MapConstants.RELIEF_CELL;
 
 import java.awt.Color;
 
-import gamefield.Casella;
-import gamefield.Stanza;
+import gamefield.Cell;
+import gamefield.Room;
 
 public class GraphicManager {
 	
@@ -18,35 +18,35 @@ public class GraphicManager {
 	private static final Color SUPER_FOOD_COLOR = Color.cyan;
 
 
-	public static CellRenderOption getCellRenderOption(Casella casella) {
+	public static CellRenderOption getCellRenderOption(Cell cell) {
 		
 		CellRenderOption cellRenderOption = new CellRenderOption(FLAT_CELL, Color.white);
-		if(casella.isSolid() || casella.isEmpty()) {
-			Stanza stanza = casella.getStanza();
-			cellRenderOption = stanza.getMap().getCellRenderOptionMap().get(casella.getStatoOriginario());
-		} else if (casella.isSnake()) {
-			cellRenderOption = casella.getSnake().getCellRenderOption();
-			if(casella.isSnakeHead()) {
+		if(cell.isSolid() || cell.isEmpty()) {
+			Room room = cell.getRoom();
+			cellRenderOption = room.getMap().getCellRenderOptionMap().get(cell.getDefaultStatus());
+		} else if (cell.isSnake()) {
+			cellRenderOption = cell.getSnake().getCellRenderOption();
+			if(cell.isSnakeHead()) {
 				cellRenderOption = new CellRenderOption(RELIEF_CELL, cellRenderOption.getColor());
 			}
-		} else if (casella.isFood()) {
-			if(casella.getFoodAmount() == HP_STANDARD_FOOD) {
+		} else if (cell.isFood()) {
+			if(cell.getFoodAmount() == HP_STANDARD_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, STANDARD_FOOD_COLOR);
-			} else if (casella.getFoodAmount() == HP_BONUS_FOOD) {
+			} else if (cell.getFoodAmount() == HP_BONUS_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, BONUS_FOOD_COLOR);
-			} else if (casella.getFoodAmount() == HP_SUPER_FOOD) {
+			} else if (cell.getFoodAmount() == HP_SUPER_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, SUPER_FOOD_COLOR);
 			}
 		}
 		return cellRenderOption;
 	}
 	
-	public static CellRenderOption getCellRenderOptionLowGraphicMode(Casella casella) {
+	public static CellRenderOption getCellRenderOptionLowGraphicMode(Cell cell) {
 		CellRenderOption cellRenderOption;
-		if(!casella.isEmpty()) {
-			cellRenderOption = getCellRenderOption(casella);
+		if(!cell.isEmpty()) {
+			cellRenderOption = getCellRenderOption(cell);
 		} else {
-			cellRenderOption = new CellRenderOption(FLAT_CELL, casella.getStanza().getMap().getBackgroundColor());
+			cellRenderOption = new CellRenderOption(FLAT_CELL, cell.getRoom().getMap().getBackgroundColor());
 		}
 		return getSemplifiedCellRenderOption(cellRenderOption);
 	}

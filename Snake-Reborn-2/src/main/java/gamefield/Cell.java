@@ -2,20 +2,20 @@ package gamefield;
 
 import snake.Snake;
 
-public class Casella {
+public class Cell {
 
-	private Stanza stanza;
+	private Room room;
 	private Position position;
-	private char originalStatus;
+	private char defaultStatus;
 	private int hp;
 	private Snake snake;
 	private boolean isSolid;
 	private int foodAmount;
 
-	public Casella(Stanza stanza, Position posizione, char statoOriginario, boolean isSolid) {
-		this.stanza = stanza;
-		this.position = posizione;
-		this.originalStatus = statoOriginario;
+	public Cell(Room room, Position position, char defaultStatus, boolean isSolid) {
+		this.room = room;
+		this.position = position;
+		this.defaultStatus = defaultStatus;
 		this.hp = -1;
 		this.snake = null;
 		this.isSolid = isSolid;
@@ -29,32 +29,32 @@ public class Casella {
 		this.foodAmount = 0;
 	}
 	
-	public Position getPosizione() {
+	public Position getPosition() {
 		return position;
 	}
 
-	public void setPosizione(Position posizione) {
-		this.position = posizione;
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
-	public char getStatoOriginario() {
-		return originalStatus;
+	public char getDefaultStatus() {
+		return defaultStatus;
 	}
 	
-	public void setStatoOriginario(char statoOriginario) {
-		this.originalStatus = statoOriginario;
+	public void setDefaultStatus(char defaultStatus) {
+		this.defaultStatus = defaultStatus;
 	}
 
-	public Stanza getStanza() {
-		return stanza;
+	public Room getRoom() {
+		return room;
 	}
 
-	public void setStanza(Stanza stanza) {
-		this.stanza = stanza;
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 	public boolean isSnakeHead() {
-		return this.snake!=null && this.equals(this.snake.getCasellaDiTesta());
+		return this.snake!=null && this.equals(this.snake.getHeadCell());
 	}
 	
 	public boolean isEmpty() {

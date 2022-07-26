@@ -2,12 +2,12 @@ package spawn;
 
 import java.util.Comparator;
 
-import gamefield.Casella;
+import gamefield.Cell;
 
-public class CellHpComparator implements Comparator<Casella> {
+public class CellHpComparator implements Comparator<Cell> {
 
     @Override
-    public int compare(Casella first, Casella second) {
+    public int compare(Cell first, Cell second) {
        return Integer.compare(second.getHp(), first.getHp());
     }
 	

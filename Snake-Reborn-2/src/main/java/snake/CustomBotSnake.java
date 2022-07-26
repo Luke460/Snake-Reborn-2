@@ -7,16 +7,16 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import game.Game;
-import gamefield.Casella;
-import gamefield.CasellaManager;
+import gamefield.Cell;
+import gamefield.CellManager;
 import gamefield.Direction;
-import gamefield.Stanza;
+import gamefield.Room;
 import support.Utility;
 import video.CellRenderOption;
 
 public class CustomBotSnake extends Snake {
 
-	private String ultimaSterzata;
+	private String lastDirectionChange;
 	private Direction lastDirection;
 	private Skill skill;
 	
@@ -34,15 +34,15 @@ public class CustomBotSnake extends Snake {
 		  EASY
 	}
 
-	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Game game, Skill skill) {
-		super(nome, stanza, vitaIniziale, game);
-		this.ultimaSterzata = UNDEFINED_LAST_TURN;
+	public CustomBotSnake(String nome, Room room, int startingHp, Game game, Skill skill) {
+		super(nome, room, startingHp, game);
+		this.lastDirectionChange = UNDEFINED_LAST_TURN;
 		this.skill = skill;
 	}
 	
-	public CustomBotSnake(String nome, Stanza stanza, int vitaIniziale, Game game, BotLevel botLevel) {
-		super(nome, stanza, vitaIniziale, game);
-		this.ultimaSterzata = UNDEFINED_LAST_TURN;
+	public CustomBotSnake(String nome, Room room, int startingHp, Game game, BotLevel botLevel) {
+		super(nome, room, startingHp, game);
+		this.lastDirectionChange = UNDEFINED_LAST_TURN;
 		// Skill parameters:
 		// evadeSkill, farmSkill, exploreSkill, courageSkill
 		switch(botLevel) {
@@ -72,139 +72,147 @@ public class CustomBotSnake extends Snake {
 	}
 
 	@Override
-	public void sposta() {
-		if(this.getDirezione().equals(this.getLastDirection().getRotatedRightDirection())){
-			this.ultimaSterzata = RIGHT;
-		} else if (this.getDirezione().equals(this.getLastDirection().getRotatedLeftDirection())) {
-			this.ultimaSterzata = LEFT;
+	public void move() {
+		if(this.getDirection().equals(this.getLastDirection().getRotatedRightDirection())){
+			this.lastDirectionChange = RIGHT;
+		} else if (this.getDirection().equals(this.getLastDirection().getRotatedLeftDirection())) {
+			this.lastDirectionChange = LEFT;
 		}
-		super.sposta();
+		super.move();
 	}
 	
 	@Override
-	public void scegliNuovaDirezione() {
+	public void chooseNewDirection() {
 		
-		HashMap<String, Direction> direzioni = new HashMap<>();
+		HashMap<String, Direction> directionsMap = new HashMap<>();
 		
-		direzioni.put(FORWARD, super.getDirezione());
-		direzioni.put(RIGHT, super.getDirezione().getRotatedRightDirection());
-		direzioni.put(LEFT, super.getDirezione().getRotatedLeftDirection());
+		directionsMap.put(FORWARD, super.getDirection());
+		directionsMap.put(RIGHT, super.getDirection().getRotatedRightDirection());
+		directionsMap.put(LEFT, super.getDirection().getRotatedLeftDirection());
 		if(this.getHP()==1) {
-			direzioni.put(BACK, super.getDirezione().getReverse());
+			directionsMap.put(BACK, super.getDirection().getReverse());
 		}
 		
-		direzioni = rimuoviCelleMuro(direzioni);
+		directionsMap = removeWalls(directionsMap);
 		
 		if(Utility.truePercentage(this.skill.getEvadeSkill())) {
-			direzioni = rimuoviCelleSerpenti(direzioni);
+			directionsMap = removeSnakesCells(directionsMap);
 		}
 		
 		if(Utility.truePercentage(this.skill.getEvadeSkill())) {
-			direzioni = rimuoviCelleCappi(direzioni);
+			directionsMap = rimuoveClosedCells(directionsMap);
 		}
 		
 		if(!Utility.truePercentage(this.skill.getCourageSkill())) {
-			direzioni = evitaSituazionePericolosa(direzioni);
+			directionsMap = avoidDangerousSituation(directionsMap);
 		}
 		
-		direzioni = rimuoviDirezioneAggrovigliamento(direzioni);
+		directionsMap = avoidEntanglement(directionsMap);
 		
-		HashMap<String, Direction> direzioniConCiboImmediate = new HashMap<>();
-		HashMap<String, Direction> direzioniConCiboVicine = new HashMap<>();
-		HashMap<String, Direction> direzioniConCiboMedie = new HashMap<>();
-		HashMap<String, Direction> direzioniConCiboLontane = new HashMap<>();
-		HashMap<String, Direction> direzioniPortali = new HashMap<>();
+		HashMap<String, Direction> directionsWithImmediateFood = new HashMap<>();
+		HashMap<String, Direction> directionsWithShortDistanceFood = new HashMap<>();
+		HashMap<String, Direction> directionsWithMediumDistanceFood = new HashMap<>();
+		HashMap<String, Direction> directionsWithLongDistanceFood = new HashMap<>();
+		HashMap<String, Direction> directionsWithPortal = new HashMap<>();
 		
-		direzioniConCiboImmediate = getDirezioniConCibo(direzioni, 0);
-		if(direzioniConCiboImmediate.size()==0) {
-			direzioniConCiboVicine = getDirezioniConCibo(direzioni, 1);
-			if(direzioniConCiboVicine.size()==0) {
-				direzioniConCiboMedie = getDirezioniConCibo(direzioni, 4);
-				if(direzioniConCiboMedie.size()==0 && Utility.truePercentage(this.skill.getFarmSkill())) {
-					direzioniConCiboLontane = getDirezioniConCibo(direzioni, ROOM_SIZE);
+		directionsWithImmediateFood = getDirectionsWithFood(directionsMap, 0);
+		if(directionsWithImmediateFood.size()==0) {
+			directionsWithShortDistanceFood = getDirectionsWithFood(directionsMap, 1);
+			if(directionsWithShortDistanceFood.size()==0) {
+				directionsWithMediumDistanceFood = getDirectionsWithFood(directionsMap, 4);
+				if(directionsWithMediumDistanceFood.size()==0 && Utility.truePercentage(this.skill.getFarmSkill())) {
+					directionsWithLongDistanceFood = getDirectionsWithFood(directionsMap, ROOM_SIZE);
 				}
 			}
 		}
 		
 		if(Utility.truePercentage((int)(this.skill.getExploreSkill()*0.50))) {
-			direzioniPortali = getDirezioniPortali(direzioni);
+			directionsWithPortal = getPortalDirections(directionsMap);
 		}
 
-		this.setLastDirection(this.getDirezione());
-		Direction nuovaDirezione = getNewDirection(direzioni, direzioniConCiboImmediate, direzioniConCiboVicine, direzioniConCiboMedie, direzioniConCiboLontane, direzioniPortali);
-		this.setDirezione(nuovaDirezione);
+		this.setLastDirection(this.getDirection());
+		
+		Direction newDirection = getNewDirection(
+				directionsMap, 
+				directionsWithImmediateFood, 
+				directionsWithShortDistanceFood, 
+				directionsWithMediumDistanceFood, 
+				directionsWithLongDistanceFood, 
+				directionsWithPortal);
+		
+		this.setDirection(newDirection);
 		
 	}
 	
-	private HashMap<String, Direction> evitaSituazionePericolosa(HashMap<String, Direction> direzioni) {
-		if(direzioni.size()>1) {		
-			Direction direzione = this.getDirezione();
-			Casella casellaInTesta = CasellaManager.getCasellaAdiacente(this.getCasellaDiTesta(), direzione);
-			// per non rendere il bot immune alle collisioni
-			if(!casellaInTesta.isMortal()) {
-				Casella casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-				if(casella.isSolid() || (casella.isSnake() && casella.getSnake().equals(this))) {
-					if(direzioni.containsKey(FORWARD)) {
-						direzioni.remove(FORWARD);
+	private HashMap<String, Direction> avoidDangerousSituation(HashMap<String, Direction> directions) {
+		if(directions.size()>1) {		
+			Direction direction = this.getDirection();
+			Cell headCell = CellManager.getNeighborCell(this.getHeadCell(), direction);
+			// to not make the bot immune
+			if(!headCell.isMortal()) {
+				Cell cell = CellManager.getCellInDirection(this.getHeadCell(), direction, 1);
+				if(cell.isSolid() || (cell.isSnake() && cell.getSnake().equals(this))) {
+					if(directions.containsKey(FORWARD)) {
+						directions.remove(FORWARD);
 					}
 				}
-				direzione = this.getDirezione().getRotatedRightDirection();
-				casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-				if(casella.isSolid() || (casella.isSnake() && casella.getSnake().equals(this))) {
-					if(direzioni.containsKey(RIGHT)) {
-						direzioni.remove(RIGHT);
+				direction = this.getDirection().getRotatedRightDirection();
+				cell = CellManager.getCellInDirection(this.getHeadCell(), direction, 1);
+				if(cell.isSolid() || (cell.isSnake() && cell.getSnake().equals(this))) {
+					if(directions.containsKey(RIGHT)) {
+						directions.remove(RIGHT);
 					}
 				}
-				direzione = this.getDirezione().getRotatedLeftDirection();
-				casella = CasellaManager.getCasellaInDirezione(this.getCasellaDiTesta(), direzione, 1);
-				if(casella.isSolid() || (casella.getSnake()!=null && casella.getSnake().equals(this))) {
-					if(direzioni.containsKey(LEFT)) {
-						direzioni.remove(LEFT);
+				direction = this.getDirection().getRotatedLeftDirection();
+				cell = CellManager.getCellInDirection(this.getHeadCell(), direction, 1);
+				if(cell.isSolid() || (cell.getSnake()!=null && cell.getSnake().equals(this))) {
+					if(directions.containsKey(LEFT)) {
+						directions.remove(LEFT);
 					}
 				}
 			}
 		}
-		return direzioni;
+		return directions;
 	}
 
-	private HashMap<String, Direction> rimuoviCelleMuro(HashMap<String, Direction> direzioni) {
+	private HashMap<String, Direction> removeWalls(HashMap<String, Direction> directions) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
-		Casella casellaDiTesta = this.getCasellaDiTesta();
-		for(Entry<String, Direction> entry: direzioni.entrySet()) {
+		Cell headCell = this.getHeadCell();
+		for(Entry<String, Direction> entry: directions.entrySet()) {
 			Direction newDirection = entry.getValue();
-			Casella casellaBersaglio = CasellaManager.getCasellaAdiacente(casellaDiTesta, newDirection);
-			if(!casellaBersaglio.isSolid() && !(casellaBersaglio.isSnake() && casellaBersaglio.getSnake().equals(this))) {
+			Cell targetCell = CellManager.getNeighborCell(headCell, newDirection);
+			if(!targetCell.isSolid() && !(targetCell.isSnake() && targetCell.getSnake().equals(this))) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
 		return availableDirections;
 	}
 	
-	private HashMap<String, Direction> rimuoviCelleSerpenti(HashMap<String, Direction> direzioni) {
+	private HashMap<String, Direction> removeSnakesCells(HashMap<String, Direction> directions) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
-		Casella casellaDiTesta = this.getCasellaDiTesta();
-		for(Entry<String, Direction> entry: direzioni.entrySet()) {
+		Cell headCell = this.getHeadCell();
+		for(Entry<String, Direction> entry: directions.entrySet()) {
 			Direction newDirection = entry.getValue();
-			Casella casellaBersaglio = CasellaManager.getCasellaAdiacente(casellaDiTesta, newDirection);
-			if(!casellaBersaglio.isSnake()) {
+			Cell targetCell = CellManager.getNeighborCell(headCell, newDirection);
+			if(!targetCell.isSnake()) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
 		return availableDirections;
 	}
 	
-	private HashMap<String, Direction> rimuoviCelleCappi(HashMap<String, Direction> direzioni) {
+	private HashMap<String, Direction> rimuoveClosedCells(HashMap<String, Direction> directions) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
-		Casella casellaDiTesta = this.getCasellaDiTesta();
-		for(Entry<String, Direction> entry: direzioni.entrySet()) {
+		Cell headCell = this.getHeadCell();
+		for(Entry<String, Direction> entry: directions.entrySet()) {
 			Direction newDirection = entry.getValue();
-			Casella casellaBersaglio = CasellaManager.getCasellaAdiacente(casellaDiTesta, newDirection);
+			Cell targetCell = CellManager.getNeighborCell(headCell, newDirection);
 			// per i cappi
 			if(!(
-					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.UP)).isMortal() &&
-					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.RIGHT)).isMortal() &&
-					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.DOWN)).isMortal() &&
-					CasellaManager.getCasellaAdiacente(casellaBersaglio, new Direction(Direction.Dir.LEFT)).isMortal()
+					CellManager.getNeighborCell(targetCell, new Direction(Direction.Dir.UP)).isMortal() &&
+					CellManager.getNeighborCell(targetCell, new Direction(Direction.Dir.RIGHT)).isMortal() &&
+					CellManager.getNeighborCell(targetCell, new Direction(Direction.Dir.DOWN)).isMortal() &&
+					CellManager.getNeighborCell(targetCell, new Direction(Direction.Dir.LEFT)).isMortal()
 					)) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
@@ -212,65 +220,65 @@ public class CustomBotSnake extends Snake {
 		return availableDirections;
 	}
 
-	private HashMap<String, Direction> rimuoviDirezioneAggrovigliamento(HashMap<String, Direction> direzioni) {
-		HashMap<String, Direction> newDir = new HashMap<String, Direction>(direzioni);
-		if(!direzioni.containsKey(FORWARD) && direzioni.size()>1) {
-			for(String key:direzioni.keySet()) {
-				Casella targetCasella = CasellaManager.getCasellaAdiacente(this.getCasellaDiTesta(),direzioni.get(key));
-				if(this.ultimaSterzata.equals(key) && !targetCasella.isMortal()) {
-					newDir.remove(key);
+	private HashMap<String, Direction> avoidEntanglement(HashMap<String, Direction> direction) {
+		HashMap<String, Direction> availableDirections = new HashMap<String, Direction>(direction);
+		if(!direction.containsKey(FORWARD) && direction.size()>1) {
+			for(String key:direction.keySet()) {
+				Cell targetCell = CellManager.getNeighborCell(this.getHeadCell(),direction.get(key));
+				if(this.lastDirectionChange.equals(key) && !targetCell.isMortal()) {
+					availableDirections.remove(key);
 				}
 			}
 		}
-		return newDir;
+		return availableDirections;
 	}
-	
-	private Direction getNewDirection(HashMap<String, Direction> direzioniDisponibili,
-			HashMap<String, Direction> direzioniConCiboImmediate,
-			HashMap<String, Direction> direzioniConCiboVicine, 
-			HashMap<String, Direction> direzioniConCiboMedie, 
-			HashMap<String, Direction> direzioniConCiboLontane,
-			HashMap<String, Direction> direzioniPortali) {
 
-		Direction dir = getRandomDirection(direzioniConCiboImmediate);
+	private Direction getNewDirection(HashMap<String, Direction> availableDirections,
+			HashMap<String, Direction> directionsWithImmediateFood,
+			HashMap<String, Direction> directionsWithShortDistanceFood, 
+			HashMap<String, Direction> directionsWithMediumDistanceFood, 
+			HashMap<String, Direction> directionsWithLongDistanceFood,
+			HashMap<String, Direction> directionsWithPortal) {
+
+		Direction dir = getRandomDirection(directionsWithImmediateFood);
 		if(dir != null) return dir;
 		
-		dir = getRandomDirection(direzioniConCiboVicine);
+		dir = getRandomDirection(directionsWithShortDistanceFood);
 		if(dir != null) return dir;
 		
-		dir = getRandomDirection(direzioniConCiboMedie);
+		dir = getRandomDirection(directionsWithMediumDistanceFood);
 		if(dir != null) return dir;
 		
-		dir = getRandomDirection(direzioniConCiboLontane);
+		dir = getRandomDirection(directionsWithLongDistanceFood);
 		if(dir != null) return dir;
 		
-		dir = getRandomDirection(direzioniPortali);
+		dir = getRandomDirection(directionsWithPortal);
 		if(dir != null) return dir;
 		
-		dir = getRandomDirection(direzioniDisponibili);
+		dir = getRandomDirection(availableDirections);
 		if(dir != null) return dir;
 		
-		return this.getDirezione();
+		return this.getDirection();
 		
 	}
 	
-	private HashMap<String, Direction> getDirezioniConCibo(HashMap<String, Direction> direzioni, int depth) {
+	private HashMap<String, Direction> getDirectionsWithFood(HashMap<String, Direction> directions, int depth) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
-		for(Entry<String, Direction> entry: direzioni.entrySet()) {
-			Casella startingCell = CasellaManager.getCasellaAdiacente(this.getCasellaDiTesta(), entry.getValue());
-			if(controllaCibo(startingCell, entry.getValue(), depth)) {
+		for(Entry<String, Direction> entry: directions.entrySet()) {
+			Cell startingCell = CellManager.getNeighborCell(this.getHeadCell(), entry.getValue());
+			if(checkFoodInDirection(startingCell, entry.getValue(), depth)) {
 				availableDirections.put(entry.getKey(), entry.getValue());
 			}
 		}
 		return availableDirections;
 	}
 	
-	private HashMap<String, Direction> getDirezioniPortali(HashMap<String, Direction> direzioni) {
+	private HashMap<String, Direction> getPortalDirections(HashMap<String, Direction> directions) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
-		for(Entry<String, Direction> entry: direzioni.entrySet()) {
+		for(Entry<String, Direction> entry: directions.entrySet()) {
 			if(!entry.getKey().equals(BACK)) {
-				Stanza stanzaPortale = getStanzaDelPortaleInDirezione(this.getCasellaDiTesta(), entry.getValue(), ROOM_SIZE);
-				if(stanzaPortale != null) {
+				Room portalRoom = getRoomWithPortalInDirection(this.getHeadCell(), entry.getValue(), ROOM_SIZE);
+				if(portalRoom != null) {
 					availableDirections.put(entry.getKey(), entry.getValue());
 				}
 			}
@@ -278,45 +286,45 @@ public class CustomBotSnake extends Snake {
 		return availableDirections;
 	}
 	
-	private boolean controllaCibo(Casella casella, Direction dir, int remainingJumps) {
-		if(casella.isFood()) return true; 
-		if(casella.isMortal()) return false;
-		Casella casellaSuccessiva = CasellaManager.getCasellaAdiacente(casella, dir);
-		if(!casella.getStanza().equals(casellaSuccessiva.getStanza())) return false;
+	private boolean checkFoodInDirection(Cell cell, Direction dir, int remainingJumps) {
+		if(cell.isFood()) return true; 
+		if(cell.isMortal()) return false;
+		Cell followingCell = CellManager.getNeighborCell(cell, dir);
+		if(!cell.getRoom().equals(followingCell.getRoom())) return false;
 		if(remainingJumps>0) {
-			return controllaCibo(casellaSuccessiva, dir, remainingJumps-1);
+			return checkFoodInDirection(followingCell, dir, remainingJumps-1);
 		} else {
 			return false;
 		}
 	}
 	
-	private Stanza getStanzaDelPortaleInDirezione(Casella casella, Direction dir, int range) {
-		Casella casellaSuccessiva = CasellaManager.getCasellaAdiacente(casella, dir);
-		if(!casella.getStanza().equals(casellaSuccessiva.getStanza())) return casellaSuccessiva.getStanza();
+	private Room getRoomWithPortalInDirection(Cell cell, Direction dir, int range) {
+		Cell casellaSuccessiva = CellManager.getNeighborCell(cell, dir);
+		if(!cell.getRoom().equals(casellaSuccessiva.getRoom())) return casellaSuccessiva.getRoom();
 		if(range <=0 || casellaSuccessiva.isMortal()) return null;
-        return getStanzaDelPortaleInDirezione(casellaSuccessiva, dir, range-1);
+        return getRoomWithPortalInDirection(casellaSuccessiva, dir, range-1);
 	}
 	
-	private Direction getRandomDirection(HashMap<String, Direction> direzioni) {
+	private Direction getRandomDirection(HashMap<String, Direction> directionsMap) {
 		
-		if(direzioni.size()==0) return null;
+		if(directionsMap.size()==0) return null;
 
-		if(Utility.truePercentage(95) && direzioni.containsKey(FORWARD)) {
-			return direzioni.get(FORWARD);
-		} else if (Utility.truePercentage(50) && direzioni.containsKey(RIGHT)) {
-			return direzioni.get(RIGHT);
-		} else if (direzioni.containsKey(LEFT)){
-			return direzioni.get(LEFT);
+		if(Utility.truePercentage(95) && directionsMap.containsKey(FORWARD)) {
+			return directionsMap.get(FORWARD);
+		} else if (Utility.truePercentage(50) && directionsMap.containsKey(RIGHT)) {
+			return directionsMap.get(RIGHT);
+		} else if (directionsMap.containsKey(LEFT)){
+			return directionsMap.get(LEFT);
 		}
 		
-		if(direzioni.containsKey(FORWARD)) {
-			return direzioni.get(FORWARD);
-		} else if (direzioni.containsKey(RIGHT)) {
-			return direzioni.get(RIGHT);
-		} else if (direzioni.containsKey(LEFT)){
-			return direzioni.get(LEFT);
-		} else if (direzioni.containsKey(BACK)){
-			return direzioni.get(BACK);
+		if(directionsMap.containsKey(FORWARD)) {
+			return directionsMap.get(FORWARD);
+		} else if (directionsMap.containsKey(RIGHT)) {
+			return directionsMap.get(RIGHT);
+		} else if (directionsMap.containsKey(LEFT)){
+			return directionsMap.get(LEFT);
+		} else if (directionsMap.containsKey(BACK)){
+			return directionsMap.get(BACK);
 		}
 		
 		return null;

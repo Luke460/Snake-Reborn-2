@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import game.Game;
-import gamefield.Casella;
-import gamefield.Stanza;
+import gamefield.Cell;
+import gamefield.Room;
 import score.SnakeScoreComparator;
 import score.SnakeEndGameScoreComparator;
 import snake.Snake;
@@ -15,23 +15,23 @@ public class GraphicAdapter {
 	
 	public static List<CellRenderOptionWithPosition> getCellRenderOptionWithPosition(Game game){
 		ArrayList<CellRenderOptionWithPosition> frameToVisualize = new ArrayList<>();
-		Stanza stanzaCorrente;
+		Room stanzaCorrente;
 		Snake snakePlayer1 = game.getSnakePlayer1();
-		if(snakePlayer1.isVivo()){
-			stanzaCorrente = snakePlayer1.getCasellaDiTesta().getStanza(); 
-		} else if(snakePlayer1.getUltimaStanza() != null){
-			stanzaCorrente = snakePlayer1.getUltimaStanza();
+		if(snakePlayer1.isAlive()){
+			stanzaCorrente = snakePlayer1.getHeadCell().getRoom(); 
+		} else if(snakePlayer1.getLastRoom() != null){
+			stanzaCorrente = snakePlayer1.getLastRoom();
 		} else {
 			stanzaCorrente = game.getSpawnRoom();
 		}
-		for (Casella cell : stanzaCorrente.getCaselle().values()) {
+		for (Cell cell : stanzaCorrente.getCellsMap().values()) {
 			CellRenderOption cellRenderOption;
 			if(game.isLowGraphicMode()) {
 				cellRenderOption = GraphicManager.getCellRenderOptionLowGraphicMode(cell);
 			} else {
 				cellRenderOption = GraphicManager.getCellRenderOption(cell);
 			}
-			CellRenderOptionWithPosition cellRenderOptionWithPosition = new CellRenderOptionWithPosition(cellRenderOption, cell.getPosizione());
+			CellRenderOptionWithPosition cellRenderOptionWithPosition = new CellRenderOptionWithPosition(cellRenderOption, cell.getPosition());
 			frameToVisualize.add(cellRenderOptionWithPosition);
 		}
 		return frameToVisualize;
@@ -54,8 +54,8 @@ public class GraphicAdapter {
 			int kills = snake.getKillsNumber();
 			int deaths = snake.getDeathsNumber();
 			int foodTaken = snake.getTotalFoodTaken();
-			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths, foodTaken);
-			if(score>0 && (first && snake.isVivo() || score>=maxValue && snake.isVivo())) {
+			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isAlive(), first, kills, deaths, foodTaken);
+			if(score>0 && (first && snake.isAlive() || score>=maxValue && snake.isAlive())) {
 				maxValue = score;
 				first = false;
 			}
@@ -83,7 +83,7 @@ public class GraphicAdapter {
 			int kills = snake.getKillsNumber();
 			int deaths = snake.getDeathsNumber();
 			int foodTaken = snake.getTotalFoodTaken();
-			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isVivo(), first, kills, deaths, foodTaken);
+			LeaderBoardCellRenderOption scoreElement = new LeaderBoardCellRenderOption(cellRenderOption, score, snake.isAlive(), first, kills, deaths, foodTaken);
 			if(score>0 && (first || score>=maxValue)) {
 				maxValue = score;
 				first = false;

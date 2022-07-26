@@ -2,12 +2,6 @@ package gamefield;
 
 import java.util.Objects;
 
-/**
- * Rappresenta una posizione, modellata come coppia di byteeri 
- * ascissa (x) ed ordinata (y), all'byteerno del {@link Pozzo}.
- * 
- */
-
 public class Position {
 	
 	private byte x;

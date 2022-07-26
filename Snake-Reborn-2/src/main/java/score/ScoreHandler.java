@@ -18,7 +18,7 @@ public class ScoreHandler {
 
 	public static void sendScore(Game game) {
 		if(game.getGameSpeed()==3 && !game.isEndlessMode() && !game.isGuest()) {
-			InviaPunteggio inviatore = new InviaPunteggio(game);
+			ScoreSender inviatore = new ScoreSender(game);
 			inviatore.start();
 		}
 	}

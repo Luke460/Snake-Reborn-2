@@ -120,7 +120,5 @@ public class Direction {
 	public String toString() {
 		return "Direction [direction=" + dir + "]";
 	}
-	
-	
-	
+		
 }

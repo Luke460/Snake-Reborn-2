@@ -2,19 +2,19 @@ package gamefield;
 
 import static constants.GeneralConstants.ROOM_SIZE;
 
-public class StanzaManager {
+public class RoomManager {
 
-	public static int getNumeroStanzeCollegate(Stanza stanza) {
+	public static int getLinkedRoomsNumber(Room room) {
 		int n = 0;
-		for(Stanza altraStanza:stanza.getCollegamenti().values()) {
-			if(!altraStanza.equals(stanza)) {
+		for(Room otherRoom:room.getLinksMap().values()) {
+			if(!otherRoom.equals(room)) {
 				n++;
 			}
 		}
 		return n;
 	}
 	
-	public static boolean isActuallyReadyForSpawn(Stanza stanza) {
+	public static boolean isActuallyReadyForSpawn(Room room) {
 		
 		byte centralDistance = (byte)(ROOM_SIZE/2);
 		byte centralDistanceMinusOne = (byte)(centralDistance-1);
@@ -24,10 +24,10 @@ public class StanzaManager {
 		Position pos3 = new Position(centralDistanceMinusOne, centralDistance);
 		Position pos4 = new Position(centralDistance, centralDistance);
 		
-		Casella cell1 = stanza.getCaselle().get(pos1);
-		Casella cell2 = stanza.getCaselle().get(pos2);
-		Casella cell3 = stanza.getCaselle().get(pos3);
-		Casella cell4 = stanza.getCaselle().get(pos4);
+		Cell cell1 = room.getCellsMap().get(pos1);
+		Cell cell2 = room.getCellsMap().get(pos2);
+		Cell cell3 = room.getCellsMap().get(pos3);
+		Cell cell4 = room.getCellsMap().get(pos4);
 		
 		if(cell1.isMortal()) return false;
 		if(cell2.isMortal()) return false;

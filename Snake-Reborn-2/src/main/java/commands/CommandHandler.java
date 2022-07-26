@@ -30,42 +30,42 @@ public class CommandHandler {
 
 	public void goUpP1() {
 		Snake snake = game.getSnakePlayer1();
-		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.DOWN)) {
-			snake.getDirezione().setDir(Direction.Dir.UP);
+		if(snake.getHP()==1 || !snake.getDirection().getDir().equals(Direction.Dir.DOWN)) {
+			snake.getDirection().setDir(Direction.Dir.UP);
 		}
 	}
 
 	public  void goDownP1() {
 		Snake snake = game.getSnakePlayer1();
-		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.UP)) {
-			snake.getDirezione().setDir(Direction.Dir.DOWN);
+		if(snake.getHP()==1 || !snake.getDirection().getDir().equals(Direction.Dir.UP)) {
+			snake.getDirection().setDir(Direction.Dir.DOWN);
 		}	
 	}
 
 	public  void goLeftP1() {
 		Snake snake = game.getSnakePlayer1();
-		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.RIGHT)) {
-			snake.getDirezione().setDir(Direction.Dir.LEFT);
+		if(snake.getHP()==1 || !snake.getDirection().getDir().equals(Direction.Dir.RIGHT)) {
+			snake.getDirection().setDir(Direction.Dir.LEFT);
 		}		
 	}
 
 	public  void goRightP1() {
 		Snake snake =game.getSnakePlayer1();
-		if(snake.getHP()==1 || !snake.getDirezione().getDir().equals(Direction.Dir.LEFT)) {
-			snake.getDirezione().setDir(Direction.Dir.RIGHT);
+		if(snake.getHP()==1 || !snake.getDirection().getDir().equals(Direction.Dir.LEFT)) {
+			snake.getDirection().setDir(Direction.Dir.RIGHT);
 		}		
 	}
 
 	public  void turnLeftP1() {
-		game.getSnakePlayer1().getDirezione().rotateToLeft();
+		game.getSnakePlayer1().getDirection().rotateToLeft();
 	}
 
 	public  void turnRightP1() {
-		game.getSnakePlayer1().getDirezione().rotateToRight();
+		game.getSnakePlayer1().getDirection().rotateToRight();
 	}
 
 	public  void resuscitaPlayer1( ) {
-		if(!game.getSnakePlayer1().isVivo()) {
+		if(!game.getSnakePlayer1().isAlive()) {
 			SnakeSpawnManager.reviveSpecificSnake(game, game.getSnakePlayer1());
 		}
 	}

@@ -162,7 +162,7 @@ public class Main {
 	private static void setUpGameWindow(Game game, GameVisualizer gameWindow) {
 		Snake p1 = game.getSnakePlayer1();
 		String message = null;
-		if(!p1.isVivo()) {
+		if(!p1.isAlive()) {
 			if(!p1.canRespawn()) {
 				message = "Respawn in: " + p1.getRespawnSecondsLeft() + " seconds";
 			} else {

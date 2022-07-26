@@ -10,7 +10,6 @@ import static constants.MapConstants.DARKER_CELL;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,13 +17,12 @@ import java.util.Map.Entry;
 
 import audio.SoundManager;
 import game.Game;
-import gamefield.Casella;
-import gamefield.CasellaManager;
+import gamefield.Cell;
+import gamefield.CellManager;
 import gamefield.Direction;
 import gamefield.Position;
-import gamefield.Stanza;
+import gamefield.Room;
 import score.ScoreHandler;
-import spawn.CellHpComparator;
 import spawn.FoodSpawnManager;
 import support.Utility;
 import video.CellRenderOption;
@@ -34,19 +32,18 @@ import java.util.TreeMap;
 
 public abstract class Snake {
 
-	private LinkedList<Casella> caselle;
-	private String nome;
-	private Direction direzione;
-	private int ciboPreso;
+	private LinkedList<Cell> cells;
+	private String name;
+	private Direction direction;
 	private int killsNumber;
-	private int currentKillingStreak;
-	private int bestGameKillingStreak;
+	private int currentKillingSpree;
+	private int bestGameKillingSpree;
 	private int deathsNumber;
-	private int hpPreMorte;
+	private int preDeathHp;
 	private Game game;
-	private Stanza ultimaStanza;
-	private Casella casellaDiTesta;
-	private boolean vivo;
+	private Room lastRoom;
+	private Cell headCell;
+	private boolean alive;
 	private CellRenderOption cellRenderOption;
 	private int previousScore;
 	private long deathTimestamp;
@@ -55,186 +52,168 @@ public abstract class Snake {
 	
 	public static final CellRenderOption DEFAULT_CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.gray);
 
-	public Snake(String nome, Stanza stanza, int vitaIniziale, Game game) {
-		this.vivo = false;
+	public Snake(String name, Room room, int startingHp, Game game) {
+		this.alive = false;
 		this.game = game;
-		this.nome=nome;
+		this.name=name;
 		this.previousScore=0;
 		this.deathTimestamp=-1;
 		this.deathsNumber=0;
 		this.killsNumber=0;
-		this.currentKillingStreak=0;
-		this.bestGameKillingStreak=0;
+		this.currentKillingSpree=0;
+		this.bestGameKillingSpree=0;
 		this.currentFoodTaken=0;
 		this.totalFoodTaken=0;
 		this.cellRenderOption=DEFAULT_CELL_RENDER_OPTION;
-		this.resettaSerpente(stanza, vitaIniziale);
+		this.resetSnake(room, startingHp);
 	}
 
-	public Stanza getStanzaCorrente() {
-		return getCasellaDiTesta().getStanza();
-	}
-
-	public Casella getCasellaDiTesta(){
-		return this.casellaDiTesta;
-	}
-
-	public Casella getCasellaDiCoda(){
-		ArrayList<Casella> caselleOrdinatePerVita = new ArrayList<>(this.caselle);
-		CellHpComparator comparator = new CellHpComparator();
-		Collections.sort(caselleOrdinatePerVita, comparator);
-		return caselleOrdinatePerVita.get(caselleOrdinatePerVita.size()-1);
+	public Cell getHeadCell(){
+		return this.headCell;
 	}
 
 	public int getHP(){
-		return this.getCasellaDiTesta().getHp();
+		return this.getHeadCell().getHp();
 	}
 
-	public LinkedList<Casella> getCaselle() {
-		return caselle;
+	public LinkedList<Cell> getCells() {
+		return cells;
 	}
 
-	public void setCaselle(LinkedList<Casella> caselle) {
-		this.caselle = caselle;
-	}
-
-	public Stanza getStanza() {
-		if(this.getCasellaDiTesta()!=null) {
-			return this.getCasellaDiTesta().getStanza();
-		}
-		return null;
+	public void setCells(LinkedList<Cell> cells) {
+		this.cells = cells;
 	}
 	
-	public void sposta(){
-		Casella vecchiaCasella = this.getCasellaDiTesta();
-		Casella nuovaCasella = CasellaManager.getCasellaAdiacente(vecchiaCasella, this.getDirezione());
+	public void move(){
+		Cell oldCell = this.getHeadCell();
+		Cell newCell = CellManager.getNeighborCell(oldCell, this.getDirection());
 
-		if(!nuovaCasella.isMortal()){
-			if(nuovaCasella.isFood()){
-				this.incrementaVitaSerpente(nuovaCasella.getFoodAmount());
+		if(!newCell.isMortal()){
+			if(newCell.isFood()){
+				this.increaseHp(newCell.getFoodAmount());
 			}
-			CasellaManager.setCasellaOccupataDalSerpente(nuovaCasella, this,this.getHP());
+			CellManager.setSnakeCell(newCell, this,this.getHP());
 
-			// spostamento
-			decrementaVitaSerpente();
-			this.caselle.add(nuovaCasella);
-			this.setCasellaDiTesta(nuovaCasella);
-			this.setUltimaStanza(nuovaCasella.getStanza());
-		} else { // casella mortale
-			if(nuovaCasella.isSnake()){
-				Snake altroSerpente = nuovaCasella.getSnake();
-				if(altroSerpente.getCasellaDiTesta().getPosizione().equals(nuovaCasella.getPosizione())){
-					altroSerpente.dieNoKillForSelectedSnake(this);
+			// move
+			reduceHp();
+			this.cells.add(newCell);
+			this.setHeadCell(newCell);
+			this.setLastRoom(newCell.getRoom());
+		} else { // mortal cell
+			if(newCell.isSnake()){
+				Snake otherSnake = newCell.getSnake();
+				if(otherSnake.getHeadCell().getPosition().equals(newCell.getPosition())){
+					otherSnake.dieNoKillForSelectedSnake(this);
 				}
 			}
 			this.die();
 		}
 	}
 
-	private void decrementaVitaSerpente() {
-		Iterator<Casella> iteratore = this.getCaselle().iterator();
-		while(iteratore.hasNext()){
-			Casella c = iteratore.next();
+	private void reduceHp() {
+		Iterator<Cell> iterator = this.getCells().iterator();
+		while(iterator.hasNext()){
+			Cell c = iterator.next();
 			c.setHp(c.getHp()-1);
 			if(c.getHp()<=0) {
 				c.freeCell();
-				iteratore.remove();
+				iterator.remove();
 			}
 		}
 	}
 	
-	public void incrementaVitaSerpente(int qta) {
-		this.currentFoodTaken+=qta;
-		this.totalFoodTaken+=qta;
-		for(Casella c : this.getCaselle()){
-			if(c.getHp()+qta<=MAX_HP){
-				c.setHp(c.getHp()+qta);
+	public void increaseHp(int qty) {
+		this.currentFoodTaken+=qty;
+		this.totalFoodTaken+=qty;
+		for(Cell c : this.getCells()){
+			if(c.getHp()+qty<=MAX_HP){
+				c.setHp(c.getHp()+qty);
 			} else {
 				c.setHp(MAX_HP);
 			}
 		}
 	}
 
-	public int getHpPreMorte() {
-		return hpPreMorte;
+	public int getPreDeathHp() {
+		return preDeathHp;
 	}
 
-	public void setHpPreMorte(int hpPreMorte) {
-		this.hpPreMorte = hpPreMorte;
+	public void setPreDeathHp(int preDeathHp) {
+		this.preDeathHp = preDeathHp;
 	}
 	
 	public void die(){
-		this.setVivo(false);
+		this.setAlive(false);
 		this.deathTimestamp = System.currentTimeMillis();
-		hpPreMorte = this.getCasellaDiTesta().getHp();
+		preDeathHp = this.getHeadCell().getHp();
 		this.deathsNumber++;
-		controllaUccisione(null);
-		rilasciaCiboEliberaCaselle();
+		checkKill(null);
+		releaseFoodAndClearCells();
 	}
 	
 	public void dieNoKillForSelectedSnake(Snake snake){
-		this.setVivo(false);
+		this.setAlive(false);
 		this.deathTimestamp = System.currentTimeMillis();
-		hpPreMorte = this.getCasellaDiTesta().getHp();
+		preDeathHp = this.getHeadCell().getHp();
 		this.deathsNumber++;
-		controllaUccisione(snake);
-		rilasciaCiboEliberaCaselle();
+		checkKill(snake);
+		releaseFoodAndClearCells();
 	}
 	
-	private void controllaUccisione(Snake excludedSnake) {		
-		TreeMap<String,Snake> uccisori = new TreeMap<>();
-		for(Casella c : this.getCaselle()) {
-			HashSet<Casella> caselleAdiacenti = new HashSet<>();
-			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.UP)));
-			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.RIGHT)));
-			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.LEFT)));
-			caselleAdiacenti.add(CasellaManager.getCasellaAdiacente(c, new Direction(Direction.Dir.DOWN)));
-			for(Casella ca : caselleAdiacenti) {
+	private void checkKill(Snake excludedSnake) {		
+		TreeMap<String,Snake> killers = new TreeMap<>();
+		for(Cell c : this.getCells()) {
+			HashSet<Cell> nearCells = new HashSet<>();
+			nearCells.add(CellManager.getNeighborCell(c, new Direction(Direction.Dir.UP)));
+			nearCells.add(CellManager.getNeighborCell(c, new Direction(Direction.Dir.RIGHT)));
+			nearCells.add(CellManager.getNeighborCell(c, new Direction(Direction.Dir.LEFT)));
+			nearCells.add(CellManager.getNeighborCell(c, new Direction(Direction.Dir.DOWN)));
+			for(Cell ca : nearCells) {
 				if(ca.isSnake()) {
-					Snake uccisore = ca.getSnake();
-					if(!uccisore.equals(this)) {
-						uccisori.put(ca.getSnake().getNome(), ca.getSnake());
+					Snake killerSnake = ca.getSnake();
+					if(!killerSnake.equals(this)) {
+						killers.put(ca.getSnake().getName(), ca.getSnake());
 					}
 				}
 			}
 		}
-		for(Entry<String, Snake> entry:uccisori.entrySet()) {
+		for(Entry<String, Snake> entry:killers.entrySet()) {
 			if(excludedSnake==null || !entry.getValue().equals(excludedSnake)) {
 				entry.getValue().performKill();
 			}
 		}
 	}
 
-	protected void rilasciaCiboEliberaCaselle() {
-		FoodSpawnManager.spawnFoodAfterSnakeDeath(this.caselle);
-		this.caselle.clear();
+	protected void releaseFoodAndClearCells() {
+		FoodSpawnManager.spawnFoodAfterSnakeDeath(this.cells);
+		this.cells.clear();
 	}
 
-	abstract public void scegliNuovaDirezione();
+	abstract public void chooseNewDirection();
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Direction getDirezione() {
-		return direzione;
+	public Direction getDirection() {
+		return direction;
 	}
 
-	public void setDirezione(Direction direzione) {
-		this.direzione = direzione;
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 	public void performKill(){
 		this.killsNumber++;
-		this.currentKillingStreak++;
-		if(this.currentKillingStreak>this.bestGameKillingStreak) {
-			this.bestGameKillingStreak = this.currentKillingStreak;
+		this.currentKillingSpree++;
+		if(this.currentKillingSpree>this.bestGameKillingSpree) {
+			this.bestGameKillingSpree = this.currentKillingSpree;
 		}
-		if(this.getNome().equals(NAME_PLAYER_1)){
+		if(this.getName().equals(NAME_PLAYER_1)){
 			SoundManager.playSlainSound();
 		}
 	}
@@ -243,37 +222,36 @@ public abstract class Snake {
 		return killsNumber;
 	}
 
-	public boolean isTesta(Casella casella){
-		if(this.getCasellaDiTesta().equals(casella)) return true;
+	public boolean isHead(Cell cell){
+		if(this.getHeadCell().equals(cell)) return true;
 		return false;
 	}
 	
-	public Game getPartita() {
+	public Game getGame() {
 		return game;
 	}
 	
-	public void setPartita(Game game) {
+	public void setGame(Game game) {
 		this.game = game;
 	}
 
-	public void setUltimaStanza(Stanza ultimaStanza) {
-		this.ultimaStanza = ultimaStanza;
+	public void setLastRoom(Room lastRoom) {
+		this.lastRoom = lastRoom;
 	}
 	
-	public Stanza getUltimaStanza() {
-		return ultimaStanza;
+	public Room getLastRoom() {
+		return lastRoom;
 	}
 
-	public void setCasellaDiTesta(Casella casellaDiTesta) {
-		this.casellaDiTesta = casellaDiTesta;
+	public void setHeadCell(Cell headCell) {
+		this.headCell = headCell;
 	}
 	
-	public void resettaSerpente(Stanza stanza, int vitaResurrezione) {
+	public void resetSnake(Room room, int respawnHp) {
 		this.previousScore = (int)(this.getTotalSnakeScorePreDeath()/2);
-		this.vivo = true;
-		this.hpPreMorte = 0;
-		this.ciboPreso=0;
-		this.currentKillingStreak=0;
+		this.alive = true;
+		this.preDeathHp = 0;
+		this.currentKillingSpree=0;
 		this.currentFoodTaken=0;
 
 		// random center spawn
@@ -282,34 +260,32 @@ public abstract class Snake {
 		byte deltaYspawn = 0;
 		if(Utility.truePercentage(50)) deltaYspawn = -1;
 		byte centerPosition = (byte)(ROOM_SIZE/2);
-		Position posizionePrimaCasella = new Position((byte)(centerPosition+deltaXspawn),(byte)(centerPosition+deltaYspawn));
+		Position firstCellPosition = new Position((byte)(centerPosition+deltaXspawn),(byte)(centerPosition+deltaYspawn));
 		
-		// direzione casuale
-		Direction direzioneSerpente = getBestSpawnDirection(posizionePrimaCasella, stanza);
-		this.setDirezione(direzioneSerpente);
-		Direction direzioneCreazioneCaselle = direzioneSerpente.getReverse();
-		// creo la testa del serpente
-		this.setCaselle(new LinkedList<Casella>());
-		this.setUltimaStanza(stanza);
-		Casella primaCasella = stanza.getCaselle().get(posizionePrimaCasella);
-		this.casellaDiTesta = primaCasella;
-		//lo stato verrà sovrascritto dai creatori specializzati
-		primaCasella.setSnake(this);
-		int vitaCasella = vitaResurrezione;
-		primaCasella.setHp(vitaCasella);
-		this.getCaselle().add(primaCasella);
+		// random direction
+		Direction snakeDirection = getBestSpawnDirection(firstCellPosition, room);
+		this.setDirection(snakeDirection);
+		Direction cellCreationDirection = snakeDirection.getReverse();
+		// Snake head
+		this.setCells(new LinkedList<Cell>());
+		this.setLastRoom(room);
+		Cell firstCell = room.getCellsMap().get(firstCellPosition);
+		this.headCell = firstCell;
+		firstCell.setSnake(this);
+		int cellHp = respawnHp;
+		firstCell.setHp(cellHp);
+		this.getCells().add(firstCell);
 
-		// creo le altre caselle del serpente
-
-		Casella casellaPrecedente = primaCasella;
-		for(int i=0; i<vitaResurrezione-1; i++){
-			Casella casella = CasellaManager.getCasellaAdiacente(casellaPrecedente, direzioneCreazioneCaselle);
-			if(!casella.isMortal()) {
-				casella.setSnake(this);
-				vitaCasella--;
-				casella.setHp(vitaCasella);
-				this.getCaselle().add(casella);
-				casellaPrecedente = casella;
+		// other snake cell creation
+		Cell previousCell = firstCell;
+		for(int i=0; i<respawnHp-1; i++){
+			Cell cell = CellManager.getNeighborCell(previousCell, cellCreationDirection);
+			if(!cell.isMortal()) {
+				cell.setSnake(this);
+				cellHp--;
+				cell.setHp(cellHp);
+				this.getCells().add(cell);
+				previousCell = cell;
 			} else {
 				break;
 			}
@@ -317,8 +293,8 @@ public abstract class Snake {
 		
 	}
 	
-	private Direction getBestSpawnDirection(Position firstCellPosition, Stanza room) {
-		Casella firstCell = room.getCaselle().get(firstCellPosition);
+	private Direction getBestSpawnDirection(Position firstCellPosition, Room room) {
+		Cell firstCell = room.getCellsMap().get(firstCellPosition);
 		Direction up = new Direction(Direction.Dir.UP);
 		Direction right = new Direction(Direction.Dir.RIGHT);
 		Direction down = new Direction(Direction.Dir.DOWN);
@@ -330,19 +306,19 @@ public abstract class Snake {
 		dirList.add(left);
 		//not needed due to the random spawn position
 		//Collections.shuffle(dirList);
-		TreeMap<Integer,Direction> directionToSpace = new TreeMap<>();
+		TreeMap<Integer,Direction> freeSpaceToDirection = new TreeMap<>();
 		for(Direction dir: dirList) {
-			directionToSpace.put(CasellaManager.getNumberOfNonLethalCellsInDirection(firstCell, dir), dir);
+			freeSpaceToDirection.put(CellManager.getNumberOfNonLethalCellsInDirection(firstCell, dir), dir);
 		}
-		return directionToSpace.get(directionToSpace.lastKey());
+		return freeSpaceToDirection.get(freeSpaceToDirection.lastKey());
 	}
 
-	public boolean isVivo() {
-		return vivo;
+	public boolean isAlive() {
+		return alive;
 	}
 
-	public void setVivo(boolean vivo) {
-		this.vivo = vivo;
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 
 	public CellRenderOption getCellRenderOption() {
@@ -354,9 +330,9 @@ public abstract class Snake {
 	}
 	
 	public double getCurrentGameSnakeScore() {
-		double punteggioCibo = this.currentFoodTaken*FOOD_SCORE_MULTIPLIER*ScoreHandler.getScoreMultiplier(this.game);
-		double punteggioUccisioni = this.getCurrentKillingStreak()*KILL_SCORE_MULTIPLIER*ScoreHandler.getScoreMultiplier(this.game);
-		return punteggioCibo+punteggioUccisioni;
+		double foodScore = this.currentFoodTaken*FOOD_SCORE_MULTIPLIER*ScoreHandler.getScoreMultiplier(this.game);
+		double killsScore = this.getCurrentKillingSpree()*KILL_SCORE_MULTIPLIER*ScoreHandler.getScoreMultiplier(this.game);
+		return foodScore+killsScore;
 	}
 	
 	public int getTotalSnakeScorePreDeath() {
@@ -364,7 +340,7 @@ public abstract class Snake {
 	}
 	
 	public int getTotalSnakeScoreLifeStatusAdjusted() {
-		if(this.isVivo()) {
+		if(this.isAlive()) {
 			return getTotalSnakeScorePreDeath();
 		} else {
 			return getTotalSnakeScorePreDeath()/2;
@@ -390,12 +366,12 @@ public abstract class Snake {
 		return deathsNumber;
 	}
 	
-	public int getCurrentKillingStreak() {
-		return currentKillingStreak;
+	public int getCurrentKillingSpree() {
+		return currentKillingSpree;
 	}
 	
-	public int getBestGameKillingStreak() {
-		return bestGameKillingStreak;
+	public int getBestGameKillingSpree() {
+		return bestGameKillingSpree;
 	}
 	
 	public int getCurrentFoodTaken() {
@@ -407,13 +383,13 @@ public abstract class Snake {
 	}
 	
 	public int getLength() {
-		if(this.caselle==null) return 0;
-		return this.caselle.size();
+		if(this.cells==null) return 0;
+		return this.cells.size();
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(nome);
+		return Objects.hash(name);
 	}
 
 	@Override
@@ -425,14 +401,12 @@ public abstract class Snake {
 		if (getClass() != obj.getClass())
 			return false;
 		Snake other = (Snake) obj;
-		return Objects.equals(nome, other.nome);
+		return Objects.equals(name, other.name);
 	}
 
 	@Override
 	public String toString() {
-		return "Snake [nome=" + nome + ", ciboPreso=" + ciboPreso + ", numeroUccisioni=" + killsNumber
-				+ ", hpPreMorte=" + hpPreMorte + ", vivo=" + vivo + ", getHP()=" + getHP() + ", isVivo()=" + isVivo()
-				+ "]";
+		return "Snake [name=" + name + ", direction=" + direction + ", lastRoom=" + lastRoom + ", alive=" + alive + "]";
 	}
-	
+
 }

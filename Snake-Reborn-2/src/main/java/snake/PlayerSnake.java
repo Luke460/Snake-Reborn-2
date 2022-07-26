@@ -6,33 +6,25 @@ import java.awt.Color;
 
 import audio.SoundManager;
 import game.Game;
-import gamefield.Stanza;
+import gamefield.Room;
 import video.CellRenderOption;
 
 public class PlayerSnake extends Snake {
 	
 	public static final CellRenderOption CELL_RENDER_OPTION = new CellRenderOption(DARKER_CELL, Color.blue);
 
-	public PlayerSnake(String nome, Stanza stanza, int vitaIniziale, Game game) {
-		super(nome, stanza, vitaIniziale, game);
+	public PlayerSnake(String name, Room room, int startingHp, Game game) {
+		super(name, room, startingHp, game);
 		this.setCellRenderOption(CELL_RENDER_OPTION);
 	}
 
 	@Override
-	public void scegliNuovaDirezione() {}
-	
-	public String getNomeGiocatore() {
-		return super.getNome();
-	}
-
-	public void setNomeGiocatore(String nomeGiocatore) {
-		super.setNome(nomeGiocatore);
-	}
+	public void chooseNewDirection() {}
 	
 	@Override
-	public void incrementaVitaSerpente(int qta) {
+	public void increaseHp(int qta) {
 		SoundManager.playTakeSound();
-		super.incrementaVitaSerpente(qta);
+		super.increaseHp(qta);
 	}
 	
 	@Override

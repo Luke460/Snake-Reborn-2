@@ -9,34 +9,34 @@ import java.util.Set;
 
 import video.CellRenderOption;
 
-public class Mappa {
+public class GameMap {
 
-	private String nomeUnivoco;
-	private HashSet<Stanza> stanze;
+	private String mapUniqueName;
+	private HashSet<Room> rooms;
 	private Set<Character> solidCellStatusList;
 	private Set<Character> freeCellFloorStatusList;
 	private Map<Character,CellRenderOption> cellRenderOptionMap;
 	private Color backgroundColor;
 
-	public Mappa(String nomeUnivoco) throws IOException {
-		this.nomeUnivoco = nomeUnivoco;
-		this.stanze = new HashSet<Stanza>();
+	public GameMap(String mapUniqueName) throws IOException {
+		this.mapUniqueName = mapUniqueName;
+		this.rooms = new HashSet<Room>();
 	}
 
-	public String getNomeUnivoco() {
-		return nomeUnivoco;
+	public String getMapUniqueName() {
+		return mapUniqueName;
 	}
 
-	public void setNomeUnivoco(String nomeUnivoco) {
-		this.nomeUnivoco = nomeUnivoco;
+	public void setMapUniqueName(String mapUniqueName) {
+		this.mapUniqueName = mapUniqueName;
 	}
 
-	public HashSet<Stanza> getStanze() {
-		return stanze;
+	public HashSet<Room> getRooms() {
+		return rooms;
 	}
 
-	public void setStanze(HashSet<Stanza> stanze) {
-		this.stanze = stanze;
+	public void setRooms(HashSet<Room> stanze) {
+		this.rooms = stanze;
 	}	
 
 	public Set<Character> getSolidCellStatusList() {
@@ -73,7 +73,7 @@ public class Mappa {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(nomeUnivoco);
+		return Objects.hash(mapUniqueName);
 	}
 
 	@Override
@@ -84,8 +84,8 @@ public class Mappa {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Mappa other = (Mappa) obj;
-		return Objects.equals(nomeUnivoco, other.nomeUnivoco);
+		GameMap other = (GameMap) obj;
+		return Objects.equals(mapUniqueName, other.mapUniqueName);
 	}
 
 }

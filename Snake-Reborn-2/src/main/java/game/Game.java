@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import commands.CommandHandler;
-import gamefield.Mappa;
-import gamefield.MappaManager;
-import gamefield.Stanza;
-import loaders.CaricatoreMappa;
+import gamefield.GameMap;
+import gamefield.GameMapManager;
+import gamefield.Room;
+import loaders.GameMapLoader;
 import score.SnakeEndGameScoreComparator;
 import server.client.Client;
 import snake.PlayerSnake;
@@ -25,14 +25,14 @@ public class Game {
 	private HashMap<String, Snake> snakeMap;
 	private Snake snakePlayer1;
 	private String namePlayer1;
-	private Mappa map;
+	private GameMap map;
 	private int gameSpeed;
 	private UserLocal userLocal;
 	private boolean guest;
 	private Client client;
 	private CommandHandler commandHandler;
 	private boolean inGame;
-	private Stanza spawnRoom;
+	private Room spawnRoom;
 	private String mapFileName;
 	private boolean showInterface;
 	private boolean lowGraphicMode;
@@ -46,8 +46,8 @@ public class Game {
 	}
 
 	public void setUpGame() throws IOException {
-		this.setMap(CaricatoreMappa.caricaFile(mapFileName)); 
-		this.spawnRoom = MappaManager.getStanzaCasualeLiberaPerSpawn(this.map, this.snakeMap, null);
+		this.setMap(GameMapLoader.loadFile(mapFileName)); 
+		this.spawnRoom = GameMapManager.getRandomFreeRoomForSpawn(this.map, this.snakeMap, null);
 		this.namePlayer1 = NAME_PLAYER_1;
 		this.endGameAlert = true;
 		//Just for test
@@ -57,7 +57,7 @@ public class Game {
 		this.snakeMap.put(this.namePlayer1, this.snakePlayer1);
 		this.snakeMap.putAll(SnakeSpawnManager.createBotSnakes(this));
 		for(Snake snake:this.snakeMap.values()) {
-			snake.setVivo(true);
+			snake.setAlive(true);
 		}
 	}
 
@@ -66,9 +66,9 @@ public class Game {
 		Iterator<Snake> iterator = this.getSnakeMap().values().iterator();
 		while(iterator.hasNext()){
 			Snake s = iterator.next();
-			if(s.isVivo()){
-				s.scegliNuovaDirezione();
-				s.sposta();
+			if(s.isAlive()){
+				s.chooseNewDirection();
+				s.move();
 			}
 		}
 	}
@@ -85,18 +85,18 @@ public class Game {
 		this.inGame = false;
 	}
 
-	public Mappa getMap() {
+	public GameMap getMap() {
 		return map;
 	}
 
-	public void setMap(Mappa map) {
+	public void setMap(GameMap map) {
 		this.map = map;
 	}
 	
 	public int getOpponentsNumber(){
 		int count = 0;
 		for(Snake snake: this.snakeMap.values()) {
-			if(snake.isVivo() && !snake.equals(this.getSnakePlayer1())) {
+			if(snake.isAlive() && !snake.equals(this.getSnakePlayer1())) {
 				count++;
 			}
 		}
@@ -159,7 +159,7 @@ public class Game {
 		return snakePlayer1;
 	}
 
-	public Stanza getSpawnRoom() {
+	public Room getSpawnRoom() {
 		return spawnRoom;
 	}
 

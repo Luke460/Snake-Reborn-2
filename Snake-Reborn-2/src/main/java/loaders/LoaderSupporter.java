@@ -60,7 +60,7 @@ public class LoaderSupporter {
 						status = PREFIX;
 					}
 					else if(status == IGNORE && c==LINE_START_MARKER){
-						//inizio riga
+						//row beginning
 						status = READING_ELEMENT;
 					}
 				} else {

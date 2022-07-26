@@ -6,11 +6,11 @@ import game.Game;
 import server.model.Match;
 import server.model.User;
 
-public class InviaPunteggio extends Thread {
+public class ScoreSender extends Thread {
 
 	private Game game;
 
-	public InviaPunteggio(Game game){
+	public ScoreSender(Game game){
 		this.game = game;
 	}
 
@@ -21,7 +21,7 @@ public class InviaPunteggio extends Thread {
 			System.out.println(outputMessage.toString());
 		} catch (Exception e4){
 			JOptionPane.showMessageDialog(null, 
-					"Non e' possibile contattare il server, controlla la tua connessione.");
+					"Unable to connect to the server, please check your internet connection.");
 			return;
 		}
 

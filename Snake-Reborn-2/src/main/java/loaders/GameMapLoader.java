@@ -29,97 +29,97 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import gamefield.Mappa;
-import gamefield.Stanza;
+import gamefield.GameMap;
+import gamefield.Room;
 import support.FileHandler;
 import support.OSdetector;
 import video.CellRenderOption;
 
-public class CaricatoreMappa {
+public class GameMapLoader {
 	
 	private static final String CELL_RENDER_BEGIN = "CELL_RENDER(";
 	private static final String CELL_RENDER_END = ")";
 	private static final String FILE_TYPE = ".txt";
 
-	public static Mappa caricaFile(String selectedMapFolder) throws IOException {		
-		HashMap<String, Stanza> stanze = new HashMap<>();	
+	public static GameMap loadFile(String selectedMapFolder) throws IOException {		
+		HashMap<String, Room> rooms = new HashMap<>();	
 		String mapFileName = selectedMapFolder + FILE_TYPE;
 		String mapPath = MAPS_PATH + OSdetector.getPathSeparator() + selectedMapFolder + OSdetector.getPathSeparator() + mapFileName;
 		String roomFolder = MAPS_PATH + OSdetector.getPathSeparator() + selectedMapFolder + OSdetector.getPathSeparator() + ROOMS_FOLDER_NAME;
 		ArrayList<String> pathNames = FileHandler.getFileList(roomFolder, FILE_TYPE);
 		
 		String fileWithExt = Paths.get(mapPath).getFileName().toString();
-		String nomeMappa = fileWithExt.split("\\.")[0];
-		Mappa mappa = new Mappa(nomeMappa);		
-		String strutturaMappa = FileHandler.readFile(mapPath);
-		InfoMapFileContent mapInfo = LoaderSupporter.getInfoMapFileContent(strutturaMappa, mapPath);
+		String mapName = fileWithExt.split("\\.")[0];
+		GameMap gameMap = new GameMap(mapName);		
+		String mapStructure = FileHandler.readFile(mapPath);
+		InfoMapFileContent mapInfo = LoaderSupporter.getInfoMapFileContent(mapStructure, mapPath);
 		
-		loadSolidCellStatusList(mappa, mapInfo);
-		loadFreeCellStatusList(mappa, mapInfo);	
-		loadRenderOptionMap(mappa, mapInfo);
-		loadMapBackgroundColor(mappa, mapInfo);
+		loadSolidCellStatusList(gameMap, mapInfo);
+		loadFreeCellStatusList(gameMap, mapInfo);	
+		loadRenderOptionMap(gameMap, mapInfo);
+		loadMapBackgroundColor(gameMap, mapInfo);
 		
 		for(String pathStanza:pathNames) {
-			Stanza stanza = CaricatoreStanza.caricaFile(roomFolder + OSdetector.getPathSeparator() + pathStanza, mappa);
-			stanze.put(stanza.getNome(), stanza);
+			Room room = RoomLoader.loadFile(roomFolder + OSdetector.getPathSeparator() + pathStanza, gameMap);
+			rooms.put(room.getUniqueName(), room);
 		}
 		
 		String prefix = mapInfo.getPrefixMap().get(ROOM_PREFIX).get(0);
 		for(String lineContent:mapInfo.getInfoLines()) {
 			String[] lineInfo = lineContent.split(":");
-			String nomeStanza1 = prefix + lineInfo[0];
-			String collegamento = lineInfo[1];
-			String nomeStanza2 = prefix + lineInfo[2];
-			Stanza stanza1 = stanze.get(nomeStanza1);
-			Stanza stanza2 = stanze.get(nomeStanza2);
-			if(stanza2!=null) {
-				collegamento = getCollegamento(collegamento);
-				stanza1.getCollegamenti().put(collegamento, stanza2);
-				stanza2.getCollegamenti().put(getInversaCollegamento(collegamento), stanza1);	
+			String roomName1 = prefix + lineInfo[0];
+			String link = lineInfo[1];
+			String roomName2 = prefix + lineInfo[2];
+			Room room1 = rooms.get(roomName1);
+			Room room2 = rooms.get(roomName2);
+			if(room2!=null) {
+				link = getFullLinkName(link);
+				room1.getLinksMap().put(link, room2);
+				room2.getLinksMap().put(getOppositeLink(link), room1);	
 			}
 		}
 		
-		mappa.setStanze(new HashSet<Stanza>(stanze.values()));
-		for(Stanza stanza:mappa.getStanze()) {
-			stanza.setMap(mappa);
+		gameMap.setRooms(new HashSet<Room>(rooms.values()));
+		for(Room room:gameMap.getRooms()) {
+			room.setMap(gameMap);
 		}
 
-		return mappa;	
+		return gameMap;	
 	}
 	
-	private static void loadMapBackgroundColor(Mappa mappa, InfoMapFileContent content) {
+	private static void loadMapBackgroundColor(GameMap gameMap, InfoMapFileContent content) {
 		List<String> colors = content.getPrefixMap().get(BACKGROUND_COLOR);
 		Color background = new Color(
 				Integer.parseInt(colors.get(0)),
 				Integer.parseInt(colors.get(1)),
 				Integer.parseInt(colors.get(2))
 				);
-		mappa.setBackgroundColor(background);
+		gameMap.setBackgroundColor(background);
 	}
 
-	private static void loadSolidCellStatusList(Mappa mappa, InfoMapFileContent colorInfoMap) {
+	private static void loadSolidCellStatusList(GameMap gameMap, InfoMapFileContent colorInfoMap) {
 		List<String> solidCellList = colorInfoMap.getPrefixMap().get(SOLID_CELL);
 		Set<Character> solidCellListReduced = new HashSet<Character>();
 		for(String s: solidCellList) {
 			solidCellListReduced.add(s.charAt(0));
 		}
-		mappa.setSolidCellStatusList(solidCellListReduced);
+		gameMap.setSolidCellStatusList(solidCellListReduced);
 	}	
 	
-	private static void loadFreeCellStatusList(Mappa mappa, InfoMapFileContent content) {
+	private static void loadFreeCellStatusList(GameMap gameMap, InfoMapFileContent content) {
 		List<String> freeCellList = content.getPrefixMap().get(FREE_CELL_FLOOR);
 		Set<Character> freeCellListReduced = new HashSet<Character>();
 		for(String s: freeCellList) {
 			freeCellListReduced.add(s.charAt(0));
 		}
-		mappa.setFreeCellFloorStatusList(freeCellListReduced);
+		gameMap.setFreeCellFloorStatusList(freeCellListReduced);
 	}	
 	
-	private static void loadRenderOptionMap(Mappa mappa, InfoMapFileContent colorInfoMap) {
+	private static void loadRenderOptionMap(GameMap gameMap, InfoMapFileContent colorInfoMap) {
 		Map<Character,CellRenderOption> cellRenderOptionMap = new HashMap<>();
 		List<Character> allElements = new ArrayList<Character>();
-		allElements.addAll(mappa.getSolidCellStatusList());
-		allElements.addAll(mappa.getFreeCellFloorStatusList());
+		allElements.addAll(gameMap.getSolidCellStatusList());
+		allElements.addAll(gameMap.getFreeCellFloorStatusList());
 		for(Character c:allElements) {
 			String actualInfoMapKey = CELL_RENDER_BEGIN + c + CELL_RENDER_END;
 			List<String> renderParams = colorInfoMap.getPrefixMap().get(actualInfoMapKey);
@@ -132,7 +132,7 @@ public class CaricatoreMappa {
 			CellRenderOption cellRenderOption = new CellRenderOption(renderType, color);
 			cellRenderOptionMap.put(c, cellRenderOption);
 		}
-		mappa.setCellRenderOptionMap(cellRenderOptionMap);
+		gameMap.setCellRenderOptionMap(cellRenderOptionMap);
 	}
 	
 	private static byte getRenderTypeFromString(String s) {
@@ -149,20 +149,20 @@ public class CaricatoreMappa {
 		}
 	}
 
-	private static String getCollegamento(String collegamento) {
-		if(collegamento.equalsIgnoreCase("N"))return NORTH;
-		if(collegamento.equalsIgnoreCase("E"))return EAST;
-		if(collegamento.equalsIgnoreCase("S"))return SOUTH;
-		if(collegamento.equalsIgnoreCase("W"))return WEST;
+	private static String getFullLinkName(String link) {
+		if(link.equalsIgnoreCase("N"))return NORTH;
+		if(link.equalsIgnoreCase("E"))return EAST;
+		if(link.equalsIgnoreCase("S"))return SOUTH;
+		if(link.equalsIgnoreCase("W"))return WEST;
 		return null;
 
 	}
 	
-	private static String getInversaCollegamento(String collegamento) {
-		if(collegamento.equals(NORTH))return SOUTH;
-		if(collegamento.equals(EAST))return WEST;
-		if(collegamento.equals(SOUTH))return NORTH;
-		if(collegamento.equals(WEST))return EAST;
+	private static String getOppositeLink(String link) {
+		if(link.equals(NORTH))return SOUTH;
+		if(link.equals(EAST))return WEST;
+		if(link.equals(SOUTH))return NORTH;
+		if(link.equals(WEST))return EAST;
 		return null;
 
 	}
