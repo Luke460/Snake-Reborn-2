@@ -34,9 +34,8 @@ Each game lasts 5 minutes and the player will have to try to be in the first pos
 ---
 
 To play **online** you need to: 
- - open the "config" folder
- - enter the server address in the "index.ini" file (coming soon)
- - enter the name of the server in the file "server.ini" (coming soon)
+ - open the folder "config"
+ - enter the server address and the server pot in the file "serverConfig.json"
 
 ---
 
