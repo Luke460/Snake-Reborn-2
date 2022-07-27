@@ -26,8 +26,8 @@ import audio.SoundManager;
 import constants.ConfigFileConstants;
 import game.Game;
 import game.UserLocal;
-import loaders.ConfigurationManager;
 import server.client.Client;
+import support.FileHandler;
 
 public class ClientWindow extends JFrame{
 
@@ -135,32 +135,33 @@ public class ClientWindow extends JFrame{
 	}
 
 	private void updateConfigurationFile() throws IOException {
-		ConfigurationManager cm = new ConfigurationManager(this.clientSettingsFile);
-		cm.updateSetting(ConfigFileConstants.ENABLE_SOUND_EFFECTS, Boolean.toString(soundEffectsCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.SOUND_EFFECTS_VOLUME, Integer.toString(soundEffectsVolumeSlider.getValue()));
-		cm.updateSetting(ConfigFileConstants.ENABLE_MUSIC, Boolean.toString(musicCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.MUSIC_VOLUME, Integer.toString(musicVolumeSlider.getValue()));
-		cm.updateSetting(ConfigFileConstants.USERNAME, usernameTextField.getText());
-		cm.updateSetting(ConfigFileConstants.MAP_NAME, (String)mapComboBox.getSelectedItem());
-		cm.updateSetting(ConfigFileConstants.SHOW_INTERFACE, Boolean.toString(showInterfaceCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.LOW_GRAPHIC_MODE, Boolean.toString(lowGraphicModeCheckBox.isSelected()));
-		cm.updateSetting(ConfigFileConstants.ENDLESS_MODE, Boolean.toString(endlessModeCheckBox.isSelected()));
-		cm.updateFile();
+		JSONObject settings = new JSONObject();
+		settings.put(ConfigFileConstants.ENABLE_SOUND_EFFECTS, Boolean.toString(soundEffectsCheckBox.isSelected()));
+		settings.put(ConfigFileConstants.SOUND_EFFECTS_VOLUME, Integer.toString(soundEffectsVolumeSlider.getValue()));
+		settings.put(ConfigFileConstants.ENABLE_MUSIC, Boolean.toString(musicCheckBox.isSelected()));
+		settings.put(ConfigFileConstants.MUSIC_VOLUME, Integer.toString(musicVolumeSlider.getValue()));
+		settings.put(ConfigFileConstants.USERNAME, usernameTextField.getText());
+		settings.put(ConfigFileConstants.MAP_NAME, (String)mapComboBox.getSelectedItem());
+		settings.put(ConfigFileConstants.SHOW_INTERFACE, Boolean.toString(showInterfaceCheckBox.isSelected()));
+		settings.put(ConfigFileConstants.LOW_GRAPHIC_MODE, Boolean.toString(lowGraphicModeCheckBox.isSelected()));
+		settings.put(ConfigFileConstants.ENDLESS_MODE, Boolean.toString(endlessModeCheckBox.isSelected()));
+		FileHandler.writeFile(this.clientSettingsFile, settings.toString(4));
+
 	}
 
 	private void initPanelsFromConfigFile() throws IOException {
-		ConfigurationManager cm = new ConfigurationManager(this.clientSettingsFile);
 		try {
-			cm.readFile();
-			soundEffectsCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.ENABLE_SOUND_EFFECTS)));
-			soundEffectsVolumeSlider.setValue(Integer.parseInt(cm.getSetting(ConfigFileConstants.SOUND_EFFECTS_VOLUME)));
-			musicCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.ENABLE_MUSIC)));
-			musicVolumeSlider.setValue(Integer.parseInt(cm.getSetting(ConfigFileConstants.MUSIC_VOLUME)));
-			usernameTextField.setText(cm.getSetting(ConfigFileConstants.USERNAME));
-			mapComboBox.setSelectedItem(cm.getSetting(ConfigFileConstants.MAP_NAME));
-			showInterfaceCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.SHOW_INTERFACE)));
-			lowGraphicModeCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.LOW_GRAPHIC_MODE)));
-			endlessModeCheckBox.setSelected(Boolean.parseBoolean(cm.getSetting(ConfigFileConstants.ENDLESS_MODE)));
+			String fileContent = FileHandler.readFile(this.clientSettingsFile);
+			JSONObject settings = new JSONObject(fileContent);
+			soundEffectsCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.ENABLE_SOUND_EFFECTS));
+			soundEffectsVolumeSlider.setValue(settings.getInt(ConfigFileConstants.SOUND_EFFECTS_VOLUME));
+			musicCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.ENABLE_MUSIC));
+			musicVolumeSlider.setValue(settings.getInt(ConfigFileConstants.MUSIC_VOLUME));
+			usernameTextField.setText(settings.getString(ConfigFileConstants.USERNAME));
+			mapComboBox.setSelectedItem(settings.getString(ConfigFileConstants.MAP_NAME));
+			showInterfaceCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.SHOW_INTERFACE));
+			lowGraphicModeCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.LOW_GRAPHIC_MODE));
+			endlessModeCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.ENDLESS_MODE));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Cannot read stored settings, loading default values.");
 			soundEffectsCheckBox.setSelected(true);

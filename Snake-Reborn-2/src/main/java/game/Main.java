@@ -36,7 +36,7 @@ public class Main {
 		Game game = null;
 		GameVisualizer gameWindow;
 		try {
-			String clientSettingsFile = ("config"+OSdetector.getPathSeparator()+"userConfig.ini");
+			String clientSettingsFile = ("config"+OSdetector.getPathSeparator()+"userConfig.json");
 			String serverSettingsFile = ("config"+OSdetector.getPathSeparator()+"serverConfig.json");
 			ClientWindow client = new ClientWindow(clientSettingsFile, serverSettingsFile);
 			gameWindow = new GameVisualizer();

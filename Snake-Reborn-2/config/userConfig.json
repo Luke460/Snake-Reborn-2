@@ -1,0 +1,11 @@
+{
+    "sound_effects_volume": "50",
+    "enable_music": "true",
+    "music_volume": "50",
+    "low_graphic_mode": "false",
+    "endless_mode": "false",
+    "map_name": "the-small-castle",
+    "enable_sound_effects": "true",
+    "username": "",
+    "show_interface": "true"
+}
