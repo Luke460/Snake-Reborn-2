@@ -89,7 +89,7 @@ public abstract class Snake {
 		Cell newCell = CellManager.getNeighborCell(oldCell, this.getDirection());
 
 		if(!newCell.isMortal()){
-			if(newCell.isFood()){
+			if(newCell.isFood() || newCell.isPoison()){
 				this.increaseHp(newCell.getFoodAmount());
 			}
 			CellManager.setSnakeCell(newCell, this,this.getHP());
@@ -123,13 +123,20 @@ public abstract class Snake {
 	}
 	
 	public void increaseHp(int qty) {
-		this.currentFoodTaken+=qty;
-		this.totalFoodTaken+=qty;
-		for(Cell c : this.getCells()){
-			if(c.getHp()+qty<=MAX_HP){
-				c.setHp(c.getHp()+qty);
-			} else {
+		if(qty > 0) {
+			this.currentFoodTaken+=qty;
+			this.totalFoodTaken+=qty;
+		}
+		Iterator<Cell> iterator = this.getCells().iterator();
+		while(iterator.hasNext()){
+			Cell c = iterator.next();
+			int newCellHp = c.getHp() + qty;
+			if(newCellHp > MAX_HP) {
 				c.setHp(MAX_HP);
+			} else if (newCellHp < 1) {
+				c.setHp(1);
+			} else {
+				c.setHp(newCellHp);
 			}
 		}
 	}

@@ -93,21 +93,29 @@ public class CustomBotSnake extends Snake {
 			directionsMap.put(BACK, super.getDirection().getReverse());
 		}
 		
-		directionsMap = removeWalls(directionsMap);
-		
-		if(Utility.truePercentage(this.skill.getEvadeSkill())) {
-			directionsMap = removeSnakesCells(directionsMap);
+		if(directionsMap.size()>1) {
+			directionsMap = removeWalls(directionsMap);
 		}
 		
-		if(Utility.truePercentage(this.skill.getEvadeSkill())) {
-			directionsMap = rimuoveClosedCells(directionsMap);
+		if(directionsMap.size()>1 && Utility.truePercentage(this.skill.getEvadeSkill())) {
+			directionsMap = removeSnakeCells(directionsMap);
 		}
 		
-		if(!Utility.truePercentage(this.skill.getCourageSkill())) {
+		if(directionsMap.size()>1 && Utility.truePercentage(this.skill.getEvadeSkill())) {
+			directionsMap = removeClosedCells(directionsMap);
+		}
+		
+		if(directionsMap.size()>1 && !Utility.truePercentage(this.skill.getCourageSkill())) {
 			directionsMap = avoidDangerousSituation(directionsMap);
 		}
 		
-		directionsMap = avoidEntanglement(directionsMap);
+		if(directionsMap.size()>1) {
+			directionsMap = avoidEntanglement(directionsMap);
+		}
+		
+		if(directionsMap.size()>1 && Utility.truePercentage(this.skill.getEvadeSkill())) {
+			directionsMap = removePoisonCells(directionsMap);
+		}
 		
 		HashMap<String, Direction> directionsWithImmediateFood = new HashMap<>();
 		HashMap<String, Direction> directionsWithShortDistanceFood = new HashMap<>();
@@ -188,7 +196,7 @@ public class CustomBotSnake extends Snake {
 		return availableDirections;
 	}
 	
-	private HashMap<String, Direction> removeSnakesCells(HashMap<String, Direction> directions) {
+	private HashMap<String, Direction> removeSnakeCells(HashMap<String, Direction> directions) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
 		Cell headCell = this.getHeadCell();
 		for(Entry<String, Direction> entry: directions.entrySet()) {
@@ -201,7 +209,20 @@ public class CustomBotSnake extends Snake {
 		return availableDirections;
 	}
 	
-	private HashMap<String, Direction> rimuoveClosedCells(HashMap<String, Direction> directions) {
+	private HashMap<String, Direction> removePoisonCells(HashMap<String, Direction> directions) {
+		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
+		Cell headCell = this.getHeadCell();
+		for(Entry<String, Direction> entry: directions.entrySet()) {
+			Direction newDirection = entry.getValue();
+			Cell targetCell = CellManager.getNeighborCell(headCell, newDirection);
+			if(!targetCell.isPoison()) {
+				availableDirections.put(entry.getKey(), entry.getValue());
+			}
+		}
+		return availableDirections;
+	}
+	
+	private HashMap<String, Direction> removeClosedCells(HashMap<String, Direction> directions) {
 		HashMap<String, Direction> availableDirections = new HashMap<String, Direction> ();
 		Cell headCell = this.getHeadCell();
 		for(Entry<String, Direction> entry: directions.entrySet()) {

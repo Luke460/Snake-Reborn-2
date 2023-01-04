@@ -30,6 +30,7 @@ public interface GeneralConstants {
 	static final public int MIN_SNAKE_HP_FOR_BONUS_FOOD = 10;
 	static final public int MIN_SNAKE_HP_FOR_SUPER_FOOD = 20;
 	static final public int HP_STANDARD_FOOD = 1;
+	static final public int HP_POISON_FOOD = -9;
 	static final public int HP_BONUS_FOOD = 3;
 	static final public int HP_SUPER_FOOD = 6;
 	static final public int FOOD_SCORE_MULTIPLIER = 10;

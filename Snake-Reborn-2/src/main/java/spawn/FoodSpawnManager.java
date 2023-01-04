@@ -3,6 +3,7 @@ package spawn;
 import static constants.GeneralConstants.ROOM_SIZE;
 import static constants.GeneralConstants.MIN_SNAKE_HP_FOR_SUPER_FOOD;
 import static constants.GeneralConstants.MIN_SNAKE_HP_FOR_BONUS_FOOD;
+import static constants.GeneralConstants.HP_POISON_FOOD;
 import static constants.GeneralConstants.HP_BONUS_FOOD;
 import static constants.GeneralConstants.HP_STANDARD_FOOD;
 import static constants.GeneralConstants.HP_SUPER_FOOD;
@@ -25,17 +26,17 @@ public class FoodSpawnManager {
 	}
 
 	private static void spawnFoodInTheRoom(Room room) {
-		int foodQty;
-		//95% -> STANDARD
-		// 4% -> BONUS
-		// 1% -> SUPER
-		//5% -> 80% BONUS, 20% SUPER
-		if(Utility.truePercentage(95)) {
-			foodQty = HP_STANDARD_FOOD;
-			// 5% left
-		} else if(Utility.truePercentage(80)) {
+		// from 1 to 85 -> standard (85%)
+		// from 86 to 95 -> poison (10%)
+		// from 96 to 99 -> bonus (4%)
+		// exactly 100 -> super (1%)
+		int randomValue = Utility.getRandomPercentageValueFrom1To100();
+		int foodQty = HP_STANDARD_FOOD;
+		if(randomValue >= 86 && randomValue <= 95) {
+			foodQty = HP_POISON_FOOD;
+		} else if (randomValue >= 96 && randomValue <= 99) {
 			foodQty = HP_BONUS_FOOD;
-		} else {
+		} else if (randomValue == 100) {
 			foodQty = HP_SUPER_FOOD;
 		}
 		byte posX = (byte)(Math.random() * ROOM_SIZE) ;
@@ -48,6 +49,7 @@ public class FoodSpawnManager {
 			}
 		}
 	}
+	
 	public static void spawnFoodAfterSnakeDeath(List<Cell> cellsList){
 		int snakeHp = cellsList.size();
 		if(snakeHp>1) {

@@ -16,6 +16,8 @@ public class SoundManager {
 	private static WAVSound musicSound;
 	private static WAVSound endSound;
 	private static WAVSound alertSound;
+	private static WAVSound dangerSound;
+	private static WAVSound duckSound;
 
 	public static void soundInitialization(int effectsVolume, int musicVolume){
 		//effects
@@ -25,6 +27,8 @@ public class SoundManager {
 		takeSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"take.wav", effectsVolume);
 		endSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"end.wav", effectsVolume);
 		alertSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"alert.wav", effectsVolume/3); //lower volume
+		dangerSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"danger.wav", effectsVolume);
+		duckSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"duck.wav", effectsVolume);
 		//music
 		musicSound = new WAVSound(SOUNDS_PATH+OSdetector.getPathSeparator()+"music.wav", musicVolume);
 	}
@@ -51,6 +55,14 @@ public class SoundManager {
 	
 	public static void playGameEndSound(){
 		if(effectsSoundEnabled) endSound.playClip();
+	}
+	
+	public static void playDangerSound(){
+		if(effectsSoundEnabled) dangerSound.playClip();
+	}
+	
+	public static void playDuckSound(){
+		if(effectsSoundEnabled) duckSound.playClip();
 	}
 	
 	public static void playAlertSoundLoop(){

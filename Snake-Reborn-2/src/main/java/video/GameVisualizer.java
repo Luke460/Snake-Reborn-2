@@ -43,6 +43,7 @@ public class GameVisualizer extends JPanel {
 	private boolean showEndGameStatistics;
 	private Integer secondsLeft;
 	private boolean interfaceEnabled;
+	private Integer previousHpValue;
 
 	public GameVisualizer() {
 		this.frame = new JFrame("Snake Reborn 2");
@@ -96,6 +97,7 @@ public class GameVisualizer extends JPanel {
 		int hpValue = this.match.getSnakeLength();
 		int hpBar = hpValue;
 		if(hpValue>MAX_HP) {
+			// the text is green
 			hpBar = MAX_HP;
 			g.setColor(Color.green);
 		} else {
@@ -109,8 +111,27 @@ public class GameVisualizer extends JPanel {
 		g.setColor(Color.black);
 		g.fillRect(xPosition, yPosition, (int)(cellSize*0.1*MAX_HP + cellSize*0.2), (int)(cellSize*0.5)-1);
 		// hp bar
-		g.setColor(Color.green);
-		g.fillRect((int)(xPosition+cellSize*0.1), (int)(yPosition+cellSize*0.1), (int)(cellSize*0.1*hpBar), (int)(cellSize*0.3));	
+		if(previousHpValue != null && hpBar > previousHpValue) {
+			// hp increment
+			g.setColor(Color.white);
+			drawHpBar(g, xPosition, yPosition, hpBar);
+			g.setColor(Color.green);
+			drawHpBar(g, xPosition, yPosition, previousHpValue);
+		} else if(previousHpValue != null && hpBar < previousHpValue) {
+			// hp decrement
+			g.setColor(Color.red);
+			drawHpBar(g, xPosition, yPosition, previousHpValue);
+			g.setColor(Color.green);
+			drawHpBar(g, xPosition, yPosition, hpBar);
+		} else {
+			g.setColor(Color.green);
+			drawHpBar(g, xPosition, yPosition, hpBar);
+		}
+		previousHpValue = hpBar;
+	}
+
+	private void drawHpBar(Graphics g, int xPosition, int yPosition, int hpBar) {
+		g.fillRect((int)(xPosition+cellSize*0.1), (int)(yPosition+cellSize*0.1), (int)(cellSize*0.1*hpBar), (int)(cellSize*0.3));
 	}
 
 	private void addFoodInfo(Graphics g) {

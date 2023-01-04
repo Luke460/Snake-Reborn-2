@@ -16,6 +16,7 @@ public class GraphicManager {
 	private static final Color STANDARD_FOOD_COLOR = Color.yellow;
 	private static final Color BONUS_FOOD_COLOR = Color.pink;
 	private static final Color SUPER_FOOD_COLOR = Color.cyan;
+	private static final Color POISON_FOOD_COLOR = new Color(100, 100, 0);
 
 
 	public static CellRenderOption getCellRenderOption(Cell cell) {
@@ -37,6 +38,8 @@ public class GraphicManager {
 			} else if (cell.getFoodAmount() == HP_SUPER_FOOD) {
 				cellRenderOption = new CellRenderOption(FLAT_CELL, SUPER_FOOD_COLOR);
 			}
+		} else if (cell.isPoison()) {
+			cellRenderOption = new CellRenderOption(FLAT_CELL, POISON_FOOD_COLOR);
 		}
 		return cellRenderOption;
 	}

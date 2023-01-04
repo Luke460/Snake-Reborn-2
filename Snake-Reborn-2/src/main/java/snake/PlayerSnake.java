@@ -23,7 +23,11 @@ public class PlayerSnake extends Snake {
 	
 	@Override
 	public void increaseHp(int qta) {
-		SoundManager.playTakeSound();
+		if(qta<0) {
+			SoundManager.playDuckSound();
+		} else {
+			SoundManager.playTakeSound();
+		}
 		super.increaseHp(qta);
 	}
 	

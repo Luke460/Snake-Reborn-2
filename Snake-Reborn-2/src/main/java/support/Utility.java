@@ -21,9 +21,14 @@ public class Utility {
 	public static boolean truePercentage(int percentage){
 		if(percentage<0||percentage>100) 
 			throw new IllegalArgumentException("Percentage number must be between 0 and 100!");
-		int randomNumber = (int) ((Math.random()*100)+1);
+		int randomNumber = getRandomPercentageValueFrom1To100();
 		if(randomNumber<=percentage) return true;
 		return false;
+	}
+	
+	public static int getRandomPercentageValueFrom1To100() {
+		// from 1 to 100
+		return (int) ((Math.random()*100)+1);
 	}
 	
 	public static String extendsStringWithSpaces(String string, int length) {

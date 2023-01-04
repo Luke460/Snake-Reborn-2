@@ -4,7 +4,7 @@ import video.CellRenderOption;
 
 public class MatchForGameVisualizer extends Match {
 
-	private int SnakeLength;
+	private int snakeLength;
 	private CellRenderOption playerCellRenderOption;
 
 	public MatchForGameVisualizer() {
@@ -12,11 +12,11 @@ public class MatchForGameVisualizer extends Match {
 	}
 
 	public int getSnakeLength() {
-		return SnakeLength;
+		return this.snakeLength;
 	}
 
 	public void setSnakeLength(int snakeLength) {
-		SnakeLength = snakeLength;
+		this.snakeLength = snakeLength;
 	}
 
 	public CellRenderOption getPlayerCellRenderOption() {
