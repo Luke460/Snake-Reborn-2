@@ -26,13 +26,13 @@ public class FoodSpawnManager {
 	}
 
 	private static void spawnFoodInTheRoom(Room room) {
-		// from 1 to 85 -> standard (85%)
-		// from 86 to 95 -> poison (10%)
+		// from 1 to 90 -> standard (90%)
+		// from 91 to 95 -> poison (5%)
 		// from 96 to 99 -> bonus (4%)
 		// exactly 100 -> super (1%)
 		int randomValue = Utility.getRandomPercentageValueFrom1To100();
 		int foodQty = HP_STANDARD_FOOD;
-		if(randomValue >= 86 && randomValue <= 95) {
+		if(randomValue >= 91 && randomValue <= 95) {
 			foodQty = HP_POISON_FOOD;
 		} else if (randomValue >= 96 && randomValue <= 99) {
 			foodQty = HP_BONUS_FOOD;
