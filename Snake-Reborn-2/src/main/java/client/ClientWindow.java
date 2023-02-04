@@ -64,7 +64,7 @@ public class ClientWindow extends JFrame{
 	private JComboBox<String> mapComboBox;
 	private JCheckBox showInterfaceCheckBox;
 	private JCheckBox lowGraphicModeCheckBox;
-	private JCheckBox endlessModeCheckBox;
+	private JCheckBox timedModeCheckBox;
 
 	private JButton loginAndPlayButton;
 	private JButton playAsGuestButton;
@@ -131,7 +131,7 @@ public class ClientWindow extends JFrame{
 		game.setMapFileName(mapList.get(mapComboBox.getSelectedIndex()));
 		game.setShowInterface(showInterfaceCheckBox.isSelected());
 		game.setLowGraphicMode(lowGraphicModeCheckBox.isSelected());
-		game.setEndlessMode(endlessModeCheckBox.isSelected());
+		game.setEndlessMode(!timedModeCheckBox.isSelected());
 	}
 
 	private void updateConfigurationFile() throws IOException {
@@ -144,7 +144,7 @@ public class ClientWindow extends JFrame{
 		settings.put(ConfigFileConstants.MAP_NAME, (String)mapComboBox.getSelectedItem());
 		settings.put(ConfigFileConstants.SHOW_INTERFACE, Boolean.toString(showInterfaceCheckBox.isSelected()));
 		settings.put(ConfigFileConstants.LOW_GRAPHIC_MODE, Boolean.toString(lowGraphicModeCheckBox.isSelected()));
-		settings.put(ConfigFileConstants.ENDLESS_MODE, Boolean.toString(endlessModeCheckBox.isSelected()));
+		settings.put(ConfigFileConstants.ENDLESS_MODE, Boolean.toString(!timedModeCheckBox.isSelected()));
 		FileHandler.writeFile(this.clientSettingsFile, settings.toString(4));
 
 	}
@@ -161,7 +161,7 @@ public class ClientWindow extends JFrame{
 			mapComboBox.setSelectedItem(settings.getString(ConfigFileConstants.MAP_NAME));
 			showInterfaceCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.SHOW_INTERFACE));
 			lowGraphicModeCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.LOW_GRAPHIC_MODE));
-			endlessModeCheckBox.setSelected(settings.getBoolean(ConfigFileConstants.ENDLESS_MODE));
+			timedModeCheckBox.setSelected(!settings.getBoolean(ConfigFileConstants.ENDLESS_MODE));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Cannot read stored settings, loading default values.");
 			soundEffectsCheckBox.setSelected(true);
@@ -223,8 +223,8 @@ public class ClientWindow extends JFrame{
 		showInterfaceCheckBox.setFont(smallFont);
 		lowGraphicModeCheckBox = new JCheckBox("Low Graphic Mode");
 		lowGraphicModeCheckBox.setFont(smallFont);
-		endlessModeCheckBox = new JCheckBox("Endless Mode");
-		endlessModeCheckBox.setFont(smallFont);
+		timedModeCheckBox = new JCheckBox("Timed Mode*");
+		timedModeCheckBox.setFont(smallFont);
 		validScoreLabel = new JLabel("      *Valid Online Score");
 		validScoreLabel.setFont(smallFont);
 
@@ -259,7 +259,7 @@ public class ClientWindow extends JFrame{
 		settingsContainerPanel.add(mapComboBox);
 		
 		settingsContainerPanel.add(validScoreLabel);
-		settingsContainerPanel.add(endlessModeCheckBox);
+		settingsContainerPanel.add(timedModeCheckBox);
 		
 		settingsContainerPanel.add(soundEffectsCheckBox);
 		settingsContainerPanel.add(soundEffectsVolumeSlider);
