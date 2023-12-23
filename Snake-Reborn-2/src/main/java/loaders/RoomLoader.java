@@ -1,7 +1,5 @@
 package loaders;
 
-import gamefield.RoomManager;
-
 import static constants.MapConstants.SPAWN_ENABLED;
 
 import java.io.IOException;
@@ -12,6 +10,7 @@ import gamefield.Cell;
 import gamefield.GameMap;
 import gamefield.Position;
 import gamefield.Room;
+import gamefield.RoomManager;
 import support.FileHandler;
 import support.Utility;
 
@@ -46,10 +45,9 @@ public class RoomLoader {
 			} else {
 				throw new IllegalArgumentException("Invalid spawn setting for room '" + fileWithExt + "': room center is not free");
 			}
-		}	
+		}
+		
 		return room;	
 	}
-
-
 	
 }

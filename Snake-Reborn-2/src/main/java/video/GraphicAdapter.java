@@ -15,16 +15,8 @@ public class GraphicAdapter {
 	
 	public static List<CellRenderOptionWithPosition> getCellRenderOptionWithPosition(Game game){
 		ArrayList<CellRenderOptionWithPosition> frameToVisualize = new ArrayList<>();
-		Room stanzaCorrente;
-		Snake snakePlayer1 = game.getSnakePlayer1();
-		if(snakePlayer1.isAlive()){
-			stanzaCorrente = snakePlayer1.getHeadCell().getRoom(); 
-		} else if(snakePlayer1.getLastRoom() != null){
-			stanzaCorrente = snakePlayer1.getLastRoom();
-		} else {
-			stanzaCorrente = game.getSpawnRoom();
-		}
-		for (Cell cell : stanzaCorrente.getCellsMap().values()) {
+		Room currentRoom = game.getSnakePlayer1().getRoomToVisualize();
+		for (Cell cell : currentRoom.getCellsMap().values()) {
 			CellRenderOption cellRenderOption;
 			if(game.isLowGraphicMode()) {
 				cellRenderOption = GraphicManager.getCellRenderOptionLowGraphicMode(cell);

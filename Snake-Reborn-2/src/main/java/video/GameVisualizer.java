@@ -47,7 +47,6 @@ public class GameVisualizer extends JPanel {
 
 	public GameVisualizer() {
 		this.frame = new JFrame("Snake Reborn 2");
-		this.frameBackground = Color.black;
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setBackground(Color.BLACK);
 		this.cellSize = getCellSize();

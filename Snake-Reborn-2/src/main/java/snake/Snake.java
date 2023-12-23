@@ -67,6 +67,16 @@ public abstract class Snake {
 		this.cellRenderOption=DEFAULT_CELL_RENDER_OPTION;
 		this.resetSnake(room, startingHp);
 	}
+	
+	public Room getRoomToVisualize() {
+		if(this.isAlive()){
+			return this.getHeadCell().getRoom(); 
+		} else if(this.getLastRoom() != null){
+			return this.getLastRoom();
+		} else {
+			return this.game.getSpawnRoom();
+		}
+	}
 
 	public Cell getHeadCell(){
 		return this.headCell;
